@@ -2,6 +2,9 @@ local EABA = _G.EndlessArchiveBuffAssistant
 
 EABA.EXAMPLE_ID = 3781
 
+-- some ability names do not match the achievement name
+EABA.EXCEPTIONS = {[191802] = _G.ENDLESSARCHIVEBUFFASSISTANT_WEREWOLF_BEHEMOTH}
+
 EABA.ABILITIES = {
     [191802] = {3796},
     [191849] = {3781},

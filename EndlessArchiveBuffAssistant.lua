@@ -48,9 +48,39 @@ local function getAchievementsList()
     return list
 end
 
-local function findAchievements()
+local function getAbilities(achievementIdToFind)
+    local abilities = {}
+
+    for abilityId, achievementIds in pairs(EABA.ABILITIES) do
+        if (ZO_IsElementInNumericallyIndexedTable(achievementIds, achievementIdToFind)) then
+            if (not ZO_IsElementInNumericallyIndexedTable(abilities, abilityId)) then
+                local name
+                if (EABA.EXCEPTIONS[abilityId]) then
+                    name = GetString(EABA.EXCEPTIONS[abilityId])
+                else
+                    name = GetAbilityName(abilityId)
+                end
+
+                table.insert(abilities, {id = abilityId, name = ZO_CachedStrFormat("<<C:1>>", name)})
+            end
+        end
+    end
+
+    return abilities
+end
+
+local function checkAbilities(text, abilities)
+    for _, ability in pairs(abilities) do
+        if (text:find(ability.name)) then
+            return ability.id
+        end
+    end
+end
+
+local function findMissingAbilityIds()
     local achievementIds = getAchievementsList()
     local incomplete = {}
+    local missing = {}
 
     for _, achievementId in ipairs(achievementIds) do
         local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(achievementId)
@@ -65,16 +95,22 @@ local function findAchievements()
     end
 
     for _, achievementId in ipairs(incomplete) do
+        local abilities = getAbilities(achievementId)
         local numCriteria = GetAchievementNumCriteria(achievementId)
 
         for criterionNumber = 1, numCriteria do
             local description, completed, required = GetAchievementCriterion(achievementId, criterionNumber)
 
             if (completed ~= required) then
-                d(description).
+                local id = checkAbilities(description, abilities)
+                if (not ZO_IsElementInNumericallyIndexedTable(missing, id)) then
+                    table.insert(missing, id)
+                end
             end
         end
     end
+
+    return missing
 end
 
 local function Initialise()
@@ -102,7 +138,8 @@ local function Initialise()
 
     SecurePostHook(_G[EABA.SELECTOR], "OnShowing", OnBuffSelectorShowing)
 
-    findAchievements()
+    local missingIds = findMissingAbilityIds()
+    d(missingIds)
     -- EVENT_MANAGER:RegisterForEvent(EABA.Name, EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
     -- EVENT_MANAGER:RegisterForEvent(EABA.Name, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, OnSlotUpdated)
     -- EVENT_MANAGER:RegisterForEvent(EABA.Name, EVENT_ACTION_LAYER_POPPED, OnActionLayerChanged)
