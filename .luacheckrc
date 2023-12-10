@@ -17,7 +17,7 @@ read_globals = {
     },
     ["CENTER_SCREEN_ANNOUNCE"] = {
         fields = {
-            CreateMessageParams = {read_only = true},   
+            CreateMessageParams = {read_only = true},
             AddMessageWithParams = {read_only = true}
         }
     },
@@ -245,6 +245,7 @@ read_globals = {
     "GetAbilityIcon",
     "GetAbilityName",
     "GetAchievementCriterion",
+    "GetAchievementName",
     "GetAchievementNumCriteria",
     "GetActiveCollectibleByType",
     "GetActiveCompanionDefId",

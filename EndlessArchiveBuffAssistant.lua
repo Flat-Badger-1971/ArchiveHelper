@@ -1,16 +1,36 @@
 local EABA = _G.EndlessArchiveBuffAssistant
+
 EABA.Name = "EndlessArchiveBuffAssistant"
 
-local function OnPlayerActivated()
-end
+local function createIcon(parent, index)
+    local tmpControl = WINDOW_MANAGER:CreateControl("EABA_ICON_" .. index, parent, CT_CONTROL)
+    tmpControl:SetDrawTier(_G.DT_HIGH)
+    tmpControl:SetAnchor(TOPLEFT, parent, TOPLEFT)
+    tmpControl:SetDimensions(64, 64)
 
-local function OnAchievementUpdated(_, achievementId)
+    local texture = WINDOW_MANAGER:CreateControl(nil, tmpControl, CT_TEXTURE)
+
+    texture:SetAnchorFill(tmpControl)
+    texture:SetTexture("/esoui/art/login/login_icon_yield.dds")
+    texture:SetColor(1, 0, 0, 1)
+    --TODO: add tooltip
+
+    return tmpControl
 end
 
 local function OnBuffSelectorShowing()
     local numChoices = 0
     local container = EABA.SELECTOR_SHORT .. "Container"
     local buffChoices = {}
+    local icons = {
+        [1] = _G.EABA_ICON_1 or createIcon(_G[container .. "Buff1"], 1),
+        [2] = _G.EABA_ICON_2 or createIcon(_G[container .. "Buff2"], 2),
+        [3] = _G.EABA_ICON_3 or createIcon(_G[container .. "Buff3"], 3)
+    }
+
+    for icon = 1, 3 do
+        icons[icon]:SetHidden(true)
+    end
 
     for bucketType = _G.ENDLESS_DUNGEON_BUFF_BUCKET_TYPE_ITERATION_BEGIN, _G.ENDLESS_DUNGEON_BUFF_BUCKET_TYPE_ITERATION_END do
         local abilityId = GetEndlessDungeonBuffSelectorBucketTypeChoice(bucketType)
@@ -21,15 +41,24 @@ local function OnBuffSelectorShowing()
             local buffType, isAvatarVision = GetAbilityEndlessDungeonBuffType(abilityId)
             buffChoices[numChoices] = {
                 abilityId = abilityId,
-                --abilityName = GetAbilityName(abilityId),
                 buffType = buffType,
-                --iconTexture = GetAbilityIcon(abilityId),
-                --instanceIntervalOffset = numChoices,
-                isAvatarVision = isAvatarVision
-                --stackCount = 1
+                isAvatarVision = isAvatarVision,
+                index = numChoices
             }
+        end
+    end
 
-        --d(Container)
+    for _, buffInfo in pairs(buffChoices) do
+        if (ZO_IsElementInNumericallyIndexedTable(EABA.MissingAbilities, buffInfo.abilityId)) then
+            local achievementIds = EABA.ABILTIES[buffInfo.abilityId]
+
+            icons[buffInfo.index]:SetHidden(false)
+
+            for _, achievementId in pairs(achievementIds) do
+                local name = GetAchievementName(achievementId)
+                --TODO: populate tooltip
+                d(name)
+            end
         end
     end
 end
@@ -77,10 +106,13 @@ local function checkAbilities(text, abilities)
     end
 end
 
+EABA.MissingAbilities = {}
+
 local function findMissingAbilityIds()
     local achievementIds = getAchievementsList()
     local incomplete = {}
-    local missing = {}
+
+    ZO_ClearNumericallyIndexedTable(EABA.MissingAbilities)
 
     for _, achievementId in ipairs(achievementIds) do
         local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(achievementId)
@@ -103,21 +135,15 @@ local function findMissingAbilityIds()
 
             if (completed ~= required) then
                 local id = checkAbilities(description, abilities)
-                if (not ZO_IsElementInNumericallyIndexedTable(missing, id)) then
-                    table.insert(missing, id)
+                if (not ZO_IsElementInNumericallyIndexedTable(EABA.MissingAbilities, id)) then
+                    table.insert(EABA.MissingAbilities, id)
                 end
             end
         end
     end
-
-    return missing
 end
 
 local function Initialise()
-    if (_G.LibDebugLogger ~= nil) then
-        EABA.Logger = _G.LibDebugLogger(EABA.Name)
-    end
-
     -- saved variables
     EABA.Vars =
         _G.LibSavedVars:NewAccountWide("EndlessArchiveBuffAssistantSavedVars", "Account", EABA.Defaults):AddCharacterSettingsToggle(
@@ -138,28 +164,12 @@ local function Initialise()
 
     SecurePostHook(_G[EABA.SELECTOR], "OnShowing", OnBuffSelectorShowing)
 
-    local missingIds = findMissingAbilityIds()
-    d(missingIds)
-    -- EVENT_MANAGER:RegisterForEvent(EABA.Name, EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
-    -- EVENT_MANAGER:RegisterForEvent(EABA.Name, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, OnSlotUpdated)
-    -- EVENT_MANAGER:RegisterForEvent(EABA.Name, EVENT_ACTION_LAYER_POPPED, OnActionLayerChanged)
-    -- EVENT_MANAGER:RegisterForEvent(EABA.Name, EVENT_ACTION_LAYER_PUSHED, OnActionLayerChanged)
-    -- EVENT_MANAGER:RegisterForEvent(EABA.Name, EVENT_NON_COMBAT_BONUS_CHANGED, OnBonusChanged)
-    -- EVENT_MANAGER:RegisterForEvent(EABA.Name, EVENT_ACHIEVEMENT_UPDATED, OnAchievementUpdated)
+    findMissingAbilityIds()
+
+    EVENT_MANAGER:RegisterForEvent(EABA.Name, _G.EVENT_ACHIEVEMENTS_UPDATED, findMissingAbilityIds)
+    EVENT_MANAGER:RegisterForEvent(EABA.Name, _G.EVENT_ACHIEVEMENT_AWARDED, findMissingAbilityIds)
 
     --    EABA.RegisterSettings()
-end
-
-function EABA.Log(message, severity)
-    if (EABA.Logger) then
-        if (severity == "info") then
-            EABA.Logger:Info(message)
-        elseif (severity == "warn") then
-            EABA.Logger:Warn(message)
-        elseif (severity == "debug") then
-            EABA.Logger:Debug(message)
-        end
-    end
 end
 
 function EABA.OnAddonLoaded(_, addonName)
