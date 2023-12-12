@@ -50,7 +50,7 @@ local function OnBuffSelectorShowing()
 
     for _, buffInfo in pairs(buffChoices) do
         if (ZO_IsElementInNumericallyIndexedTable(EABA.MissingAbilities, buffInfo.abilityId)) then
-            local achievementIds = EABA.ABILTIES[buffInfo.abilityId]
+            local achievementIds = EABA.ABILITIES[buffInfo.abilityId]
 
             icons[buffInfo.index]:SetHidden(false)
 
@@ -170,6 +170,14 @@ local function Initialise()
     EVENT_MANAGER:RegisterForEvent(EABA.Name, _G.EVENT_ACHIEVEMENT_AWARDED, findMissingAbilityIds)
 
     --    EABA.RegisterSettings()
+    for id = 190000, 199999 do
+        local name = GetAbilityName(id)
+
+        if (name:find("Magicka")) then
+            d(id)
+            d(name)
+        end
+    end
 end
 
 function EABA.OnAddonLoaded(_, addonName)
