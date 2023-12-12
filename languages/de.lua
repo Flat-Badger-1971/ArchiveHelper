@@ -1,2 +1,3 @@
 -- German localisation
-ZO_CreateStringId("ENDLESSARCHIVEBUFFASSISTANT_WEREWOLF_BEHEMOTH", "Werewolf Behemoth")
+ZO_CreateStringId("EndlessArchiveVersesAndVisions_WEREWOLF_BEHEMOTH", "Werwolfbehemoth")
+ZO_CreateStringId("EndlessArchiveVersesAndVisions_WARNING", "Warning: Dropdowns may not refresh with a UI reload")

@@ -1,9 +1,7 @@
-local EABA = _G.EndlessArchiveBuffAssistant
-
-EABA.EXAMPLE_ID = 3781
+local EAVV = _G.EndlessArchiveVersesAndVisions
 
 -- some ability names do not match the achievement name
-EABA.EXCEPTIONS = {[191802] = _G.ENDLESSARCHIVEBUFFASSISTANT_WEREWOLF_BEHEMOTH}
+EAVV.EXCEPTIONS = {[191802] = _G.EndlessArchiveVersesAndVisions_WEREWOLF_BEHEMOTH}
 
 -- O - Offensive
 -- D - Defensive
@@ -11,7 +9,7 @@ EABA.EXCEPTIONS = {[191802] = _G.ENDLESSARCHIVEBUFFASSISTANT_WEREWOLF_BEHEMOTH}
 -- V - Vision
 -- A - Avatar vision
 
-EABA.ABILITIES = {
+EAVV.ABILITIES = {
     [191802] = {3796}, -- A - Bestial Transformation
     [191849] = {3781, 3799, 3800, 3801}, -- O - Flame Aura
     [191936] = {3782, 3802, 3803, 3804}, -- D - Sequential Shield
@@ -105,7 +103,14 @@ EABA.ABILITIES = {
     [202804] = {3786, 3797}, -- A - Scorching Support
     [203352] = {3781, 3799, 3800, 3801}, -- O - Fire Orb
     [211730] = {3786} -- UV - Supplemental Thread
-} --
+}
+
+EAVV.AVATAR = {
+    ICE = {202134, 202510, 200494, 199997},
+    WOLF = {202743, 200421, 199990, 191802},
+    IRON = {202804, 200679, 200004, 196018}
+}
+
 --3781 - I crave violence
 --3782 - You can't touch me
 --3783 - Viable and versatile

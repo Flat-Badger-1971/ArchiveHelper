@@ -1,104 +1,220 @@
-local EABA = _G.EndlessArchiveBuffAssistant
+local EAVV = _G.EndlessArchiveVersesAndVisions
 
-EABA.LAM = _G.LibAddonMenu2
+EAVV.LAM = _G.LibAddonMenu2
+
+function EAVV.Format(value, ...)
+    local text = value
+
+    if (type(value) == "number") then
+        text = GetString(value)
+    end
+
+    return ZO_CachedStrFormat("<<C:1>>", text, ...)
+end
+
+function EAVV.Filter(t, filterFunc)
+    local out = {}
+
+    for k, v in pairs(t) do
+        if (filterFunc(v, k, t)) then
+            table.insert(out, v)
+        end
+    end
+
+    return out
+end
 
 local panel = {
     type = "panel",
-    name = "Endless Archive Buff Assistant",
-    displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "Endless Archive Buff Assistant",
+    name = "Endless Archive Verses And Visions",
+    displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") ..
+        "|cff9900Endless Archive Verses And Visions|r",
     author = "Flat Badger",
     version = "1.0.0",
-    resetFunc = function()
-        EABA.Setup()
-    end,
-    registerForDefaults = true,
-    slashCommand = "/EABA"
+    registerForRefresh = true,
+    slashCommand = "/eavv"
 }
+local favouriteChoices = {}
+local favouriteChoiceValues = {}
 
-local options = {
-    -- [1] = {
-        -- type = "button",
-        -- name = GetString(_G.FISHBAR_MOVEFRAME),
-        -- func = function()
-            -- EABA.EnableMoving()
-        -- end,
-        -- width = "full"
-    -- },
-    -- [2] = {
-        -- type = "checkbox",
-        -- name = GetString(_G.FISHBAR_SHOW_LABEL),
-        -- getFunc = function()
-            -- return EABA.Vars.ShowFishing
-        -- end,
-        -- setFunc = function(value)
-            -- EABA.Vars.ShowFishing = value
-            -- EABA.Label:SetHidden(not value)
-        -- end,
-        -- width = "full",
-        -- default = EABA.Defaults.ShowFishing
-    -- },
-    -- [3] = {
-        -- type = "colorpicker",
-        -- name = GetString(_G.FISHBAR_LABEL_COLOUR),
-        -- getFunc = function()
-            -- return EABA.Vars.LabelColour.r, EABA.Vars.LabelColour.g, EABA.Vars.LabelColour.b, EABA.Vars.LabelColour.a
-        -- end,
-        -- setFunc = function(r, g, b, a)
-            -- EABA.Vars.LabelColour = {r = r, g = g, b = b, a = a}
-            -- EABA.Label:SetColor(r, g, b, a)
-        -- end,
-        -- width = "full",
-        -- default = EABA.Defaults.LabelColour
-    -- },
-    -- [4] = {
-        -- type = "colorpicker",
-        -- name = GetString(_G.FISHBAR_BAR_COLOUR),
-        -- getFunc = function()
-            -- return EABA.Vars.BarColour.r, EABA.Vars.BarColour.g, EABA.Vars.BarColour.b, EABA.Vars.BarColour.a
-        -- end,
-        -- setFunc = function(r, g, b, a)
-            -- EABA.Vars.BarColour = {r = r, g = g, b = b, a = a}
-            -- EABA.Bar:SetColor(r, g, b, a)
-        -- end,
-        -- width = "full",
-        -- default = EABA.Defaults.BarColour
-    -- },
-    -- [5] = {
-        -- type = "checkbox",
-        -- name = GetString(_G.FISHBAR_EMOTE),
-        -- tooltip = GetString(_G.FISHBAR_EMOTE_DESC),
-        -- getFunc = function()
-            -- return EABA.Vars.PlayEmote
-        -- end,
-        -- setFunc = function(value)
-            -- EABA.Vars.PlayEmote = value
-            -- CALLBACK_MANAGER:FireCallbacks("LAM-RefreshPanel", EABA.OptionsPanel)
-        -- end,
-        -- width = "full",
-        -- default = EABA.Defaults.PlayEmote
-    -- },
-    -- [6] = {
-        -- type = "dropdown",
-        -- name = GetString(_G.SI_CHAT_CHANNEL_NAME_EMOTE),
-        -- choices = emoteList,
-        -- getFunc = function()
-            -- return EABA.Emotes[EABA.Vars.Emote]
-        -- end,
-        -- setFunc = function(value)
-            -- for idx, name in pairs(EABA.Emotes) do
-                -- if (name == value) then
-                    -- EABA.Vars.Emote = idx
-                -- end
-            -- end
-        -- end,
-        -- disabled = function()
-            -- return EABA.Vars.PlayEmote == false
-        -- end,
-        -- width = "full"
-    -- }
-}
+local function doSort(tin, tout1, tout2)
+    table.sort(
+        tin,
+        function(a, b)
+            return a.name < b.name
+        end
+    )
 
-function EABA.RegisterSettings()
-    EABA.OptionsPanel = EABA.LAM:RegisterAddonPanel("EndlessArchiveBuffAssistantOptionsPanel", panel)
-    EABA.LAM:RegisterOptionControls("EndlessArchiveBuffAssistantOptionsPanel", options)
+    for _, choice in ipairs(tin) do
+        table.insert(tout1, choice.name)
+        table.insert(tout2, choice.id)
+    end
+end
+
+do
+    local tmpTable = {}
+
+    for abilityId, _ in pairs(EAVV.ABILITIES) do
+        table.insert(tmpTable, {id = abilityId, name = GetAbilityName(abilityId)})
+    end
+
+    doSort(tmpTable, favouriteChoices, favouriteChoiceValues)
+end
+
+local removeChoices = {}
+local removeChoiceValues = {}
+
+local function populateRemovableOptions(doNotFill)
+    local choices = EAVV.Vars.Favourites
+
+    if (#choices == 0) then
+        return
+    end
+
+    local tmpTable = {}
+
+    for _, choice in ipairs(choices) do
+        local name = GetAbilityName(choice)
+        local icon = GetAbilityIcon(choice)
+
+        table.insert(tmpTable, {id = choice, name = name, icon = icon})
+    end
+
+    if (not doNotFill) then
+        doSort(tmpTable, removeChoices, removeChoiceValues)
+    end
+
+    return tmpTable
+end
+
+local function getRemovable()
+    local removed = populateRemovableOptions(true)
+    local text = ""
+    table.sort(
+        removed,
+        function(a, b)
+            return a.name < b.name
+        end
+    )
+
+    for _, ability in ipairs(removed) do
+        text = text .. zo_iconFormat(ability.icon, 24, 24)
+        text = text .. " " .. ability.name .. EAVV.LF
+    end
+
+    return text
+end
+
+local function updateRemovable()
+    _G.EAVV_Removed.data.text = getRemovable()
+    _G.EAVV_Removed:UpdateValue()
+end
+
+local function buildOptions()
+    populateRemovableOptions()
+
+    local options = {
+        [1] = {
+            type = "header",
+            name = EAVV.Format(_G.SI_INTERFACE_OPTIONS_INDICATORS),
+            width = "full"
+        },
+        [2] = {
+            type = "checkbox",
+            name = EAVV.Format(_G.SI_ZONECOMPLETIONTYPE3),
+            getFunc = function()
+                return EAVV.Vars.MarkAchievements
+            end,
+            setFunc = function(value)
+                EAVV.Vars.MarkAchievements = value
+            end,
+            width = "full"
+        },
+        [3] = {
+            type = "checkbox",
+            name = EAVV.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_AVATAR_VISIONS_HEADER),
+            getFunc = function()
+                return EAVV.Vars.MarkAvatar
+            end,
+            setFunc = function(value)
+                EAVV.Vars.MarkAvatar = value
+            end,
+            width = "full"
+        },
+        [4] = {
+            type = "checkbox",
+            name = EAVV.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
+            getFunc = function()
+                return EAVV.Vars.MarkFavourites
+            end,
+            setFunc = function(value)
+                EAVV.Vars.MarkFavourites = value
+            end,
+            width = "full"
+        },
+        [5] = {
+            type = "header",
+            name = EAVV.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
+            width = "full"
+        },
+        [6] = {
+            type = "dropdown",
+            name = EAVV.Format(_G.SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
+            choices = favouriteChoices,
+            choicesValues = favouriteChoiceValues,
+            getFunc = function()
+            end,
+            setFunc = function(value)
+                if (ZO_IsElementInNumericallyIndexedTable(EAVV.Vars.Favourites, value)) then
+                    return
+                end
+
+                table.insert(EAVV.Vars.Favourites, value)
+                updateRemovable()
+            end
+        },
+        [7] = {
+            type = "dropdown",
+            name = EAVV.Format(_G.SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
+            choices = removeChoices,
+            choicesValues = removeChoiceValues,
+            getFunc = function()
+            end,
+            setFunc = function(value)
+                if (ZO_IsElementInNumericallyIndexedTable(EAVV.Vars.Favourites, value)) then
+                    EAVV.Vars.Favourites =
+                        EAVV.Filter(
+                        EAVV.Vars.Favourites,
+                        function(v)
+                            return v ~= value
+                        end
+                    )
+
+                    updateRemovable()
+                end
+            end,
+            disabled = function()
+                return #EAVV.Vars.Favourites == 0
+            end
+        },
+        [8] = {
+            type = "description",
+            text = "|cff0000" .. EAVV.Format(_G.EndlessArchiveVersesAndVisions_WARNING) .. "|r",
+            width = "full"
+        },
+        [9] = {
+            type = "description",
+            text = getRemovable(),
+            width = "full",
+            reference = "EAVV_Removed"
+        }
+    }
+    return options
+end
+
+function EAVV.RegisterSettings()
+    local options = buildOptions()
+
+    EAVV.OptionsPanel = EAVV.LAM:RegisterAddonPanel("EndlessArchiveVersesAndVisionsOptionsPanel", panel)
+    EAVV.LAM:RegisterOptionControls("EndlessArchiveVersesAndVisionsOptionsPanel", options)
 end

@@ -1,9 +1,9 @@
-## Title: Endless Archive Buff Assistant
+## Title: Endless Archive Verses And Visions
 ## Author: Flat Badger
 ## APIVersion: 101040
 ## AddOnVersion: 1000
 ## Version: 1.0.0
-## SavedVariables: EndlessArchiveBuffAssistantSavedVars
+## SavedVariables: EndlessArchiveVersesAndVisionsSavedVars
 ## DependsOn: LibSavedVars>=60007 LibAddonMenu-2.0>=35
 
 # DISCLAIMER:
@@ -24,4 +24,4 @@ data/achievements.lua
 
 settings/settings.lua
 
-EndlessArchiveBuffAssistant.lua
+EndlessArchiveVersesAndVisions.lua
