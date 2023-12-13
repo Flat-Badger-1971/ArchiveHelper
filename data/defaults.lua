@@ -1,11 +1,11 @@
-_G.EndlessArchiveVersesAndVisions = {
+_G.ArchiveHelper = {
     Defaults = {
         MarkAchievements = true,
         MarkFavourites = true,
         MarkAvatar = true,
         Favourites = {}
     },
-    Name = "EndlessArchiveVersesAndVisions",
+    Name = "ArchiveHelper",
     LF = string.char(10),
     ICONS = {
         ACH = {name = "login/login_icon_yield", colour = {1, 0, 0, 1}},

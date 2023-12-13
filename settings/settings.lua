@@ -1,38 +1,15 @@
-local EAVV = _G.EndlessArchiveVersesAndVisions
+local AH = _G.ArchiveHelper
 
-EAVV.LAM = _G.LibAddonMenu2
-
-function EAVV.Format(value, ...)
-    local text = value
-
-    if (type(value) == "number") then
-        text = GetString(value)
-    end
-
-    return ZO_CachedStrFormat("<<C:1>>", text, ...)
-end
-
-function EAVV.Filter(t, filterFunc)
-    local out = {}
-
-    for k, v in pairs(t) do
-        if (filterFunc(v, k, t)) then
-            table.insert(out, v)
-        end
-    end
-
-    return out
-end
+AH.LAM = _G.LibAddonMenu2
 
 local panel = {
     type = "panel",
-    name = "Endless Archive Verses And Visions",
-    displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") ..
-        "|cff9900Endless Archive Verses And Visions|r",
+    name = "Archive Helper",
+    displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
     version = "1.0.0",
     registerForRefresh = true,
-    slashCommand = "/eavv"
+    slashCommand = "/ah"
 }
 local favouriteChoices = {}
 local favouriteChoiceValues = {}
@@ -54,7 +31,7 @@ end
 do
     local tmpTable = {}
 
-    for abilityId, _ in pairs(EAVV.ABILITIES) do
+    for abilityId, _ in pairs(AH.ABILITIES) do
         table.insert(tmpTable, {id = abilityId, name = GetAbilityName(abilityId)})
     end
 
@@ -65,7 +42,7 @@ local removeChoices = {}
 local removeChoiceValues = {}
 
 local function populateRemovableOptions(doNotFill)
-    local choices = EAVV.Vars.Favourites
+    local choices = AH.Vars.Favourites
 
     if (#choices == 0) then
         return
@@ -87,7 +64,7 @@ local function populateRemovableOptions(doNotFill)
     return tmpTable
 end
 
-local function getRemovable()
+local function getFavourites()
     local removed = populateRemovableOptions(true)
     local text = ""
     table.sort(
@@ -99,15 +76,15 @@ local function getRemovable()
 
     for _, ability in ipairs(removed) do
         text = text .. zo_iconFormat(ability.icon, 24, 24)
-        text = text .. " " .. ability.name .. EAVV.LF
+        text = text .. " " .. ability.name .. AH.LF
     end
 
     return text
 end
 
-local function updateRemovable()
-    _G.EAVV_Removed.data.text = getRemovable()
-    _G.EAVV_Removed:UpdateValue()
+local function updateFavourites()
+    _G.ARCHIVE_HELPER_FAVOURITES_LIST.data.text = getFavourites()
+    _G.ARCHIVE_HELPER_FAVOURITES_LIST:UpdateValue()
 end
 
 local function buildOptions()
@@ -116,105 +93,105 @@ local function buildOptions()
     local options = {
         [1] = {
             type = "header",
-            name = EAVV.Format(_G.SI_INTERFACE_OPTIONS_INDICATORS),
+            name = AH.Format(_G.SI_INTERFACE_OPTIONS_INDICATORS),
             width = "full"
         },
         [2] = {
             type = "checkbox",
-            name = EAVV.Format(_G.SI_ZONECOMPLETIONTYPE3),
+            name = AH.Format(_G.SI_ZONECOMPLETIONTYPE3),
             getFunc = function()
-                return EAVV.Vars.MarkAchievements
+                return AH.Vars.MarkAchievements
             end,
             setFunc = function(value)
-                EAVV.Vars.MarkAchievements = value
+                AH.Vars.MarkAchievements = value
             end,
             width = "full"
         },
         [3] = {
             type = "checkbox",
-            name = EAVV.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_AVATAR_VISIONS_HEADER),
+            name = AH.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_AVATAR_VISIONS_HEADER),
             getFunc = function()
-                return EAVV.Vars.MarkAvatar
+                return AH.Vars.MarkAvatar
             end,
             setFunc = function(value)
-                EAVV.Vars.MarkAvatar = value
+                AH.Vars.MarkAvatar = value
             end,
             width = "full"
         },
         [4] = {
             type = "checkbox",
-            name = EAVV.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
+            name = AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
             getFunc = function()
-                return EAVV.Vars.MarkFavourites
+                return AH.Vars.MarkFavourites
             end,
             setFunc = function(value)
-                EAVV.Vars.MarkFavourites = value
+                AH.Vars.MarkFavourites = value
             end,
             width = "full"
         },
         [5] = {
             type = "header",
-            name = EAVV.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
+            name = AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
             width = "full"
         },
         [6] = {
             type = "dropdown",
-            name = EAVV.Format(_G.SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
+            name = AH.Format(_G.SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
             choices = favouriteChoices,
             choicesValues = favouriteChoiceValues,
             getFunc = function()
             end,
             setFunc = function(value)
-                if (ZO_IsElementInNumericallyIndexedTable(EAVV.Vars.Favourites, value)) then
+                if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Favourites, value)) then
                     return
                 end
 
-                table.insert(EAVV.Vars.Favourites, value)
-                updateRemovable()
+                table.insert(AH.Vars.Favourites, value)
+                updateFavourites()
             end
         },
         [7] = {
             type = "dropdown",
-            name = EAVV.Format(_G.SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
+            name = AH.Format(_G.SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
             choices = removeChoices,
             choicesValues = removeChoiceValues,
             getFunc = function()
             end,
             setFunc = function(value)
-                if (ZO_IsElementInNumericallyIndexedTable(EAVV.Vars.Favourites, value)) then
-                    EAVV.Vars.Favourites =
-                        EAVV.Filter(
-                        EAVV.Vars.Favourites,
+                if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Favourites, value)) then
+                    AH.Vars.Favourites =
+                        AH.Filter(
+                        AH.Vars.Favourites,
                         function(v)
                             return v ~= value
                         end
                     )
 
-                    updateRemovable()
+                    updateFavourites()
                 end
             end,
             disabled = function()
-                return #EAVV.Vars.Favourites == 0
+                return #AH.Vars.Favourites == 0
             end
         },
         [8] = {
             type = "description",
-            text = "|cff0000" .. EAVV.Format(_G.EndlessArchiveVersesAndVisions_WARNING) .. "|r",
+            text = "|cff0000" .. AH.Format(_G.ARCHIVEHELPER_WARNING) .. "|r",
             width = "full"
         },
         [9] = {
             type = "description",
-            text = getRemovable(),
+            text = getFavourites(),
             width = "full",
-            reference = "EAVV_Removed"
+            reference = "ARCHIVE_HELPER_FAVOURITES_LIST"
         }
     }
     return options
 end
 
-function EAVV.RegisterSettings()
+function AH.RegisterSettings()
     local options = buildOptions()
 
-    EAVV.OptionsPanel = EAVV.LAM:RegisterAddonPanel("EndlessArchiveVersesAndVisionsOptionsPanel", panel)
-    EAVV.LAM:RegisterOptionControls("EndlessArchiveVersesAndVisionsOptionsPanel", options)
+    AH.OptionsPanel = AH.LAM:RegisterAddonPanel("ArchiveHelperOptionsPanel", panel)
+    AH.LAM:RegisterOptionControls("ArchiveHelperOptionsPanel", options)
 end

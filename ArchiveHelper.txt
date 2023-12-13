@@ -1,9 +1,10 @@
-## Title: Endless Archive Verses And Visions
+## Title: Archive Helper
+## Description: Marks versions and visions on the buff selector for achievement requirements, avatars and favourites
 ## Author: Flat Badger
 ## APIVersion: 101040
 ## AddOnVersion: 1000
 ## Version: 1.0.0
-## SavedVariables: EndlessArchiveVersesAndVisionsSavedVars
+## SavedVariables: ArchiveHelperSavedVars
 ## DependsOn: LibSavedVars>=60007 LibAddonMenu-2.0>=35
 
 # DISCLAIMER:
@@ -22,6 +23,11 @@ languages/$(language).lua
 data/defaults.lua
 data/achievements.lua
 
+utility/utility.lua
+
+ui/icons.lua
+ui/buffSelector.lua
+
 settings/settings.lua
 
-EndlessArchiveVersesAndVisions.lua
+ArchiveHelper.lua

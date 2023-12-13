@@ -1,7 +1,7 @@
-local EAVV = _G.EndlessArchiveVersesAndVisions
+local AH = _G.ArchiveHelper
 
 -- some ability names do not match the achievement name
-EAVV.EXCEPTIONS = {[191802] = _G.EndlessArchiveVersesAndVisions_WEREWOLF_BEHEMOTH}
+AH.EXCEPTIONS = {[191802] = _G.ARCHIVEHELPER_WEREWOLF_BEHEMOTH}
 
 -- O - Offensive
 -- D - Defensive
@@ -9,7 +9,7 @@ EAVV.EXCEPTIONS = {[191802] = _G.EndlessArchiveVersesAndVisions_WEREWOLF_BEHEMOT
 -- V - Vision
 -- A - Avatar vision
 
-EAVV.ABILITIES = {
+AH.ABILITIES = {
     [191802] = {3796}, -- A - Bestial Transformation
     [191849] = {3781, 3799, 3800, 3801}, -- O - Flame Aura
     [191936] = {3782, 3802, 3803, 3804}, -- D - Sequential Shield
@@ -105,7 +105,7 @@ EAVV.ABILITIES = {
     [211730] = {3786} -- UV - Supplemental Thread
 }
 
-EAVV.AVATAR = {
+AH.AVATAR = {
     ICE = {202134, 202510, 200494, 199997},
     WOLF = {202743, 200421, 199990, 191802},
     IRON = {202804, 200679, 200004, 196018}
