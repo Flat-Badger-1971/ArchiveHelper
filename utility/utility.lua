@@ -60,12 +60,16 @@ function AH.GetAbilities(achievementIdToFind)
 end
 
 function AH.CheckAbilities(text, abilities)
-    for _, ability in pairs(abilities) do
+    for _, ability in ipairs(abilities) do
         if (text:find(ability.name)) then
             return ability.id
         end
     end
+
+    return 0
 end
+
+AH.IncompleteAchievements = {}
 
 function AH.FindMissingAbilityIds()
     local achievementIds = AH.GetAchievementsList()
@@ -82,7 +86,9 @@ function AH.FindMissingAbilityIds()
     end
 
     if (#incomplete == 0) then
-        return {}
+        AH.IncompleteAchievements = {}
+
+        return
     end
 
     for _, achievementId in ipairs(incomplete) do
@@ -94,10 +100,26 @@ function AH.FindMissingAbilityIds()
 
             if (completed ~= required) then
                 local id = AH.CheckAbilities(description, abilities)
+
                 if (not ZO_IsElementInNumericallyIndexedTable(AH.MissingAbilities, id)) then
                     table.insert(AH.MissingAbilities, id)
                 end
             end
         end
     end
+
+    AH.IncompleteAchievements = incomplete
+end
+
+function AH.GetAbilityNeededForAchievement(abilityId)
+    local achievements = AH.ABILITIES[abilityId]
+    local neededFor = {}
+
+    for _, achievementId in ipairs(achievements) do
+        if (ZO_IsElementInNumericallyIndexedTable(AH.IncompleteAchievements, achievementId)) then
+            table.insert(neededFor, achievementId)
+        end
+    end
+
+    return neededFor
 end

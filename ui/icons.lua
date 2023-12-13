@@ -30,9 +30,10 @@ function baseIconControl:Initialise()
     self.control:SetHandler(
         "OnMouseEnter",
         function()
-            if (self.tooltip) then
+            local text = self:GetTooltip()
+            if (text) then
                 if (not IsInGamepadPreferredMode()) then
-                    ZO_Tooltips_ShowTextTooltip(self.control, TOPLEFT, self.control.tooltip)
+                    ZO_Tooltips_ShowTextTooltip(self.control, TOPLEFT, text)
                 end
             end
         end
@@ -60,6 +61,10 @@ end
 
 function baseIconControl:SetTooltip(text)
     self.tooltip = text
+end
+
+function baseIconControl:GetTooltip()
+    return self.tooltip
 end
 
 function baseIconControl:SetAnchor(where, targetControl, whereOnTarget, offsetX, offsetY)
