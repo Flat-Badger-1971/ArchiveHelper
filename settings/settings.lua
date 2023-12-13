@@ -98,7 +98,8 @@ local function buildOptions()
         },
         [2] = {
             type = "checkbox",
-            name = AH.Format(_G.SI_ZONECOMPLETIONTYPE3),
+            name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.ACH.name), "ff0000") ..
+                " " .. AH.Format(_G.SI_ZONECOMPLETIONTYPE3),
             getFunc = function()
                 return AH.Vars.MarkAchievements
             end,
@@ -109,7 +110,8 @@ local function buildOptions()
         },
         [3] = {
             type = "checkbox",
-            name = AH.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_AVATAR_VISIONS_HEADER),
+            name = zo_iconFormat(string.format("/esoui/art/%s.dds", AH.ICONS.WOLF.name), 24, 24) ..
+                " " .. AH.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_AVATAR_VISIONS_HEADER),
             getFunc = function()
                 return AH.Vars.MarkAvatar
             end,
@@ -120,7 +122,8 @@ local function buildOptions()
         },
         [4] = {
             type = "checkbox",
-            name = AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
+            name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.FAV.name), "00ff00") ..
+                "|r " .. AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
             getFunc = function()
                 return AH.Vars.MarkFavourites
             end,

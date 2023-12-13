@@ -123,3 +123,11 @@ function AH.GetAbilityNeededForAchievement(abilityId)
 
     return neededFor
 end
+
+function AH.ColourIcon(icon, colour, width, height)
+    local texture = zo_iconFormat(icon, width or 24, height or 24)
+
+    texture = string.format("|c%s%s|r", colour, texture:gsub("|t$", ":inheritColor|t"))
+
+    return texture
+end
