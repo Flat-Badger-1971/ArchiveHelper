@@ -86,7 +86,7 @@ function AH.OnBuffSelectorShowing()
     end
 
     -- show favourites icons
-    if (AH.Vars.MarkFavourites) then
+    if (AH.Vars.MarkFavourites and #AH.Vars.Favourites > 0) then
         for _, buffInfo in pairs(buffChoices) do
             if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Favourites, buffInfo.abilityId)) then
                 local position = positionOffsets[getNextPosition(buffInfo.index)]

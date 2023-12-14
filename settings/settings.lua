@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.0.0",
+    version = "1.0.1",
     registerForRefresh = true,
     slashCommand = "/ah"
 }
@@ -45,7 +45,7 @@ local function populateRemovableOptions(doNotFill)
     local choices = AH.Vars.Favourites
 
     if (#choices == 0) then
-        return
+        return {}
     end
 
     local tmpTable = {}
@@ -67,16 +67,19 @@ end
 local function getFavourites()
     local removed = populateRemovableOptions(true)
     local text = ""
-    table.sort(
-        removed,
-        function(a, b)
-            return a.name < b.name
-        end
-    )
 
-    for _, ability in ipairs(removed) do
-        text = text .. zo_iconFormat(ability.icon, 24, 24)
-        text = text .. " " .. ability.name .. AH.LF
+    if (#removed > 0) then
+        table.sort(
+            removed,
+            function(a, b)
+                return a.name < b.name
+            end
+        )
+
+        for _, ability in ipairs(removed) do
+            text = text .. zo_iconFormat(ability.icon, 24, 24)
+            text = text .. " " .. ability.name .. AH.LF
+        end
     end
 
     return text
