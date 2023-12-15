@@ -113,6 +113,7 @@ local function buildOptions()
         [3] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_PROGRESS_CHAT),
+            tooltip = AH.Format(_G.ARCHIVEHELPER_REQUIRES),
             getFunc = function()
                 return AH.Vars.NotifyChat
             end,
@@ -120,7 +121,7 @@ local function buildOptions()
                 AH.Vars.NotifyChat = value
             end,
             disabled = function()
-                return not AH.Vars.Notify
+                return (not AH.Vars.Notify) or (not AH.Chat)
             end,
             width = "full"
         },

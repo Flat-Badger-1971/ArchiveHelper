@@ -83,11 +83,11 @@ AH.IncompleteAchievements = {}
 
 function AH.FindMissingAbilityIds(event, id)
     if (event == _G.EVENT_ACHIEVEMENT_UPDATED) then
-        if (ZO_IsElementInNumericallyIndexedTable(AH.ACHIEVEMENTS.EXCLUDE, id)) then
+        AH.EventNotifier(id)
+
+        if (ZO_IsElementInNumericallyIndexedTable(AH.ACHIEVEMENTS.LIMIT, id)) then
             return
         end
-
-        AH.EventNotifier(id)
     end
 
     local achievementIds = AH.GetAchievementsList()
@@ -198,19 +198,32 @@ function AH.EventNotifier(id)
                 (status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS or
                     status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS)
              then
-                local name, _, _, icon = GetAchievementInfo(id)
-                local stepsRemaining = 0
+                local announce = true
 
-                for criteria = 1, GetAchievementNumCriteria(id) do
-                    local _, completed, required = GetAchievementCriterion(id, criteria)
+                if (ZO_IsElementInNumericallyIndexedTable(AH.ACHIEVEMENTS.LIMIT, id)) then
+                    local _, completed, required = GetAchievementCriterion(id, 1)
+                    local remaining = required - completed
 
-                    if (completed ~= required) then
-                        stepsRemaining = stepsRemaining + (required - completed)
+                    if (remaining % 100 ~= 0) then
+                        announce = false
                     end
                 end
 
-                if (stepsRemaining > 0) then
-                    AH.Announce(name, icon, stepsRemaining)
+                if (announce) then
+                    local name, _, _, icon = GetAchievementInfo(id)
+                    local stepsRemaining = 0
+
+                    for criteria = 1, GetAchievementNumCriteria(id) do
+                        local _, completed, required = GetAchievementCriterion(id, criteria)
+
+                        if (completed ~= required) then
+                            stepsRemaining = stepsRemaining + (required - completed)
+                        end
+                    end
+
+                    if (stepsRemaining > 0) then
+                        AH.Announce(name, icon, stepsRemaining)
+                    end
                 end
             end
         end

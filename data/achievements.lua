@@ -125,7 +125,7 @@ AH.GENERAL = {
 AH.ACHIEVEMENTS = {
     START = 3751,
     END = 3807,
-    EXCLUDE = {
+    LIMIT = {
         3762 -- defeat 5000 maligraphies, really don't need this firing every time you kill something
     }
 }
