@@ -28,9 +28,9 @@ function AH.OnBuffSelectorShowing()
     local buffChoices = {}
     local container = AH.SELECTOR_SHORT .. "Container"
     local positionOffsets = {
-        [1] = {x = 80, y = -36},
+        [1] = {x = 84, y = -36},
         [2] = {x = 0, y = -36},
-        [3] = {x = 160, y = -36}
+        [3] = {x = 164, y = -36}
     }
 
     clearPositions()
@@ -59,25 +59,32 @@ function AH.OnBuffSelectorShowing()
     -- show achievement icons
     if (AH.Vars.MarkAchievements) then
         for _, buffInfo in pairs(buffChoices) do
-            local achievementIds = AH.GetAbilityNeededForAchievement(buffInfo.abilityId)
+            local generalIds = AH.GetAbilityNeededForGeneralAchievement(buffInfo.abilityId)
+            local record = AH.GetRecord(buffInfo.abilityId, AH.MissingAbilities)
 
-            if (ZO_IsElementInNumericallyIndexedTable(AH.MissingAbilities, buffInfo.abilityId) or #achievementIds > 0) then
+            if (record or (#generalIds > 0)) then
                 local position = positionOffsets[getNextPosition(buffInfo.index)]
                 local buff = _G[string.format("%sBuff%d", container, buffInfo.index)]
                 local icon = AH.CreateIcon("ACH", buff, position.x, position.y)
 
-                local ttt = ""
+                local ttt = " "
 
-                if (#achievementIds > 0) then
-                    for _, achievementId in ipairs(achievementIds) do
+                if (record) then
+                    local achName = GetAchievementName(record.achievementId)
+
+                    ttt = ttt .. achName .. AH.LF
+                end
+
+                if (#generalIds > 0) then
+                    for _, achievementId in ipairs(generalIds) do
                         local name = GetAchievementName(achievementId)
 
                         ttt = ttt .. name .. AH.LF
                     end
-
-                    -- remove the trailing line feed
-                    ttt = ttt:sub(1, #ttt - 1)
                 end
+
+                -- remove the trailing line feed
+                ttt = ttt:sub(1, #ttt - 1)
 
                 icon:SetTooltip(ttt)
                 icon:SetHidden(false)
@@ -103,32 +110,45 @@ function AH.OnBuffSelectorShowing()
         for _, buffInfo in pairs(buffChoices) do
             local position = positionOffsets[getNextPosition(buffInfo.index)]
             local buff = _G[string.format("%sBuff%d", container, buffInfo.index)]
-            local icon
+            local icon, achievementId
 
-            if (ZO_IsElementInNumericallyIndexedTable(AH.AVATAR.ICE, buffInfo.abilityId)) then
+            if (ZO_IsElementInNumericallyIndexedTable(AH.AVATAR.ICE.abilityIds, buffInfo.abilityId)) then
                 icon = AH.CreateIcon("ICE", buff, position.x, position.y)
-            elseif (ZO_IsElementInNumericallyIndexedTable(AH.AVATAR.WOLF, buffInfo.abilityId)) then
+                achievementId = AH.AVATAR.ICE.id
+            elseif (ZO_IsElementInNumericallyIndexedTable(AH.AVATAR.WOLF.abilityIds, buffInfo.abilityId)) then
                 icon = AH.CreateIcon("WOLF", buff, position.x, position.y)
-            elseif (ZO_IsElementInNumericallyIndexedTable(AH.AVATAR.IRON, buffInfo.abilityId)) then
+                achievementId = AH.AVATAR.WOLF.id
+            elseif (ZO_IsElementInNumericallyIndexedTable(AH.AVATAR.IRON.abilityIds, buffInfo.abilityId)) then
                 icon = AH.CreateIcon("IRON", buff, position.x, position.y)
+                achievementId = AH.AVATAR.IRON.id
             end
 
             if (icon) then
-                local achievementIds = AH.ABILITIES[buffInfo.abilityId]
-
                 local ttt = ""
+                local name = GetAchievementName(achievementId)
 
-                for _, achievementId in ipairs(achievementIds) do
-                    local name = GetAchievementName(achievementId)
-
-                    ttt = ttt .. name .. AH.LF
-                end
-
-                -- remove the trailing line feed
-                ttt = ttt:sub(1, #ttt - 1)
+                ttt = ttt .. name
 
                 icon:SetHidden(false)
                 icon:SetTooltip(ttt)
+            end
+        end
+    end
+
+    -- show stack counts
+    if (AH.Vars.ShowStacks) then
+        if (buffChoices[1].buffType == _G.ENDLESS_DUNGEON_BUFF_TYPE_VISION) then
+            local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(buffChoices[1].buffType)
+
+            for _, buffInfo in pairs(buffChoices) do
+                local count = counts[buffInfo.abilityId] or 0
+
+                if (count > 0 and (not buffInfo.isAvatarVision)) then
+                    local buff = _G[string.format("%sBuff%dName", container, buffInfo.index)]
+                    local countText = buff:GetText() .. " |cffff00" .. "(" .. count .. ")|r"
+
+                    buff:SetText(countText)
+                end
             end
         end
     end

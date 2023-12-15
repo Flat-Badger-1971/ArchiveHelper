@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.0.1",
+    version = "1.0.2",
     registerForRefresh = true,
     slashCommand = "/ah"
 }
@@ -125,6 +125,17 @@ local function buildOptions()
         },
         [4] = {
             type = "checkbox",
+            name = "|cffff00(1)|r   " .. AH.Format(_G.ARCHIVEHELPER_STACKS),
+            getFunc = function()
+                return AH.Vars.ShowStacks
+            end,
+            setFunc = function(value)
+                AH.Vars.ShowStacks = value
+            end,
+            width = "full"
+        },
+        [5] = {
+            type = "checkbox",
             name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.FAV.name), "00ff00") ..
                 "|r " .. AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
             getFunc = function()
@@ -135,12 +146,12 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [5] = {
+        [6] = {
             type = "header",
             name = AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
             width = "full"
         },
-        [6] = {
+        [7] = {
             type = "dropdown",
             name = AH.Format(_G.SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
             choices = favouriteChoices,
@@ -156,7 +167,7 @@ local function buildOptions()
                 updateFavourites()
             end
         },
-        [7] = {
+        [8] = {
             type = "dropdown",
             name = AH.Format(_G.SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
             choices = removeChoices,
@@ -180,12 +191,12 @@ local function buildOptions()
                 return #AH.Vars.Favourites == 0
             end
         },
-        [8] = {
+        [9] = {
             type = "description",
             text = "|cff0000" .. AH.Format(_G.ARCHIVEHELPER_WARNING) .. "|r",
             width = "full"
         },
-        [9] = {
+        [10] = {
             type = "description",
             text = getFavourites(),
             width = "full",

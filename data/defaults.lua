@@ -3,6 +3,7 @@ _G.ArchiveHelper = {
         MarkAchievements = true,
         MarkFavourites = true,
         MarkAvatar = true,
+        ShowStacks = true,
         Favourites = {}
     },
     Name = "ArchiveHelper",

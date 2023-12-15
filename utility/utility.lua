@@ -38,12 +38,22 @@ function AH.GetAchievementsList()
     return list
 end
 
+function AH.IsRecorded(abilityId, abilities)
+    for _, abilityInfo in ipairs(abilities) do
+        if (abilityInfo.id == abilityId) then
+            return true
+        end
+    end
+
+    return false
+end
+
 function AH.GetAbilities(achievementIdToFind)
     local abilities = {}
 
     for abilityId, achievementIds in pairs(AH.ABILITIES) do
         if (ZO_IsElementInNumericallyIndexedTable(achievementIds, achievementIdToFind)) then
-            if (not ZO_IsElementInNumericallyIndexedTable(abilities, abilityId)) then
+            if (not AH.IsRecorded(abilityId, abilities)) then
                 local name
                 if (AH.EXCEPTIONS[abilityId]) then
                     name = GetString(AH.EXCEPTIONS[abilityId])
@@ -101,8 +111,9 @@ function AH.FindMissingAbilityIds()
             if (completed ~= required) then
                 local id = AH.CheckAbilities(description, abilities)
 
-                if (not ZO_IsElementInNumericallyIndexedTable(AH.MissingAbilities, id)) then
-                    table.insert(AH.MissingAbilities, id)
+                if (not AH.IsRecorded(id, AH.MissingAbilities)) then
+                    table.insert(AH.MissingAbilities, {id = id, achievementId = achievementId})
+                    d(GetAbilityName(id))
                 end
             end
         end
@@ -111,13 +122,25 @@ function AH.FindMissingAbilityIds()
     AH.IncompleteAchievements = incomplete
 end
 
-function AH.GetAbilityNeededForAchievement(abilityId)
+function AH.GetRecord(id, table)
+    for _, record in ipairs(table) do
+        if (record.id == id) then
+            return record
+        end
+    end
+end
+
+function AH.GetAbilityNeededForGeneralAchievement(abilityId)
     local achievements = AH.ABILITIES[abilityId]
     local neededFor = {}
 
     for _, achievementId in ipairs(achievements) do
-        if (ZO_IsElementInNumericallyIndexedTable(AH.IncompleteAchievements, achievementId)) then
-            table.insert(neededFor, achievementId)
+        if (ZO_IsElementInNumericallyIndexedTable(AH.GENERAL, achievementId)) then
+            local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(achievementId)
+
+            if (status ~= _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
+                table.insert(neededFor, achievementId)
+            end
         end
     end
 
