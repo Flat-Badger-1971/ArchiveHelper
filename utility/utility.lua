@@ -113,7 +113,6 @@ function AH.FindMissingAbilityIds()
 
                 if (not AH.IsRecorded(id, AH.MissingAbilities)) then
                     table.insert(AH.MissingAbilities, {id = id, achievementId = achievementId})
-                    d(GetAbilityName(id))
                 end
             end
         end
