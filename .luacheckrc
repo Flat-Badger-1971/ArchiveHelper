@@ -245,6 +245,7 @@ read_globals = {
     "GetAbilityIcon",
     "GetAbilityName",
     "GetAchievementCriterion",
+    "GetAchievementInfo",
     "GetAchievementName",
     "GetAchievementNumCriteria",
     "GetActiveCollectibleByType",

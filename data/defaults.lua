@@ -4,7 +4,10 @@ _G.ArchiveHelper = {
         MarkFavourites = true,
         MarkAvatar = true,
         ShowStacks = true,
-        Favourites = {}
+        Favourites = {},
+        Notify = true,
+        NotifyScreen = true,
+        NotifyChat = true
     },
     Name = "ArchiveHelper",
     LF = string.char(10),

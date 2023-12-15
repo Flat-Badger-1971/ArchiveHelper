@@ -81,7 +81,15 @@ end
 
 AH.IncompleteAchievements = {}
 
-function AH.FindMissingAbilityIds()
+function AH.FindMissingAbilityIds(event, id)
+    if (event == _G.EVENT_ACHIEVEMENT_UPDATED) then
+        if (ZO_IsElementInNumericallyIndexedTable(AH.ACHIEVEMENTS.EXCLUDE, id)) then
+        --return
+        end
+
+        AH.EventNotifier(id)
+    end
+
     local achievementIds = AH.GetAchievementsList()
     local incomplete = {}
 
@@ -109,9 +117,9 @@ function AH.FindMissingAbilityIds()
             local description, completed, required = GetAchievementCriterion(achievementId, criterionNumber)
 
             if (completed ~= required) then
-                local id = AH.CheckAbilities(description, abilities)
+                local aid = AH.CheckAbilities(description, abilities)
 
-                if (not AH.IsRecorded(id, AH.MissingAbilities)) then
+                if (not AH.IsRecorded(aid, AH.MissingAbilities)) then
                     table.insert(AH.MissingAbilities, {id = id, achievementId = achievementId})
                 end
             end
@@ -152,4 +160,59 @@ function AH.ColourIcon(icon, colour, width, height)
     texture = string.format("|c%s%s|r", colour, texture:gsub("|t$", ":inheritColor|t"))
 
     return texture
+end
+
+function AH.ScreenAnnounce(header, message, icon, lifespan, sound)
+    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_LARGE_TEXT)
+
+    messageParams:SetSound(sound or "Justice_NowKOS")
+    messageParams:SetText(header or "Test Header", message or "Test Message")
+    messageParams:SetLifespanMS(lifespan or 6000)
+    messageParams:SetCSAType(_G.CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
+
+    if (icon) then
+        messageParams:SetIconData(icon)
+    end
+
+    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
+end
+
+function AH.Announce(achievementName, icon, remaining)
+    local message =
+        zo_strformat(GetString(_G.ARCHIVEHELPER_PROGRESS), "|cffff00", achievementName, "|r", remaining) .. "|r"
+
+    if (AH.Vars.NotifyScreen) then
+        AH.ScreenAnnounce(AH.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
+    end
+
+    if (AH.Vars.NotifyChat and AH.Chat) then
+        AH.Chat:SetTagColor("dc143c"):Print(message)
+    end
+end
+
+function AH.EventNotifier(id)
+    if (AH.Vars.Notify) then
+        if (id >= AH.ACHIEVEMENTS.START and id <= AH.ACHIEVEMENTS.END) then
+            local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(id)
+            if
+                (status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS or
+                    status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS)
+             then
+                local name, _, _, icon = GetAchievementInfo(id)
+                local stepsRemaining = 0
+
+                for criteria = 1, GetAchievementNumCriteria(id) do
+                    local _, completed, required = GetAchievementCriterion(id, criteria)
+
+                    if (completed ~= required) then
+                        stepsRemaining = stepsRemaining + (required - completed)
+                    end
+                end
+
+                if (stepsRemaining > 0) then
+                    AH.Announce(name, icon, stepsRemaining)
+                end
+            end
+        end
+    end
 end

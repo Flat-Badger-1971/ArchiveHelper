@@ -122,21 +122,31 @@ AH.GENERAL = {
     3806,
     3807
 }
---3781 - I crave violence
---3782 - You can't touch me
---3783 - Viable and versatile
---3784 - Visions of violence
---3785 - Endless defender
---3786 - Seeing the big picture
---3795 - Keeping it cool
---3796 - Howling with rage
---3797 - Molten measures
---3799 - Battle ready
---3800 - Armed onslaught
---3801 - Mora's onslaught
---3802 - A sturdy shield
---3803 - Forceful Fortification
---3804 - Under Mora's protection
---3805 - Studying up
---3806 - Unorthdox approach
---3807 - Power practicum
+AH.ACHIEVEMENTS = {
+    START = 3751,
+    END = 3807,
+    EXCLUDE = {
+        3762 -- defeat 5000 maligraphies, really don't need this firing every time you kill something
+    }
+}
+
+--[[
+3781, -- I crave violence
+3782, -- You can't touch me
+3783, -- Viable and versatile
+3784, -- Visions of violence
+3785, -- Endless defender
+3786, -- Seeing the big picture
+3795, -- Keeping it cool
+3796, -- Howling with rage
+3797, -- Molten measures
+3799, -- Battle ready
+3800, -- Armed onslaught
+3801, -- Mora's onslaught
+3802, -- A sturdy shield
+3803, -- Forceful Fortification
+3804, -- Under Mora's protection
+3805, -- Studying up
+3806, -- Unorthdox approach
+3807, -- Power practicum
+]]
