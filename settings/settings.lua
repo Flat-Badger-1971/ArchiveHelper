@@ -8,8 +8,7 @@ local panel = {
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
     version = "1.0.3",
-    registerForRefresh = true,
-    slashCommand = "/ah"
+    registerForRefresh = true
 }
 local favouriteChoices = {}
 local favouriteChoiceValues = {}

@@ -27,8 +27,8 @@ end
 function AH.GetAchievementsList()
     local list = {}
 
-    for _, achievementIds in pairs(AH.ABILITIES) do
-        for _, achievementId in ipairs(achievementIds) do
+    for _, info in pairs(AH.ABILITIES) do
+        for _, achievementId in ipairs(info.ids) do
             if (not ZO_IsElementInNumericallyIndexedTable(list, achievementId)) then
                 table.insert(list, achievementId)
             end
@@ -51,8 +51,8 @@ end
 function AH.GetAbilities(achievementIdToFind)
     local abilities = {}
 
-    for abilityId, achievementIds in pairs(AH.ABILITIES) do
-        if (ZO_IsElementInNumericallyIndexedTable(achievementIds, achievementIdToFind)) then
+    for abilityId, info in pairs(AH.ABILITIES) do
+        if (ZO_IsElementInNumericallyIndexedTable(info.ids, achievementIdToFind)) then
             if (not AH.IsRecorded(abilityId, abilities)) then
                 local name
                 if (AH.EXCEPTIONS[abilityId]) then
@@ -120,7 +120,7 @@ function AH.FindMissingAbilityIds(event, id)
                 local aid = AH.CheckAbilities(description, abilities)
 
                 if (not AH.IsRecorded(aid, AH.MissingAbilities)) then
-                    table.insert(AH.MissingAbilities, {id = id, achievementId = achievementId})
+                    table.insert(AH.MissingAbilities, {id = aid, achievementId = achievementId})
                 end
             end
         end
@@ -138,7 +138,7 @@ function AH.GetRecord(id, table)
 end
 
 function AH.GetAbilityNeededForGeneralAchievement(abilityId)
-    local achievements = AH.ABILITIES[abilityId]
+    local achievements = AH.ABILITIES[abilityId].ids
     local neededFor = {}
 
     for _, achievementId in ipairs(achievements) do

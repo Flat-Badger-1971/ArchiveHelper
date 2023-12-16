@@ -1,9 +1,13 @@
 -- English localisation
+ZO_CreateStringId("ARCHIVEHELPER_ALL_BOTH", "All verses and visions acquired")
+ZO_CreateStringId("ARCHIVEHELPER_ALL_VISIONS", "All visions acquired")
+ZO_CreateStringId("ARCHIVEHELPER_ALL_VERSES", "All verses acquired")
 ZO_CreateStringId("ARCHIVEHELPER_PROGRESS", "<<1>><<2>><<3>> advanced. <<4[0 steps/1 step/$d steps]>> remaining.")
 ZO_CreateStringId("ARCHIVEHELPER_PROGRESS_ACHIEVEMENT", "Achievement progress")
 ZO_CreateStringId("ARCHIVEHELPER_PROGRESS_CHAT", "Show in chat")
 ZO_CreateStringId("ARCHIVEHELPER_PROGRESS_SCREEN", "Announce on screen")
 ZO_CreateStringId("ARCHIVEHELPER_REQUIRES", "Requires LibChatMessage")
+ZO_CreateStringId("ARCHIVEHELPER_SLASH_MISSING", "missing")
 ZO_CreateStringId("ARCHIVEHELPER_STACKS", "Stack count")
 ZO_CreateStringId("ARCHIVEHELPER_WARNING", "Warning: Dropdowns may not refresh without a UI reload")
 ZO_CreateStringId("ARCHIVEHELPER_WEREWOLF_BEHEMOTH", "Werewolf Behemoth")

@@ -21,8 +21,18 @@ local function Initialise()
         AH.SELECTOR = string.format(selector, "Keyboard")
     end
 
-    SecurePostHook(_G[AH.SELECTOR], "OnShowing", function() AH.OnBuffSelectorShowing() end)
+    SecurePostHook(
+        _G[AH.SELECTOR],
+        "OnShowing",
+        function()
+            AH.OnBuffSelectorShowing()
+        end
+    )
     AH.FindMissingAbilityIds()
+
+    _G.SLASH_COMMANDS["/ah"] = function(...)
+        AH.HandleSlashCommand(...)
+    end
 
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_UPDATED, AH.FindMissingAbilityIds)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_AWARDED, AH.FindMissingAbilityIds)

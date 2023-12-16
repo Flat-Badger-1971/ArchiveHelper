@@ -3,107 +3,121 @@ local AH = _G.ArchiveHelper
 -- some ability names do not match the achievement name
 AH.EXCEPTIONS = {[191802] = _G.ARCHIVEHELPER_WEREWOLF_BEHEMOTH}
 
--- O - Offensive
--- D - Defensive
--- U - Utility
--- V - Vision
--- A - Avatar vision
+AH.TYPES = {
+    VERSE = _G.ENDLESS_DUNGEON_BUFF_TYPE_VERSE,
+    VISION = _G.ENDLESS_DUNGEON_BUFF_TYPE_VISION
+}
+
+AH.CLASSES = {
+    AVATAR = _G.SI_ENDLESSDUNGEONBUFFTYPE_AVATAR2,
+    DEFENCE = _G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE1,
+    OFFENCE = _G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE0,
+    UTILITY = _G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE2
+}
 
 AH.ABILITIES = {
-    [191802] = {3796}, -- A - Bestial Transformation
-    [191849] = {3781, 3799, 3800, 3801}, -- O - Flame Aura
-    [191936] = {3782, 3802, 3803, 3804}, -- D - Sequential Shield
-    [192667] = {3781, 3799, 3800, 3801}, -- O - Swift Gale
-    [192848] = {3781, 3799, 3800, 3801}, -- O - Pustulent Globs
-    [192992] = {3781, 3799, 3800, 3801}, -- O - Archival Weaponry
-    [193146] = {3785}, -- DV - Tempered Ward
-    [193551] = {3781, 3799, 3800, 3801}, -- O - Cold Blast
-    [193597] = {3781, 3799, 3800, 3801}, -- O - Beatdown
-    [193692] = {3782, 3802, 3803, 3804}, -- D - Transfusion
-    [193711] = {3782, 3802, 3803, 3804}, -- D - Siphoning Vigor
-    [193749] = {3782, 3802, 3803, 3804}, -- D - Enhanced Remedy
-    [193758] = {3783, 3805, 3806, 3807}, -- U - Magicka Renewal
-    [193977] = {3781, 3799, 3800, 3801}, -- O - Augmented Areas
-    [193984] = {3781, 3799, 3800, 3801}, -- O - Exsanguinate
-    [194030] = {3782, 3802, 3803, 3804}, -- D - Regenerating Bastion
-    [194058] = {3782, 3802, 3803, 3804}, -- D - Restorative Elixirs
-    [194062] = {3783, 3805, 3806, 3807}, -- U - Stamina Renewal
-    [194138] = {3782, 3802, 3803, 3804}, -- D - Rebirth
-    [194153] = {3782, 3802, 3803, 3804}, -- D - Reactive Curse
-    [194166] = {3782, 3802, 3803, 3804}, -- D - Archival Evasion
-    [194179] = {3782, 3802, 3803, 3804}, -- D - On Defense
-    [194181] = {3783, 3805, 3806, 3807}, -- U - Magical Expiration
-    [194183] = {3783, 3805, 3806, 3807}, -- U - Energetic Expiration
-    [194192] = {3783, 3805, 3806, 3807}, -- U - Glamorous Scholar
-    [195038] = {3782, 3802, 3803, 3804}, -- D - Shackled Resolve
-    [195928] = {3783, 3805, 3806, 3807}, -- U - Vital Expiration
-    [196018] = {3797}, -- A - Iron Atronach
-    [197522] = {3785}, -- DV - Curative Vigor
-    [197652] = {3785}, -- DV - Hearty Vitality
-    [197684] = {3785}, -- DV - Refined Restoration
-    [197694] = {3785}, -- DV - Armored Shell
-    [199960] = {3785}, -- DV - Sweeping Guard
-    [199990] = {3785, 3796}, -- A - Ferocious Fortification
-    [199997] = {3785, 3795}, -- A - Crystalline Fortification
-    [200004] = {3785, 3797}, -- A - Scorching Fortification
-    [200015] = {3781, 3799, 3800, 3801}, -- O - Archival Worldliness
-    [200016] = {3781, 3799, 3800, 3801}, -- O - Guild Superiority
-    [200017] = {3781, 3799, 3800, 3801}, -- O - Class Embodiment
-    [200018] = {3781, 3799, 3800, 3801}, -- O - Archival Assault
-    [200020] = {3781, 3799, 3800, 3801}, -- O - Magical Multitudes
-    [200022] = {3785}, -- DV - Bolstered Mending
-    [200051] = {3785}, -- DV - Energized Salve
-    [200075] = {3781, 3799, 3800, 3801}, -- O - Frenzied Zeal
-    [200093] = {3781, 3799, 3800, 3801}, -- O - Guardian of Pestilence
-    [200127] = {3785}, -- DV - Effortless Aegis
-    [200135] = {3785}, -- DV - Unrestrained Endurance
-    [200142] = {3785}, -- DV - Effortless Acrobatics
-    [200150] = {3785}, -- DV - Mystical Ward
-    [200164] = {3785}, -- DV - Restorative Protection
-    [200175] = {3782, 3802, 3803, 3804}, -- D - Redirecting Bonds
-    [200180] = {3784}, -- OV - Powerful Domain
-    [200202] = {3782, 3802, 3803, 3804}, -- D - Defensive Maneuver
-    [200204] = {3782, 3802, 3803, 3804}, -- D - Fortified Dexterity
-    [200236] = {3782, 3802, 3803, 3804}, -- D - Restorative Enabling
-    [200291] = {3784}, -- OV - Lethal Sorcery
-    [200306] = {3783, 3805, 3806, 3807}, -- U - Bountiful Resources
-    [200311] = {3783, 3805, 3806, 3807}, -- U - Mighty Bash
-    [200359] = {3784}, -- OV - Brawling Advantage
-    [200370] = {3784}, -- OV - Thaumic Boom
-    [200399] = {3784}, -- OV - Brawling Blitz
-    [200412] = {3783, 3805, 3806, 3807}, -- U - Tomefoolery
-    [200421] = {3784, 3796}, -- A - Ferocious Strikes
-    [200494] = {3784, 3795}, -- A - Crystalline Strikes
-    [200521] = {3783, 3805, 3806, 3807}, -- U - Unwitting Fortress
-    [200679] = {3784, 3797}, -- A - Scorching Strikes
-    [200686] = {3784}, -- OV - Piercing Perfection
-    [200714] = {3784}, -- OV - Painful Proficient
-    [200728] = {3784}, -- OV - Thumping Thaumaturgy
-    [200742] = {3784}, -- OV - Persistant Pain
-    [200790] = {3784}, -- OV - Lasting Harm
-    [200798] = {3784}, -- OV - Targeted Ire
-    [200904] = {3784}, -- OV - Focused Efforts
-    [200941] = {3783, 3805, 3806, 3807}, -- U - Gilded Sleight
-    [201012] = {3784}, -- OV - Well-Trained Command
-    [201098] = {3786}, -- UV - Lessons Learned
-    [201341] = {3786}, -- UV - Full Coffers
-    [201400] = {3786}, -- UV - Archival Intelligence
-    [201407] = {3786}, -- UV - Archival Endurance
-    [201414] = {3786}, -- UV - Stamina Reserves
-    [201428] = {3786}, -- UV - Magicka Reserves
-    [201435] = {3786}, -- UV - Boundless Potential
-    [201443] = {3786}, -- UV - Extended Favor
-    [201472] = {3782, 3802, 3803, 3804}, -- D - Eye Catching
-    [201474] = {3786}, -- UV - Resolute Mind
-    [201491] = {3786}, -- UV - Attuned Enchantments
-    [201504] = {3786}, -- UV - Vicious Poisons
-    [202134] = {3795}, -- A - Ice Avatar
-    [202510] = {3786, 3795}, -- A - Crystalline Support
-    [202743] = {3796, 3786}, -- A - Ferocious Support
-    [202804] = {3786, 3797}, -- A - Scorching Support
-    [203352] = {3781, 3799, 3800, 3801}, -- O - Fire Orb
-    [211730] = {3786} -- UV - Supplemental Thread
+    [191802] = {ids = {3796}, class = AH.CLASSES.AVATAR}, -- Bestial Transformation
+    [191849] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Flame Aura
+    [191936] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Sequential Shield
+    [192667] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Swift Gale
+    [192848] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Pustulent Globs
+    [192992] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Archival Weaponry
+    [193146] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Tempered Ward
+    [193551] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Cold Blast
+    [193597] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Beatdown
+    [193692] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Transfusion
+    [193711] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Siphoning Vigor
+    [193749] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Enhanced Remedy
+    [193758] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Magicka Renewal
+    [193977] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Augmented Areas
+    [193984] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Exsanguinate
+    [194030] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Regenerating Bastion
+    [194058] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Restorative Elixirs
+    [194062] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Stamina Renewal
+    [194138] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Rebirth
+    [194153] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Reactive Curse
+    [194166] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Archival Evasion
+    [194179] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- On Defense
+    [194181] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Magical Expiration
+    [194183] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Energetic Expiration
+    [194192] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Glamorous Scholar
+    [195038] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Shackled Resolve
+    [195928] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Vital Expiration
+    [196018] = {ids = {3797}, class = AH.CLASSES.AVATAR}, -- Iron Atronach
+    [197522] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Curative Vigor
+    [197652] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Hearty Vitality
+    [197684] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Refined Restoration
+    [197694] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Armored Shell
+    [199960] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Sweeping Guard
+    [199990] = {ids = {3785, 3796}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Ferocious Fortification
+    [199997] = {ids = {3785, 3795}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Crystalline Fortification
+    [200004] = {ids = {3785, 3797}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Scorching Fortification
+    [200015] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Archival Worldliness
+    [200016] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Guild Superiority
+    [200017] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Class Embodiment
+    [200018] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Archival Assault
+    [200020] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Magical Multitudes
+    [200022] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Bolstered Mending
+    [200051] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Energized Salve
+    [200075] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Frenzied Zeal
+    [200093] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Guardian of Pestilence
+    [200127] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Effortless Aegis
+    [200135] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Unrestrained Endurance
+    [200142] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Effortless Acrobatics
+    [200150] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Mystical Ward
+    [200164] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Restorative Protection
+    [200175] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Redirecting Bonds
+    [200180] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Powerful Domain
+    [200202] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Defensive Maneuver
+    [200204] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Fortified Dexterity
+    [200236] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Restorative Enabling
+    [200291] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Lethal Sorcery
+    [200306] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Bountiful Resources
+    [200311] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Mighty Bash
+    [200359] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Brawling Advantage
+    [200370] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Thaumic Boom
+    [200399] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Brawling Blitz
+    [200412] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Tomefoolery
+    [200421] = {ids = {3784, 3796}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Ferocious Strikes
+    [200494] = {ids = {3784, 3795}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Crystalline Strikes
+    [200521] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Unwitting Fortress
+    [200679] = {ids = {3784, 3797}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Scorching Strikes
+    [200686] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Piercing Perfection
+    [200714] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Painful Proficient
+    [200728] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Thumping Thaumaturgy
+    [200742] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Persistant Pain
+    [200790] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Lasting Harm
+    [200798] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Targeted Ire
+    [200904] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Focused Efforts
+    [200941] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Gilded Sleight
+    [201012] = {ids = {3784}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Well-Trained Command
+    [201098] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Lessons Learned
+    [201341] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Full Coffers
+    [201400] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Archival Intelligence
+    [201407] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Archival Endurance
+    [201414] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Stamina Reserves
+    [201428] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Magicka Reserves
+    [201435] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Boundless Potential
+    [201443] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Extended Favor
+    [201472] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Eye Catching
+    [201474] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Resolute Mind
+    [201491] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Attuned Enchantments
+    [201504] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Vicious Poisons
+    [202134] = {ids = {3795}, class = AH.CLASSES.AVATAR}, -- Ice Avatar
+    [202510] = {ids = {3786, 3795}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Crystalline Support
+    [202743] = {ids = {3796, 3786}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Ferocious Support
+    [202804] = {ids = {3786, 3797}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Scorching Support
+    [203352] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Fire Orb
+    [211730] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY} -- Supplemental Thread
 }
+
+do
+    for _, info in pairs(AH.ABILITIES) do
+        if (not info.type) then
+            info.type = AH.TYPES.VERSE
+        end
+    end
+end
 
 AH.AVATAR = {
     ICE = {id = 3795, abilityIds = {202134, 202510, 200494, 199997}},
@@ -111,6 +125,7 @@ AH.AVATAR = {
     IRON = {id = 3797, abilityIds = {202804, 200679, 200004, 196018}}
 }
 
+-- collect a number of unspecified verse/vision types
 AH.GENERAL = {
     3799,
     3800,
@@ -122,6 +137,7 @@ AH.GENERAL = {
     3806,
     3807
 }
+
 AH.ACHIEVEMENTS = {
     START = 3751,
     END = 3807,

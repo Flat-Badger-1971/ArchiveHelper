@@ -24,7 +24,8 @@ languages/$(language).lua
 data/defaults.lua
 data/achievements.lua
 
-utility/utility.lua
+misc/utility.lua
+misc/slash.lua
 
 ui/icons.lua
 ui/buffSelector.lua
