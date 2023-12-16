@@ -2,8 +2,8 @@
 ## Description: Marks versions and visions on the buff selector for achievement requirements, avatars and favourites
 ## Author: Flat Badger
 ## APIVersion: 101040
-## AddOnVersion: 1003
-## Version: 1.0.3
+## AddOnVersion: 1004
+## Version: 1.0.4
 ## SavedVariables: ArchiveHelperSavedVars
 ## DependsOn: LibSavedVars>=60007 LibAddonMenu-2.0>=35
 ## OptionalDependsOn: LibChatMessage>=105
