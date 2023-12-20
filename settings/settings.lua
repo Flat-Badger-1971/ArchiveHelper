@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.0.4",
+    version = "1.0.5",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -89,6 +89,16 @@ local function updateFavourites()
     _G.ARCHIVE_HELPER_FAVOURITES_LIST:UpdateValue()
 end
 
+local function getSecondsOptions()
+    local seconds = {}
+
+    for sec = 20, 60, 5 do
+        table.insert(seconds, sec)
+    end
+
+    return seconds
+end
+
 local function buildOptions()
     populateRemovableOptions()
 
@@ -140,10 +150,58 @@ local function buildOptions()
         },
         [5] = {
             type = "header",
-            name = AH.Format(_G.SI_INTERFACE_OPTIONS_INDICATORS),
+            name = AH.Format(_G.SI_ITEMFILTERTYPE5),
             width = "full"
         },
         [6] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_REMINDER),
+            tooltip = AH.Format(_G.ARCHIVE_HELPER_REMINDER_TOOLTIP),
+            getFunc = function()
+                return AH.Vars.ShowNotice
+            end,
+            setFunc = function(value)
+                AH.Vars.ShowNotice = value
+            end,
+            width = "full"
+        },
+        [7] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_SHOW_ECHO),
+            getFunc = function()
+                return AH.Vars.ShowTimer
+            end,
+            setFunc = function(value)
+                AH.Vars.ShowTimer = value
+                AH.TimerCheck()
+            end,
+            width = "full"
+        },
+        [8] = {
+            type = "dropdown",
+            name = string.format(
+                "%s (%s)",
+                AH.Format(_G.SI_ABILITY_TOOLTIP_DURATION_LABEL),
+                AH.Format(_G.ARCHIVEHELPER_SECONDS):lower()
+            ),
+            choices = getSecondsOptions(),
+            getFunc = function()
+                return AH.Vars.EchoingDenTimer
+            end,
+            setFunc = function(value)
+                AH.Vars.EchoingDenTimer = value
+            end,
+            disabled = function()
+                return not AH.Vars.ShowTimer
+            end,
+            width = "full"
+        },
+        [9] = {
+            type = "header",
+            name = AH.Format(_G.SI_INTERFACE_OPTIONS_INDICATORS),
+            width = "full"
+        },
+        [10] = {
             type = "checkbox",
             name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.ACH.name), "ff0000") ..
                 " " .. AH.Format(_G.SI_ZONECOMPLETIONTYPE3),
@@ -155,7 +213,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [7] = {
+        [11] = {
             type = "checkbox",
             name = zo_iconFormat(string.format("/esoui/art/%s.dds", AH.ICONS.WOLF.name), 24, 24) ..
                 " " .. AH.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_AVATAR_VISIONS_HEADER),
@@ -167,7 +225,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [8] = {
+        [12] = {
             type = "checkbox",
             name = "|cffff00(1)|r   " .. AH.Format(_G.ARCHIVEHELPER_STACKS),
             getFunc = function()
@@ -178,7 +236,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [9] = {
+        [13] = {
             type = "checkbox",
             name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.FAV.name), "00ff00") ..
                 "|r " .. AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
@@ -190,12 +248,12 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [10] = {
+        [14] = {
             type = "header",
             name = AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
             width = "full"
         },
-        [11] = {
+        [15] = {
             type = "dropdown",
             name = AH.Format(_G.SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
             choices = favouriteChoices,
@@ -211,7 +269,7 @@ local function buildOptions()
                 updateFavourites()
             end
         },
-        [12] = {
+        [16] = {
             type = "dropdown",
             name = AH.Format(_G.SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
             choices = removeChoices,
@@ -235,12 +293,12 @@ local function buildOptions()
                 return #AH.Vars.Favourites == 0
             end
         },
-        [13] = {
+        [17] = {
             type = "description",
             text = "|cff0000" .. AH.Format(_G.ARCHIVEHELPER_WARNING) .. "|r",
             width = "full"
         },
-        [14] = {
+        [18] = {
             type = "description",
             text = getFavourites(),
             width = "full",

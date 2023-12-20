@@ -2,8 +2,8 @@
 ## Description: Marks versions and visions on the buff selector for achievement requirements, avatars and favourites
 ## Author: Flat Badger
 ## APIVersion: 101040
-## AddOnVersion: 1004
-## Version: 1.0.4
+## AddOnVersion: 1005
+## Version: 1.0.5
 ## SavedVariables: ArchiveHelperSavedVars
 ## DependsOn: LibSavedVars>=60007 LibAddonMenu-2.0>=35
 ## OptionalDependsOn: LibChatMessage>=105
@@ -22,13 +22,15 @@ languages/en.lua
 languages/$(language).lua
 
 data/defaults.lua
-data/achievements.lua
+data/abilities.lua
 
 misc/utility.lua
 misc/slash.lua
+misc/achievements.lua
 
 ui/icons.lua
 ui/buffSelector.lua
+ui/ui.lua
 
 settings/settings.lua
 

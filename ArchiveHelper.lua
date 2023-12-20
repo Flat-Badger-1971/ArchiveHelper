@@ -26,8 +26,28 @@ local function Initialise()
         "OnShowing",
         function()
             AH.OnBuffSelectorShowing()
+            AH.CheckNotice()
         end
     )
+
+    SecurePostHook(
+        ZO_EndlessDungeonBuffSelector_Shared,
+        "OnHiding",
+        function()
+            AH.CloseNotice()
+        end
+    )
+
+    SecurePostHook(
+        CENTER_SCREEN_ANNOUNCE,
+        "DisplayMessage",
+        function(_, messageParams)
+            if (AH.Vars.ShowTimer) then
+                AH.CheckMessage(messageParams)
+            end
+        end
+    )
+
     AH.FindMissingAbilityIds()
 
     _G.SLASH_COMMANDS["/ah"] = function(...)
@@ -36,6 +56,7 @@ local function Initialise()
 
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_UPDATED, AH.FindMissingAbilityIds)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_AWARDED, AH.FindMissingAbilityIds)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_ACTIVATED, AH.CheckZone)
 end
 
 function AH.OnAddonLoaded(_, addonName)

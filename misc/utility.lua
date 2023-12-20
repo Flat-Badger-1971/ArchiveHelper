@@ -24,109 +24,14 @@ function AH.Filter(t, filterFunc)
     return out
 end
 
-function AH.GetAchievementsList()
-    local list = {}
-
-    for _, info in pairs(AH.ABILITIES) do
-        for _, achievementId in ipairs(info.ids) do
-            if (not ZO_IsElementInNumericallyIndexedTable(list, achievementId)) then
-                table.insert(list, achievementId)
-            end
-        end
-    end
-
-    return list
-end
-
-function AH.IsRecorded(abilityId, abilities)
-    for _, abilityInfo in ipairs(abilities) do
-        if (abilityInfo.id == abilityId) then
+function AH.IsRecorded(id, list)
+    for _, listItem in ipairs(list) do
+        if (listItem.id == id) then
             return true
         end
     end
 
     return false
-end
-
-function AH.GetAbilities(achievementIdToFind)
-    local abilities = {}
-
-    for abilityId, info in pairs(AH.ABILITIES) do
-        if (ZO_IsElementInNumericallyIndexedTable(info.ids, achievementIdToFind)) then
-            if (not AH.IsRecorded(abilityId, abilities)) then
-                local name
-                if (AH.EXCEPTIONS[abilityId]) then
-                    name = GetString(AH.EXCEPTIONS[abilityId])
-                else
-                    name = GetAbilityName(abilityId)
-                end
-
-                table.insert(abilities, {id = abilityId, name = AH.Format(name)})
-            end
-        end
-    end
-
-    return abilities
-end
-
-function AH.CheckAbilities(text, abilities)
-    for _, ability in ipairs(abilities) do
-        if (text:find(ability.name)) then
-            return ability.id
-        end
-    end
-
-    return 0
-end
-
-AH.IncompleteAchievements = {}
-
-function AH.FindMissingAbilityIds(event, id)
-    if (event == _G.EVENT_ACHIEVEMENT_UPDATED) then
-        AH.EventNotifier(id)
-
-        if (ZO_IsElementInNumericallyIndexedTable(AH.ACHIEVEMENTS.LIMIT, id)) then
-            return
-        end
-    end
-
-    local achievementIds = AH.GetAchievementsList()
-    local incomplete = {}
-
-    ZO_ClearNumericallyIndexedTable(AH.MissingAbilities)
-
-    for _, achievementId in ipairs(achievementIds) do
-        local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(achievementId)
-
-        if (status ~= _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
-            table.insert(incomplete, achievementId)
-        end
-    end
-
-    if (#incomplete == 0) then
-        AH.IncompleteAchievements = {}
-
-        return
-    end
-
-    for _, achievementId in ipairs(incomplete) do
-        local abilities = AH.GetAbilities(achievementId)
-        local numCriteria = GetAchievementNumCriteria(achievementId)
-
-        for criterionNumber = 1, numCriteria do
-            local description, completed, required = GetAchievementCriterion(achievementId, criterionNumber)
-
-            if (completed ~= required) then
-                local aid = AH.CheckAbilities(description, abilities)
-
-                if (not AH.IsRecorded(aid, AH.MissingAbilities)) then
-                    table.insert(AH.MissingAbilities, {id = aid, achievementId = achievementId})
-                end
-            end
-        end
-    end
-
-    AH.IncompleteAchievements = incomplete
 end
 
 function AH.GetRecord(id, table)
@@ -135,23 +40,6 @@ function AH.GetRecord(id, table)
             return record
         end
     end
-end
-
-function AH.GetAbilityNeededForGeneralAchievement(abilityId)
-    local achievements = AH.ABILITIES[abilityId].ids
-    local neededFor = {}
-
-    for _, achievementId in ipairs(achievements) do
-        if (ZO_IsElementInNumericallyIndexedTable(AH.GENERAL, achievementId)) then
-            local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(achievementId)
-
-            if (status ~= _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
-                table.insert(neededFor, achievementId)
-            end
-        end
-    end
-
-    return neededFor
 end
 
 function AH.ColourIcon(icon, colour, width, height)
@@ -227,5 +115,75 @@ function AH.EventNotifier(id)
                 end
             end
         end
+    end
+end
+
+local function zoneCheck()
+    if (GetCurrentMapId() == AH.MAPS.ECHOING_DEN.id) then
+        AH.IsInEchoingDen = true
+        AH.DenStarted = true
+        AH.ShowTimer()
+    else
+        AH.InEchoingDen = false
+        AH.DenStarted = false
+
+        if (AH.Timer) then
+            if (not AH.Timer:IsHidden()) then
+                AH.HideTimer()
+            end
+        end
+    end
+end
+
+function AH.CheckZone()
+    if (AH.Vars.ShowTimer) then
+        zoneCheck()
+    end
+end
+
+function AH.CheckMessage(messageParams)
+    if (IsInstanceEndlessDungeon() and not AH.DenStarted) then
+        AH.CheckZone()
+    end
+
+    -- Herd the Ghost Lights
+    if (AH.IsInEchoingDen) then
+        local message = AH.Format(messageParams:GetMainText()):lower()
+        local secondaryMessage = AH.Format(messageParams:GetSecondaryText() or ""):lower()
+        local start = AH.Format(_G.ARCHIVEHELPER_HERD):lower()
+        local fail = AH.Format(_G.ARCHIVEHELPER_HERD_FAIL):lower()
+        local success = AH.Format(_G.ARCHIVEHELPER_HERD_SUCCESS):lower()
+
+        if (message:find(start)) then
+            AH.DenDone = false
+            AH.StartTimer()
+        elseif
+            (message:find(fail) or message:find(success) or secondaryMessage:find(fail) or
+                secondaryMessage:find(success))
+         then
+            AH.StopTimer()
+            AH.DenDone = true
+        end
+    end
+end
+
+function AH.CheckNotice()
+    local message = nil
+    local stageCounter, cycleCounter = ENDLESS_DUNGEON_MANAGER:GetProgression()
+
+    if (stageCounter == 2 and cycleCounter ~= 5) then
+        message = AH.Format(_G.ARCHIVEHELPER_CYCLE_BOSS)
+    elseif (cycleCounter == 5 and stageCounter == 2) then
+        message = AH.Format(_G.ARCHIVEHELPER_ARC_BOSS)
+    end
+
+    if (message) then
+        AH.ShowNotice(message)
+    end
+end
+
+function AH.CloseNotice()
+    if (AH.Notice) then
+        AH.Notice:SetHidden(true)
     end
 end

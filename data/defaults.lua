@@ -1,13 +1,16 @@
 _G.ArchiveHelper = {
     Defaults = {
-        MarkAchievements = true,
-        MarkFavourites = true,
-        MarkAvatar = true,
-        ShowStacks = true,
+        EchoingDenTimer = 60,
         Favourites = {},
+        MarkAchievements = true,
+        MarkAvatar = true,
+        MarkFavourites = true,
         Notify = true,
+        NotifyChat = true,
         NotifyScreen = true,
-        NotifyChat = true
+        ShowNotice = true,
+        ShowStacks = true,
+        ShowTimer = true
     },
     Name = "ArchiveHelper",
     LF = string.char(10),
@@ -17,5 +20,14 @@ _G.ArchiveHelper = {
         IRON = {name = "icons/achievement_u40_ed2_iron_atronach", colour = {1, 1, 1, 1}},
         WOLF = {name = "icons/achievement_u40_ed2_werewolf_behemoth", colour = {1, 1, 1, 1}},
         ICE = {name = "icons/achievement_u40_ed2_ice_avatar", colour = {1, 1, 1, 1}}
-    }
+    },
+    MAPS = {
+        HAEFELS_BUTCHERY = {id = 2121, name = "Haefel's Butchery"},
+        FILERS_WING = {id = 2422, name = "Filer's Wing"},
+        ECHOING_DEN = {id = 2423, name = "Echoing Den"},
+        THEATRE_OF_WAR = {id = 2424, name = "Theatre of War"},
+        --THE_LIBRARY={id=0,name=""},
+        --THE_PATH={id=0,name=""}
+    },
+    InEchoingDen = false
 }
