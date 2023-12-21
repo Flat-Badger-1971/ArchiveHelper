@@ -22,11 +22,11 @@ _G.ArchiveHelper = {
         ICE = {name = "icons/achievement_u40_ed2_ice_avatar", colour = {1, 1, 1, 1}}
     },
     MAPS = {
-        HAEFELS_BUTCHERY = {id = 2121, name = "Haefel's Butchery"},
+        HAEFELS_BUTCHERY = {id = 2421, name = "Haefel's Butchery"},
         FILERS_WING = {id = 2422, name = "Filer's Wing"},
         ECHOING_DEN = {id = 2423, name = "Echoing Den"},
         THEATRE_OF_WAR = {id = 2424, name = "Theatre of War"},
-        --THE_LIBRARY={id=0,name=""},
+        DESTOZUNOS_LIBRARY={id=2425,name="Destozuno's Library"},
         --THE_PATH={id=0,name=""}
     },
     InEchoingDen = false

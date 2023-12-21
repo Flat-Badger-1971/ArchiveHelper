@@ -170,10 +170,15 @@ end
 function AH.CheckNotice()
     local message = nil
     local stageCounter, cycleCounter = ENDLESS_DUNGEON_MANAGER:GetProgression()
+    local stageTarget, cycleTarget = 2, 5
 
-    if (stageCounter == 2 and cycleCounter ~= 5) then
+    if (AH.IsInUnknwon()) then
+        stageTarget = 3
+    end
+
+    if (stageCounter == stageTarget and cycleCounter ~= cycleTarget) then
         message = AH.Format(_G.ARCHIVEHELPER_CYCLE_BOSS)
-    elseif (cycleCounter == 5 and stageCounter == 2) then
+    elseif (cycleCounter == cycleTarget and stageCounter == stageTarget) then
         message = AH.Format(_G.ARCHIVEHELPER_ARC_BOSS)
     end
 
@@ -186,4 +191,16 @@ function AH.CloseNotice()
     if (AH.Notice) then
         AH.Notice:SetHidden(true)
     end
+end
+
+function AH.IsInUnknwon()
+    local id = GetCurrentMapId()
+
+    for _, mid in pairs(AH.MAPS) do
+        if (mid.id == id) then
+            return true
+        end
+    end
+
+    return false
 end
