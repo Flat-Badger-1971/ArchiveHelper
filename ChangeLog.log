@@ -1,8 +1,9 @@
 [color=#ff9900][b]Version: 1.0.5 ---------------[/b][/color]
 Code refactor
 German translation correction (thanks Baertram)
-Timer adding for Echoing Den (Ghost lights)
+Timer added for Echoing Den (Ghost lights)
 Boss warning added when selecting verses
+Include avatar visions in stack counts
 
 [color=#ff9900][b]Version: 1.0.4 ---------------[/b][/color]
 Achievement alogirithm fix

@@ -141,7 +141,7 @@ function AH.CheckZone()
     end
 end
 
-function AH.CheckMessage(messageParams)
+local function checkMessage(messageParams)
     if (IsInstanceEndlessDungeon() and not AH.DenStarted) then
         AH.CheckZone()
     end
@@ -167,12 +167,24 @@ function AH.CheckMessage(messageParams)
     end
 end
 
-function AH.CheckNotice()
+local function isInUnknown()
+    local id = GetCurrentMapId()
+
+    for _, mid in pairs(AH.MAPS) do
+        if (mid.id == id) then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function checkNotice()
     local message = nil
     local stageCounter, cycleCounter = ENDLESS_DUNGEON_MANAGER:GetProgression()
     local stageTarget, cycleTarget = 2, 5
 
-    if (AH.IsInUnknwon()) then
+    if (isInUnknown()) then
         stageTarget = 3
     end
 
@@ -187,20 +199,55 @@ function AH.CheckNotice()
     end
 end
 
-function AH.CloseNotice()
+local function closeNotice()
     if (AH.Notice) then
         AH.Notice:SetHidden(true)
     end
 end
 
-function AH.IsInUnknwon()
-    local id = GetCurrentMapId()
-
-    for _, mid in pairs(AH.MAPS) do
-        if (mid.id == id) then
-            return true
+function AH.IsAvatar(abilityId)
+    for avatar, info in pairs(AH.AVATAR) do
+        if (ZO_IsElementInNumericallyIndexedTable(info.abilityIds, abilityId)) then
+            return avatar
         end
     end
+end
 
-    return false
+local function checkCommitted()
+    if (AH.SelectedBuff) then
+        local avatar = AH.IsAvatar(AH.SelectedBuff)
+
+        if (avatar) then
+            AH.Vars.AvatarVisionCount[avatar] = AH.Vars.AvatarVisionCount[avatar] + 1
+
+            if (AH.Vars.AvatarVisionCount[avatar] == 4) then
+                AH.Vars.AvatarVisionCount[avatar] = 0
+            end
+        end
+
+        AH.SelectedBuff = nil
+    end
+end
+
+local function onShowing()
+    AH.OnBuffSelectorShowing()
+    checkNotice()
+end
+
+local function onSelecting(_, buffControl)
+    AH.SelectedBuff = GetEndlessDungeonBuffSelectorBucketTypeChoice(buffControl.bucketType)
+end
+
+local function onMessage(_, messageParams)
+    if (AH.Vars.ShowTimer) then
+        checkMessage(messageParams)
+    end
+end
+
+function AH.SetupHooks()
+    SecurePostHook(_G[AH.SELECTOR], "OnHiding", closeNotice)
+    SecurePostHook(_G[AH.SELECTOR], "CommitChoice", checkCommitted)
+    SecurePostHook(_G[AH.SELECTOR], "OnShowing", onShowing)
+    SecurePostHook(_G[AH.SELECTOR], "SelectBuff", onSelecting)
+    SecurePostHook(CENTER_SCREEN_ANNOUNCE, "DisplayMessage", onMessage)
 end

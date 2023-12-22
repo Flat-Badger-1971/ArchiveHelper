@@ -120,9 +120,9 @@ do
 end
 
 AH.AVATAR = {
-    ICE = {id = 3795, abilityIds = {202134, 202510, 200494, 199997}},
-    WOLF = {id = 3796, abilityIds = {202743, 200421, 199990, 191802}},
-    IRON = {id = 3797, abilityIds = {202804, 200679, 200004, 196018}}
+    ICE = {id = 3795, abilityIds = {202134, 202510, 200494, 199997}, class = AH.CLASSES.DEFENCE},
+    WOLF = {id = 3796, abilityIds = {202743, 200421, 199990, 191802}, class = AH.CLASSES.OFFENCE},
+    IRON = {id = 3797, abilityIds = {202804, 200679, 200004, 196018}, class = AH.CLASSES.UTILITY}
 }
 
 -- collect a number of unspecified verse/vision types

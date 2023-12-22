@@ -1,5 +1,6 @@
 _G.ArchiveHelper = {
     Defaults = {
+        AvatarVisionCount = {IRON = 0, WOLF = 0, ICE = 0},
         EchoingDenTimer = 60,
         Favourites = {},
         MarkAchievements = true,
@@ -22,12 +23,12 @@ _G.ArchiveHelper = {
         ICE = {name = "icons/achievement_u40_ed2_ice_avatar", colour = {1, 1, 1, 1}}
     },
     MAPS = {
+        TREACHEROUS_CROSSING = {id = 2420, name = "Treacherous Crossing"},
         HAEFELS_BUTCHERY = {id = 2421, name = "Haefel's Butchery"},
         FILERS_WING = {id = 2422, name = "Filer's Wing"},
         ECHOING_DEN = {id = 2423, name = "Echoing Den"},
         THEATRE_OF_WAR = {id = 2424, name = "Theatre of War"},
-        DESTOZUNOS_LIBRARY={id=2425,name="Destozuno's Library"},
-        --THE_PATH={id=0,name=""}
+        DESTOZUNOS_LIBRARY = {id = 2425, name = "Destozuno's Library"}
     },
     InEchoingDen = false
 }

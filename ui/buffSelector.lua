@@ -111,16 +111,11 @@ function AH.OnBuffSelectorShowing()
             local position = positionOffsets[getNextPosition(buffInfo.index)]
             local buff = _G[string.format("%sBuff%d", container, buffInfo.index)]
             local icon, achievementId
+            local avatar = AH.IsAvatar(buffInfo.abilityId)
 
-            if (ZO_IsElementInNumericallyIndexedTable(AH.AVATAR.ICE.abilityIds, buffInfo.abilityId)) then
-                icon = AH.CreateIcon("ICE", buff, position.x, position.y)
-                achievementId = AH.AVATAR.ICE.id
-            elseif (ZO_IsElementInNumericallyIndexedTable(AH.AVATAR.WOLF.abilityIds, buffInfo.abilityId)) then
-                icon = AH.CreateIcon("WOLF", buff, position.x, position.y)
-                achievementId = AH.AVATAR.WOLF.id
-            elseif (ZO_IsElementInNumericallyIndexedTable(AH.AVATAR.IRON.abilityIds, buffInfo.abilityId)) then
-                icon = AH.CreateIcon("IRON", buff, position.x, position.y)
-                achievementId = AH.AVATAR.IRON.id
+            if (avatar) then
+                icon = AH.CreateIcon(avatar, buff, position.x, position.y)
+                achievementId = AH.AVATAR[avatar].id
             end
 
             if (icon) then
@@ -142,8 +137,13 @@ function AH.OnBuffSelectorShowing()
 
             for _, buffInfo in pairs(buffChoices) do
                 local count = counts[buffInfo.abilityId] or 0
+                local avatar = AH.IsAvatar(buffInfo.abilityId)
 
-                if (count > 0 and (not buffInfo.isAvatarVision)) then
+                if (avatar) then
+                    count = AH.Vars.AvatarVisionCount[avatar] or 0
+                end
+
+                if (count > 0) then
                     local buff = _G[string.format("%sBuff%dName", container, buffInfo.index)]
                     local countText = buff:GetText() .. " |cffff00" .. "(" .. count .. ")|r"
 
@@ -153,3 +153,4 @@ function AH.OnBuffSelectorShowing()
         end
     end
 end
+
