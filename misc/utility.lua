@@ -291,12 +291,12 @@ local function onNewBoss(_, unitTag)
     if (isMarauder(bossName)) then
         AH.ScreenAnnounce(
             AH.Format(_G.ARCHIVEHELPER_MARAUDER),
-            "|cff0000" .. zo_strformat(_G.ARCHIVEHELPER_MARAUDER_INCOMING, bossName) .. "|r",
+            "|cff0000" .. zo_strformat(GetString(_G.ARCHIVEHELPER_MARAUDER_INCOMING), bossName) .. "|r",
             nil,
             nil,
             "none"
         )
-        AH.PlayAlarm()
+        AH.PlayAlarm(5)
     end
 end
 
@@ -326,4 +326,28 @@ function AH.PlayAlarm(times)
             end
         end
     )
+end
+
+local fabled = GetString(_G.ARCHIVEHELPER_FABLED)
+local messageStub = GetString(_G.ARCHIVEHELPER_MARAUDER_INCOMING)
+local lastSourceId = 0
+
+function AH.CheckForFabled(...)
+    if (AH.Vars.FabledPlay) then
+        local sourceName = select(7, ...)
+        local sourceId = select(15, ...)
+
+        if (sourceName == "" or sourceId == lastSourceId) then
+            return
+        end
+
+        if (sourceName:lower():find(fabled)) then
+            lastSourceId = sourceId
+
+            local message = "|cffff00" .. zo_strformat(messageStub, sourceName) .. "|r"
+
+            AH.ScreenAnnounce(AH.Format(_G.ARCHIVEHELPER_WARNING_MESSAGE), message, nil, nil, "none")
+            AH.PlayAlarm(3)
+        end
+    end
 end

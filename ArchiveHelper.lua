@@ -43,6 +43,14 @@ local function Initialise()
             end
         end
     )
+
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_COMBAT_EVENT, AH.CheckForFabled)
+    EVENT_MANAGER:AddFilterForEvent(
+        AH.Name,
+        _G.EVENT_COMBAT_EVENT,
+        _G.REGISTER_FILTER_SOURCE_COMBAT_UNIT_TYPE,
+        _G.COMBAT_UNIT_TYPE_NONE
+    )
 end
 
 function AH.OnAddonLoaded(_, addonName)
