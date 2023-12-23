@@ -9,6 +9,9 @@ L(AH .. "CYCLE_BOSS", "Cycle boss next")
 L(AH .. "HERD", "Herd the Ghost Lights")
 L(AH .. "HERD_FAIL", "Enough") -- You Did Not Herd Enough Ghostlights
 L(AH .. "HERD_SUCCESS", "Returned") -- You Successfully Returned the Ghostlights
+L(AH .. "MARAUDER", "Marauder!")
+L(AH .. "MARAUDER_INCOMING", "<<1>> is incoming!")
+L(AH .. "MARAUDER_INCOMING_PLAY", "Play warning for incoming Marauders")
 L(AH .. "PROGRESS", "<<1>><<2>><<3>> criteria advanced. <<4>> remaining.")
 L(AH .. "PROGRESS_ACHIEVEMENT", "Achievement progress")
 L(AH .. "PROGRESS_CHAT", "Show in chat")

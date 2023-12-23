@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.0.5",
+    version = "1.0.6",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -197,114 +197,136 @@ local function buildOptions()
             width = "full"
         },
         [9] = {
-            type = "header",
-            name = AH.Format(_G.SI_INTERFACE_OPTIONS_INDICATORS),
-            width = "full"
-        },
-        [10] = {
             type = "checkbox",
-            name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.ACH.name), "ff0000") ..
-                " " .. AH.Format(_G.SI_ZONECOMPLETIONTYPE3),
+            name = AH.Format(_G.ARCHIVEHELPER_MARAUDER_INCOMING_PLAY),
             getFunc = function()
-                return AH.Vars.MarkAchievements
+                return AH.Vars.MarauderPlay or false
             end,
             setFunc = function(value)
-                AH.Vars.MarkAchievements = value
+                AH.Vars.MarauderPlay = value
             end,
             width = "full"
-        },
-        [11] = {
-            type = "checkbox",
-            name = zo_iconFormat(string.format("/esoui/art/%s.dds", AH.ICONS.WOLF.name), 24, 24) ..
-                " " .. AH.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_AVATAR_VISIONS_HEADER),
-            getFunc = function()
-                return AH.Vars.MarkAvatar
-            end,
-            setFunc = function(value)
-                AH.Vars.MarkAvatar = value
-            end,
-            width = "full"
-        },
-        [12] = {
-            type = "checkbox",
-            name = "|cffff00(1)|r   " .. AH.Format(_G.ARCHIVEHELPER_STACKS),
-            getFunc = function()
-                return AH.Vars.ShowStacks
-            end,
-            setFunc = function(value)
-                AH.Vars.ShowStacks = value
-            end,
-            width = "full"
-        },
-        [13] = {
-            type = "checkbox",
-            name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.FAV.name), "00ff00") ..
-                "|r " .. AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
-            getFunc = function()
-                return AH.Vars.MarkFavourites
-            end,
-            setFunc = function(value)
-                AH.Vars.MarkFavourites = value
-            end,
-            width = "full"
-        },
-        [14] = {
-            type = "header",
-            name = AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
-            width = "full"
-        },
-        [15] = {
-            type = "dropdown",
-            name = AH.Format(_G.SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
-            choices = favouriteChoices,
-            choicesValues = favouriteChoiceValues,
-            getFunc = function()
-            end,
-            setFunc = function(value)
-                if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Favourites, value)) then
-                    return
-                end
-
-                table.insert(AH.Vars.Favourites, value)
-                updateFavourites()
-            end
-        },
-        [16] = {
-            type = "dropdown",
-            name = AH.Format(_G.SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
-            choices = removeChoices,
-            choicesValues = removeChoiceValues,
-            getFunc = function()
-            end,
-            setFunc = function(value)
-                if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Favourites, value)) then
-                    AH.Vars.Favourites =
-                        AH.Filter(
-                        AH.Vars.Favourites,
-                        function(v)
-                            return v ~= value
-                        end
-                    )
-
-                    updateFavourites()
-                end
-            end,
-            disabled = function()
-                return #AH.Vars.Favourites == 0
-            end
-        },
-        [17] = {
-            type = "description",
-            text = "|cff0000" .. AH.Format(_G.ARCHIVEHELPER_WARNING) .. "|r",
-            width = "full"
-        },
-        [18] = {
-            type = "description",
-            text = getFavourites(),
-            width = "full",
-            reference = "ARCHIVE_HELPER_FAVOURITES_LIST"
         }
     }
+
+    options[#options + 1] = {
+        type = "header",
+        name = AH.Format(_G.SI_INTERFACE_OPTIONS_INDICATORS),
+        width = "full"
+    }
+
+    options[#options + 1] = {
+        type = "checkbox",
+        name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.ACH.name), "ff0000") ..
+            " " .. AH.Format(_G.SI_ZONECOMPLETIONTYPE3),
+        getFunc = function()
+            return AH.Vars.MarkAchievements
+        end,
+        setFunc = function(value)
+            AH.Vars.MarkAchievements = value
+        end,
+        width = "full"
+    }
+
+    options[#options + 1] = {
+        type = "checkbox",
+        name = zo_iconFormat(string.format("/esoui/art/%s.dds", AH.ICONS.WOLF.name), 24, 24) ..
+            " " .. AH.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_AVATAR_VISIONS_HEADER),
+        getFunc = function()
+            return AH.Vars.MarkAvatar
+        end,
+        setFunc = function(value)
+            AH.Vars.MarkAvatar = value
+        end,
+        width = "full"
+    }
+
+    options[#options + 1] = {
+        type = "checkbox",
+        name = "|cffff00(1)|r   " .. AH.Format(_G.ARCHIVEHELPER_STACKS),
+        getFunc = function()
+            return AH.Vars.ShowStacks
+        end,
+        setFunc = function(value)
+            AH.Vars.ShowStacks = value
+        end,
+        width = "full"
+    }
+
+    options[#options + 1] = {
+        type = "checkbox",
+        name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.FAV.name), "00ff00") ..
+            "|r " .. AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
+        getFunc = function()
+            return AH.Vars.MarkFavourites
+        end,
+        setFunc = function(value)
+            AH.Vars.MarkFavourites = value
+        end,
+        width = "full"
+    }
+
+    options[#options + 1] = {
+        type = "header",
+        name = AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
+        width = "full"
+    }
+
+    options[#options + 1] = {
+        type = "dropdown",
+        name = AH.Format(_G.SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
+        choices = favouriteChoices,
+        choicesValues = favouriteChoiceValues,
+        getFunc = function()
+        end,
+        setFunc = function(value)
+            if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Favourites, value)) then
+                return
+            end
+
+            table.insert(AH.Vars.Favourites, value)
+            updateFavourites()
+        end
+    }
+
+    options[#options + 1] = {
+        type = "dropdown",
+        name = AH.Format(_G.SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
+        choices = removeChoices,
+        choicesValues = removeChoiceValues,
+        getFunc = function()
+        end,
+        setFunc = function(value)
+            if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Favourites, value)) then
+                AH.Vars.Favourites =
+                    AH.Filter(
+                    AH.Vars.Favourites,
+                    function(v)
+                        return v ~= value
+                    end
+                )
+
+                updateFavourites()
+            end
+        end,
+        disabled = function()
+            return #AH.Vars.Favourites == 0
+        end
+    }
+
+    options[#options + 1] = {
+        type = "description",
+        text = "|cff0000" .. AH.Format(_G.ARCHIVEHELPER_WARNING) .. "|r",
+        width = "full"
+    }
+
+    options[#options + 1] = {
+        type = "description",
+        text = getFavourites(),
+        width = "full",
+        reference = "ARCHIVE_HELPER_FAVOURITES_LIST"
+    }
+
     return options
 end
 

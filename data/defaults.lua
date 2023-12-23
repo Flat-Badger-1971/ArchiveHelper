@@ -3,6 +3,7 @@ _G.ArchiveHelper = {
         AvatarVisionCount = {IRON = 0, WOLF = 0, ICE = 0},
         EchoingDenTimer = 60,
         Favourites = {},
+        MarauderPlay = true,
         MarkAchievements = true,
         MarkAvatar = true,
         MarkFavourites = true,
@@ -30,5 +31,6 @@ _G.ArchiveHelper = {
         THEATRE_OF_WAR = {id = 2424, name = "Theatre of War"},
         DESTOZUNOS_LIBRARY = {id = 2425, name = "Destozuno's Library"}
     },
-    InEchoingDen = false
+    InEchoingDen = false,
+    Marauders = {"gothmau", "hilkarax", "ulmor"}
 }

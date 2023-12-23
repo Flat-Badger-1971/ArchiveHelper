@@ -135,7 +135,11 @@ local function zoneCheck()
     end
 end
 
+local bosses = {}
+
 function AH.CheckZone()
+    ZO_ClearNumericallyIndexedTable(bosses)
+
     if (AH.Vars.ShowTimer) then
         zoneCheck()
     end
@@ -244,10 +248,59 @@ local function onMessage(_, messageParams)
     end
 end
 
+local function isMarauder(name)
+    local bossName = name:lower()
+
+    for _, marauder in ipairs(AH.Marauders) do
+        if (bossName:find(marauder)) then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function bossHandled(unitTag, name)
+    if (bosses[unitTag] == name) then
+        return true
+    end
+
+    bosses[unitTag] = name
+
+    return false
+end
+
+local function onNewBoss(_, unitTag)
+    if (not AH.Vars.MarauderPlay) then
+        return
+    end
+
+    if (not IsInstanceEndlessDungeon() or ((unitTag or "") == "")) then
+        return
+    end
+
+    local bossName = GetUnitName(unitTag)
+    if (bossHandled(unitTag, bossName)) then
+        return
+    end
+
+    if (isMarauder(bossName)) then
+        AH.ScreenAnnounce(
+            AH.Format(_G.ARCHIVEHELPER_MARAUDER),
+            "|cff0000" .. 
+            zo_strformat(_G.ARCHIVEHELPER_MARAUDER_INCOMING, bossName) .. "|r",
+            nil,
+            nil,
+            _G.SOUNDS.DUEL_START
+        )
+    end
+end
+
 function AH.SetupHooks()
     SecurePostHook(_G[AH.SELECTOR], "OnHiding", closeNotice)
     SecurePostHook(_G[AH.SELECTOR], "CommitChoice", checkCommitted)
     SecurePostHook(_G[AH.SELECTOR], "OnShowing", onShowing)
     SecurePostHook(_G[AH.SELECTOR], "SelectBuff", onSelecting)
     SecurePostHook(CENTER_SCREEN_ANNOUNCE, "DisplayMessage", onMessage)
+    SecurePostHook(_G.BOSS_BAR, "AddBoss", onNewBoss)
 end
