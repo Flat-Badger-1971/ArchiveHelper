@@ -136,21 +136,24 @@ function AH.OnBuffSelectorShowing()
             local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(buffChoices[1].buffType)
 
             for _, buffInfo in pairs(buffChoices) do
+                local buff = _G[string.format("%sBuff%dName", container, buffInfo.index)]
                 local count = counts[buffInfo.abilityId] or 0
                 local avatar = AH.IsAvatar(buffInfo.abilityId)
+                local countText
 
                 if (avatar) then
                     count = AH.Vars.AvatarVisionCount[avatar] or 0
+                    countText = zo_strformat(_G.ARCHIVHELPER_COUNT, count, 3)
                 end
 
                 if (count > 0) then
-                    local buff = _G[string.format("%sBuff%dName", container, buffInfo.index)]
-                    local countText = buff:GetText() .. " |cffff00" .. "(" .. count .. ")|r"
+                    if (not countText) then
+                        countText = count
+                    end
 
-                    buff:SetText(countText)
+                    buff:SetText(buff:GetText() .. " |cffff00" .. "(" .. countText .. ")|r")
                 end
             end
         end
     end
 end
-

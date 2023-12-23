@@ -53,7 +53,10 @@ end
 function AH.ScreenAnnounce(header, message, icon, lifespan, sound)
     local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_LARGE_TEXT)
 
-    messageParams:SetSound(sound or "Justice_NowKOS")
+    if (sound ~= "none") then
+        messageParams:SetSound(sound or "Justice_NowKOS")
+    end
+
     messageParams:SetText(header or "Test Header", message or "Test Message")
     messageParams:SetLifespanMS(lifespan or 6000)
     messageParams:SetCSAType(_G.CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
@@ -280,6 +283,7 @@ local function onNewBoss(_, unitTag)
     end
 
     local bossName = GetUnitName(unitTag)
+
     if (bossHandled(unitTag, bossName)) then
         return
     end
@@ -287,12 +291,12 @@ local function onNewBoss(_, unitTag)
     if (isMarauder(bossName)) then
         AH.ScreenAnnounce(
             AH.Format(_G.ARCHIVEHELPER_MARAUDER),
-            "|cff0000" .. 
-            zo_strformat(_G.ARCHIVEHELPER_MARAUDER_INCOMING, bossName) .. "|r",
+            "|cff0000" .. zo_strformat(_G.ARCHIVEHELPER_MARAUDER_INCOMING, bossName) .. "|r",
             nil,
             nil,
-            _G.SOUNDS.DUEL_START
+            "none"
         )
+        AH.PlayAlarm()
     end
 end
 
@@ -303,4 +307,23 @@ function AH.SetupHooks()
     SecurePostHook(_G[AH.SELECTOR], "SelectBuff", onSelecting)
     SecurePostHook(CENTER_SCREEN_ANNOUNCE, "DisplayMessage", onMessage)
     SecurePostHook(_G.BOSS_BAR, "AddBoss", onNewBoss)
+end
+
+function AH.PlayAlarm(times)
+    local count = 0
+
+    times = times or 4
+
+    EVENT_MANAGER:RegisterForUpdate(
+        AH.Name .. "_alarm",
+        250,
+        function()
+            PlaySound(_G.SOUNDS.DUEL_START) --QUEST_ABANDONED)
+            count = count + 1
+
+            if (count == times) then
+                EVENT_MANAGER:UnregisterForUpdate(AH.Name .. "_alarm")
+            end
+        end
+    )
 end
