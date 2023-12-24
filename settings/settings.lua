@@ -206,17 +206,6 @@ local function buildOptions()
                 AH.Vars.MarauderPlay = value
             end,
             width = "full"
-        },
-        [10] = {
-            type = "checkbox",
-            name = AH.Format(_G.ARCHIVEHELPER_FABLED_INCOMING_PLAY),
-            getFunc = function()
-                return AH.Vars.FabledPlay or false
-            end,
-            setFunc = function(value)
-                AH.Vars.FabledPlay = value
-            end,
-            width = "full"
         }
     }
 

@@ -2,7 +2,6 @@ _G.ArchiveHelper = {
     Defaults = {
         AvatarVisionCount = {IRON = 0, WOLF = 0, ICE = 0},
         EchoingDenTimer = 60,
-        FabledPlay = true,
         Favourites = {},
         MarauderPlay = true,
         MarkAchievements = true,

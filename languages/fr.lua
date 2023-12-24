@@ -7,8 +7,6 @@ L(AH .. "ALL_VERSES", "All verses acquired")
 L(AH .. "ARC_BOSS", "Arc boss next")
 L(AH .. "COUNT", "<<1>> of <<2>>")
 L(AH .. "CYCLE_BOSS", "Cycle boss next")
-L(AH .. "FABLED", "fabule")
-L(AH .. "FABLED_INCOMING_PLAY", "Play warning for incoming Fabled")
 L(AH .. "HERD", "Herd the Ghost Lights")
 L(AH .. "HERD_FAIL", "Enough") -- You Did Not Herd Enough Ghostlights
 L(AH .. "HERD_SUCCESS", "Successfully") -- You Successfully Returned the Ghostlights

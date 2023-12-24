@@ -3,7 +3,6 @@ local AH = _G.ArchiveHelper
 AH.MissingAbilities = {}
 
 local sounds = {
-    Fabled = {sound = _G.SOUNDS.BATTLEGROUND_ONE_MINUTE_WARNING, cycle = 1},
     Marauder = {sound = _G.SOUNDS.DUEL_START, cycle = 5}
 }
 
@@ -331,26 +330,4 @@ function AH.PlayAlarm(sound)
             end
         end
     )
-end
-
-local fabled = GetString(_G.ARCHIVEHELPER_FABLED)
-
-function AH.CheckForFabled(...)
-    if (AH.Vars.FabledPlay) then
-        local sourceName = select(7, ...)
-        local sourceId = select(15, ...)
-
-        if (sourceName == "") then
-            return
-        end
-
-        if (ZO_IsElementInNumericallyIndexedTable(sourceIds, sourceId)) then
-            return
-        end
-
-        if (sourceName:lower():find(fabled)) then
-            table.insert(sourceIds, sourceId)
-            AH.PlayAlarm(sounds.Fabled)
-        end
-    end
 end
