@@ -2,6 +2,11 @@ local AH = _G.ArchiveHelper
 
 AH.MissingAbilities = {}
 
+local sounds = {
+    Fabled = {sound = _G.SOUNDS.BATTLEGROUND_ONE_MINUTE_WARNING, cycle = 1},
+    Marauder = {sound = _G.SOUNDS.DUEL_START, cycle = 5}
+}
+
 function AH.Format(value, ...)
     local text = value
 
@@ -139,9 +144,11 @@ local function zoneCheck()
 end
 
 local bosses = {}
+local sourceIds = {}
 
 function AH.CheckZone()
     ZO_ClearNumericallyIndexedTable(bosses)
+    ZO_ClearNumericallyIndexedTable(sourceIds)
 
     if (AH.Vars.ShowTimer) then
         zoneCheck()
@@ -296,7 +303,7 @@ local function onNewBoss(_, unitTag)
             nil,
             "none"
         )
-        AH.PlayAlarm(5)
+        AH.PlayAlarm(sounds.Marauder)
     end
 end
 
@@ -309,19 +316,17 @@ function AH.SetupHooks()
     SecurePostHook(_G.BOSS_BAR, "AddBoss", onNewBoss)
 end
 
-function AH.PlayAlarm(times)
+function AH.PlayAlarm(sound)
     local count = 0
-
-    times = times or 4
 
     EVENT_MANAGER:RegisterForUpdate(
         AH.Name .. "_alarm",
         250,
         function()
-            PlaySound(_G.SOUNDS.DUEL_START) --QUEST_ABANDONED)
+            PlaySound(sound.sound)
             count = count + 1
 
-            if (count == times) then
+            if (count == sound.cycle) then
                 EVENT_MANAGER:UnregisterForUpdate(AH.Name .. "_alarm")
             end
         end
@@ -329,25 +334,23 @@ function AH.PlayAlarm(times)
 end
 
 local fabled = GetString(_G.ARCHIVEHELPER_FABLED)
-local messageStub = GetString(_G.ARCHIVEHELPER_MARAUDER_INCOMING)
-local lastSourceId = 0
 
 function AH.CheckForFabled(...)
     if (AH.Vars.FabledPlay) then
         local sourceName = select(7, ...)
         local sourceId = select(15, ...)
 
-        if (sourceName == "" or sourceId == lastSourceId) then
+        if (sourceName == "") then
+            return
+        end
+
+        if (ZO_IsElementInNumericallyIndexedTable(sourceIds, sourceId)) then
             return
         end
 
         if (sourceName:lower():find(fabled)) then
-            lastSourceId = sourceId
-
-            local message = "|cffff00" .. zo_strformat(messageStub, sourceName) .. "|r"
-
-            AH.ScreenAnnounce(AH.Format(_G.ARCHIVEHELPER_WARNING_MESSAGE), message, nil, nil, "none")
-            AH.PlayAlarm(3)
+            table.insert(sourceIds, sourceId)
+            AH.PlayAlarm(sounds.Fabled)
         end
     end
 end
