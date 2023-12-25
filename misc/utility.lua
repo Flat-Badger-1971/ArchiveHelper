@@ -252,9 +252,15 @@ local function onSelecting(_, buffControl)
 end
 
 local function onMessage(_, messageParams)
+    if (not messageParams) then
+        return
+    end
+
     if (AH.Vars.ShowTimer) then
         checkMessage(messageParams)
     end
+
+    return false
 end
 
 local function isMarauder(name)
@@ -311,7 +317,7 @@ function AH.SetupHooks()
     SecurePostHook(_G[AH.SELECTOR], "CommitChoice", checkCommitted)
     SecurePostHook(_G[AH.SELECTOR], "OnShowing", onShowing)
     SecurePostHook(_G[AH.SELECTOR], "SelectBuff", onSelecting)
-    SecurePostHook(CENTER_SCREEN_ANNOUNCE, "DisplayMessage", onMessage)
+    ZO_PreHook(CENTER_SCREEN_ANNOUNCE, "AddMessageWithParams", onMessage)
     SecurePostHook(_G.BOSS_BAR, "AddBoss", onNewBoss)
 end
 
