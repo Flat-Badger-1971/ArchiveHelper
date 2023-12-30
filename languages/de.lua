@@ -7,6 +7,13 @@ L(AH .. "ALL_VERSES", "All verses acquired")
 L(AH .. "ARC_BOSS", "Arc boss next")
 L(AH .. "COUNT", "<<1>> of <<2>>")
 L(AH .. "CYCLE_BOSS", "Cycle boss next")
+L(AH .. "FABLED", "umwobene")
+L(AH .. "FABLED_MARKER", "Add Target Markers to Fabled")
+L(
+    AH .. "FABLED_TOOLTIP",
+    "This feature will not work with Lykeions Fabled Marker addon to avoid both addons trying to mark the same things."
+)
+L(AH .. "GATHER", "Gather")
 L(AH .. "HERD", "Herd the Ghost Lights")
 L(AH .. "HERD_FAIL", "Enough") -- You Did Not Herd Enough Ghostlights
 L(AH .. "HERD_SUCCESS", "Successfully") -- You Successfully Returned the Ghostlights
@@ -17,7 +24,9 @@ L(AH .. "PROGRESS", "<<1>><<2>><<3>> criteria advanced. <<4>> remaining.")
 L(AH .. "PROGRESS_ACHIEVEMENT", "Achievement progress")
 L(AH .. "PROGRESS_CHAT", "Show in chat")
 L(AH .. "PROGRESS_SCREEN", "Announce on screen")
-L(AH .. "REMINDER","Show boss reminder")
+L(AH .. "REMINDER", "Show boss reminder")
+L(AH .. "REMINDER_QUEST", "Show quest item reminder")
+L(AH .. "REMINDER_QUEST_TEXT", "Have you picked up your quest item?")
 L(AH .. "REMINDER_TOOLTIP", "When selecting verses, show a reminder notice if the next stage is a boss.")
 L(AH .. "REQUIRES", "Requires LibChatMessage")
 L(AH .. "SECONDS", "s")

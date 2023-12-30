@@ -148,6 +148,8 @@ local sourceIds = {}
 function AH.CheckZone()
     ZO_ClearNumericallyIndexedTable(bosses)
     ZO_ClearNumericallyIndexedTable(sourceIds)
+    AH.FoundQuestItem = false
+    AH.InsideArchive = IsInstanceEndlessDungeon() and (GetCurrentMapId() ~= AH.ArchiveIndex)
 
     if (AH.Vars.ShowTimer) then
         zoneCheck()
@@ -210,11 +212,17 @@ local function checkNotice()
     if (message) then
         AH.ShowNotice(message)
     end
+
+    AH.ShowQuestReminder()
 end
 
 local function closeNotice()
     if (AH.Notice) then
         AH.Notice:SetHidden(true)
+    end
+
+    if (AH.QuestReminder) then
+        AH.QuestReminder:SetHidden(true)
     end
 end
 
@@ -312,28 +320,153 @@ local function onNewBoss(_, unitTag)
     end
 end
 
+local archiveQuestIndexes = {}
+
+local function getArchiveQuestIndexes(rebuild)
+    if ((#archiveQuestIndexes == 0) or rebuild) then
+        ZO_ClearNumericallyIndexedTable(archiveQuestIndexes)
+
+        for index = 1, GetNumJournalQuests() do
+            local name, _, _, _, _, complete = GetJournalQuestInfo(index)
+
+            if (not complete and ZO_IsElementInNumericallyIndexedTable(AH.ArchiveQuests, name)) then
+                table.insert(archiveQuestIndexes, index)
+            end
+        end
+    end
+
+    return archiveQuestIndexes
+end
+
+function AH.CheckQuest(_, journalIndex)
+    local indexes = getArchiveQuestIndexes()
+
+    if (ZO_IsElementInNumericallyIndexedTable(indexes, journalIndex)) then
+        d("quest advanced")
+        getArchiveQuestIndexes(true)
+        AH.FoundQuestItem = false
+    end
+end
+
+local compass = _G.ZO_CompassContainer
+
+local function checkForQuest()
+    if (AH.InsideArchive and AH.Vars.CheckQuestItems) then
+        if (AH.FoundQuestItem == false) then
+            local numPins = compass:GetNumCenterOveredPins()
+
+            if (numPins > 0) then
+                for pin = 1, numPins do
+                    local pinType = compass:GetCenterOveredPinType(pin)
+                    if (pinType == _G.MAP_PIN_TYPE_QUEST_INTERACT) then
+                        AH.FoundQuestItem = true
+                        d("item found")
+                    end
+                end
+            end
+        end
+    end
+end
+
 function AH.SetupHooks()
     SecurePostHook(_G[AH.SELECTOR], "OnHiding", closeNotice)
     SecurePostHook(_G[AH.SELECTOR], "CommitChoice", checkCommitted)
     SecurePostHook(_G[AH.SELECTOR], "OnShowing", onShowing)
     SecurePostHook(_G[AH.SELECTOR], "SelectBuff", onSelecting)
-    ZO_PreHook(CENTER_SCREEN_ANNOUNCE, "AddMessageWithParams", onMessage)
-    SecurePostHook(_G.BOSS_BAR, "AddBoss", onNewBoss)
+    SecurePostHook(_G.COMPASS, "OnUpdate", checkForQuest)
+    SecurePostHook(CENTER_SCREEN_ANNOUNCE, "AddMessageWithParams", onMessage)
+    ZO_PreHook(_G.BOSS_BAR, "AddBoss", onNewBoss)
 end
 
 function AH.PlayAlarm(sound)
-    local count = 0
+    PlaySound(sound.sound)
+    local count = 1
 
-    EVENT_MANAGER:RegisterForUpdate(
-        AH.Name .. "_alarm",
-        250,
-        function()
-            PlaySound(sound.sound)
-            count = count + 1
+    if (sound.cycle > 1) then
+        EVENT_MANAGER:RegisterForUpdate(
+            AH.Name .. "_alarm",
+            250,
+            function()
+                PlaySound(sound.sound)
+                count = count + 1
 
-            if (count == sound.cycle) then
-                EVENT_MANAGER:UnregisterForUpdate(AH.Name .. "_alarm")
+                if (count == sound.cycle) then
+                    EVENT_MANAGER:UnregisterForUpdate(AH.Name .. "_alarm")
+                end
+            end
+        )
+    end
+end
+
+function AH.Reset()
+    if (not IsEndlessDungeonStarted()) then
+        AH.Vars.AvatarVisionCount = {ICE = 0, WOLF = 0, IRON = 0}
+    end
+end
+
+function AH.CompatibilityCheck()
+    if (_G.LFM and _G.LFM.name == "LykeionsFabledMarker") then
+        return false
+    end
+
+    return true
+end
+
+local numbersToText = {
+    [1] = "ONE",
+    [2] = "TWO",
+    [3] = "THREE",
+    [4] = "FOUR",
+    [5] = "FIVE",
+    [6] = "SIX",
+    [7] = "SEVEN",
+    [8] = "EIGHT"
+}
+
+local currentMarker = 0
+
+local function getAvailableMarker()
+    currentMarker = currentMarker + 1
+
+    if (currentMarker > 7) then
+        return _G.TARGET_MARKER_TYPE_NONE
+    end
+
+    return _G["TARGET_MARKER_TYPE_" .. numbersToText[currentMarker]]
+end
+
+-- local cache for performance
+local GetUnitName, GetUnitTargetMarkerType = GetUnitName, GetUnitTargetMarkerType
+local AssignTargetMarkerToReticleTarget = AssignTargetMarkerToReticleTarget
+local fabledText = GetString(_G.ARCHIVEHELPER_FABLED)
+
+function AH.FabledCheck()
+    if (AH.InsideArchive) then
+        local extantMarker = GetUnitTargetMarkerType("reticleover")
+
+        if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
+            if (GetUnitName("reticleover"):find(fabledText)) then
+                local marker = getAvailableMarker()
+                AssignTargetMarkerToReticleTarget(marker)
+            end
+        else
+            -- sanity check
+            if (not GetUnitName("reticleover"):find(fabledText)) then
+                AssignTargetMarkerToReticleTarget(extantMarker)
             end
         end
-    )
+    end
+end
+
+function AH.CombatCheck(_, incombat)
+    if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
+        if (not incombat) then
+            currentMarker = 0
+            EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_RETICLE_TARGET_CHANGED)
+        else
+            EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_RETICLE_TARGET_CHANGED, AH.FabledCheck)
+        end
+    end
+
+    AH.InCombet = incombat
 end

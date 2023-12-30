@@ -1,7 +1,9 @@
 _G.ArchiveHelper = {
     Defaults = {
         AvatarVisionCount = {IRON = 0, WOLF = 0, ICE = 0},
+        CheckQuestItems = true,
         EchoingDenTimer = 60,
+        FabledCheck = true,
         Favourites = {},
         MarauderPlay = true,
         MarkAchievements = true,
@@ -32,5 +34,8 @@ _G.ArchiveHelper = {
         DESTOZUNOS_LIBRARY = {id = 2425, name = "Destozuno's Library"}
     },
     InEchoingDen = false,
-    Marauders = {"gothmau", "hilkarax", "ulmor"}
+    Marauders = {"gothmau", "hilkarax", "ulmor"},
+    ArchiveIndex = 2407,
+    FoundQuestItem = false,
+    ArchiveQuests = {GetQuestName(7101), GetQuestName(7102)}
 }

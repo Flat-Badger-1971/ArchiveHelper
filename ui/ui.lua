@@ -113,7 +113,7 @@ function AH.HideTimer()
 end
 
 function AH.ShowNotice(message)
-    if (AH.ShowNotice) then
+    if (AH.Vars.ShowNotice) then
         local parent = _G[AH.SELECTOR_SHORT]
 
         AH.Notice = AH.Notice or AH.CreateControl(300, 40, "Notice")
@@ -122,5 +122,18 @@ function AH.ShowNotice(message)
         AH.Notice:SetAnchor(TOP, parent, TOP, 0, -72)
         AH.Notice.Label:SetText(message)
         AH.Notice:SetHidden(false)
+    end
+end
+
+function AH.ShowQuestReminder()
+    if (AH.Vars.CheckQuestItems and AH.FoundQuestItem) then
+        local parent = _G[AH.SELECTOR_SHORT]
+
+        AH.QuestReminder = AH.QuestReminder or AH.CreateControl(400, 40, "Quest")
+        AH.QuestReminder:ClearAnchors()
+        AH.QuestReminder:SetAnchor(BOTTOM, parent, TOP, 0, -120)
+        AH.QuestReminder:SetAnchor(TOP, parent, TOP, 0, -160)
+        AH.QuestReminder.Label:SetText(AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST_TEXT))
+        AH.QuestReminder:SetHidden(false)
     end
 end

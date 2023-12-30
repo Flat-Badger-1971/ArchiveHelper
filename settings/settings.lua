@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.0.7",
+    version = "1.0.8",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -204,6 +204,43 @@ local function buildOptions()
             end,
             setFunc = function(value)
                 AH.Vars.MarauderPlay = value
+            end,
+            width = "full"
+        },
+        [10] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST),
+            getFunc = function()
+                return AH.Vars.CheckQuestItems
+            end,
+            setFunc = function(value)
+                AH.Vars.CheckQuestItems = value
+            end,
+            width = "full"
+        },
+        [11] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_FABLED_MARKER),
+            tooltip = function()
+                if (not AH.CompatibilityCheck()) then
+                    return AH.Format(_G.ARCHIVEHELPER_FABLED_TOOLTIP)
+                end
+            end,
+            getFunc = function()
+                return AH.Vars.FabledCheck
+            end,
+            setFunc = function(value)
+                AH.Vars.FabledCheck = value
+
+                if (value) then
+                    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)
+                else
+                    EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_RETICLE_TARGET_CHANGED)
+                    EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_PLAYER_COMBAT_STATE)
+                end
+            end,
+            disabled = function()
+                return not AH.CompatibilityCheck()
             end,
             width = "full"
         }
