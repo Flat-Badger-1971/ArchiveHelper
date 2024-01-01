@@ -35,8 +35,7 @@ local function Initialise()
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_AWARDED, AH.FindMissingAbilityIds)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_ACTIVATED, AH.CheckZone)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ENDLESS_DUNGEON_INITIALIZED, AH.Reset)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_QUEST_ADVANCED, AH.CheckQuest)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_QUEST_ADDED, AH.CheckQuest)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_QUEST_CONDITION_COUNTER_CHANGED, AH.CheckQuest)
 
     if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
         EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)

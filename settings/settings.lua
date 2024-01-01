@@ -231,16 +231,32 @@ local function buildOptions()
             end,
             setFunc = function(value)
                 AH.Vars.FabledCheck = value
-
-                if (value) then
-                    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)
-                else
-                    EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_RETICLE_TARGET_CHANGED)
-                    EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_PLAYER_COMBAT_STATE)
-                end
             end,
             disabled = function()
                 return not AH.CompatibilityCheck()
+            end,
+            width = "full"
+        },
+        [12] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_SHARD_MARKER),
+            getFunc = function()
+                return AH.Vars.ShardCheck
+            end,
+            setFunc = function(value)
+                AH.Vars.ShardCheck = value
+            end,
+            width = "full"
+        },
+        [13] = {
+            type = "checkbox",
+            name = zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24) ..
+                AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER),
+            getFunc = function()
+                return AH.Vars.MarauderCheck
+            end,
+            setFunc = function(value)
+                AH.Vars.MarauderCheck = value
             end,
             width = "full"
         }

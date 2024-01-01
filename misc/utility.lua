@@ -144,15 +144,21 @@ end
 
 local bosses = {}
 local sourceIds = {}
+local lastMapId = 0
 
 function AH.CheckZone()
-    ZO_ClearNumericallyIndexedTable(bosses)
-    ZO_ClearNumericallyIndexedTable(sourceIds)
-    AH.FoundQuestItem = false
-    AH.InsideArchive = IsInstanceEndlessDungeon() and (GetCurrentMapId() ~= AH.ArchiveIndex)
+    local mapId = GetCurrentMapId()
 
-    if (AH.Vars.ShowTimer) then
-        zoneCheck()
+    if (lastMapId ~= mapId) then
+        lastMapId = mapId
+        ZO_ClearNumericallyIndexedTable(bosses)
+        ZO_ClearNumericallyIndexedTable(sourceIds)
+        AH.FoundQuestItem = false
+        AH.InsideArchive = IsInstanceEndlessDungeon() and (GetCurrentMapId() ~= AH.ArchiveIndex)
+
+        if (AH.Vars.ShowTimer) then
+            zoneCheck()
+        end
     end
 end
 
@@ -309,14 +315,8 @@ local function onNewBoss(_, unitTag)
     end
 
     if (isMarauder(bossName)) then
-        AH.ScreenAnnounce(
-            AH.Format(_G.ARCHIVEHELPER_MARAUDER),
-            "|cff0000" .. zo_strformat(GetString(_G.ARCHIVEHELPER_MARAUDER_INCOMING), bossName) .. "|r",
-            nil,
-            nil,
-            "none"
-        )
         AH.PlayAlarm(sounds.Marauder)
+        AH.MARAUDER = bossName
     end
 end
 
@@ -328,7 +328,6 @@ local function getArchiveQuestIndexes(rebuild)
 
         for index = 1, GetNumJournalQuests() do
             local name, _, _, _, _, complete = GetJournalQuestInfo(index)
-
             if (not complete and ZO_IsElementInNumericallyIndexedTable(AH.ArchiveQuests, name)) then
                 table.insert(archiveQuestIndexes, index)
             end
@@ -342,8 +341,6 @@ function AH.CheckQuest(_, journalIndex)
     local indexes = getArchiveQuestIndexes()
 
     if (ZO_IsElementInNumericallyIndexedTable(indexes, journalIndex)) then
-        d("quest advanced")
-        getArchiveQuestIndexes(true)
         AH.FoundQuestItem = false
     end
 end
@@ -351,7 +348,7 @@ end
 local compass = _G.ZO_CompassContainer
 
 local function checkForQuest()
-    if (AH.InsideArchive and AH.Vars.CheckQuestItems) then
+    if (AH.InsideArchive and AH.Vars.CheckQuestItems and AH.InCombet) then
         if (AH.FoundQuestItem == false) then
             local numPins = compass:GetNumCenterOveredPins()
 
@@ -360,7 +357,6 @@ local function checkForQuest()
                     local pinType = compass:GetCenterOveredPinType(pin)
                     if (pinType == _G.MAP_PIN_TYPE_QUEST_INTERACT) then
                         AH.FoundQuestItem = true
-                        d("item found")
                     end
                 end
             end
@@ -412,59 +408,165 @@ function AH.CompatibilityCheck()
     return true
 end
 
-local numbersToText = {
-    [1] = "ONE",
-    [2] = "TWO",
-    [3] = "THREE",
-    [4] = "FOUR",
-    [5] = "FIVE",
-    [6] = "SIX",
-    [7] = "SEVEN",
-    [8] = "EIGHT"
+AH.MARKERS = {
+    [_G.TARGET_MARKER_TYPE_ONE] = false,
+    [_G.TARGET_MARKER_TYPE_TWO] = false,
+    [_G.TARGET_MARKER_TYPE_THREE] = false,
+    [_G.TARGET_MARKER_TYPE_FOUR] = false,
+    [_G.TARGET_MARKER_TYPE_FIVE] = false,
+    [_G.TARGET_MARKER_TYPE_SIX] = false,
+    [_G.TARGET_MARKER_TYPE_SEVEN] = false
 }
 
-local currentMarker = 0
-
 local function getAvailableMarker()
-    currentMarker = currentMarker + 1
-
-    if (currentMarker > 7) then
-        return _G.TARGET_MARKER_TYPE_NONE
+    for marker, used in pairs(AH.MARKERS) do
+        if (not used) then
+            return marker
+        end
     end
 
-    return _G["TARGET_MARKER_TYPE_" .. numbersToText[currentMarker]]
+    return _G.TARGET_MARKER_TYPE_NONE
 end
 
 -- local cache for performance
 local GetUnitName, GetUnitTargetMarkerType = GetUnitName, GetUnitTargetMarkerType
-local AssignTargetMarkerToReticleTarget = AssignTargetMarkerToReticleTarget
+local IsUnitDead, AssignTargetMarkerToReticleTarget = IsUnitDead, AssignTargetMarkerToReticleTarget
 local fabledText = GetString(_G.ARCHIVEHELPER_FABLED)
+local shardText = GetString(_G.ARCHIVEHELPER_SHARD)
 
 function AH.FabledCheck()
-    if (AH.InsideArchive) then
+    local extantMarker = GetUnitTargetMarkerType("reticleover")
+
+    if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
+        if (GetUnitName("reticleover"):find(fabledText) and not IsUnitDead("reticleover")) then
+            local marker = getAvailableMarker()
+            AssignTargetMarkerToReticleTarget(marker)
+            AH.MARKERS[marker] = true
+        end
+    elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
+        -- sanity check
+        if (not GetUnitName("reticleover"):find(fabledText)) then
+            AssignTargetMarkerToReticleTarget(extantMarker)
+            AH.MARKERS[extantMarker] = false
+        end
+    end
+end
+
+function AH.MarauderCheck()
+    if (AH.MARAUDER) then
         local extantMarker = GetUnitTargetMarkerType("reticleover")
 
         if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-            if (GetUnitName("reticleover"):find(fabledText)) then
-                local marker = getAvailableMarker()
-                AssignTargetMarkerToReticleTarget(marker)
+            if (GetUnitName("reticleover") == AH.MARAUDER and not IsUnitDead("reticleover")) then
+                AssignTargetMarkerToReticleTarget(_G.TARGET_MARKER_TYPE_EIGHT)
             end
-        else
+        elseif (extantMarker == _G.TARGET_MARKER_TYPE_EIGHT) then
             -- sanity check
-            if (not GetUnitName("reticleover"):find(fabledText)) then
+            if (not GetUnitName("reticleover") == AH.MARAUDER) then
                 AssignTargetMarkerToReticleTarget(extantMarker)
             end
         end
     end
 end
 
+function AH.ShardCheck()
+    local extantMarker = GetUnitTargetMarkerType("reticleover")
+
+    if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
+        if (GetUnitName("reticleover") == shardText and not IsUnitDead("reticleover")) then
+            local marker = getAvailableMarker()
+            AssignTargetMarkerToReticleTarget(marker)
+            AH.MARKERS[marker] = true
+        end
+    elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
+        -- sanity check
+        if (GetUnitName("reticleover") ~= shardText) then
+            AssignTargetMarkerToReticleTarget(extantMarker)
+            AH.MARKERS[extantMarker] = false
+        end
+    end
+end
+
+local function doChecks()
+    local stage, cycle, arc = ENDLESS_DUNGEON_MANAGER:GetProgression()
+
+    getArchiveQuestIndexes()
+
+    AH.CHECK_MARAUDERS = AH.Vars.MarauderCheck
+    AH.CHECK_FABLED = AH.Vars.FabledCheck
+    AH.CHECK_SHARDS = false
+
+    if (arc == 1) then
+        -- no marauders in arc 1
+        AH.CHECK_MARAUDERS = false
+        if (cycle < 4) then
+            -- no fabled before arc 1 cycle 4
+            AH.CHECK_FABLED = false
+        end
+    end
+
+    if (cycle < 5 and stage == 3) then
+        -- possbile fabled due to one boss, no marauders or shards
+        AH.CHECK_FABLED = true and AH.Vars.FabledCheck
+        AH.CHECK_MARAUDERS = false
+        AH.CHECK_SHARDS = false
+    end
+
+    if (cycle == 5 and stage == 3) then
+        -- only get shards in cycle 5, stage 3, no marauders or fabled
+        AH.CHECK_SHARDS = true and AH.Vars.ShardCheck
+        AH.CHECK_MARAUDERS = false
+        AH.CHECK_FABLED = false
+    end
+end
+
+local function isItDeadDave()
+    if (IsUnitDead("reticleover")) then
+        local marker = GetUnitTargetMarkerType("reticleover")
+
+        if (marker ~= _G.TARGET_MARKER_TYPE_NONE) then
+            AH.MARKERS[marker] = true
+        end
+    end
+end
+
 function AH.CombatCheck(_, incombat)
-    if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
+    if
+        ((AH.Vars.MarauderCheck or AH.Vars.FabledCheck or AH.ShardCheck) and AH.CompatibilityCheck() and
+            AH.InsideArchive)
+     then
         if (not incombat) then
-            currentMarker = 0
             EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_RETICLE_TARGET_CHANGED)
+
+            for marker, _ in pairs(AH.MARKERS) do
+                AH.MARKERS[marker] = false
+            end
+
+            AH.MARAUDER = nil
         else
-            EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_RETICLE_TARGET_CHANGED, AH.FabledCheck)
+            doChecks()
+
+            EVENT_MANAGER:RegisterForEvent(
+                AH.Name,
+                _G.EVENT_RETICLE_TARGET_CHANGED,
+                function()
+                    if (AH.InsideArchive) then
+                        if (AH.CHECK_FABLED) then
+                            AH.FabledCheck()
+                        end
+
+                        if (AH.CHECK_MARAUDERS) then
+                            AH.MarauderCheck()
+                        end
+
+                        if (AH.CHECK_SHARDS) then
+                            AH.ShardCheck()
+                        end
+
+                        isItDeadDave()
+                    end
+                end
+            )
         end
     end
 

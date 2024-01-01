@@ -3,9 +3,10 @@ Reduce time delay on marauder warning sound
 Minor code refactor
 Added Fabled target markers
 Added quest objective reminders
+Added Shard target markers (translation dependant)
 
 [color=#ff9900][b]Version: 1.0.7 ---------------[/b][/color]
-Improved accuracy of Echoing Den timer
+Improved accuracy of Echoing Den timer (translation dependant)
 
 [color=#ff9900][b]Version: 1.0.6 ---------------[/b][/color]
 Play audible warning for incoming Marauders added

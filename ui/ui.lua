@@ -10,7 +10,7 @@ function AH.CreateControl(width, height, name)
         AH.Vars[name .. "Position"] = {top = defaultY, left = defaultX}
     end
 
-    local control = WINDOW_MANAGER:CreateTopLevelWindow()
+    local control = WINDOW_MANAGER:CreateTopLevelWindow(name)
 
     control:SetResizeToFitDescendents(true)
     control:SetDrawTier(DT_HIGH)
@@ -39,7 +39,7 @@ function AH.CreateControl(width, height, name)
 
     control.Label = WINDOW_MANAGER:CreateControl(nil, control, CT_LABEL)
     control.Label:SetDimensions(width, height)
-    control.Label:SetAnchor(CENTER, AH.Timer, CENTER)
+    control.Label:SetAnchor(CENTER)
     control.Label:SetFont("EsoUi/Common/Fonts/Univers67.otf|24")
     control.Label:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
     control.Label:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
