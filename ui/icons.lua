@@ -75,10 +75,9 @@ function baseIconControl:SetHidden(hidden)
     self.control:SetHidden(hidden)
 end
 
-function AH.EnsurePoolExists()
-    if (not AH.ObjectPool) then
-        AH.ObjectPool = {}
-        AH.ObjectPool =
+function AH.EnsureIconPoolExists()
+    if (not AH.IconObjectPool) then
+        AH.IconObjectPool =
             ZO_ObjectPool:New(
             --factory
             function()
@@ -95,7 +94,7 @@ function AH.EnsurePoolExists()
 end
 
 function AH.CreateIcon(icon, parent, xOffset, yOffset)
-    local iconControl = AH.ObjectPool:AcquireObject()
+    local iconControl = AH.IconObjectPool:AcquireObject()
     local iconInfo = AH.ICONS[icon]
 
     iconControl:SetParent(parent)

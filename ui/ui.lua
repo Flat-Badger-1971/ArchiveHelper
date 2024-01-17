@@ -1,53 +1,120 @@
 local AH = _G.ArchiveHelper
 
-function AH.CreateControl(width, height, name)
-    local _, defaultY = GuiRoot:GetCenter()
-    defaultY = defaultY - (width / 2)
+local baseFrame = ZO_Object:Subclass()
 
-    local defaultX = GuiRoot:GetHeight() / 4
+function baseFrame:New()
+    local frame = ZO_Object.New(self)
 
-    if (not AH.Vars[name .. "Position"]) then
-        AH.Vars[name .. "Position"] = {top = defaultY, left = defaultX}
+    frame:Initialise()
+
+    return frame
+end
+
+function baseFrame:Initialise()
+    self.control = WINDOW_MANAGER:CreateTopLevelWindow()
+
+    self.control:SetResizeToFitDescendents(true)
+    self.control:SetDrawTier(DT_HIGH)
+    self.control:SetMouseEnabled(true)
+    self.control:SetMovable(true)
+
+    self.control.Background = WINDOW_MANAGER:CreateControl(nil, self.control, CT_BACKDROP)
+    self.control.Background:SetAnchorFill()
+    self.control.Background:SetEdgeColor(0, 0, 0, 0)
+    self.control.Background:SetCenterColor(0.23, 0.23, 0.23, 0.7)
+
+    self.control.Border = WINDOW_MANAGER:CreateControl(nil, self.control, CT_BACKDROP)
+    self.control.Border:SetDrawTier(_G.DT_MEDIUM)
+    self.control.Border:SetCenterTexture(0, 0, 0, 0)
+    self.control.Border:SetAnchorFill()
+    self.control.Border:SetEdgeTexture("/esoui/art/worldmap/worldmap_frame_edge.dds", 128, 16)
+
+    self.control.Label = WINDOW_MANAGER:CreateControl(nil, self.control, CT_LABEL)
+    self.control.Label:SetAnchor(CENTER)
+    self.control.Label:SetFont("EsoUi/Common/Fonts/Univers67.otf|24")
+    self.control.Label:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+    self.control.Label:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+    self.control.Label:SetColor(1, 1, 0, 1)
+
+    self.control:SetHidden(true)
+end
+
+function baseFrame:SetPosition()
+    local defaultY = GuiRoot:GetHeight() / 6
+    local defaultX = GuiRoot:GetCenter()
+
+    defaultX = defaultX - (self.width / 2)
+
+    if (not AH.Vars[self.name .. "Position"]) then
+        AH.Vars[self.name .. "Position"] = {top = defaultY, left = defaultX}
     end
 
-    local control = WINDOW_MANAGER:CreateTopLevelWindow(name)
+    if (not AH.Vars[self.name .. "Position"]) then
+        AH.Vars[self.name .. "Position"] = {top = defaultY, left = defaultX}
+    end
+end
 
-    control:SetResizeToFitDescendents(true)
-    control:SetDrawTier(DT_HIGH)
-    control:SetMouseEnabled(true)
-    control:SetMovable(true)
-    control:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, AH.Vars[name .. "Position"].left, AH.Vars[name .. "Position"].top)
-
+function baseFrame:SetMouseHandler()
     local onMouseUp = function()
-        local top, left = control:GetTop(), control:GetLeft()
+        local top, left = self.control:GetTop(), self.control:GetLeft()
 
-        AH.Vars[name .. "Position"] = {top = top, left = left}
+        AH.Vars[self.name .. "Position"] = {top = top, left = left}
     end
 
-    control:SetHandler("OnMouseUp", onMouseUp)
+    self.control:SetHandler("OnMouseUp", onMouseUp)
+end
 
-    control.Background = WINDOW_MANAGER:CreateControl(nil, control, CT_BACKDROP)
-    control.Background:SetAnchorFill()
-    control.Background:SetEdgeColor(0, 0, 0, 0)
-    control.Background:SetCenterColor(0.23, 0.23, 0.23, 0.7)
+function baseFrame:SetDimensions(width, height)
+    self.width = width
+    self.height = height
+    self.control.Label:SetDimensions(width, height)
+end
 
-    control.Border = WINDOW_MANAGER:CreateControl(nil, control, CT_BACKDROP)
-    control.Border:SetDrawTier(_G.DT_MEDIUM)
-    control.Border:SetCenterTexture(0, 0, 0, 0)
-    control.Border:SetAnchorFill()
-    control.Border:SetEdgeTexture("/esoui/art/worldmap/worldmap_frame_edge.dds", 128, 16)
+function baseFrame:SetName(name)
+    self.name = name
+end
 
-    control.Label = WINDOW_MANAGER:CreateControl(nil, control, CT_LABEL)
-    control.Label:SetDimensions(width, height)
-    control.Label:SetAnchor(CENTER)
-    control.Label:SetFont("EsoUi/Common/Fonts/Univers67.otf|24")
-    control.Label:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
-    control.Label:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
-    control.Label:SetColor(1, 1, 0, 1)
+function baseFrame:SetAnchor(relativeTo, relativeObject, relativeObjectPoint, xOffset, yOffset)
+    self.control:SetAnchor(relativeTo, relativeObject, relativeObjectPoint, xOffset, yOffset)
+end
 
-    control:SetHidden(true)
+function baseFrame:SetColour(r, g, b, a)
+    self.control.Label:SetColor(r, g, b, a)
+end
 
-    return control
+function baseFrame:SetText(text)
+    self.control.Label:SetText(text)
+end
+
+function baseFrame:SetHidden(hidden)
+    self.control:SetHidden(hidden)
+end
+
+function baseFrame:IsHidden()
+    return self.control:IsHidden()
+end
+
+function baseFrame:ClearAnchors()
+    self.control:ClearAnchors()
+end
+
+local function ensureFramePoolExists()
+    if (not AH.FrameObjectPool) then
+        AH.FrameObjectPool =
+            ZO_ObjectPool:New(
+            --factory
+            function()
+                return baseFrame:New()
+            end,
+            --reset
+            function(frame)
+                frame:SetHidden(true)
+                frame:ClearAnchors()
+                frame:SetText("")
+                frame:SetColour(1, 1, 0, 1)
+            end
+        )
+    end
 end
 
 function AH.SetTime()
@@ -57,20 +124,16 @@ function AH.SetTime()
         AH.CurrentTimerValue .. AH.Format(_G.ARCHIVEHELPER_SECONDS):lower()
     )
 
-    AH.Timer.Label:SetText(time)
+    AH.Timer:SetText(time)
 
     if (AH.CurrentTimerValue < 11) then
-        AH.Timer.Label:SetColor(1, 0, 0, 1)
+        AH.Timer:SetColour(1, 0, 0, 1)
     end
 end
 
 function AH.StartTimer()
     AH.CurrentTimerValue = AH.Vars.EchoingDenTimer
-    AH.Timer.Label:SetColor(1, 1, 0, 1)
-
-    if (AH.Timer:IsHidden()) then
-        AH.SetHidden(false)
-    end
+    AH.Timer:SetColour(1, 1, 0, 1)
 
     EVENT_MANAGER:RegisterForUpdate(
         AH.Name .. "_timer",
@@ -94,46 +157,89 @@ function AH.StopTimer()
     AH.Timer:SetHidden(true)
 end
 
+local function setCommon(frame, name, width, height)
+    frame:SetName(name)
+    frame:SetDimensions(width, height)
+    frame:SetPosition()
+    frame:SetMouseHandler()
+end
+
 function AH.ShowTimer()
     if (AH.IsInEchoingDen and AH.Vars.ShowTimer) then
-        AH.Timer = AH.Timer or AH.CreateControl(200, 40, "Timer")
+        ensureFramePoolExists()
+
+        local timer, timerKey = AH.FrameObjectPool:AcquireObject()
+
+        setCommon(timer, "Timer", 200, 40)
+        timer:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, AH.Vars.TimerPosition.left, AH.Vars.TimerPosition.top)
         AH.CurrentTimerValue = AH.Vars.EchoingDenTimer
-        AH.Timer.Label:SetColor(1, 1, 0, 1)
+        timer:SetColour(1, 1, 0, 1)
+        timer:SetHidden(false)
+
+        AH.Timer = timer
+        AH.Keys["Timer"] = timerKey
+
         AH.SetTime(AH.Vars.EchoingDenTimer)
-        AH.Timer:SetHidden(false)
     end
 end
 
 function AH.HideTimer()
-    if (AH.Timer:IsHidden()) then
-        return
-    end
-
-    AH.Timer:SetHidden(true)
+    AH.Release("Timer")
 end
 
 function AH.ShowNotice(message)
     if (AH.Vars.ShowNotice) then
-        local parent = _G[AH.SELECTOR_SHORT]
+        ensureFramePoolExists()
 
-        AH.Notice = AH.Notice or AH.CreateControl(300, 40, "Notice")
-        AH.Notice:ClearAnchors()
-        AH.Notice:SetAnchor(BOTTOM, parent, TOP, 0, -32)
-        AH.Notice:SetAnchor(TOP, parent, TOP, 0, -72)
-        AH.Notice.Label:SetText(message)
-        AH.Notice:SetHidden(false)
+        local parent = _G[AH.SELECTOR_SHORT]
+        local notice, noticeKey = AH.FrameObjectPool:AcquireObject()
+
+        setCommon(notice, "Notice", 300, 40)
+
+        notice:ClearAnchors()
+        notice:SetAnchor(BOTTOM, parent, TOP, 0, -32)
+        notice:SetAnchor(TOP, parent, TOP, 0, -72)
+        notice:SetText(message)
+        notice:SetHidden(false)
+
+        AH.Notice = notice
+        AH.Keys["Notice"] = noticeKey
     end
 end
 
 function AH.ShowQuestReminder()
     if (AH.Vars.CheckQuestItems and AH.FoundQuestItem) then
-        local parent = _G[AH.SELECTOR_SHORT]
+        ensureFramePoolExists()
 
-        AH.QuestReminder = AH.QuestReminder or AH.CreateControl(400, 40, "Quest")
-        AH.QuestReminder:ClearAnchors()
-        AH.QuestReminder:SetAnchor(BOTTOM, parent, TOP, 0, -120)
-        AH.QuestReminder:SetAnchor(TOP, parent, TOP, 0, -160)
-        AH.QuestReminder.Label:SetText(AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST_TEXT))
-        AH.QuestReminder:SetHidden(false)
+        local parent = _G[AH.SELECTOR_SHORT]
+        local questReminder, questReminderKey = AH.FrameObjectPool:AcquireObject()
+
+        setCommon(questReminder, "Quest", 400, 40)
+
+        questReminder:ClearAnchors()
+        questReminder:SetAnchor(BOTTOM, parent, TOP, 0, -120)
+        questReminder:SetAnchor(TOP, parent, TOP, 0, -160)
+        questReminder:SetText(AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST_TEXT))
+        questReminder:SetHidden(false)
+
+        AH.QuestReminder = questReminder
+        AH.Keys["QuestReminder"] = questReminderKey
+    end
+end
+
+function AH.ShowTomeshellCount()
+    if (AH.IsInFilersWing and AH.Vars.CountTomes) then
+        ensureFramePoolExists()
+
+        local count, countKey = AH.FrameObjectPool:AcquireObject()
+
+        setCommon(count, "Count", 200, 40)
+
+        count:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, AH.Vars.CountPosition.left, AH.Vars.CountPosition.top)
+        count:SetColour(1, 1, 0, 1)
+        count:SetHidden(false)
+
+        AH.TomeCount = count
+        AH.Keys["TomeCount"] = countKey
     end
 end

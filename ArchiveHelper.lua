@@ -24,21 +24,13 @@ local function Initialise()
         AH.SELECTOR_OBJECT = string.format(selectorObject, "KEYBOARD")
     end
 
+    AH.CheckDataShareLib()
     AH.SetupHooks()
     AH.FindMissingAbilityIds()
+    AH.SetupEvents()
 
     _G.SLASH_COMMANDS["/ah"] = function(...)
         AH.HandleSlashCommand(...)
-    end
-
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_UPDATED, AH.FindMissingAbilityIds)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_AWARDED, AH.FindMissingAbilityIds)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_ACTIVATED, AH.CheckZone)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ENDLESS_DUNGEON_INITIALIZED, AH.Reset)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_QUEST_CONDITION_COUNTER_CHANGED, AH.CheckQuest)
-
-    if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
-        EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)
     end
 end
 

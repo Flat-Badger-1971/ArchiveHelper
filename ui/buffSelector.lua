@@ -36,8 +36,8 @@ function AH.OnBuffSelectorShowing()
     clearPositions()
 
     -- reset the object pool
-    AH.EnsurePoolExists()
-    AH.ObjectPool:ReleaseAllObjects()
+    AH.EnsureIconPoolExists()
+    AH.IconObjectPool:ReleaseAllObjects()
 
     for bucketType = _G.ENDLESS_DUNGEON_BUFF_BUCKET_TYPE_ITERATION_BEGIN, _G.ENDLESS_DUNGEON_BUFF_BUCKET_TYPE_ITERATION_END do
         local abilityId = GetEndlessDungeonBuffSelectorBucketTypeChoice(bucketType)

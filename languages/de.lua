@@ -32,9 +32,15 @@ L(AH .. "REQUIRES", "Requires LibChatMessage")
 L(AH .. "SECONDS", "s")
 L(AH .. "SHARD", "Tho'at Shard")
 L(AH .. "SHARD_MARKER", "Add Target Markers to Tho'at Shards")
-L(AH .. "SHOW_ECHO", "Show timer in Echoing Den")
+L(AH .. "SHOW_COUNT", "Show Tomeshell count in the Filer's Wing")
+L(
+    AH .. "SHOW_COUNT_TOOLTIP",
+    "For Duo mode to work correctly, the other player must have this addon installed. Both players must also have LibDataShare installed."
+)
+L(AH .. "SHOW_ECHO", "Show timer in the Echoing Den")
 L(AH .. "SLASH_MISSING", "fehlende")
 L(AH .. "STACKS", "Stack count")
+L(AH .. "TOMESHELL", "Tomeshell")
 L(AH .. "WARNING", "Warning: Dropdowns may not refresh without a UI reload")
 L(AH .. "WARNING_MESSAGE", "Warnung!")
 L(AH .. "WEREWOLF_BEHEMOTH", "Werwolfbehemoth")

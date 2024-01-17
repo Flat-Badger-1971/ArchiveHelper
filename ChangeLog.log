@@ -1,3 +1,11 @@
+[color=#ff9900][b]Version: 1.0.9 ---------------[/b][/color]
+Added marker reset
+Changed message frames to object pool
+Enabled Shard marking after arc 4 cycle 2
+Handle zone changes where the map id does not change
+Added Filers' Wing Tomeshell count
+Code refactor
+
 [color=#ff9900][b]Version: 1.0.8 ---------------[/b][/color]
 Reduce time delay on marauder warning sound
 Minor code refactor

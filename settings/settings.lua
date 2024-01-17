@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.0.8",
+    version = "1.0.9",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -198,6 +198,18 @@ local function buildOptions()
         },
         [9] = {
             type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT),
+            tooltip = AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
+            getFunc = function()
+                return AH.Vars.CountTomes
+            end,
+            setFunc = function(value)
+                AH.Vars.CountTomes = value
+            end,
+            width = "full"
+        },
+        [10] = {
+            type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_MARAUDER_INCOMING_PLAY),
             getFunc = function()
                 return AH.Vars.MarauderPlay or false
@@ -207,7 +219,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [10] = {
+        [11] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST),
             getFunc = function()
@@ -218,7 +230,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [11] = {
+        [12] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_FABLED_MARKER),
             tooltip = function()
@@ -237,7 +249,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [12] = {
+        [13] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHARD_MARKER),
             getFunc = function()
@@ -248,7 +260,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [13] = {
+        [14] = {
             type = "checkbox",
             name = zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24) ..
                 AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER),

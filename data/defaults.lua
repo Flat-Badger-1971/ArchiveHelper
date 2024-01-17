@@ -2,6 +2,7 @@ _G.ArchiveHelper = {
     Defaults = {
         AvatarVisionCount = {IRON = 0, WOLF = 0, ICE = 0},
         CheckQuestItems = true,
+        CountTomes = true,
         EchoingDenTimer = 60,
         FabledCheck = true,
         Favourites = {},
@@ -18,8 +19,16 @@ _G.ArchiveHelper = {
         ShowStacks = true,
         ShowTimer = true
     },
+    ArchiveIndex = 2407,
+    ArchiveQuests = {GetQuestName(7091), GetQuestName(7101), GetQuestName(7102)},
+    FoundQuestItem = false,
+    InEchoingDen = false,
+    Keys = {},
+    Marauders = {"gothmau", "hilkarax", "ulmor"},
     Name = "ArchiveHelper",
-    LF = string.char(10),
+    Shards = {},
+    Tomeshells = {Solo = 4, Duo = 8},
+    DATA_ID = 28, -- map id for libDataShare
     ICONS = {
         ACH = {name = "login/login_icon_yield", colour = {1, 0, 0, 1}},
         FAV = {name = "campaign/overview_indexicon_bonus_down", colour = {0, 1, 0, 1}},
@@ -27,6 +36,7 @@ _G.ArchiveHelper = {
         WOLF = {name = "icons/achievement_u40_ed2_werewolf_behemoth", colour = {1, 1, 1, 1}},
         ICE = {name = "icons/achievement_u40_ed2_ice_avatar", colour = {1, 1, 1, 1}}
     },
+    LF = string.char(10),
     MAPS = {
         TREACHEROUS_CROSSING = {id = 2420, name = "Treacherous Crossing"},
         HAEFELS_BUTCHERY = {id = 2421, name = "Haefel's Butchery"},
@@ -34,10 +44,5 @@ _G.ArchiveHelper = {
         ECHOING_DEN = {id = 2423, name = "Echoing Den"},
         THEATRE_OF_WAR = {id = 2424, name = "Theatre of War"},
         DESTOZUNOS_LIBRARY = {id = 2425, name = "Destozuno's Library"}
-    },
-    InEchoingDen = false,
-    Marauders = {"gothmau", "hilkarax", "ulmor"},
-    ArchiveIndex = 2407,
-    FoundQuestItem = false,
-    ArchiveQuests = {GetQuestName(7091), GetQuestName(7101), GetQuestName(7102)}
+    }
 }

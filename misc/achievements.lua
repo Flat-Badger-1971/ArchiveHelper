@@ -1,5 +1,7 @@
 local AH = _G.ArchiveHelper
 
+AH.MissingAbilities = {}
+
 function AH.GetAchievementsList()
     local list = {}
 
