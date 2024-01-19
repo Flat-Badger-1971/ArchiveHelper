@@ -9,6 +9,7 @@ read_globals = {
             GetAchievementStatus = {read_only = true}
         }
     },
+    "BOSS_BAR",
     ["CALLBACK_MANAGER"] = {
         fields = {
             FireCallbacks = {read_only = true},
@@ -42,6 +43,7 @@ read_globals = {
             BrowseToCollectible = {read_only = true}
         }
     },
+    "COMPASS",
     ["ENDLESS_DUNGEON_MANAGER"] = {
         fields = {
             GetAbilityStackCountTable = {read_only = true},

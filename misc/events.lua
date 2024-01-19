@@ -1,11 +1,10 @@
 local AH = _G.ArchiveHelper
-local compass = _G.ZO_CompassContainer
 local tomeName = GetString(_G.ARCHIVEHELPER_TOMESHELL):lower()
 local lastStun = 0
 local lastMapId = 0
 local sourceIds = {}
 
-local function closeNotice()
+local function onSelectorHiding()
     if (AH.Notice) then
         AH.Release("Notice")
     end
@@ -22,7 +21,7 @@ local function closeNotice()
     )
 end
 
-local function checkCommitted()
+local function onChoiceCommitted()
     if (AH.SelectedBuff) then
         local avatar = AH.IsAvatar(AH.SelectedBuff)
 
@@ -70,14 +69,14 @@ local function onSelecting(_, buffControl)
     AH.SelectedBuff = GetEndlessDungeonBuffSelectorBucketTypeChoice(buffControl.bucketType)
 end
 
-local function checkForQuest()
+local function onCompassUpdate()
     if (AH.InsideArchive and AH.Vars.CheckQuestItems and AH.InCombet) then
         if (AH.FoundQuestItem == false) then
-            local numPins = compass:GetNumCenterOveredPins()
+            local numPins = COMPASS.container:GetNumCenterOveredPins()
 
             if (numPins > 0) then
                 for pin = 1, numPins do
-                    local pinType = compass:GetCenterOveredPinType(pin)
+                    local pinType = COMPASS.container:GetCenterOveredPinType(pin)
                     if (pinType == _G.MAP_PIN_TYPE_QUEST_INTERACT) then
                         AH.FoundQuestItem = true
                     end
@@ -87,7 +86,7 @@ local function checkForQuest()
     end
 end
 
-local tomesToFind = 0
+local tomesFound = 0
 
 local function tomeCheck(...)
     local result = select(2, ...)
@@ -98,20 +97,18 @@ local function tomeCheck(...)
         sourceName = AH.Format(sourceName):lower()
 
         if (targetName:find(tomeName) or sourceName:find(tomeName)) then
-            tomesToFind = tomesToFind - 1
+            tomesFound = tomesFound + 1
             AH.PlayAlarm(AH.Sounds.Tomeshell)
 
             if (AH.Share and AH.TomeGroupType ~= _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
-                AH.Share:QueueData(tomesToFind)
+                AH.Share:QueueData(tomesFound)
             end
 
-            if (AH.MaxTomes <= 0) then
-                AH.Release("TomeCount")
+            local tomesLeft = AH.MaxTomes - tomesFound
 
-                return
-            end
+            tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
 
-            local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, AH.MaxTomes)
+            local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesLeft)
 
             AH.TomeCount:SetText(message)
         end
@@ -126,8 +123,8 @@ local function startTomeCheck()
         AH.TomeGroupType = _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO
     end
 
-    tomesToFind = AH.TomeGroupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO and AH.Tomeshells.Solo or AH.Tomeshells.Duo
-    local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesToFind)
+    AH.MaxTomes = AH.TomeGroupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO and AH.Tomeshells.Solo or AH.Tomeshells.Duo
+    local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, AH.MaxTomes)
 
     AH.ShowTomeshellCount()
     AH.TomeCount:SetText(message)
@@ -156,7 +153,7 @@ local function zoneCheck()
     end
 end
 
-local function checkZone()
+local function onPlayerActivated()
     local mapId = GetCurrentMapId()
 
     if (lastMapId ~= mapId) then
@@ -176,7 +173,7 @@ end
 
 local function checkMessage(messageParams)
     if (IsInstanceEndlessDungeon() and not AH.DenStarted) then
-        checkZone()
+        onPlayerActivated()
     end
 
     -- Herd the Ghost Lights
@@ -221,11 +218,11 @@ local function resetValues()
 end
 
 -- minimise false zone change detections
-local function preZoneChange(_, stunned)
+local function onStunned(_, stunned)
     if (stunned and not IsUnitInCombat("player")) then
         local now = GetTimeStamp()
 
-        if (now - lastStun > 2) then
+        if ((now - lastStun) > 2) then
             zo_callLater(
                 function()
                     if (not AH.ShowingBuffs) then
@@ -239,14 +236,14 @@ local function preZoneChange(_, stunned)
     end
 end
 
-local function reset()
+local function onDungeonInitialised()
     if (not IsEndlessDungeonStarted()) then
         AH.Vars.AvatarVisionCount = {ICE = 0, WOLF = 0, IRON = 0}
     end
 end
 
-local function checkQuest(_, journalIndex)
-    local indexes = AH.GetArchiveQuestIndexes()
+local function onQuestCounterChanged(_, journalIndex)
+    local indexes = AH.GetArchiveQuestIndexes(true)
 
     if (ZO_IsElementInNumericallyIndexedTable(indexes, journalIndex)) then
         AH.FoundQuestItem = false
@@ -266,38 +263,38 @@ local function onHotBarChange(_, changed, shouldUpdate, category)
 end
 
 function AH.HandleDataShare(_, data)
-    local foundByPlayer = AH.MaxTomes - tomesToFind
-    local foundByGroupMember = AH.MaxTomes - data
+    tomesFound = tomesFound + data
 
-    tomesToFind = AH.MaxTomes - (foundByPlayer + foundByGroupMember)
+    local tomesLeft = AH.MaxTomes - tomesFound
 
-    local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesToFind)
+    tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
+
+    local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesLeft)
 
     AH.TomeCount:SetText(message)
     AH.PlayAlarm(AH.Sounds.Tomeshell)
 end
 
 function AH.SetupHooks()
-    SecurePostHook(_G[AH.SELECTOR], "OnHiding", closeNotice)
-    SecurePostHook(_G[AH.SELECTOR], "CommitChoice", checkCommitted)
+    SecurePostHook(_G[AH.SELECTOR], "OnHiding", onSelectorHiding)
+    SecurePostHook(_G[AH.SELECTOR], "CommitChoice", onChoiceCommitted)
     SecurePostHook(_G[AH.SELECTOR], "OnShowing", onShowing)
     SecurePostHook(_G[AH.SELECTOR], "SelectBuff", onSelecting)
-    SecurePostHook(_G.COMPASS, "OnUpdate", checkForQuest)
+    SecurePostHook(COMPASS, "OnUpdate", onCompassUpdate)
     SecurePostHook(CENTER_SCREEN_ANNOUNCE, "AddMessageWithParams", onMessage)
-    ZO_PreHook(_G.BOSS_BAR, "AddBoss", AH.OnNewBoss)
+    ZO_PreHook(BOSS_BAR, "AddBoss", AH.OnNewBoss)
 end
 
 function AH.SetupEvents()
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_UPDATED, AH.FindMissingAbilityIds)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_AWARDED, AH.FindMissingAbilityIds)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_ACTIVATED, checkZone)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ENDLESS_DUNGEON_INITIALIZED, reset)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_QUEST_CONDITION_COUNTER_CHANGED, checkQuest)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_STUNNED_STATE_CHANGED, preZoneChange)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_ACTIVATED, onPlayerActivated)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ENDLESS_DUNGEON_INITIALIZED, onDungeonInitialised)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_QUEST_CONDITION_COUNTER_CHANGED, onQuestCounterChanged)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_STUNNED_STATE_CHANGED, onStunned)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED, onHotBarChange)
 
     if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
         EVENT_MANAGER:RegisterForEvent(AH.Name .. "_Fabled", _G.EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)
     end
-
 end
