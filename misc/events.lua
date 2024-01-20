@@ -87,6 +87,7 @@ local function onCompassUpdate()
 end
 
 local tomesFound = 0
+local tomesTotal = 0
 
 local function tomeCheck(...)
     local result = select(2, ...)
@@ -98,13 +99,14 @@ local function tomeCheck(...)
 
         if (targetName:find(tomeName) or sourceName:find(tomeName)) then
             tomesFound = tomesFound + 1
+            tomesTotal = tomesTotal + 1
             AH.PlayAlarm(AH.Sounds.Tomeshell)
 
             if (AH.Share and AH.TomeGroupType ~= _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
                 AH.Share:QueueData(tomesFound)
             end
 
-            local tomesLeft = AH.MaxTomes - tomesFound
+            local tomesLeft = AH.MaxTomes - tomesTotal
 
             tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
 
@@ -215,6 +217,8 @@ local function resetValues()
     AH.FoundQuestItem = false
     AH.InsideArchive = IsInstanceEndlessDungeon() and (GetCurrentMapId() ~= AH.ArchiveIndex)
     ZO_ClearNumericallyIndexedTable(AH.Shards)
+    tomesFound = 0
+    tomesTotal = 0
 end
 
 -- minimise false zone change detections
@@ -262,10 +266,10 @@ local function onHotBarChange(_, changed, shouldUpdate, category)
     end
 end
 
-function AH.HandleDataShare(_, data)
-    tomesFound = tomesFound + data
+function AH.HandleDataShare(_, otherPlayerFound)
+    tomesTotal = tomesFound + otherPlayerFound
 
-    local tomesLeft = AH.MaxTomes - tomesFound
+    local tomesLeft = AH.MaxTomes - tomesTotal
 
     tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
 

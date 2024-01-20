@@ -38,3 +38,5 @@ ui/ui.lua
 settings/settings.lua
 
 ArchiveHelper.lua
+
+ui/bindings.xml

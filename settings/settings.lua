@@ -85,8 +85,8 @@ local function getFavourites()
 end
 
 local function updateFavourites()
-    _G.ARCHIVE_HELPER_FAVOURITES_LIST.data.text = getFavourites()
-    _G.ARCHIVE_HELPER_FAVOURITES_LIST:UpdateValue()
+    _G.ARCHIVEHELPER_FAVOURITES_LIST.data.text = getFavourites()
+    _G.ARCHIVEHELPER_FAVOURITES_LIST:UpdateValue()
 end
 
 local function getSecondsOptions()
@@ -262,6 +262,17 @@ local function buildOptions()
         },
         [14] = {
             type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_SHARD_IGNORE),
+            getFunc = function()
+                return AH.Vars.ShardIgnore or false
+            end,
+            setFunc = function(value)
+                AH.Vars.ShardIgnore = value
+            end,
+            width = "full"
+        },
+        [15] = {
+            type = "checkbox",
             name = zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24) ..
                 AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER),
             getFunc = function()
@@ -389,7 +400,7 @@ local function buildOptions()
         type = "description",
         text = getFavourites(),
         width = "full",
-        reference = "ARCHIVE_HELPER_FAVOURITES_LIST"
+        reference = "ARCHIVEHELPER_FAVOURITES_LIST"
     }
 
     return options

@@ -1,0 +1,12 @@
+<Bindings>
+    <Layer name="SI_KEYBINDINGS_LAYER_GENERAL">
+        <Category name = "|cff9900Archive Helper|r">
+             <Action name="ARCHIVEHELPER_MARK_CURRENT_TARGET">
+                <Down>ArchiveHelper.MarkCurrentTarget()</Down>
+            </Action>
+            <Action name="ARCHIVEHELPER_UNMARK_CURRENT_TARGET">
+                <Down>ArchiveHelper.UnmarkCurrentTarget()</Down>
+            </Action>
+        </Category>
+    </Layer>
+</Bindings>

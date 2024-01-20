@@ -31,6 +31,7 @@ L(AH .. "REMINDER_TOOLTIP", "When selecting verses, show a reminder notice if th
 L(AH .. "REQUIRES", "Requires LibChatMessage")
 L(AH .. "SECONDS", "s")
 L(AH .. "SHARD", "Tho'at Shard")
+L(AH .. "SHARD_IGNORE", "Ignore Shards outside cycle 5")
 L(AH .. "SHARD_MARKER", "Add Target Markers to Tho'at Shards")
 L(AH .. "SHOW_COUNT", "Show Tomeshell count in the Filer's Wing")
 L(
@@ -44,3 +45,7 @@ L(AH .. "TOMESHELL", "Tomeshell")
 L(AH .. "WARNING", "Warning: Dropdowns may not refresh without a UI reload")
 L(AH .. "WARNING_MESSAGE", "Warnung!")
 L(AH .. "WEREWOLF_BEHEMOTH", "Werwolfbehemoth")
+
+-- keybinds
+L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Mark Current Target")
+L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Unmark Current Target")

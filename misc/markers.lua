@@ -5,26 +5,48 @@ local shardText = GetString(_G.ARCHIVEHELPER_SHARD)
 local GetUnitName, GetUnitTargetMarkerType = GetUnitName, GetUnitTargetMarkerType
 local IsUnitDead, AssignTargetMarkerToReticleTarget = IsUnitDead, AssignTargetMarkerToReticleTarget
 
+-- marker 8 reserved for marauders
 AH.MARKERS = {
-    [_G.TARGET_MARKER_TYPE_ONE] = false,
-    [_G.TARGET_MARKER_TYPE_TWO] = false,
-    [_G.TARGET_MARKER_TYPE_THREE] = false,
-    [_G.TARGET_MARKER_TYPE_FOUR] = false,
-    [_G.TARGET_MARKER_TYPE_FIVE] = false,
-    [_G.TARGET_MARKER_TYPE_SIX] = false,
-    [_G.TARGET_MARKER_TYPE_SEVEN] = false
+    [1] = {marker = _G.TARGET_MARKER_TYPE_ONE, used = false},
+    [2] = {marker = _G.TARGET_MARKER_TYPE_TWO, used = false},
+    [3] = {marker = _G.TARGET_MARKER_TYPE_THREE, used = false},
+    [4] = {marker = _G.TARGET_MARKER_TYPE_FOUR, used = false},
+    [5] = {marker = _G.TARGET_MARKER_TYPE_FIVE, used = false},
+    [6] = {marker = _G.TARGET_MARKER_TYPE_SIX, used = false},
+    [7] = {marker = _G.TARGET_MARKER_TYPE_SEVEN, used = false}
 }
 
+local markerKeys = {1, 2, 3, 4, 5, 6, 7}
+
+local function getMarkerIndex(marker)
+    for index, info in ipairs(AH.MARKERS) do
+        if (info.marker == marker) then
+            return index
+        end
+    end
+end
+
+local function makeMarkerAvailable(marker)
+    local index = getMarkerIndex(marker)
+
+    AH.MARKERS[index].used = false
+end
+
 local function getAvailableMarker()
-    for marker, used in pairs(AH.MARKERS) do
-        if (not used) then
-            return marker
+    -- probably not necessary, but...
+    table.sort(markerKeys)
+
+    for _, key in ipairs(markerKeys) do
+        if (AH.MARKERS[key].used == false) then
+            AH.MARKERS[key].used = true
+
+            return AH.MARKERS[key].marker
         end
     end
 
-    -- all makers used up, reset and start again
-    for marker, _ in pairs(AH.MARKERS) do
-        AH.MARKERS[marker] = false
+    -- all markers used up, reset and start again
+    for _, info in pairs(AH.MARKERS) do
+        info.used = false
     end
 
     return _G.TARGET_MARKER_TYPE_ONE
@@ -62,19 +84,18 @@ local function doChecks()
         AH.CHECK_FABLED = false
     end
 
-    if (arc >= 4 and cycle >= 3) then
+    if ((arc >= 4 and cycle >= 3) and (not AH.ShardIgnore)) then
         -- shards now appear as trash mobs
         AH.CHECK_SHARDS = true and AH.Vars.ShardCheck
     end
 end
-
 
 local function isItDeadDave()
     if (IsUnitDead("reticleover")) then
         local marker = GetUnitTargetMarkerType("reticleover")
 
         if (marker ~= _G.TARGET_MARKER_TYPE_NONE) then
-            AH.MARKERS[marker] = true
+            makeMarkerAvailable(marker)
         end
     end
 end
@@ -86,13 +107,12 @@ function AH.FabledCheck()
         if (GetUnitName("reticleover"):find(fabledText) and not IsUnitDead("reticleover")) then
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
-            AH.MARKERS[marker] = true
         end
     elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
         -- sanity check
         if (not GetUnitName("reticleover"):find(fabledText)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
-            AH.MARKERS[extantMarker] = false
+            makeMarkerAvailable(extantMarker)
         end
     end
 end
@@ -121,14 +141,31 @@ function AH.ShardCheck()
         if (GetUnitName("reticleover") == shardText and not IsUnitDead("reticleover")) then
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
-            AH.MARKERS[marker] = true
         end
     elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
         -- sanity check
         if (GetUnitName("reticleover") ~= shardText) then
             AssignTargetMarkerToReticleTarget(extantMarker)
-            AH.MARKERS[extantMarker] = false
+            makeMarkerAvailable(extantMarker)
         end
+    end
+end
+
+-- for keybinds
+function AH.MarkCurrentTarget()
+    if (GetUnitTargetMarkerType("reticleover") == _G.TARGET_MARKER_TYPE_NONE) then
+        local marker = getAvailableMarker()
+
+        AssignTargetMarkerToReticleTarget(marker)
+    end
+end
+
+function AH.UnmarkCurrentTarget()
+    local marker = GetUnitTargetMarkerType("reticleover")
+
+    if (marker ~= _G.TARGET_MARKER_TYPE_NONE) then
+        AssignTargetMarkerToReticleTarget(marker)
+        makeMarkerAvailable(marker)
     end
 end
 
