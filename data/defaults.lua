@@ -15,6 +15,7 @@ _G.ArchiveHelper = {
         NotifyChat = true,
         NotifyScreen = true,
         ShardCheck = true,
+        ShardIgnore = true,
         ShowNotice = true,
         ShowStacks = true,
         ShowTimer = true
