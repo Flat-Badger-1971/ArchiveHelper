@@ -178,8 +178,8 @@ function AH.CombatCheck(_, incombat)
             EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Fabled", _G.EVENT_COMBAT_EVENT)
             EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_RETICLE_TARGET_CHANGED)
 
-            for marker, _ in pairs(AH.MARKERS) do
-                AH.MARKERS[marker] = false
+            for _, info in pairs(AH.MARKERS) do
+                info.used = false
             end
 
             AH.MARAUDER = nil
