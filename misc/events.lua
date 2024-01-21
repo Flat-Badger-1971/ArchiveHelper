@@ -219,6 +219,10 @@ local function resetValues()
     ZO_ClearNumericallyIndexedTable(AH.Shards)
     tomesFound = 0
     tomesTotal = 0
+
+    for _, info in pairs(AH.MARKERS) do
+        info.manual = false
+    end
 end
 
 -- minimise false zone change detections
