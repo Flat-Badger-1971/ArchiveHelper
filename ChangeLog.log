@@ -5,6 +5,7 @@ Enabled Shard marking after arc 4 cycle 2 (optional)
 Handle zone changes where the map id does not change
 Added Filers' Wing Tomeshell count (requires LibDataShare and both players to use this addon for duo mode)
 Keybind added to mark/unmark current (reticleover) target
+Added missing achievements
 Code refactor
 
 [color=#ff9900][b]Version: 1.0.8 ---------------[/b][/color]
