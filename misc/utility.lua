@@ -176,3 +176,28 @@ function AH.CheckDataShareLib()
         end
     end
 end
+
+local solo = _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO
+
+function AH.GetActualGroupType()
+    local groupType = GetEndlessDungeonGroupType()
+    local groupSize = GetGroupSize()
+
+    if (groupSize == 0 or groupType == solo) then
+        return solo
+    end
+
+    local size = 0
+
+    for unit = 1, groupSize do
+        if (IsUnitOnline(unit)) then
+            size = size + 1
+        end
+    end
+
+    if (size == 1) then
+        return solo
+    end
+
+    return groupType
+end

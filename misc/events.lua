@@ -118,14 +118,10 @@ local function tomeCheck(...)
 end
 
 local function startTomeCheck()
-    AH.TomeGroupType = GetEndlessDungeonGroupType()
-
     -- for the purposes of this check, players with companions count as solo
-    if ((AH.TomeGroupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_DUO) and HasBlockedCompanion()) then
-        AH.TomeGroupType = _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO
-    end
-
+    AH.TomeGroupType = AH.GetActualGroupType()
     AH.MaxTomes = AH.TomeGroupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO and AH.Tomeshells.Solo or AH.Tomeshells.Duo
+
     local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, AH.MaxTomes)
 
     AH.ShowTomeshellCount()
