@@ -6,11 +6,13 @@ _G.ArchiveHelper = {
         EchoingDenTimer = 60,
         FabledCheck = true,
         Favourites = {},
+        Ignore = {},
         MarauderCheck = true,
         MarauderPlay = true,
         MarkAchievements = true,
         MarkAvatar = true,
         MarkFavourites = true,
+        MarkIgnore = false,
         Notify = true,
         NotifyChat = true,
         NotifyScreen = true,
@@ -35,7 +37,8 @@ _G.ArchiveHelper = {
         FAV = {name = "campaign/overview_indexicon_bonus_down", colour = {0, 1, 0, 1}},
         IRON = {name = "icons/achievement_u40_ed2_iron_atronach", colour = {1, 1, 1, 1}},
         WOLF = {name = "icons/achievement_u40_ed2_werewolf_behemoth", colour = {1, 1, 1, 1}},
-        ICE = {name = "icons/achievement_u40_ed2_ice_avatar", colour = {1, 1, 1, 1}}
+        ICE = {name = "icons/achievement_u40_ed2_ice_avatar", colour = {1, 1, 1, 1}},
+        AVOID = {name = "castbar/forbiddenaction", colour = {1, 0, 0, 1}}
     },
     LF = string.char(10),
     MAPS = {

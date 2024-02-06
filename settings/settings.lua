@@ -89,6 +89,58 @@ local function updateFavourites()
     _G.ARCHIVEHELPER_FAVOURITES_LIST:UpdateValue()
 end
 
+local removeIgnoreChoices = {}
+local removeIgnoreChoiceValues = {}
+
+local function populateRemovableIgnoreOptions(doNotFill)
+    local choices = AH.Vars.Ignore
+
+    if (#choices == 0) then
+        return {}
+    end
+
+    local tmpTable = {}
+
+    for _, choice in ipairs(choices) do
+        local name = GetAbilityName(choice)
+        local icon = GetAbilityIcon(choice)
+
+        table.insert(tmpTable, {id = choice, name = name, icon = icon})
+    end
+
+    if (not doNotFill) then
+        doSort(tmpTable, removeIgnoreChoices, removeIgnoreChoiceValues)
+    end
+
+    return tmpTable
+end
+
+local function getIgnore()
+    local removed = populateRemovableIgnoreOptions()
+    local text = ""
+
+    if (#removed > 0) then
+        table.sort(
+            removed,
+            function(a, b)
+                return a.name < b.name
+            end
+        )
+
+        for _, ability in ipairs(removed) do
+            text = text .. zo_iconFormat(ability.icon, 24, 24)
+            text = text .. " " .. ability.name .. AH.LF
+        end
+    end
+
+    return text
+end
+
+local function updateIgnore()
+    _G.ARCHIVEHELPER_IGNORE_LIST.data.text = getIgnore()
+    _G.ARCHIVEHELPER_IGNORE_LIST:UpdateValue()
+end
+
 local function getSecondsOptions()
     local seconds = {}
 
@@ -343,6 +395,19 @@ local function buildOptions()
     }
 
     options[#options + 1] = {
+        type = "checkbox",
+        name = zo_iconFormat(string.format("/esoui/art/%s.dds", AH.ICONS.AVOID.name), 24, 24) ..
+            "|r " .. AH.Format(_G.SI_FRIEND_MENU_IGNORE),
+        getFunc = function()
+            return AH.Vars.MarkIgnore
+        end,
+        setFunc = function(value)
+            AH.Vars.MarkIgnore = value
+        end,
+        width = "full"
+    }
+
+    options[#options + 1] = {
         type = "header",
         name = AH.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
         width = "full"
@@ -362,7 +427,8 @@ local function buildOptions()
 
             table.insert(AH.Vars.Favourites, value)
             updateFavourites()
-        end
+        end,
+        disabled = function() return not AH.Vars.MarkFavourites end
     }
 
     options[#options + 1] = {
@@ -386,7 +452,7 @@ local function buildOptions()
             end
         end,
         disabled = function()
-            return #AH.Vars.Favourites == 0
+            return #AH.Vars.Favourites == 0 or (not AH.Vars.MarkFavourites)
         end
     }
 
@@ -400,7 +466,71 @@ local function buildOptions()
         type = "description",
         text = getFavourites(),
         width = "full",
-        reference = "ARCHIVEHELPER_FAVOURITES_LIST"
+        reference = "ARCHIVEHELPER_FAVOURITES_LIST",
+        disabled = function() return not AH.Vars.MarkFavourites end
+    }
+
+    options[#options + 1] = {
+        type = "header",
+        name = AH.Format(_G.SI_FRIEND_MENU_IGNORE),
+        width = "full"
+    }
+
+    options[#options + 1] = {
+        type = "dropdown",
+        name = AH.Format(_G.SI_DIALOG_ADD_IGNORE),
+        choices = favouriteChoices,
+        choicesValues = favouriteChoiceValues,
+        getFunc = function()
+        end,
+        setFunc = function(value)
+            if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Ignore, value)) then
+                return
+            end
+
+            table.insert(AH.Vars.Ignore, value)
+            updateIgnore()
+        end,
+        disabled = function() return not AH.Vars.MarkIgnore end
+    }
+
+    options[#options + 1] = {
+        type = "dropdown",
+        name = AH.Format(_G.SI_IGNORE_LIST_REMOVE_IGNORE),
+        choices = removeIgnoreChoices,
+        choicesValues = removeIgnoreChoiceValues,
+        getFunc = function()
+        end,
+        setFunc = function(value)
+            if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Ignore, value)) then
+                AH.Vars.Ignore =
+                    AH.Filter(
+                    AH.Vars.Ignore,
+                    function(v)
+                        return v ~= value
+                    end
+                )
+
+                updateIgnore()
+            end
+        end,
+        disabled = function()
+            return #AH.Vars.Ignore == 0 or (not AH.Vars.MarkIgnore)
+        end
+    }
+
+    options[#options + 1] = {
+        type = "description",
+        text = "|cff0000" .. AH.Format(_G.ARCHIVEHELPER_WARNING) .. "|r",
+        width = "full"
+    }
+
+    options[#options + 1] = {
+        type = "description",
+        text = getIgnore(),
+        width = "full",
+        reference = "ARCHIVEHELPER_IGNORE_LIST",
+        disabled = function() return not AH.Vars.MarkIgnore end
     }
 
     return options

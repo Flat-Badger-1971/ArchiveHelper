@@ -6,6 +6,7 @@ Handle zone changes where the map id does not change
 Added Filers' Wing Tomeshell count (requires LibDataShare and both players to use this addon for duo mode)
 Keybind added to mark/unmark current (reticleover) target
 Added missing achievements
+Added ignore list for verses/visions
 Code refactor
 
 [color=#ff9900][b]Version: 1.0.8 ---------------[/b][/color]
@@ -18,7 +19,7 @@ Added Shard target markers (translation dependant)
 [color=#ff9900][b]Version: 1.0.7 ---------------[/b][/color]
 Improved accuracy of Echoing Den timer (translation dependant)
 
-[color=#ff9900][b]Version: 1.0.6 ---------------[/b][/color]
+[color=#ff9900][b]Version: 1.0.6 ---------------[/b][/color]m
 Play audible warning for incoming Marauders added
 Changed avatar stack count text
 
