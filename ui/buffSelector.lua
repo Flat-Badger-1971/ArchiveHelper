@@ -108,6 +108,8 @@ function AH.OnBuffSelectorShowing()
         end
     end
 
+    local ignoreIcons = {}
+
     -- show ignore icons - override favourite
     if (AH.Vars.MarkIgnore and #AH.Vars.Ignore > 0) then
         for _, buffInfo in pairs(buffChoices) do
@@ -118,6 +120,28 @@ function AH.OnBuffSelectorShowing()
 
                 if (favIcons[position]) then
                     favIcons[position]:SetHidden(true)
+                end
+
+                icon:SetHidden(false)
+                ignoreIcons[position] = icon
+            end
+        end
+    end
+
+    -- auto ignore icons - override favourite
+    if (AH.Vars.AutoCheck) then
+        for _, buffInfo in pairs(buffChoices) do
+            if (not AH.HasSkills(buffInfo.abilityId)) then
+                local position = positionOffsets[getNextPosition(buffInfo.index)]
+                local buff = _G[string.format("%sBuff%d", container, buffInfo.index)]
+                local icon = AH.CreateIcon("AVOID", buff, position.x, position.y)
+
+                if (favIcons[position]) then
+                    favIcons[position]:SetHidden(true)
+                end
+
+                if (ignoreIcons[position]) then
+                    ignoreIcons[position]:SetHidden(true)
                 end
 
                 icon:SetHidden(false)

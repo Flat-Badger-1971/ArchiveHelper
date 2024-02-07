@@ -397,7 +397,7 @@ local function buildOptions()
     options[#options + 1] = {
         type = "checkbox",
         name = zo_iconFormat(string.format("/esoui/art/%s.dds", AH.ICONS.AVOID.name), 24, 24) ..
-            "|r " .. AH.Format(_G.SI_FRIEND_MENU_IGNORE),
+            "|r " .. AH.Format(_G.ARCHIVEHELPER_AVOID),
         getFunc = function()
             return AH.Vars.MarkIgnore
         end,
@@ -472,13 +472,30 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "header",
-        name = AH.Format(_G.SI_FRIEND_MENU_IGNORE),
+        name = AH.Format(_G.ARCHIVEHELPER_AVOID),
         width = "full"
     }
 
     options[#options + 1] = {
+        type = "checkbox",
+        name = AH.Format(_G.ARCHIVEHELPER_USE_AUTO_AVOID),
+        tooltip = AH.Format(_G.ARCHIVEHELPER_USE_AUTO_AVOID_TOOLTIP),
+        getFunc = function()
+            return AH.Vars.AutoCheck
+        end,
+        setFunc = function(value)
+            if (value) then
+                AH.EnableAutoCheck()
+            else
+                AH.DisableAutoCheck()
+            end
+        end,
+        disabled = function() return not AH.Vars.MarkIgnore end
+    }
+
+    options[#options + 1] = {
         type = "dropdown",
-        name = AH.Format(_G.SI_DIALOG_ADD_IGNORE),
+        name = AH.Format(_G.ARCHIVEHELPER_ADD_AVOID),
         choices = favouriteChoices,
         choicesValues = favouriteChoiceValues,
         getFunc = function()
@@ -496,7 +513,7 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "dropdown",
-        name = AH.Format(_G.SI_IGNORE_LIST_REMOVE_IGNORE),
+        name = AH.Format(_G.ARCHIVEHELPER_REMOVE_AVOID),
         choices = removeIgnoreChoices,
         choicesValues = removeIgnoreChoiceValues,
         getFunc = function()

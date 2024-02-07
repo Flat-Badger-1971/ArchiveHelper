@@ -220,6 +220,52 @@ AH.ACHIEVEMENTS = {
     }
 }
 
+AH.SKILL_TYPE_BUFFS = {
+    [_G.SKILL_TYPE_AVA] = {200018},
+    [_G.SKILL_TYPE_CLASS] = {200017},
+    [_G.SKILL_TYPE_GUILD] = {200016},
+    [_G.SKILL_TYPE_WORLD] = {200015},
+    [AH.SKILL_TYPE_PET] = {201012}
+}
+
+AH.PETS = {
+    [23304] = true,
+    [23316] = true,
+    [23319] = true,
+    [24613] = true,
+    [24636] = true,
+    [24639] = true,
+    [30581] = true,
+    [30584] = true,
+    [30587] = true,
+    [30592] = true,
+    [30595] = true,
+    [30598] = true,
+    [30618] = true,
+    [30622] = true,
+    [30626] = true,
+    [30631] = true,
+    [30636] = true,
+    [30641] = true,
+    [30647] = true,
+    [30652] = true,
+    [30657] = true,
+    [30664] = true,
+    [30669] = true,
+    [30674] = true,
+    [85982] = true,
+    [85983] = true,
+    [85984] = true,
+    [85985] = true,
+    [85986] = true,
+    [85987] = true,
+    [85988] = true,
+    [85989] = true,
+    [85990] = true,
+    [85991] = true,
+    [85992] = true,
+    [85993] = true
+}
 --[[
 3781, -- I crave violence
 3782, -- You can't touch me

@@ -48,5 +48,10 @@ _G.ArchiveHelper = {
         ECHOING_DEN = {id = 2423, name = "Echoing Den"},
         THEATRE_OF_WAR = {id = 2424, name = "Theatre of War"},
         DESTOZUNOS_LIBRARY = {id = 2425, name = "Destozuno's Library"}
-    }
+    },
+    OAKENSOUL = 187658,
+    SKILL_TYPE_PET = 999,
+    SORCERER = 2,
+    SUPPORT_SKILL_LINE = 71,
+    WARDEN = 4
 }

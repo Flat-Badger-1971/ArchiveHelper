@@ -190,7 +190,7 @@ function AH.GetActualGroupType()
     local size = 0
 
     for unit = 1, groupSize do
-        if (IsUnitOnline(unit)) then
+        if (IsUnitOnline(string.format("group%d", unit))) then
             size = size + 1
         end
     end
@@ -200,4 +200,119 @@ function AH.GetActualGroupType()
     end
 
     return groupType
+end
+
+function AH.UpdateSlottedSkills()
+    local skillTypes = {_G.SKILL_TYPE_AVA, _G.SKILL_TYPE_CLASS, _G.SKILL_TYPE_GUILD, _G.SKILL_TYPE_WORLD}
+    local purchasedSkills = {}
+
+    for _, skillType in ipairs(skillTypes) do
+        for line = 1, GetNumSkillLines(skillType) do
+            local id = GetSkillLineId(skillType, line)
+
+            if (id ~= AH.SUPPORT_SKILL_LINE) then
+                for ability = 1, GetNumSkillAbilities(skillType, line) do
+                    local _, _, _, passive, _, purchased = GetSkillAbilityInfo(skillType, line, ability)
+
+                    if (purchased and not passive) then
+                        local abilityId = GetSkillAbilityId(skillType, line, ability)
+
+                        if (not purchasedSkills[skillType]) then
+                            purchasedSkills[skillType] = {}
+                        end
+
+                        table.insert(purchasedSkills[skillType], abilityId)
+                    end
+                end
+            end
+        end
+    end
+
+    local slotted = {}
+    local hasOakensoul =
+        GetItemId(_G.BAG_WORN, _G.EQUIP_SLOT_RING1) == AH.OAKENSOUL or
+        GetItemId(_G.BAG_WORN, _G.EQUIP_SLOT_RING2) == AH.OAKENSOUL
+
+    for slotIndex = 3, 8 do
+        if
+            (IsSlotUsed(slotIndex, _G.HOTBAR_CATEGORY_PRIMARY) and
+                GetSlotType(slotIndex, _G.HOTBAR_CATEGORY_PRIMARY) == _G.ACTION_TYPE_ABILITY)
+         then
+            table.insert(slotted, GetSlotBoundId(slotIndex, _G.HOTBAR_CATEGORY_PRIMARY))
+        end
+        if
+            ((not hasOakensoul) and IsSlotUsed(slotIndex, _G.HOTBAR_CATEGORY_BACKUP) and
+                GetSlotType(slotIndex, _G.HOTBAR_CATEGORY_BACKUP) == _G.ACTION_TYPE_ABILITY)
+         then
+            table.insert(slotted, GetSlotBoundId(slotIndex, _G.HOTBAR_CATEGORY_BACKUP))
+        end
+    end
+
+    AH.SKILL_TYPES = {
+        [_G.SKILL_TYPE_AVA] = false,
+        [_G.SKILL_TYPE_CLASS] = false,
+        [_G.SKILL_TYPE_GUILD] = false,
+        [_G.SKILL_TYPE_WORLD] = false
+    }
+
+    for _, skillType in ipairs(skillTypes) do
+        if (purchasedSkills[skillType]) then
+            for _, slottedAbilityId in ipairs(slotted) do
+                if (ZO_IsElementInNumericallyIndexedTable(purchasedSkills[skillType], slottedAbilityId)) then
+                    AH.SKILL_TYPES[skillType] = true
+                    break
+                end
+            end
+        end
+    end
+
+    AH.SKILL_TYPES[AH.SKILL_TYPE_PET] = GetUnitName("playerpet") ~= ""
+end
+
+local function onEffectChanged(...)
+    local effectType = select(11, ...)
+    local abilityId = select(16, ...)
+
+    if (effectType ~= _G.BUFF_EFFECT_TYPE_BUFF) then
+        return
+    end
+
+    if (AH.PETS[abilityId]) then
+        AH.UpdateSlottedSkills()
+    end
+end
+
+function AH.EnableAutoCheck()
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOT_ABILITY_SLOTTED, AH.UpdateSlottedSkills)
+
+    local classId = GetUnitClassId("player")
+
+    if (classId == AH.SORCERER or classId == AH.WARDEN) then
+        EVENT_MANAGER:RegisterForEvent(AH.Name .. "_pet", _G.EVENT_EFFECT_CHANGED, onEffectChanged)
+    end
+
+    AH.Vars.AutoCheck = true
+    AH.UpdateSlottedSkills()
+end
+
+function AH.DisableAutoCheck()
+    EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_ACTION_SLOT_ABILITY_SLOTTED)
+
+    local classId = GetUnitClassId("player")
+
+    if (classId == AH.SORCERER or classId == AH.WARDEN) then
+        EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_pet", _G.EVENT_EFFECT_CHANGED)
+    end
+
+    AH.Vars.AutoCheck = false
+end
+
+function AH.HasSkills(buff)
+    for skillType, ids in pairs(AH.SKILL_TYPE_BUFFS) do
+        if (ZO_IsElementInNumericallyIndexedTable(ids, buff)) then
+            return AH.SKILL_TYPES[skillType]
+        end
+    end
+
+    return true
 end
