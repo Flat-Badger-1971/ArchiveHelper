@@ -240,6 +240,7 @@ function AH.UpdateSlottedSkills()
          then
             table.insert(slotted, GetSlotBoundId(slotIndex, _G.HOTBAR_CATEGORY_PRIMARY))
         end
+
         if
             ((not hasOakensoul) and IsSlotUsed(slotIndex, _G.HOTBAR_CATEGORY_BACKUP) and
                 GetSlotType(slotIndex, _G.HOTBAR_CATEGORY_BACKUP) == _G.ACTION_TYPE_ABILITY)
@@ -307,9 +308,9 @@ function AH.DisableAutoCheck()
     AH.Vars.AutoCheck = false
 end
 
-function AH.HasSkills(buff)
+function AH.HasSkills(abilityId)
     for skillType, ids in pairs(AH.SKILL_TYPE_BUFFS) do
-        if (ZO_IsElementInNumericallyIndexedTable(ids, buff)) then
+        if (ZO_IsElementInNumericallyIndexedTable(ids, abilityId)) then
             return AH.SKILL_TYPES[skillType]
         end
     end
