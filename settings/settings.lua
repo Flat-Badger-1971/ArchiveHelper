@@ -225,7 +225,6 @@ local function buildOptions()
             end,
             setFunc = function(value)
                 AH.Vars.ShowTimer = value
-                AH.TimerCheck()
             end,
             width = "full"
         },

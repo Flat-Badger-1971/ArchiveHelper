@@ -118,10 +118,6 @@ function AH.OnBuffSelectorShowing()
                 local buff = _G[string.format("%sBuff%d", container, buffInfo.index)]
                 local icon = AH.CreateIcon("AVOID", buff, position.x, position.y)
 
-                if (favIcons[position]) then
-                    favIcons[position]:SetHidden(true)
-                end
-
                 icon:SetHidden(false)
                 ignoreIcons[position] = icon
             end
