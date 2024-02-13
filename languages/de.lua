@@ -44,7 +44,7 @@ L(
 L(AH .. "SHOW_ECHO", "Show timer in the Echoing Den")
 L(AH .. "SLASH_MISSING", "fehlende")
 L(AH .. "STACKS", "Stack count")
-L(AH .. "TOMESHELL", "Tomeshell")
+L(AH .. "TOMESHELL", "Buchsiedler")
 L(AH .. "USE_AUTO_AVOID", "Use automatic avoids")
 L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Automatically mark verses or visions that are of no use to you due to unslotted skills")
 L(AH .. "WARNING", "Warning: Dropdowns may not refresh without a UI reload")

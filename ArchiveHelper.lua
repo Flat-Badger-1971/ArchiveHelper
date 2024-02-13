@@ -32,10 +32,6 @@ local function Initialise()
     _G.SLASH_COMMANDS["/ah"] = function(...)
         AH.HandleSlashCommand(...)
     end
-
-    if (AH.Vars.AutoCheck) then
-        AH.UpdateSlottedSkills()
-    end
 end
 
 function AH.OnAddonLoaded(_, addonName)

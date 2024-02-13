@@ -131,6 +131,7 @@ local function startTomeCheck()
 end
 
 local function stopTomeCheck()
+    AH.TomeCount:SetHidden(true)
     EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Tome", _G.EVENT_COMBAT_EVENT)
     AH.Release("TomeCount")
 end
@@ -165,6 +166,10 @@ local function onPlayerActivated()
             AH.IsInFilersWing = true
         else
             AH.IsInFilersWing = false
+
+            if (AH.TomeCount) then
+                stopTomeCheck()
+            end
         end
     end
 end
@@ -300,5 +305,10 @@ function AH.SetupEvents()
 
     if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
         EVENT_MANAGER:RegisterForEvent(AH.Name .. "_Fabled", _G.EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)
+    end
+
+    if (AH.Vars.AutoCheck) then
+        AH.UpdateSlottedSkills()
+        EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
     end
 end

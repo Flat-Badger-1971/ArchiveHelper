@@ -284,7 +284,7 @@ local function onEffectChanged(...)
 end
 
 function AH.EnableAutoCheck()
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOT_ABILITY_SLOTTED, AH.UpdateSlottedSkills)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
 
     local classId = GetUnitClassId("player")
 
@@ -297,7 +297,7 @@ function AH.EnableAutoCheck()
 end
 
 function AH.DisableAutoCheck()
-    EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_ACTION_SLOT_ABILITY_SLOTTED)
+    EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED)
 
     local classId = GetUnitClassId("player")
 
