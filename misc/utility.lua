@@ -206,6 +206,13 @@ function AH.UpdateSlottedSkills()
     local skillTypes = {_G.SKILL_TYPE_AVA, _G.SKILL_TYPE_CLASS, _G.SKILL_TYPE_GUILD, _G.SKILL_TYPE_WORLD}
     local purchasedSkills = {}
 
+    AH.SKILL_TYPES = {
+        [_G.SKILL_TYPE_AVA] = false,
+        [_G.SKILL_TYPE_CLASS] = false,
+        [_G.SKILL_TYPE_GUILD] = false,
+        [_G.SKILL_TYPE_WORLD] = false
+    }
+    
     for _, skillType in ipairs(skillTypes) do
         for line = 1, GetNumSkillLines(skillType) do
             local id = GetSkillLineId(skillType, line)
@@ -248,13 +255,6 @@ function AH.UpdateSlottedSkills()
             table.insert(slotted, GetSlotBoundId(slotIndex, _G.HOTBAR_CATEGORY_BACKUP))
         end
     end
-
-    AH.SKILL_TYPES = {
-        [_G.SKILL_TYPE_AVA] = false,
-        [_G.SKILL_TYPE_CLASS] = false,
-        [_G.SKILL_TYPE_GUILD] = false,
-        [_G.SKILL_TYPE_WORLD] = false
-    }
 
     for _, skillType in ipairs(skillTypes) do
         if (purchasedSkills[skillType]) then
@@ -309,6 +309,10 @@ function AH.DisableAutoCheck()
 end
 
 function AH.HasSkills(abilityId)
+    if (not AH.SKILL_TYPES) then
+        AH.UpdateSlottedSkills()
+    end
+
     for skillType, ids in pairs(AH.SKILL_TYPE_BUFFS) do
         if (ZO_IsElementInNumericallyIndexedTable(ids, abilityId)) then
             return AH.SKILL_TYPES[skillType]
