@@ -212,7 +212,7 @@ function AH.UpdateSlottedSkills()
         [_G.SKILL_TYPE_GUILD] = false,
         [_G.SKILL_TYPE_WORLD] = false
     }
-    
+
     for _, skillType in ipairs(skillTypes) do
         for line = 1, GetNumSkillLines(skillType) do
             local id = GetSkillLineId(skillType, line)
