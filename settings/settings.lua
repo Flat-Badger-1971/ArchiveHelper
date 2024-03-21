@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.1.0",
+    version = "1.1.1",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -31,7 +31,7 @@ do
     local tmpTable = {}
 
     for abilityId, _ in pairs(AH.ABILITIES) do
-        table.insert(tmpTable, {id = abilityId, name = GetAbilityName(abilityId)})
+        table.insert(tmpTable, {id = abilityId, name = AH.Format(GetAbilityName(abilityId))})
     end
 
     doSort(tmpTable, favouriteChoices, favouriteChoiceValues)
@@ -53,7 +53,7 @@ local function populateRemovableOptions(doNotFill)
         local name = GetAbilityName(choice)
         local icon = GetAbilityIcon(choice)
 
-        table.insert(tmpTable, {id = choice, name = name, icon = icon})
+        table.insert(tmpTable, {id = choice, name = AH.Format(name), icon = icon})
     end
 
     if (not doNotFill) then
@@ -105,7 +105,7 @@ local function populateRemovableIgnoreOptions(doNotFill)
         local name = GetAbilityName(choice)
         local icon = GetAbilityIcon(choice)
 
-        table.insert(tmpTable, {id = choice, name = name, icon = icon})
+        table.insert(tmpTable, {id = choice, name = AH.Format(name), icon = icon})
     end
 
     if (not doNotFill) then
@@ -417,6 +417,7 @@ local function buildOptions()
         name = AH.Format(_G.SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
         choices = favouriteChoices,
         choicesValues = favouriteChoiceValues,
+        scrollable = true,
         getFunc = function()
         end,
         setFunc = function(value)
@@ -427,7 +428,9 @@ local function buildOptions()
             table.insert(AH.Vars.Favourites, value)
             updateFavourites()
         end,
-        disabled = function() return not AH.Vars.MarkFavourites end
+        disabled = function()
+            return not AH.Vars.MarkFavourites
+        end
     }
 
     options[#options + 1] = {
@@ -435,6 +438,7 @@ local function buildOptions()
         name = AH.Format(_G.SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
         choices = removeChoices,
         choicesValues = removeChoiceValues,
+        scrollable = true,
         getFunc = function()
         end,
         setFunc = function(value)
@@ -466,7 +470,9 @@ local function buildOptions()
         text = getFavourites(),
         width = "full",
         reference = "ARCHIVEHELPER_FAVOURITES_LIST",
-        disabled = function() return not AH.Vars.MarkFavourites end
+        disabled = function()
+            return not AH.Vars.MarkFavourites
+        end
     }
 
     options[#options + 1] = {
@@ -489,7 +495,9 @@ local function buildOptions()
                 AH.DisableAutoCheck()
             end
         end,
-        disabled = function() return not AH.Vars.MarkIgnore end
+        disabled = function()
+            return not AH.Vars.MarkIgnore
+        end
     }
 
     options[#options + 1] = {
@@ -497,6 +505,7 @@ local function buildOptions()
         name = AH.Format(_G.ARCHIVEHELPER_ADD_AVOID),
         choices = favouriteChoices,
         choicesValues = favouriteChoiceValues,
+        scrollable = true,
         getFunc = function()
         end,
         setFunc = function(value)
@@ -507,7 +516,9 @@ local function buildOptions()
             table.insert(AH.Vars.Ignore, value)
             updateIgnore()
         end,
-        disabled = function() return not AH.Vars.MarkIgnore end
+        disabled = function()
+            return not AH.Vars.MarkIgnore
+        end
     }
 
     options[#options + 1] = {
@@ -515,6 +526,7 @@ local function buildOptions()
         name = AH.Format(_G.ARCHIVEHELPER_REMOVE_AVOID),
         choices = removeIgnoreChoices,
         choicesValues = removeIgnoreChoiceValues,
+        scrollable = true,
         getFunc = function()
         end,
         setFunc = function(value)
@@ -546,7 +558,9 @@ local function buildOptions()
         text = getIgnore(),
         width = "full",
         reference = "ARCHIVEHELPER_IGNORE_LIST",
-        disabled = function() return not AH.Vars.MarkIgnore end
+        disabled = function()
+            return not AH.Vars.MarkIgnore
+        end
     }
 
     return options
