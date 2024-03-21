@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.1.1",
+    version = "1.1.2",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -323,6 +323,17 @@ local function buildOptions()
             width = "full"
         },
         [15] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_GW_MARKER),
+            getFunc = function()
+                return AH.Vars.GWCheck
+            end,
+            setFunc = function(value)
+                AH.Vars.GWCheck = value
+            end,
+            width = "full"
+        },
+        [16] = {
             type = "checkbox",
             name = zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24) ..
                 AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER),

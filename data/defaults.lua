@@ -6,6 +6,7 @@ _G.ArchiveHelper = {
         EchoingDenTimer = 60,
         FabledCheck = true,
         Favourites = {},
+        GWCheck = true,
         Ignore = {},
         MarauderCheck = true,
         MarauderPlay = true,

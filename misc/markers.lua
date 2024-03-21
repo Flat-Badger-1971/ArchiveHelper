@@ -1,6 +1,7 @@
 local AH = _G.ArchiveHelper
 local fabledText = GetString(_G.ARCHIVEHELPER_FABLED)
 local shardText = GetString(_G.ARCHIVEHELPER_SHARD)
+local gwText = GetString(_G.ARHCIVEHELPER_GW)
 -- local cache for performance
 local GetUnitName, GetUnitTargetMarkerType = GetUnitName, GetUnitTargetMarkerType
 local IsUnitDead, AssignTargetMarkerToReticleTarget = IsUnitDead, AssignTargetMarkerToReticleTarget
@@ -61,6 +62,7 @@ local function doChecks()
     AH.CHECK_MARAUDERS = AH.Vars.MarauderCheck
     AH.CHECK_FABLED = AH.Vars.FabledCheck
     AH.CHECK_SHARDS = false
+    AH.CHECK_GW = false
 
     if (arc == 1) then
         -- no marauders in arc 1
@@ -72,10 +74,11 @@ local function doChecks()
     end
 
     if (cycle < 5 and stage == 3) then
-        -- possbile fabled due to one boss, no marauders or shards
+        -- possible fabled due to one boss, no marauders or shards
         AH.CHECK_FABLED = true and AH.Vars.FabledCheck
         AH.CHECK_MARAUDERS = false
         AH.CHECK_SHARDS = false
+        AH.CHECK_GW = true and AH.Vars.GWCheck
     end
 
     if (cycle == 5 and stage == 3 and arc < 4) then
@@ -101,23 +104,27 @@ local function isItDeadDave()
     end
 end
 
-function AH.FabledCheck()
+local function markerCheck(target)
     local extantMarker = GetUnitTargetMarkerType("reticleover")
 
     if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-        if (GetUnitName("reticleover"):find(fabledText) and not IsUnitDead("reticleover")) then
+        if (GetUnitName("reticleover") == target and not IsUnitDead("reticleover")) then
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
         end
     elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
-        -- sanity check
-        local index = getMarkerIndex(extantMarker)
+         -- sanity check
+         local index = getMarkerIndex(extantMarker)
 
-        if ((not GetUnitName("reticleover"):find(fabledText)) and (not AH.MARKERS[index].manual)) then
+        if ((GetUnitName("reticleover") ~= target) and (not AH.MARKERS[index].manual)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
             makeMarkerAvailable(extantMarker)
         end
     end
+end
+
+function AH.FabledCheck()
+    markerCheck(fabledText)
 end
 
 function AH.MarauderCheck()
@@ -138,22 +145,11 @@ function AH.MarauderCheck()
 end
 
 function AH.ShardCheck()
-    local extantMarker = GetUnitTargetMarkerType("reticleover")
+    markerCheck(shardText)
+end
 
-    if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-        if (GetUnitName("reticleover") == shardText and not IsUnitDead("reticleover")) then
-            local marker = getAvailableMarker()
-            AssignTargetMarkerToReticleTarget(marker)
-        end
-    elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
-         -- sanity check
-         local index = getMarkerIndex(extantMarker)
-
-        if ((GetUnitName("reticleover") ~= shardText) and (not AH.MARKERS[index].manual)) then
-            AssignTargetMarkerToReticleTarget(extantMarker)
-            makeMarkerAvailable(extantMarker)
-        end
-    end
+function AH.GWCheck()
+    markerCheck(gwText)
 end
 
 -- for keybinds
@@ -206,6 +202,10 @@ function AH.CombatCheck(_, incombat)
 
                         if (AH.CHECK_SHARDS) then
                             AH.ShardCheck()
+                        end
+
+                        if (AH.CHECK_GW) then
+                            AH.GWCheck()
                         end
 
                         isItDeadDave()
