@@ -1,7 +1,7 @@
 local AH = _G.ArchiveHelper
 local fabledText = GetString(_G.ARCHIVEHELPER_FABLED)
 local shardText = GetString(_G.ARCHIVEHELPER_SHARD)
-local gwText = GetString(_G.ARHCIVEHELPER_GW)
+local gwText = GetString(_G.ARCHIVEHELPER_GW)
 -- local cache for performance
 local GetUnitName, GetUnitTargetMarkerType = GetUnitName, GetUnitTargetMarkerType
 local IsUnitDead, AssignTargetMarkerToReticleTarget = IsUnitDead, AssignTargetMarkerToReticleTarget
