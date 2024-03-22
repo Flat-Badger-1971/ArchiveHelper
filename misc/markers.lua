@@ -108,7 +108,7 @@ local function markerCheck(target)
     local extantMarker = GetUnitTargetMarkerType("reticleover")
 
     if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-        if (GetUnitName("reticleover") == target and not IsUnitDead("reticleover")) then
+        if (GetUnitName("reticleover"):find(target) and not IsUnitDead("reticleover")) then
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
         end
@@ -116,7 +116,7 @@ local function markerCheck(target)
          -- sanity check
          local index = getMarkerIndex(extantMarker)
 
-        if ((GetUnitName("reticleover") ~= target) and (not AH.MARKERS[index].manual)) then
+        if ((not GetUnitName("reticleover"):find(target)) and (not AH.MARKERS[index].manual)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
             makeMarkerAvailable(extantMarker)
         end
