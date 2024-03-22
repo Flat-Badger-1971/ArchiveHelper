@@ -15,7 +15,6 @@ L(
     AH .. "FABLED_TOOLTIP",
     "This feature will not work with Lykeions Fabled Marker addon to avoid both addons trying to mark the same things."
 )
-L(AH .. "GATHER", "Gather")
 L(AH .. "GW", "Gw the Pilferer")
 L(AH .. "GW_MARKER", "Add Target Marker to Gw the Pilferer")
 L(AH .. "HERD", "Herd the Ghost Lights")
