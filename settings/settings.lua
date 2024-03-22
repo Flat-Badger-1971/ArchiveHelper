@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.0.9",
+    version = "1.1.2",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -31,7 +31,7 @@ do
     local tmpTable = {}
 
     for abilityId, _ in pairs(AH.ABILITIES) do
-        table.insert(tmpTable, {id = abilityId, name = GetAbilityName(abilityId)})
+        table.insert(tmpTable, {id = abilityId, name = AH.Format(GetAbilityName(abilityId))})
     end
 
     doSort(tmpTable, favouriteChoices, favouriteChoiceValues)
@@ -53,7 +53,7 @@ local function populateRemovableOptions(doNotFill)
         local name = GetAbilityName(choice)
         local icon = GetAbilityIcon(choice)
 
-        table.insert(tmpTable, {id = choice, name = name, icon = icon})
+        table.insert(tmpTable, {id = choice, name = AH.Format(name), icon = icon})
     end
 
     if (not doNotFill) then
@@ -105,7 +105,7 @@ local function populateRemovableIgnoreOptions(doNotFill)
         local name = GetAbilityName(choice)
         local icon = GetAbilityIcon(choice)
 
-        table.insert(tmpTable, {id = choice, name = name, icon = icon})
+        table.insert(tmpTable, {id = choice, name = AH.Format(name), icon = icon})
     end
 
     if (not doNotFill) then
@@ -225,7 +225,6 @@ local function buildOptions()
             end,
             setFunc = function(value)
                 AH.Vars.ShowTimer = value
-                AH.TimerCheck()
             end,
             width = "full"
         },
@@ -325,6 +324,17 @@ local function buildOptions()
         },
         [15] = {
             type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_GW_MARKER),
+            getFunc = function()
+                return AH.Vars.GWCheck
+            end,
+            setFunc = function(value)
+                AH.Vars.GWCheck = value
+            end,
+            width = "full"
+        },
+        [16] = {
+            type = "checkbox",
             name = zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24) ..
                 AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER),
             getFunc = function()
@@ -397,7 +407,7 @@ local function buildOptions()
     options[#options + 1] = {
         type = "checkbox",
         name = zo_iconFormat(string.format("/esoui/art/%s.dds", AH.ICONS.AVOID.name), 24, 24) ..
-            "|r " .. AH.Format(_G.SI_FRIEND_MENU_IGNORE),
+            "|r " .. AH.Format(_G.ARCHIVEHELPER_AVOID),
         getFunc = function()
             return AH.Vars.MarkIgnore
         end,
@@ -418,6 +428,7 @@ local function buildOptions()
         name = AH.Format(_G.SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
         choices = favouriteChoices,
         choicesValues = favouriteChoiceValues,
+        scrollable = true,
         getFunc = function()
         end,
         setFunc = function(value)
@@ -428,7 +439,9 @@ local function buildOptions()
             table.insert(AH.Vars.Favourites, value)
             updateFavourites()
         end,
-        disabled = function() return not AH.Vars.MarkFavourites end
+        disabled = function()
+            return not AH.Vars.MarkFavourites
+        end
     }
 
     options[#options + 1] = {
@@ -436,6 +449,7 @@ local function buildOptions()
         name = AH.Format(_G.SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
         choices = removeChoices,
         choicesValues = removeChoiceValues,
+        scrollable = true,
         getFunc = function()
         end,
         setFunc = function(value)
@@ -467,20 +481,42 @@ local function buildOptions()
         text = getFavourites(),
         width = "full",
         reference = "ARCHIVEHELPER_FAVOURITES_LIST",
-        disabled = function() return not AH.Vars.MarkFavourites end
+        disabled = function()
+            return not AH.Vars.MarkFavourites
+        end
     }
 
     options[#options + 1] = {
         type = "header",
-        name = AH.Format(_G.SI_FRIEND_MENU_IGNORE),
+        name = AH.Format(_G.ARCHIVEHELPER_AVOID),
         width = "full"
     }
 
     options[#options + 1] = {
+        type = "checkbox",
+        name = AH.Format(_G.ARCHIVEHELPER_USE_AUTO_AVOID),
+        tooltip = AH.Format(_G.ARCHIVEHELPER_USE_AUTO_AVOID_TOOLTIP),
+        getFunc = function()
+            return AH.Vars.AutoCheck
+        end,
+        setFunc = function(value)
+            if (value) then
+                AH.EnableAutoCheck()
+            else
+                AH.DisableAutoCheck()
+            end
+        end,
+        disabled = function()
+            return not AH.Vars.MarkIgnore
+        end
+    }
+
+    options[#options + 1] = {
         type = "dropdown",
-        name = AH.Format(_G.SI_DIALOG_ADD_IGNORE),
+        name = AH.Format(_G.ARCHIVEHELPER_ADD_AVOID),
         choices = favouriteChoices,
         choicesValues = favouriteChoiceValues,
+        scrollable = true,
         getFunc = function()
         end,
         setFunc = function(value)
@@ -491,14 +527,17 @@ local function buildOptions()
             table.insert(AH.Vars.Ignore, value)
             updateIgnore()
         end,
-        disabled = function() return not AH.Vars.MarkIgnore end
+        disabled = function()
+            return not AH.Vars.MarkIgnore
+        end
     }
 
     options[#options + 1] = {
         type = "dropdown",
-        name = AH.Format(_G.SI_IGNORE_LIST_REMOVE_IGNORE),
+        name = AH.Format(_G.ARCHIVEHELPER_REMOVE_AVOID),
         choices = removeIgnoreChoices,
         choicesValues = removeIgnoreChoiceValues,
+        scrollable = true,
         getFunc = function()
         end,
         setFunc = function(value)
@@ -530,7 +569,9 @@ local function buildOptions()
         text = getIgnore(),
         width = "full",
         reference = "ARCHIVEHELPER_IGNORE_LIST",
-        disabled = function() return not AH.Vars.MarkIgnore end
+        disabled = function()
+            return not AH.Vars.MarkIgnore
+        end
     }
 
     return options

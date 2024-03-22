@@ -1,3 +1,25 @@
+[color=#ff9900][b]Version: 1.1.2 ---------------[/b][/color]
+Added markers for Gw the pilferer
+French translations updated courtesy of Cyronhir
+
+[color=#ff9900][b]Version: 1.1.1 ---------------[/b][/color]
+Make comboboxes scrollable (thanks Cyronhir)
+Correctly format non-english text
+
+[color=#ff9900][b]Version: 1.1.0 ---------------[/b][/color]
+Scions Update
+
+[color=#ff9900][b]Version: 1.0.12 ---------------[/b][/color]
+Bugfix for freezing issue
+
+[color=#ff9900][b]Version: 1.0.11 ---------------[/b][/color]
+Refactor icon selection for favourites/ignore
+Added German Tomeshell translation for Tomeshell counter
+
+[color=#ff9900][b]Version: 1.0.10 ---------------[/b][/color]
+Echoing den timer bug fix
+Update date to favourites display
+
 [color=#ff9900][b]Version: 1.0.9 ---------------[/b][/color]
 Added marker reset
 Changed message frames to object pool

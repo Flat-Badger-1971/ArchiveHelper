@@ -92,33 +92,30 @@ function AH.OnBuffSelectorShowing()
         end
     end
 
-    local favIcons = {}
-
-    -- show favourites icons
+    -- show favourite/ignore icons
     if (AH.Vars.MarkFavourites and #AH.Vars.Favourites > 0) then
         for _, buffInfo in pairs(buffChoices) do
+            local iconName
+
+            -- favourites
             if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Favourites, buffInfo.abilityId)) then
-                local position = positionOffsets[getNextPosition(buffInfo.index)]
-                local buff = _G[string.format("%sBuff%d", container, buffInfo.index)]
-                local icon = AH.CreateIcon("FAV", buff, position.x, position.y)
-
-                icon:SetHidden(false)
-                favIcons[position] = icon
+                iconName = "FAV"
             end
-        end
-    end
 
-    -- show ignore icons - override favourite
-    if (AH.Vars.MarkIgnore and #AH.Vars.Ignore > 0) then
-        for _, buffInfo in pairs(buffChoices) do
+            -- ignore
             if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Ignore, buffInfo.abilityId)) then
+                iconName = "AVOID"
+            end
+
+            -- auto ignore
+            if (not AH.HasSkills(buffInfo.abilityId)) then
+                iconName = "AVOID"
+            end
+
+            if (iconName) then
                 local position = positionOffsets[getNextPosition(buffInfo.index)]
                 local buff = _G[string.format("%sBuff%d", container, buffInfo.index)]
-                local icon = AH.CreateIcon("AVOID", buff, position.x, position.y)
-
-                if (favIcons[position]) then
-                    favIcons[position]:SetHidden(true)
-                end
+                local icon = AH.CreateIcon(iconName, buff, position.x, position.y)
 
                 icon:SetHidden(false)
             end

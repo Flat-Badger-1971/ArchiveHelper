@@ -1,10 +1,12 @@
 -- German localisation
 local L = ZO_CreateStringId
 local AH = "ARCHIVEHELPER_"
+L(AH .. "ADD_AVOID", "Add to avoid list")
 L(AH .. "ALL_BOTH", "All verses and visions acquired")
 L(AH .. "ALL_VISIONS", "All visions acquired")
 L(AH .. "ALL_VERSES", "All verses acquired")
 L(AH .. "ARC_BOSS", "Arc boss next")
+L(AH .. "AVOID", "Avoid")
 L(AH .. "COUNT", "<<1>> of <<2>>")
 L(AH .. "CYCLE_BOSS", "Cycle boss next")
 L(AH .. "FABLED", "umwobene")
@@ -14,6 +16,8 @@ L(
     "This feature will not work with Lykeions Fabled Marker addon to avoid both addons trying to mark the same things."
 )
 L(AH .. "GATHER", "Gather")
+L(AH .. "GW", "Gw the Pilferer")
+L(AH .. "GW_MARKER", "Add Target Marker to Gw the Pilferer")
 L(AH .. "HERD", "Herd the Ghost Lights")
 L(AH .. "HERD_FAIL", "Enough") -- You Did Not Herd Enough Ghostlights
 L(AH .. "HERD_SUCCESS", "Successfully") -- You Successfully Returned the Ghostlights
@@ -28,6 +32,7 @@ L(AH .. "REMINDER", "Show boss reminder")
 L(AH .. "REMINDER_QUEST", "Show quest item reminder")
 L(AH .. "REMINDER_QUEST_TEXT", "Don't forget to pick up your quest item!")
 L(AH .. "REMINDER_TOOLTIP", "When selecting verses, show a reminder notice if the next stage is a boss.")
+L(AH .. "REMOVE_AVOID", "Remove from avoid list")
 L(AH .. "REQUIRES", "Requires LibChatMessage")
 L(AH .. "SECONDS", "s")
 L(AH .. "SHARD", "Tho'at Shard")
@@ -41,7 +46,9 @@ L(
 L(AH .. "SHOW_ECHO", "Show timer in the Echoing Den")
 L(AH .. "SLASH_MISSING", "fehlende")
 L(AH .. "STACKS", "Stack count")
-L(AH .. "TOMESHELL", "Tomeshell")
+L(AH .. "TOMESHELL", "Buchsiedler")
+L(AH .. "USE_AUTO_AVOID", "Use automatic avoids")
+L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Automatically mark verses or visions that are of no use to you due to unslotted skills")
 L(AH .. "WARNING", "Warning: Dropdowns may not refresh without a UI reload")
 L(AH .. "WARNING_MESSAGE", "Warnung!")
 L(AH .. "WEREWOLF_BEHEMOTH", "Werwolfbehemoth")
