@@ -62,7 +62,7 @@ function AH.Print(type, offensive, defensive, utility)
     table.sort(toPrint)
 
     for _, name in ipairs(toPrint) do
-        AH.Chat:SetTagColor("dc143c"):Print(name)
+        AH.Chat:SetTagColor("dc143c"):Print(AH.Format(name))
     end
 end
 
@@ -105,6 +105,6 @@ function AH.PrintMissingAbilities(versesOnly, visionsOnly)
     table.sort(missing)
 
     for _, missingName in ipairs(missing) do
-        AH.Chat:SetTagColor("dc143c"):Print(missingName)
+        AH.Chat:SetTagColor("dc143c"):Print(AH.Format(missingName))
     end
 end
