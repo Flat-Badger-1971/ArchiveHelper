@@ -30,7 +30,9 @@ local function bossHandled(unitTag, name)
 end
 
 function AH.OnNewBoss(_, unitTag)
-    if (not AH.Vars.MarauderPlay) then
+    local check = AH.Vars.MarauderPlay or AH.Vars.MarauderCheck
+
+    if (not check) then
         return
     end
 
@@ -45,7 +47,10 @@ function AH.OnNewBoss(_, unitTag)
     end
 
     if (isMarauder(bossName)) then
-        AH.PlayAlarm(AH.Sounds.Marauder)
+        if (AH.Vars.MarauderPlay) then
+            AH.PlayAlarm(AH.Sounds.Marauder)
+        end
+
         AH.MARAUDER = bossName
     end
 end

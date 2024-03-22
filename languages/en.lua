@@ -21,7 +21,6 @@ L(AH .. "GW_MARKER", "Add Target Marker to Gw the Pilferer")
 L(AH .. "HERD", "Herd the Ghost Lights")
 L(AH .. "HERD_FAIL", "Enough") -- You Did Not Herd Enough Ghostlights
 L(AH .. "HERD_SUCCESS", "Returned") -- You Successfully Returned the Ghostlights
-L(AH .. "MARAUDER", "Marauder!")
 L(AH .. "MARAUDER_MARKER", "Add Target Markers to Marauders")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Play warning for incoming Marauders")
 L(AH .. "PROGRESS", "<<1>><<2>><<3>> criteria advanced. <<4>> remaining.")
