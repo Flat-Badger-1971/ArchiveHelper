@@ -208,7 +208,7 @@ local function buildOptions()
         [6] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_REMINDER),
-            tooltip = AH.Format(_G.ARCHIVE_HELPER_REMINDER_TOOLTIP),
+            tooltip = AH.Format(_G.ARCHIVEHELPER_REMINDER_TOOLTIP),
             getFunc = function()
                 return AH.Vars.ShowNotice
             end,
