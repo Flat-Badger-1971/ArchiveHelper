@@ -104,27 +104,23 @@ local function isItDeadDave()
     end
 end
 
-local function markerCheck(target)
+function AH.FabledCheck()
     local extantMarker = GetUnitTargetMarkerType("reticleover")
 
     if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-        if (GetUnitName("reticleover"):find(target) and not IsUnitDead("reticleover")) then
+        if (GetUnitName("reticleover"):find(fabledText) and not IsUnitDead("reticleover")) then
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
         end
     elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
-         -- sanity check
-         local index = getMarkerIndex(extantMarker)
+        -- sanity check
+        local index = getMarkerIndex(extantMarker)
 
-        if ((not GetUnitName("reticleover"):find(target)) and (not AH.MARKERS[index].manual)) then
+        if ((not GetUnitName("reticleover"):find(fabledText)) and (not AH.MARKERS[index].manual)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
             makeMarkerAvailable(extantMarker)
         end
     end
-end
-
-function AH.FabledCheck()
-    markerCheck(fabledText)
 end
 
 function AH.MarauderCheck()
@@ -145,11 +141,41 @@ function AH.MarauderCheck()
 end
 
 function AH.ShardCheck()
-    markerCheck(shardText)
+    local extantMarker = GetUnitTargetMarkerType("reticleover")
+
+    if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
+        if (GetUnitName("reticleover") == shardText and not IsUnitDead("reticleover")) then
+            local marker = getAvailableMarker()
+            AssignTargetMarkerToReticleTarget(marker)
+        end
+    elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
+         -- sanity check
+         local index = getMarkerIndex(extantMarker)
+
+        if ((GetUnitName("reticleover") ~= shardText) and (not AH.MARKERS[index].manual)) then
+            AssignTargetMarkerToReticleTarget(extantMarker)
+            makeMarkerAvailable(extantMarker)
+        end
+    end
 end
 
 function AH.GWCheck()
-    markerCheck(gwText)
+    local extantMarker = GetUnitTargetMarkerType("reticleover")
+
+    if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
+        if (GetUnitName("reticleover"):find(gwText) and not IsUnitDead("reticleover")) then
+            local marker = getAvailableMarker()
+            AssignTargetMarkerToReticleTarget(marker)
+        end
+    elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
+        -- sanity check
+        local index = getMarkerIndex(extantMarker)
+
+        if ((not GetUnitName("reticleover"):find(gwText)) and (not AH.MARKERS[index].manual)) then
+            AssignTargetMarkerToReticleTarget(extantMarker)
+            makeMarkerAvailable(extantMarker)
+        end
+    end
 end
 
 -- for keybinds
