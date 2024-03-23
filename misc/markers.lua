@@ -198,7 +198,7 @@ end
 
 function AH.CombatCheck(_, incombat)
     if
-        ((AH.Vars.MarauderCheck or AH.Vars.FabledCheck or AH.ShardCheck) and AH.CompatibilityCheck() and
+        ((AH.Vars.MarauderCheck or AH.Vars.FabledCheck or AH.Vars.ShardCheck) and AH.CompatibilityCheck() and
             AH.InsideArchive)
      then
         if (not incombat) then
