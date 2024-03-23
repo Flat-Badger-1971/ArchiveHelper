@@ -1,56 +1,56 @@
 -- French localisation
 local L = ZO_CreateStringId
 local AH = "ARCHIVEHELPER_"
-L(AH .. "ADD_AVOID", "Add to avoid list")
-L(AH .. "ALL_BOTH", "All verses and visions acquired")
-L(AH .. "ALL_VISIONS", "All visions acquired")
-L(AH .. "ALL_VERSES", "All verses acquired")
-L(AH .. "ARC_BOSS", "Arc boss next")
-L(AH .. "AVOID", "Avoid")
-L(AH .. "COUNT", "<<1>> of <<2>>")
-L(AH .. "CYCLE_BOSS", "Cycle boss next")
+L(AH .. "ADD_AVOID", "Ajouter à la liste À eviter")
+L(AH .. "ALL_BOTH", "Tous les versets et visions acquis")
+L(AH .. "ALL_VISIONS", "Toutes les visions acquises")
+L(AH .. "ALL_VERSES", "Tous les versets acquis")
+L(AH .. "ARC_BOSS", "Prochain boss d'arc")
+L(AH .. "AVOID", "À éviter")
+L(AH .. "COUNT", "<<1>> sur <<2>>")
+L(AH .. "CYCLE_BOSS", "Prochain boss de cycle")
 L(AH .. "FABLED", "fabule")
-L(AH .. "FABLED_MARKER", "Add Target Markers to Fabled")
+L(AH .. "FABLED_MARKER", "Mettre un marqueur de cible sur les Fables")
 L(
     AH .. "FABLED_TOOLTIP",
-    "This feature will not work with Lykeions Fabled Marker addon to avoid both addons trying to mark the same things."
+    "Cette fonctionnalité ne fonctionnera pas avec l'addon Lykeion's Fabled Marker afin d'éviter que les deux addons n'essaient de marquer les mêmes choses."
 )
-L(AH .. "GW", "Gw the Pilferer")
-L(AH .. "GW_MARKER", "Add Target Marker to Gw the Pilferer")
-L(AH .. "HERD", "Herd the Ghost Lights")
-L(AH .. "HERD_FAIL", "Enough") -- You Did Not Herd Enough Ghostlights
-L(AH .. "HERD_SUCCESS", "Successfully") -- You Successfully Returned the Ghostlights
-L(AH .. "MARAUDER_MARKER", "Add Target Markers to Marauders")
-L(AH .. "MARAUDER_INCOMING_PLAY", "Play warning for incoming Marauders")
-L(AH .. "PROGRESS", "<<1>><<2>><<3>> criteria advanced. <<4>> remaining.")
-L(AH .. "PROGRESS_ACHIEVEMENT", "Achievement progress")
-L(AH .. "PROGRESS_CHAT", "Show in chat")
-L(AH .. "PROGRESS_SCREEN", "Announce on screen")
-L(AH .. "REMINDER", "Show boss reminder")
-L(AH .. "REMINDER_QUEST", "Show quest item reminder")
-L(AH .. "REMINDER_QUEST_TEXT", "Don't forget to pick up your quest item!")
-L(AH .. "REMINDER_TOOLTIP", "When selecting verses, show a reminder notice if the next stage is a boss.")
-L(AH .. "REMOVE_AVOID", "Remove from avoid list")
-L(AH .. "REQUIRES", "Requires LibChatMessage")
-L(AH .. "SECONDS", "s")
-L(AH .. "SHARD", "Tho'at Shard")
-L(AH .. "SHARD_IGNORE", "Ignore Shards outside cycle 5")
-L(AH .. "SHARD_MARKER", "Add Target Markers to Tho'at Shards")
-L(AH .. "SHOW_COUNT", "Show Tomeshell count in the Filer's Wing")
+L(AH .. "GW", "Gw le pillard")
+L(AH .. "GW_MARKER", "Ajouter un marqueur de cible sur Gw le pillard")
+L(AH .. "HERD", "Rassemblez") -- Rassemblez les lueurs fantômes
+L(AH .. "HERD_FAIL", "assez") -- Vous n'avez pas assez rassemblé de lueurs fantômes
+L(AH .. "HERD_SUCCESS", "ramené") -- Vous avez ramené les lueurs fantômes
+L(AH .. "MARAUDER_MARKER", "Mettre un marqueur de cible sur les Maraudeurs")
+L(AH .. "MARAUDER_INCOMING_PLAY", "Jouer un son à l'arrivée d'un Maraudeur")
+L(AH .. "PROGRESS", "Avancement du critère <<1>><<2>><<3>>. Reste <<4>>.")
+L(AH .. "PROGRESS_ACHIEVEMENT", "Progression des succès")
+L(AH .. "PROGRESS_CHAT", "Afficher dans le log")
+L(AH .. "PROGRESS_SCREEN", "Annoncer à l'écran")
+L(AH .. "REMINDER", "Signaler les prochaines phases de boss")
+L(AH .. "REMINDER_QUEST", "Rappel en cas d'objet de quête non ramassé")
+L(AH .. "REMINDER_QUEST_TEXT", "Pensez à ramasser l'objet de quête !")
+L(AH .. "REMINDER_TOOLTIP", "Lors de la sélection des versets, afficher un rappel si la phase suivante est un boss.")
+L(AH .. "REMOVE_AVOID", "Retirer de la liste À eviter")                                                        
+L(AH .. "REQUIRES", "Requiert LibChatMessage")
+L(AH .. "SECONDS", "s^f")
+L(AH .. "SHARD", "Fragment de Tho'at")
+L(AH .. "SHARD_IGNORE", "Ignorer les Fragments en dehors du cycle 5")
+L(AH .. "SHARD_MARKER", "Mettre un marqueur sur les Fragments de Tho'at")
+L(AH .. "SHOW_COUNT", "Décompter les tomes-carapaces de l'Aile du greffier")
 L(
     AH .. "SHOW_COUNT_TOOLTIP",
-    "For Duo mode to work correctly, the other player must have this addon installed. Both players must also have LibDataShare installed."
+    "Pour que le mode Duo fonctionne correctement, l'autre joueur doit avoir installé cet addon. Les deux joueurs doivent également avoir installé LibDataShare."
 )
-L(AH .. "SHOW_ECHO", "Show timer in the Echoing Den")
+L(AH .. "SHOW_ECHO", "Afficher un minuteur dans l'Antre aux échos")
 L(AH .. "SLASH_MISSING", "manquante")
-L(AH .. "STACKS", "Stack count")
-L(AH .. "TOMESHELL", "Tomeshell")
-L(AH .. "USE_AUTO_AVOID", "Use automatic avoids")
-L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Automatically mark verses or visions that are of no use to you due to unslotted skills")
-L(AH .. "WARNING", "Warning: Dropdowns may not refresh without a UI reload")
-L(AH .. "WARNING_MESSAGE", "Avertissement!")
+L(AH .. "STACKS", "Nombre de bienfaits cumulés")
+L(AH .. "TOMESHELL", "Tome-carapace")
+L(AH .. "USE_AUTO_AVOID", "Marquer automatiquement comme À éviter")
+L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Marquer automatiquement les versets ou les visions qui ne vous sont d'aucune utilité en raison de compétences non équipées.")
+L(AH .. "WARNING", "Avertissement : les listes déroulantes ne seront actualisées qu'après un rechargement de l'IU")
+L(AH .. "WARNING_MESSAGE", "Avertissement !")
 L(AH .. "WEREWOLF_BEHEMOTH", "Béhémoth loup-garou")
 
 -- keybinds
-L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Mark Current Target")
-L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Unmark Current Target")
+L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Marquer la cible actuelle")
+L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Retirer la marque sur la cible actuelle")
