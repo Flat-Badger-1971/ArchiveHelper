@@ -15,10 +15,10 @@ L(
     AH .. "FABLED_TOOLTIP",
     "This feature will not work with Lykeions Fabled Marker addon to avoid both addons trying to mark the same things."
 )
-L(AH .. "GW", "Gw the Pilferer")
+L(AH .. "GW", "Gw Langfinger")
 L(AH .. "GW_MARKER", "Add Target Marker to Gw the Pilferer")
 L(AH .. "HERD", "Hütet die Geisterlichter")
-L(AH .. "HERD_FAIL", "Enough") -- You Did Not Herd Enough Ghostlights
+L(AH .. "HERD_FAIL", "ausreichend") -- Ihr habt nicht ausreichend Geisterlichter gehütet
 L(AH .. "HERD_SUCCESS", "erfolgreich") -- Ihr habt die Geisterlichter erfolgreich zurückgebracht
 L(AH .. "MARAUDER_MARKER", "Add Target Markers to Marauders")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Play warning for incoming Marauders")
