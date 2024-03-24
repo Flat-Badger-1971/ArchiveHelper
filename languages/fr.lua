@@ -1,7 +1,7 @@
 -- French localisation
 local L = ZO_CreateStringId
 local AH = "ARCHIVEHELPER_"
-L(AH .. "ADD_AVOID", "Ajouter aux Indésirables")
+L(AH .. "ADD_AVOID", "Ajouter à la liste des Indésirables")
 L(AH .. "ALL_BOTH", "Tous les versets et visions acquis")
 L(AH .. "ALL_VISIONS", "Toutes les visions acquises")
 L(AH .. "ALL_VERSES", "Tous les versets acquis")
@@ -17,7 +17,7 @@ L(
 )
 L(AH .. "GW", "Gw le pillard")
 L(AH .. "GW_MARKER", "Ajouter un marqueur de cible sur Gw le pillard")
-L(AH .. "HERD", "Rassemblez") -- Rassemblez les lueurs fantômes
+L(AH .. "HERD", "Rassemblez les lueurs fantômes") -- Rassemblez les lueurs fantômes
 L(AH .. "HERD_FAIL", "assez") -- Vous n'avez pas assez rassemblé de lueurs fantômes
 L(AH .. "HERD_SUCCESS", "ramené") -- Vous avez ramené les lueurs fantômes
 L(AH .. "MARAUDER_MARKER", "Mettre un marqueur de cible sur les Maraudeurs")
@@ -30,7 +30,7 @@ L(AH .. "REMINDER", "Signaler les prochaines phases de boss")
 L(AH .. "REMINDER_QUEST", "Rappel en cas d'objet de quête non ramassé")
 L(AH .. "REMINDER_QUEST_TEXT", "Pensez à ramasser l'objet de quête !")
 L(AH .. "REMINDER_TOOLTIP", "Lors de la sélection des versets, afficher un rappel si la phase suivante est un boss.")
-L(AH .. "REMOVE_AVOID", "Retirer des Indésirables")                                                        
+L(AH .. "REMOVE_AVOID", "Retirer de la liste des Indésirables")                                                        
 L(AH .. "REQUIRES", "Requiert LibChatMessage")
 L(AH .. "SECONDS", "s^f")
 L(AH .. "SHARD", "Fragment de Tho'at")
