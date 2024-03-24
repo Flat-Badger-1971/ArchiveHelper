@@ -39,7 +39,7 @@ end
 
 function AH.CheckAbilities(text, abilities)
     for _, ability in ipairs(abilities) do
-        if (text:find(ability.name)) then
+        if (text:find(ability.name, 1, true)) then
             return ability.id
         end
     end

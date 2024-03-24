@@ -48,7 +48,6 @@ L(AH .. "TOMESHELL", "Tome-carapace")
 L(AH .. "USE_AUTO_AVOID", "Marquer automatiquement comme À éviter")
 L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Marquer automatiquement les versets ou les visions qui ne vous sont d'aucune utilité en raison de compétences non équipées.")
 L(AH .. "WARNING", "Avertissement : les listes déroulantes ne seront actualisées qu'après un rechargement de l'IU")
-L(AH .. "WARNING_MESSAGE", "Avertissement !")
 L(AH .. "WEREWOLF_BEHEMOTH", "Béhémoth loup-garou")
 
 -- keybinds

@@ -108,7 +108,7 @@ function AH.FabledCheck()
     local extantMarker = GetUnitTargetMarkerType("reticleover")
 
     if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-        if (GetUnitName("reticleover"):find(fabledText) and not IsUnitDead("reticleover")) then
+        if (GetUnitName("reticleover"):find(fabledText, 1, true) and not IsUnitDead("reticleover")) then
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
         end
@@ -116,7 +116,7 @@ function AH.FabledCheck()
         -- sanity check
         local index = getMarkerIndex(extantMarker)
 
-        if ((not GetUnitName("reticleover"):find(fabledText)) and (not AH.MARKERS[index].manual)) then
+        if ((not GetUnitName("reticleover"):find(fabledText, 1, true)) and (not AH.MARKERS[index].manual)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
             makeMarkerAvailable(extantMarker)
         end
@@ -149,8 +149,8 @@ function AH.ShardCheck()
             AssignTargetMarkerToReticleTarget(marker)
         end
     elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
-         -- sanity check
-         local index = getMarkerIndex(extantMarker)
+        -- sanity check
+        local index = getMarkerIndex(extantMarker)
 
         if ((GetUnitName("reticleover") ~= shardText) and (not AH.MARKERS[index].manual)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
@@ -163,7 +163,7 @@ function AH.GWCheck()
     local extantMarker = GetUnitTargetMarkerType("reticleover")
 
     if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-        if (GetUnitName("reticleover"):find(gwText) and not IsUnitDead("reticleover")) then
+        if (GetUnitName("reticleover"):find(gwText, 1, true) and not IsUnitDead("reticleover")) then
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
         end
@@ -171,7 +171,7 @@ function AH.GWCheck()
         -- sanity check
         local index = getMarkerIndex(extantMarker)
 
-        if ((not GetUnitName("reticleover"):find(gwText)) and (not AH.MARKERS[index].manual)) then
+        if ((not GetUnitName("reticleover"):find(gwText, 1, true)) and (not AH.MARKERS[index].manual)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
             makeMarkerAvailable(extantMarker)
         end
@@ -184,6 +184,7 @@ function AH.MarkCurrentTarget()
         local marker = getAvailableMarker()
 
         AssignTargetMarkerToReticleTarget(marker)
+        AH.MARKERS[marker].manual = true
     end
 end
 
@@ -197,10 +198,9 @@ function AH.UnmarkCurrentTarget()
 end
 
 function AH.CombatCheck(_, incombat)
-    if
-        ((AH.Vars.MarauderCheck or AH.Vars.FabledCheck or AH.Vars.ShardCheck) and AH.CompatibilityCheck() and
-            AH.InsideArchive)
-     then
+    local check = AH.Vars.MarauderCheck or AH.Vars.FabledCheck or AH.Vars.ShardCheck or AH.Vars.GWCheck
+
+    if (check and AH.CompatibilityCheck() and AH.InsideArchive) then
         if (not incombat) then
             EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Fabled", _G.EVENT_COMBAT_EVENT)
             EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_RETICLE_TARGET_CHANGED)

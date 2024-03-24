@@ -48,7 +48,6 @@ L(AH .. "TOMESHELL", "Tomeshell")
 L(AH .. "USE_AUTO_AVOID", "Use automatic avoids")
 L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Automatically mark verses or visions that are of no use to you due to unslotted skills")
 L(AH .. "WARNING", "Warning: Dropdowns may not refresh without a UI reload")
-L(AH .. "WARNING_MESSAGE", "Warning!")
 L(AH .. "WEREWOLF_BEHEMOTH", "Werewolf Behemoth")
 
 -- keybinds

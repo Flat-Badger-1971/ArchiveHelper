@@ -11,7 +11,7 @@ local function isMarauder(name)
     local bossName = name:lower()
 
     for _, marauder in ipairs(AH.Marauders) do
-        if (bossName:find(marauder)) then
+        if (bossName:find(marauder, 1, true)) then
             return true
         end
     end

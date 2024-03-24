@@ -11,7 +11,7 @@ function AH.HandleSlashCommand(parameters)
         end
     end
 
-    local missing = AH.Format(_G.ARCHIVEHELPER_SLASH_MISSING)
+    local missing = GetString(_G.ARCHIVEHELPER_SLASH_MISSING):lower()
     local verses = isInTable(options, AH.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_VERSES_HEADER):lower())
     local visions = isInTable(options, AH.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_VISIONS_HEADER):lower())
     local offensive = isInTable(options, AH.Format(_G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE0):lower())

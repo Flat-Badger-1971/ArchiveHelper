@@ -97,7 +97,7 @@ local function tomeCheck(...)
         targetName = AH.Format(targetName):lower()
         sourceName = AH.Format(sourceName):lower()
 
-        if (targetName:find(tomeName) or sourceName:find(tomeName)) then
+        if (targetName:find(tomeName,1,true) or sourceName:find(tomeName,1,true)) then
             tomesFound = tomesFound + 1
             tomesTotal = tomesTotal + 1
             AH.PlayAlarm(AH.Sounds.Tomeshell)
@@ -187,12 +187,12 @@ local function checkMessage(messageParams)
         local fail = AH.Format(_G.ARCHIVEHELPER_HERD_FAIL):lower()
         local success = AH.Format(_G.ARCHIVEHELPER_HERD_SUCCESS):lower()
 
-        if (message:find(start)) then
+        if (message:find(start, 1, true)) then
             AH.DenDone = false
             AH.StartTimer()
         elseif
-            (message:find(fail) or message:find(success) or secondaryMessage:find(fail) or
-                secondaryMessage:find(success))
+            (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
+                secondaryMessage:find(success, 1, true))
          then
             AH.StopTimer()
             AH.DenDone = true
