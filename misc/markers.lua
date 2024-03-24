@@ -28,7 +28,7 @@ local function getMarkerIndex(marker)
 end
 
 local function makeMarkerAvailable(marker)
-    local index = getMarkerIndex(marker)
+    local index = type(marker) == "number" and marker or getMarkerIndex(marker)
 
     AH.MARKERS[index].used = false
     AH.MARKERS[index].manual = false
@@ -42,7 +42,7 @@ local function getAvailableMarker()
         if (AH.MARKERS[key].used == false) then
             AH.MARKERS[key].used = true
 
-            return AH.MARKERS[key].marker
+            return AH.MARKERS[key].marker, key
         end
     end
 
@@ -51,7 +51,7 @@ local function getAvailableMarker()
         info.used = false
     end
 
-    return _G.TARGET_MARKER_TYPE_ONE
+    return _G.TARGET_MARKER_TYPE_ONE, 1
 end
 
 local function doChecks()
@@ -118,7 +118,7 @@ function AH.FabledCheck()
 
         if ((not GetUnitName("reticleover"):find(fabledText, 1, true)) and (not AH.MARKERS[index].manual)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
-            makeMarkerAvailable(extantMarker)
+            makeMarkerAvailable(index)
         end
     end
 end
@@ -154,7 +154,7 @@ function AH.ShardCheck()
 
         if ((GetUnitName("reticleover") ~= shardText) and (not AH.MARKERS[index].manual)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
-            makeMarkerAvailable(extantMarker)
+            makeMarkerAvailable(index)
         end
     end
 end
@@ -173,7 +173,7 @@ function AH.GWCheck()
 
         if ((not GetUnitName("reticleover"):find(gwText, 1, true)) and (not AH.MARKERS[index].manual)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
-            makeMarkerAvailable(extantMarker)
+            makeMarkerAvailable(index)
         end
     end
 end
@@ -181,10 +181,12 @@ end
 -- for keybinds
 function AH.MarkCurrentTarget()
     if (GetUnitTargetMarkerType("reticleover") == _G.TARGET_MARKER_TYPE_NONE) then
-        local marker = getAvailableMarker()
+        local marker, key = getAvailableMarker()
+        local marked = "m" .. tostring(key)
 
         AssignTargetMarkerToReticleTarget(marker)
-        AH.MARKERS[marker].manual = true
+        AH.MARKERS[key].manual = true
+        AH.Share:QueueData(marked)
     end
 end
 
@@ -194,6 +196,10 @@ function AH.UnmarkCurrentTarget()
     if (marker ~= _G.TARGET_MARKER_TYPE_NONE) then
         AssignTargetMarkerToReticleTarget(marker)
         makeMarkerAvailable(marker)
+
+        local unmarked = "u" .. tostring(getMarkerIndex(marker))
+
+        AH.Share:QueueData(unmarked)
     end
 end
 

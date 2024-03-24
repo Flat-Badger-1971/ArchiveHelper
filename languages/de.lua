@@ -33,7 +33,7 @@ L(AH .. "REMINDER_TOOLTIP", "When selecting verses, show a reminder notice if th
 L(AH .. "REMOVE_AVOID", "Remove from avoid list")
 L(AH .. "REQUIRES", "Requires LibChatMessage")
 L(AH .. "SECONDS", "s")
-L(AH .. "SHARD", "Tho'at Shard")
+L(AH .. "SHARD", "Tho'at-Sherbe")
 L(AH .. "SHARD_IGNORE", "Ignore Shards outside cycle 5")
 L(AH .. "SHARD_MARKER", "Add Target Markers to Tho'at Shards")
 L(AH .. "SHOW_COUNT", "Show Tomeshell count in the Filer's Wing")

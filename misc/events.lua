@@ -97,7 +97,7 @@ local function tomeCheck(...)
         targetName = AH.Format(targetName):lower()
         sourceName = AH.Format(sourceName):lower()
 
-        if (targetName:find(tomeName,1,true) or sourceName:find(tomeName,1,true)) then
+        if (targetName:find(tomeName, 1, true) or sourceName:find(tomeName, 1, true)) then
             tomesFound = tomesFound + 1
             tomesTotal = tomesTotal + 1
             AH.PlayAlarm(AH.Sounds.Tomeshell)
@@ -271,17 +271,36 @@ local function onHotBarChange(_, changed, shouldUpdate, category)
     end
 end
 
-function AH.HandleDataShare(_, otherPlayerFound)
-    tomesTotal = tomesFound + otherPlayerFound
+function AH.HandleDataShare(_, info)
+    local id = tostring(info):sub(1, 1)
 
-    local tomesLeft = AH.MaxTomes - tomesTotal
+    if (id ~= "m") then
+        local otherPlayerFound = tonumber(info)
 
-    tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
+        tomesTotal = tomesFound + otherPlayerFound
 
-    local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesLeft)
+        local tomesLeft = AH.MaxTomes - tomesTotal
 
-    AH.TomeCount:SetText(message)
-    AH.PlayAlarm(AH.Sounds.Tomeshell)
+        tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
+
+        local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesLeft)
+
+        AH.TomeCount:SetText(message)
+        AH.PlayAlarm(AH.Sounds.Tomeshell)
+    elseif (id == "m") then
+        local markerNumber = info:sub(2, 1)
+
+        if (markerNumber and (markerNumber > 0) and (markerNumber < 8)) then
+            AH.MARKERS[markerNumber].used = true
+            AH.MARKERS[markerNumber].manual = true
+        end
+    elseif (id == "u") then
+        local markerNumber = info:sub(2, 1)
+
+        if (markerNumber and (markerNumber > 0) and (markerNumber < 8)) then
+            AH.MARKERS[markerNumber].manual = false
+        end
+    end
 end
 
 function AH.SetupHooks()
