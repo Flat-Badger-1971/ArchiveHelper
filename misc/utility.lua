@@ -322,14 +322,12 @@ end
 
 function AH.GroupChat(buff)
     if (AH.Vars.ShowSelection) then
-        if (AH.GetActualGroupType() ~= solo) then
-            local message =
-                zo_strformat(
-                _G.ARCHIVEHELPER_BUFF_SELECTED,
-                AH.Format(GetUnitName("player")),
-                "|c76b5c5" .. buff .. "|r"
-            )
+        local message =
+            zo_strformat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(GetUnitName("player")), "|c76b5c5" .. buff .. "|r")
 
+        if (AH.GetActualGroupType() == solo) then
+            CHAT_ROUTER:FormatAndAddChatMessage(_G.EVENT_CHAT_MESSAGE_CHANNEL, _G.CHAT_CHANNEL_SAY, AH.Name, message)
+        else
             CHAT_ROUTER:FormatAndAddChatMessage(_G.EVENT_CHAT_MESSAGE_CHANNEL, _G.CHAT_CHANNEL_PARTY, AH.Name, message)
         end
     end
