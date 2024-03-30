@@ -188,7 +188,7 @@ function AH.MarkCurrentTarget()
 
         AssignTargetMarkerToReticleTarget(marker)
         AH.MARKERS[key].manual = true
-        AH.Share:QueueData(marked)
+        AH.ShareData(AH.SHARE.MARK, marked)
     end
 end
 
@@ -201,7 +201,7 @@ function AH.UnmarkCurrentTarget()
 
         local unmarked = "u" .. tostring(getMarkerIndex(marker))
 
-        AH.Share:QueueData(unmarked)
+        AH.ShareData(AH.SHARE.UNMARK, unmarked)
     end
 end
 

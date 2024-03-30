@@ -53,6 +53,11 @@ _G.ArchiveHelper = {
         DESTOZUNOS_LIBRARY = {id = 2425, name = "Destozuno's Library"}
     },
     OAKENSOUL = 187658,
+    SHARE = {
+        TOME = 1,
+        MARK = 2,
+        UNMARK = 3
+    },
     SKILL_TYPE_PET = 999,
     SORCERER = 2,
     SUPPORT_SKILL_LINE = 71,

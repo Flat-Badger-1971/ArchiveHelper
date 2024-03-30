@@ -102,8 +102,8 @@ local function tomeCheck(...)
             tomesTotal = tomesTotal + 1
             AH.PlayAlarm(AH.Sounds.Tomeshell)
 
-            if (AH.Share and AH.TomeGroupType ~= _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
-                AH.Share:QueueData(tomesFound)
+            if (AH.TomeGroupType ~= _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
+                AH.ShareData(AH.SHARE.TOME, tomesFound)
             end
 
             local tomesLeft = AH.MaxTomes - tomesTotal
@@ -271,13 +271,22 @@ local function onHotBarChange(_, changed, shouldUpdate, category)
     end
 end
 
+function AH.ShareData(shareType, value)
+    if (not AH.Share) then
+        return
+    end
+
+    local encoded = (shareType * 8) + value
+
+    AH.Share:QueueData(encoded)
+end
+
 function AH.HandleDataShare(_, info)
-    local id = tostring(info):sub(1, 1)
+    local shareType = info / 8
+    local shareData = info % 8
 
-    if (id ~= "m") then
-        local otherPlayerFound = tonumber(info)
-
-        tomesTotal = tomesFound + otherPlayerFound
+    if (shareType == AH.SHARE.TOME) then
+        tomesTotal = tomesFound + shareData
 
         local tomesLeft = AH.MaxTomes - tomesTotal
 
@@ -287,18 +296,14 @@ function AH.HandleDataShare(_, info)
 
         AH.TomeCount:SetText(message)
         AH.PlayAlarm(AH.Sounds.Tomeshell)
-    elseif (id == "m") then
-        local markerNumber = info:sub(2, 1)
-
-        if (markerNumber and (markerNumber > 0) and (markerNumber < 8)) then
-            AH.MARKERS[markerNumber].used = true
-            AH.MARKERS[markerNumber].manual = true
+    elseif (shareType == AH.SHARE.MARK) then
+        if (shareData and (shareData > 0) and (shareData < 8)) then
+            AH.MARKERS[shareData].used = true
+            AH.MARKERS[shareData].manual = true
         end
-    elseif (id == "u") then
-        local markerNumber = info:sub(2, 1)
-
-        if (markerNumber and (markerNumber > 0) and (markerNumber < 8)) then
-            AH.MARKERS[markerNumber].manual = false
+    elseif (shareType == AH.SHARE.UNMARK) then
+        if (shareData and (shareData > 0) and (shareData < 8)) then
+            AH.MARKERS[shareData].manual = false
         end
     end
 end

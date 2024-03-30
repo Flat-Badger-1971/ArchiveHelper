@@ -171,9 +171,7 @@ end
 
 function AH.CheckDataShareLib()
     if (_G.LibDataShare) then
-        if (AH.Vars.CountTomes) then
-            AH.Share = _G.LibDataShare:RegisterMap(AH.Name, AH.DATA_ID, AH.HandleDataShare)
-        end
+        AH.Share = _G.LibDataShare:RegisterMap(AH.Name, AH.DATA_ID, AH.HandleDataShare)
     end
 end
 
