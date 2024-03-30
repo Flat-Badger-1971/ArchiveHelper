@@ -18,6 +18,7 @@ L(
 L(AH .. "FLAMESHAPER", "Flammenformer")
 L(AH .. "GW", "Gw Langfinger")
 L(AH .. "GW_MARKER", "Add Target Marker to Gw the Pilferer")
+L(AH .. "GW_PLAY", "Play warning when Gw appears")
 L(AH .. "HERD", "Hütet die Geisterlichter")
 L(AH .. "HERD_FAIL", "ausreichend") -- Ihr habt nicht ausreichend Geisterlichter gehütet
 L(AH .. "HERD_SUCCESS", "erfolgreich") -- Ihr habt die Geisterlichter erfolgreich zurückgebracht
