@@ -276,14 +276,14 @@ function AH.ShareData(shareType, value)
         return
     end
 
-    local encoded = (shareType * 8) + value
+    local encoded = (shareType * 8) + (value - 1)
 
     AH.Share:QueueData(encoded)
 end
 
 function AH.HandleDataShare(_, info)
     local shareType = info / 8
-    local shareData = info % 8
+    local shareData = (info % 8) + 1
 
     if (shareType == AH.SHARE.TOME) then
         tomesTotal = tomesFound + shareData
@@ -304,6 +304,11 @@ function AH.HandleDataShare(_, info)
     elseif (shareType == AH.SHARE.UNMARK) then
         if (shareData and (shareData > 0) and (shareData < 8)) then
             AH.MARKERS[shareData].manual = false
+        end
+    elseif (shareType == AH.SHARE.GW) then
+        if (shareData  and (shareData > 0) and (not AH.FOUND_GW)) then
+            AH.PlayAlarm(AH.Sounds.Gw)
+            AH.FOUND_GW = true
         end
     end
 end

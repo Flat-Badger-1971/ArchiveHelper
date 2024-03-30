@@ -84,6 +84,7 @@ local function doChecks()
     AH.CHECK_FABLED = AH.Vars.FabledCheck
     AH.CHECK_SHARDS = false
     AH.CHECK_GW = false
+    AH.FOUND_GW = false
 
     if (arc == 1) then
         -- no marauders in arc 1
@@ -148,8 +149,10 @@ local function markerCheck()
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
 
-            if (isGw and AH.Vars.GwPlay) then
+            if (isGw and AH.Vars.GwPlay and (not AH.FOUND_GW)) then
                 AH.PlayAlarm(AH.Sounds.Gw)
+                AH.FOUND_GW = true
+                AH.ShareData(AH.SHARE.GW, 2)
             end
         end
     elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
@@ -184,11 +187,10 @@ end
 function AH.MarkCurrentTarget()
     if (GetUnitTargetMarkerType("reticleover") == _G.TARGET_MARKER_TYPE_NONE) then
         local marker, key = getAvailableMarker()
-        local marked = "m" .. tostring(key)
 
         AssignTargetMarkerToReticleTarget(marker)
         AH.MARKERS[key].manual = true
-        AH.ShareData(AH.SHARE.MARK, marked)
+        AH.ShareData(AH.SHARE.MARK, key)
     end
 end
 
@@ -198,10 +200,7 @@ function AH.UnmarkCurrentTarget()
     if (marker ~= _G.TARGET_MARKER_TYPE_NONE) then
         AssignTargetMarkerToReticleTarget(marker)
         makeMarkerAvailable(marker)
-
-        local unmarked = "u" .. tostring(getMarkerIndex(marker))
-
-        AH.ShareData(AH.SHARE.UNMARK, unmarked)
+        AH.ShareData(AH.SHARE.UNMARK, getMarkerIndex(marker))
     end
 end
 

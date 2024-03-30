@@ -56,7 +56,8 @@ _G.ArchiveHelper = {
     SHARE = {
         TOME = 1,
         MARK = 2,
-        UNMARK = 3
+        UNMARK = 3,
+        GW = 4
     },
     SKILL_TYPE_PET = 999,
     SORCERER = 2,
