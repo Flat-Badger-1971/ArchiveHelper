@@ -21,6 +21,7 @@ _G.ArchiveHelper = {
         ShardCheck = true,
         ShardIgnore = true,
         ShowNotice = true,
+        ShowSelection = true,
         ShowStacks = true,
         ShowTimer = true
     },

@@ -35,7 +35,8 @@ read_globals = {
     },
     ["CHAT_ROUTER"] = {
         fields = {
-            AddSystemMessage = {read_only = true}
+            AddSystemMessage = {read_only = true},
+            FormatAndAddChatMessage = {read_only = true}
         }
     },
     ["COLLECTIONS_BOOK"] = {
