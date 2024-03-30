@@ -15,11 +15,12 @@ L(
     AH .. "FABLED_TOOLTIP",
     "This feature will not work with Lykeions Fabled Marker addon to avoid both addons trying to mark the same things."
 )
-L(AH .. "GW", "Gw the Pilferer")
+L(AH .. "FLAMESHAPER", "Flammenformer")
+L(AH .. "GW", "Gw Langfinger")
 L(AH .. "GW_MARKER", "Add Target Marker to Gw the Pilferer")
-L(AH .. "HERD", "Herd the Ghost Lights")
-L(AH .. "HERD_FAIL", "Enough") -- You Did Not Herd Enough Ghostlights
-L(AH .. "HERD_SUCCESS", "Successfully") -- You Successfully Returned the Ghostlights
+L(AH .. "HERD", "Hütet die Geisterlichter")
+L(AH .. "HERD_FAIL", "ausreichend") -- Ihr habt nicht ausreichend Geisterlichter gehütet
+L(AH .. "HERD_SUCCESS", "erfolgreich") -- Ihr habt die Geisterlichter erfolgreich zurückgebracht
 L(AH .. "MARAUDER_MARKER", "Add Target Markers to Marauders")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Play warning for incoming Marauders")
 L(AH .. "PROGRESS", "<<1>><<2>><<3>> criteria advanced. <<4>> remaining.")
@@ -33,7 +34,7 @@ L(AH .. "REMINDER_TOOLTIP", "When selecting verses, show a reminder notice if th
 L(AH .. "REMOVE_AVOID", "Remove from avoid list")
 L(AH .. "REQUIRES", "Requires LibChatMessage")
 L(AH .. "SECONDS", "s")
-L(AH .. "SHARD", "Tho'at-Sherbe")
+L(AH .. "SHARD", "Tho'at-Scherbe")
 L(AH .. "SHARD_IGNORE", "Ignore Shards outside cycle 5")
 L(AH .. "SHARD_MARKER", "Add Target Markers to Tho'at Shards")
 L(AH .. "SHOW_COUNT", "Show Tomeshell count in the Filer's Wing")

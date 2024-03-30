@@ -1,7 +1,8 @@
 local AH = _G.ArchiveHelper
-local fabledText = GetString(_G.ARCHIVEHELPER_FABLED)
-local shardText = GetString(_G.ARCHIVEHELPER_SHARD)
-local gwText = GetString(_G.ARCHIVEHELPER_GW)
+local fabledText = GetString(_G.ARCHIVEHELPER_FABLED):lower()
+local shardText = GetString(_G.ARCHIVEHELPER_SHARD):lower()
+local gwText = GetString(_G.ARCHIVEHELPER_GW):lower()
+local flameShaperText = GetString(_G.ARCHIVEHELPER_FLAMESHAPER):lower()
 -- local cache for performance
 local GetUnitName, GetUnitTargetMarkerType = GetUnitName, GetUnitTargetMarkerType
 local IsUnitDead, AssignTargetMarkerToReticleTarget = IsUnitDead, AssignTargetMarkerToReticleTarget
@@ -54,6 +55,26 @@ local function getAvailableMarker()
     return _G.TARGET_MARKER_TYPE_ONE, 1
 end
 
+local function buildSearchTable()
+    AH.SearchText = {}
+
+    if (AH.CHECK_FABLED) then
+        table.insert(AH.SearchText, fabledText)
+    end
+
+    if (AH.CHECK_SHARDS) then
+        table.insert(AH.SearchText, shardText)
+    end
+
+    if (AH.CHECK_GW) then
+        table.insert(AH.SearchText, gwText)
+    end
+
+    if (AH.CHECK_FLAMESHAPER) then
+        table.insert(AH.SearchText, flameShaperText)
+    end
+end
+
 local function doChecks()
     local stage, cycle, arc = ENDLESS_DUNGEON_MANAGER:GetProgression()
 
@@ -92,6 +113,8 @@ local function doChecks()
         -- shards now appear as trash mobs
         AH.CHECK_SHARDS = true and AH.Vars.ShardCheck
     end
+
+    buildSearchTable()
 end
 
 local function isItDeadDave()
@@ -104,19 +127,36 @@ local function isItDeadDave()
     end
 end
 
-function AH.FabledCheck()
+local function find(name)
+    name = name:lower()
+
+    for _, text in ipairs(AH.SearchText) do
+        if (name:find(text, 1, true)) then
+            return true, text == gwText
+        end
+    end
+    return false
+end
+
+local function markerCheck()
     local extantMarker = GetUnitTargetMarkerType("reticleover")
 
     if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-        if (GetUnitName("reticleover"):find(fabledText, 1, true) and not IsUnitDead("reticleover")) then
+        local found, isGw = find(GetUnitName("reticleover"))
+
+        if (found and (not IsUnitDead("reticleover"))) then
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
+
+            if (isGw and AH.Vars.GwPlay) then
+                AH.PlayAlarm(AH.Sounds.Gw)
+            end
         end
     elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
         -- sanity check
         local index = getMarkerIndex(extantMarker)
 
-        if ((not GetUnitName("reticleover"):find(fabledText, 1, true)) and (not AH.MARKERS[index].manual)) then
+        if (not find(GetUnitName("reticleover")) and (not AH.MARKERS[index].manual)) then
             AssignTargetMarkerToReticleTarget(extantMarker)
             makeMarkerAvailable(index)
         end
@@ -136,44 +176,6 @@ function AH.MarauderCheck()
             if (not GetUnitName("reticleover") == AH.MARAUDER) then
                 AssignTargetMarkerToReticleTarget(extantMarker)
             end
-        end
-    end
-end
-
-function AH.ShardCheck()
-    local extantMarker = GetUnitTargetMarkerType("reticleover")
-
-    if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-        if (GetUnitName("reticleover") == shardText and not IsUnitDead("reticleover")) then
-            local marker = getAvailableMarker()
-            AssignTargetMarkerToReticleTarget(marker)
-        end
-    elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
-        -- sanity check
-        local index = getMarkerIndex(extantMarker)
-
-        if ((GetUnitName("reticleover") ~= shardText) and (not AH.MARKERS[index].manual)) then
-            AssignTargetMarkerToReticleTarget(extantMarker)
-            makeMarkerAvailable(index)
-        end
-    end
-end
-
-function AH.GWCheck()
-    local extantMarker = GetUnitTargetMarkerType("reticleover")
-
-    if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-        if (GetUnitName("reticleover"):find(gwText, 1, true) and not IsUnitDead("reticleover")) then
-            local marker = getAvailableMarker()
-            AssignTargetMarkerToReticleTarget(marker)
-        end
-    elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
-        -- sanity check
-        local index = getMarkerIndex(extantMarker)
-
-        if ((not GetUnitName("reticleover"):find(gwText, 1, true)) and (not AH.MARKERS[index].manual)) then
-            AssignTargetMarkerToReticleTarget(extantMarker)
-            makeMarkerAvailable(index)
         end
     end
 end
@@ -224,20 +226,12 @@ function AH.CombatCheck(_, incombat)
                 _G.EVENT_RETICLE_TARGET_CHANGED,
                 function()
                     if (AH.InsideArchive) then
-                        if (AH.CHECK_FABLED) then
-                            AH.FabledCheck()
+                        if (#AH.SearchText > 0) then
+                            markerCheck()
                         end
 
                         if (AH.CHECK_MARAUDERS) then
                             AH.MarauderCheck()
-                        end
-
-                        if (AH.CHECK_SHARDS) then
-                            AH.ShardCheck()
-                        end
-
-                        if (AH.CHECK_GW) then
-                            AH.GWCheck()
                         end
 
                         isItDeadDave()

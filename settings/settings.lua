@@ -303,22 +303,38 @@ local function buildOptions()
         [13] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHARD_MARKER),
+            tooltip = function()
+                if (not AH.CompatibilityCheck()) then
+                    return AH.Format(_G.ARCHIVEHELPER_FABLED_TOOLTIP)
+                end
+            end,
             getFunc = function()
                 return AH.Vars.ShardCheck
             end,
             setFunc = function(value)
                 AH.Vars.ShardCheck = value
             end,
+            disabled = function()
+                return not AH.CompatibilityCheck()
+            end,
             width = "full"
         },
         [14] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHARD_IGNORE),
+            tooltip = function()
+                if (not AH.CompatibilityCheck()) then
+                    return AH.Format(_G.ARCHIVEHELPER_FABLED_TOOLTIP)
+                end
+            end,
             getFunc = function()
                 return AH.Vars.ShardIgnore or false
             end,
             setFunc = function(value)
                 AH.Vars.ShardIgnore = value
+            end,
+            disabled = function()
+                return not AH.CompatibilityCheck()
             end,
             width = "full"
         },
@@ -326,14 +342,26 @@ local function buildOptions()
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_GW_MARKER),
             getFunc = function()
-                return AH.Vars.GWCheck
+                return AH.Vars.GwCheck
             end,
             setFunc = function(value)
-                AH.Vars.GWCheck = value
+                AH.Vars.GwCheck = value
             end,
             width = "full"
         },
         [16] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_GW_PLAY),
+            getFunc = function()
+                return AH.Vars.GwPlay or false
+            end,
+            setFunc = function(value)
+                AH.Vars.GwPlay = value
+            end,
+            disabled = function() return not AH.Vars.GwCheck end,
+            width = "full"
+        },
+        [17] = {
             type = "checkbox",
             name = zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24) ..
                 AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER),

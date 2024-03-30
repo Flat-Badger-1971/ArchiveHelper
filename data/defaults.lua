@@ -6,7 +6,8 @@ _G.ArchiveHelper = {
         EchoingDenTimer = 60,
         FabledCheck = true,
         Favourites = {},
-        GWCheck = true,
+        GwCheck = true,
+        GwPlay = true,
         Ignore = {},
         MarauderCheck = true,
         MarauderPlay = true,
@@ -30,6 +31,7 @@ _G.ArchiveHelper = {
     Keys = {},
     Marauders = {"gothmau", "hilkarax", "ulmor"},
     Name = "ArchiveHelper",
+    SearchText = {},
     Shards = {},
     Tomeshells = {Solo = 4, Duo = 8},
     DATA_ID = 28, -- map id for libDataShare
