@@ -206,9 +206,11 @@ function AH.UnmarkCurrentTarget()
 end
 
 function AH.CombatCheck(_, incombat)
-    local check = AH.Vars.MarauderCheck or AH.Vars.FabledCheck or AH.Vars.ShardCheck or AH.Vars.GWCheck
+    local check = AH.Vars.FabledCheck and AH.CompatibilityCheck()
 
-    if (check and AH.CompatibilityCheck() and AH.InsideArchive) then
+    check = check or AH.Vars.MarauderCheck or AH.Vars.ShardCheck or AH.Vars.GWCheck
+
+    if (check and AH.InsideArchive) then
         if (not incombat) then
             EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Fabled", _G.EVENT_COMBAT_EVENT)
             EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_RETICLE_TARGET_CHANGED)
