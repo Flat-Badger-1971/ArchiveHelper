@@ -19,6 +19,7 @@ L(
 L(AH .. "FLAMESHAPER", "Façonne-feu")
 L(AH .. "GW", "Gw le pillard")
 L(AH .. "GW_MARKER", "Ajouter un marqueur de cible sur Gw le pillard")
+L(AH .. "GW_PLAY", "Jouer un son quand Gw apparaît")
 L(AH .. "HERD", "Rassemblez les lueurs fantômes") -- Rassemblez les lueurs fantômes
 L(AH .. "HERD_FAIL", "assez") -- Vous n'avez pas assez rassemblé de lueurs fantômes
 L(AH .. "HERD_SUCCESS", "ramené") -- Vous avez ramené les lueurs fantômes
