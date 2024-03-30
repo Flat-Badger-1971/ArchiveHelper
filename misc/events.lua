@@ -131,9 +131,12 @@ local function startTomeCheck()
 end
 
 local function stopTomeCheck()
-    AH.TomeCount:SetHidden(true)
+    if (AH.TomeCount) then
+        AH.TomeCount:SetHidden(true)
+        AH.Release("TomeCount")
+    end
+
     EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Tome", _G.EVENT_COMBAT_EVENT)
-    AH.Release("TomeCount")
 end
 
 local function zoneCheck()
@@ -306,7 +309,7 @@ function AH.HandleDataShare(_, info)
             AH.MARKERS[shareData].manual = false
         end
     elseif (shareType == AH.SHARE.GW) then
-        if (shareData  and (shareData > 0) and (not AH.FOUND_GW)) then
+        if (shareData and (shareData > 0) and (not AH.FOUND_GW)) then
             AH.PlayAlarm(AH.Sounds.Gw)
             AH.FOUND_GW = true
         end
