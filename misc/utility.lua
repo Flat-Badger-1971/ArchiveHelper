@@ -320,12 +320,15 @@ function AH.HasSkills(abilityId)
     return true
 end
 
-function AH.GroupChat(buff)
+function AH.GroupChat(buff, name)
     if (AH.Vars.ShowSelection) then
+        name = name or GetUnitName("player")
+
         local channel = AH.GetActualGroupType() == solo and _G.CHAT_CHANNEL_SAY or _G.CHAT_CHANNEL_PARTY
-        local message =
-            zo_strformat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(GetUnitName("player")), "|c76b5c5" .. buff .. "|r")
+        local message = zo_strformat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(name), "|c76b5c5" .. buff .. "|r")
 
         CHAT_ROUTER:FormatAndAddChatMessage(_G.EVENT_CHAT_MESSAGE_CHANNEL, channel, AH.Name, message)
     end
 end
+
+-- regex for crossing - (\d[LR]?)

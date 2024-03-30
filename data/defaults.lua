@@ -27,6 +27,16 @@ _G.ArchiveHelper = {
     },
     ArchiveIndex = 2407,
     ArchiveQuests = {GetQuestName(7091), GetQuestName(7101), GetQuestName(7102)},
+    CrossingOptions = {
+        "1542L36",
+        "25143",
+        "3R1465L2",
+        "35142L6",
+        "51423",
+        "514236",
+        "52L643R1",
+        "5R34126"
+    },
     FoundQuestItem = false,
     InEchoingDen = false,
     Keys = {},
@@ -58,7 +68,8 @@ _G.ArchiveHelper = {
         TOME = 1,
         MARK = 2,
         UNMARK = 3,
-        GW = 4
+        GW = 4,
+        ABILITY = 5
     },
     SKILL_TYPE_PET = 999,
     SORCERER = 2,

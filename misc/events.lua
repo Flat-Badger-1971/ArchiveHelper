@@ -280,14 +280,33 @@ function AH.ShareData(shareType, value)
         return
     end
 
-    local encoded = (shareType * 8) + (value - 1)
+    local encoded = tonumber(string.format("%d%d", shareType, value))
 
     AH.Share:QueueData(encoded)
 end
 
+local player = GetUnitName("player")
+
+local function getOtherPlayer()
+    local groupSize = GetGroupSize()
+
+    if (groupSize == 0) then
+        return
+    end
+
+    for unit = 1, groupSize do
+        if (IsUnitOnline(string.format("group%d", unit))) then
+            local name = GetUnitName(string.format("group%d", unit))
+            if (name ~= player) then
+                return name
+            end
+        end
+    end
+end
+
 function AH.HandleDataShare(_, info)
-    local shareType = info / 8
-    local shareData = (info % 8) + 1
+    local shareType = tonumber(tostring(info):sub(1, 1))
+    local shareData = tonumber(tostring(info):sub(2))
 
     if (shareType == AH.SHARE.TOME) then
         tomesTotal = tomesFound + shareData
@@ -313,6 +332,14 @@ function AH.HandleDataShare(_, info)
         if (shareData and (shareData > 0) and (not AH.FOUND_GW)) then
             AH.PlayAlarm(AH.Sounds.Gw)
             AH.FOUND_GW = true
+        end
+    elseif (shareType == AH.SHARE.ABILITY) then
+        if (shareData and (shareData > 0)) then
+            local buff = GetAbilityName(shareData)
+
+            if (buff) then
+                AH.GroupChat(buff, getOtherPlayer())
+            end
         end
     end
 end

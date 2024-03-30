@@ -40,17 +40,22 @@ L(AH .. "SHARD", "Fragment de Tho'at")
 L(AH .. "SHARD_IGNORE", "Ignorer les Fragments en dehors du cycle 5")
 L(AH .. "SHARD_MARKER", "Mettre un marqueur sur les Fragments de Tho'at")
 L(AH .. "SHOW_COUNT", "Décompter les tomes-carapaces de l'Aile du greffier")
+-- luacheck: push ignore 631
 L(
     AH .. "SHOW_COUNT_TOOLTIP",
     "Pour que le mode Duo fonctionne correctement, l'autre joueur doit avoir installé cet addon. Les deux joueurs doivent également avoir installé LibDataShare."
 )
+-- luacheck: pop
 L(AH .. "SHOW_ECHO", "Afficher un minuteur dans l'Antre aux échos")
 L(AH .. "SHOW_SELECTION", "Afficher vos choix de bienfaits en discussion")
 L(AH .. "SLASH_MISSING", "manquant")
 L(AH .. "STACKS", "Nombre de bienfaits cumulés")
 L(AH .. "TOMESHELL", "Tome-carapace")
 L(AH .. "USE_AUTO_AVOID", "Marquer automatiquement les Indésirables")
-L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Marquer automatiquement les versets ou les visions qui ne vous sont d'aucune utilité en raison de compétences non équipées.")
+L(
+    AH .. "USE_AUTO_AVOID_TOOLTIP",
+    "Marquer automatiquement les versets ou les visions qui ne vous sont d'aucune utilité en raison de compétences non équipées."
+)
 L(AH .. "WARNING", "Avertissement : les listes déroulantes ne seront actualisées qu'après un rechargement de l'IU")
 L(AH .. "WEREWOLF_BEHEMOTH", "Béhémoth loup-garou")
 
