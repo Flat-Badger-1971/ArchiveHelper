@@ -34,6 +34,7 @@ local function onChoiceCommitted()
         end
 
         AH.GroupChat(AH.Format(GetAbilityName(AH.SelectedBuff)))
+        AH.ShareData(AH.SHARE.ABILITY, AH.SelectedBuff)
         AH.SelectedBuff = nil
     end
 end
