@@ -320,12 +320,23 @@ function AH.HasSkills(abilityId)
     return true
 end
 
-function AH.GroupChat(buff, name)
+local colours = {
+    [AH.TYPES.VERSE] = {normal = "2dc50e", avatar = "ccaa1a"},
+    [AH.TYPES.VISION] = {normal = "a02ef7", avatar = "3a92ff"}
+}
+
+function AH.GroupChat(abilityId, name)
     if (AH.Vars.ShowSelection) then
         name = name or GetUnitName("player")
 
+        local buff = AH.Format(GetAbilityName(abilityId))
+        local abilityInfo = AH.ABILITIES[abilityId]
+        local abilityType = abilityInfo.type or AH.TYPES.VERSE
+        local isAvatar = abilityInfo.class == AH.CLASSES.AVATAR
+        local colourChoices = colours[abilityType]
+        local colour = isAvatar and colourChoices.avatar or colourChoices.normal
         local channel = AH.GetActualGroupType() == solo and _G.CHAT_CHANNEL_SAY or _G.CHAT_CHANNEL_PARTY
-        local message = zo_strformat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(name), "|c76b5c5" .. buff .. "|r")
+        local message = zo_strformat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(name), "|c" .. colour .. buff .. "|r")
 
         CHAT_ROUTER:FormatAndAddChatMessage(_G.EVENT_CHAT_MESSAGE_CHANNEL, channel, AH.Name, message)
     end

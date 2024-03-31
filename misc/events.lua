@@ -33,7 +33,7 @@ local function onChoiceCommitted()
             end
         end
 
-        AH.GroupChat(AH.Format(GetAbilityName(AH.SelectedBuff)))
+        AH.GroupChat(AH.SelectedBuff)
         AH.ShareData(AH.SHARE.ABILITY, AH.SelectedBuff)
         AH.SelectedBuff = nil
     end
@@ -336,11 +336,7 @@ function AH.HandleDataShare(_, info)
         end
     elseif (shareType == AH.SHARE.ABILITY) then
         if (shareData and (shareData > 0)) then
-            local buff = GetAbilityName(shareData)
-
-            if (buff) then
-                AH.GroupChat(buff, getOtherPlayer())
-            end
+            AH.GroupChat(shareData, getOtherPlayer())
         end
     end
 end
