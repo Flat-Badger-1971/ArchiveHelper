@@ -265,7 +265,25 @@ function AH.UpdateSlottedSkills()
         end
     end
 
-    AH.SKILL_TYPES[AH.SKILL_TYPE_PET] = GetUnitName("playerpet") ~= ""
+    for _, skillType in ipairs(skillTypes) do
+        if (purchasedSkills[skillType]) then
+            for _, slottedAbilityId in ipairs(slotted) do
+                if (ZO_IsElementInNumericallyIndexedTable(purchasedSkills[skillType], slottedAbilityId)) then
+                    AH.SKILL_TYPES[skillType] = true
+                    break
+                end
+            end
+        end
+    end
+
+    for _, slottedAbilityId in ipairs(slotted) do
+        if (AH.PETS[slottedAbilityId]) then
+            AH.SKILL_TYPES[AH.SKILL_TYPE_PET] = true
+            break
+        end
+    end
+
+    AH.SKILL_TYPES[AH.SKILL_TYPE_PET] = AH.SKILL_TYPES[AH.SKILL_TYPE_PET] or (GetUnitName("playerpet") ~= "")
 end
 
 local function onEffectChanged(...)
