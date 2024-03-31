@@ -340,7 +340,7 @@ end
 
 local colours = {
     [AH.TYPES.VERSE] = {normal = "2dc50e", avatar = "ccaa1a"},
-    [AH.TYPES.VISION] = {normal = "a02ef7", avatar = "3a92ff"}
+    [AH.TYPES.VISION] = {normal = "3a92ff", avatar = "a02ef7"}
 }
 
 function AH.GroupChat(abilityId, name)
