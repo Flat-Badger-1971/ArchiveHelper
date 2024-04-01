@@ -43,8 +43,14 @@ local function onChoiceCommitted()
             function()
                 local abilityInfo = AH.ABILITIES[selected]
                 local abilityType = abilityInfo.type or AH.TYPES.VERSE
-                local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(abilityType)
-                local count = counts[selected] or 0
+                local count
+
+                if (avatar) then
+                    count = AH.Vars.AvatarVisionCount[avatar] or 0
+                else
+                    local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(abilityType)
+                    count = counts[selected] or 0
+                end
 
                 AH.GroupChat(encode(selected, count))
                 AH.ShareData(AH.SHARE.ABILITY, selected, nil, count)
