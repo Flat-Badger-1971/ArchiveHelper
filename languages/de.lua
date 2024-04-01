@@ -47,7 +47,7 @@ L(
 )
 -- luacheck: pop
 L(AH .. "SHOW_ECHO", "Verbleibende Zeit in der Hallende Höhle anzeigen")
-L(AH .. "SHOW_SELECTION", "Show buff selection in group chat")
+L(AH .. "SHOW_SELECTION", "Buff-Auswahl im Gruppenchat anzeigen")
 L(AH .. "SLASH_MISSING", "fehlende")
 L(AH .. "STACKS", "Anzahl der Stapel")
 L(AH .. "TOMESHELL", "Buchsiedler")
