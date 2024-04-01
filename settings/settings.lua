@@ -203,7 +203,7 @@ local function buildOptions()
         [5] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_SELECTION),
-            tooltip = AH.Format(_G.ARCHIVEHELPER_REQUIRES),
+            tooltip = AH.Format(_G.ARCHIVEHELPER_REQUIRES) .. '. ' .. AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
             getFunc = function()
                 return AH.Vars.ShowSelection
             end,
