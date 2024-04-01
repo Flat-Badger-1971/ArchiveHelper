@@ -105,7 +105,7 @@ local function tomeCheck(...)
             AH.PlayAlarm(AH.Sounds.Tomeshell)
 
             if (AH.TomeGroupType ~= _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
-                AH.ShareData(AH.SHARE.TOME, tomesFound)
+                AH.ShareData(AH.SHARE.TOME, tomesFound, true)
             end
 
             local tomesLeft = AH.MaxTomes - tomesTotal
@@ -276,14 +276,18 @@ local function onHotBarChange(_, changed, shouldUpdate, category)
     end
 end
 
-function AH.ShareData(shareType, value)
+function AH.ShareData(shareType, value, instant)
     if (not AH.Share) then
         return
     end
 
     local encoded = tonumber(string.format("%d%d", shareType, value))
 
-    AH.Share:QueueData(encoded)
+    if (instant) then
+        AH.Share:SendData(encoded)
+    else
+        AH.Share:QueueData(encoded)
+    end
 end
 
 local player = GetUnitName("player")
