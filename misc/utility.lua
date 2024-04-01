@@ -343,25 +343,26 @@ local colours = {
     [AH.TYPES.VISION] = {normal = AH.COLOURS.BLUE, avatar = AH.COLOURS.PURPLE}
 }
 
-function AH.GroupChat(abilityId, name)
+function AH.GroupChat(abilityData, name)
     if (AH.Vars.ShowSelection) then
         name = name or GetUnitName("player")
+        abilityData = tostring(abilityData)
 
+        local abilityId = tonumber(abilityData:sub(2,7))
+        local count = tonumber(abilityData:sub(8))
         local buff = AH.Format(GetAbilityName(abilityId))
         local abilityInfo = AH.ABILITIES[abilityId]
-        local abilityType = abilityInfo.type or AH.TYPES.VERSE
+        local abilityType = abilityInfo.type or AH.TYPES.VE.RSE
         local avatar = AH.IsAvatar(abilityId)
         local colourChoices = colours[abilityType]
         local colour = avatar and colourChoices.avatar or colourChoices.normal
         local channel = AH.GetActualGroupType() == solo and _G.CHAT_CHANNEL_SAY or _G.CHAT_CHANNEL_PARTY
         local message = zo_strformat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(name), "|c" .. colour .. buff .. "|r")
-        local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(abilityType)
-        local count = counts[abilityId] or 0
 
         if (avatar) then
             count = AH.Vars.AvatarVisionCount[avatar] or 0
             message = message .. " |cffff00(" .. zo_strformat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
-        elseif (count > 0) then
+        elseif (count > 1) then
             message = message .. " |cffff00(" .. count .. ")|r"
         end
 

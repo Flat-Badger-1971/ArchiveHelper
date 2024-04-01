@@ -37,7 +37,7 @@ AH.ABILITIES = {
     [194138] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Rebirth
     [194153] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Reactive Curse
     [194166] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Archival Evasion
-    [194179] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- On Defense
+    [194179] = {ids = {3782, 3802, 3803, 3804}, class = AH.CLASSES.DEFENCE}, -- Head-On Defense
     [194181] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Magical Expiration
     [194183] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Energetic Expiration
     [194192] = {ids = {3783, 3805, 3806, 3807}, class = AH.CLASSES.UTILITY}, -- Glamorous Scholar

@@ -21,6 +21,10 @@ local function onSelectorHiding()
     )
 end
 
+local function encode(abilityId, count)
+    return tonumber(string.format("%d%06d%d", AH.SHARE.ABILITY, abilityId, count))
+end
+
 local function onChoiceCommitted()
     if (AH.SelectedBuff) then
         local avatar = AH.IsAvatar(AH.SelectedBuff)
@@ -33,8 +37,21 @@ local function onChoiceCommitted()
             end
         end
 
-        AH.GroupChat(AH.SelectedBuff)
-        AH.ShareData(AH.SHARE.ABILITY, AH.SelectedBuff)
+        local selected = AH.SelectedBuff
+
+        zo_callLater(
+            function()
+                local abilityInfo = AH.ABILITIES[selected]
+                local abilityType = abilityInfo.type or AH.TYPES.VERSE
+                local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(abilityType)
+                local count = counts[selected] or 0
+
+                AH.GroupChat(encode(selected, count))
+                AH.ShareData(AH.SHARE.ABILITY, selected, nil, count)
+            end,
+            500
+        )
+
         AH.SelectedBuff = nil
     end
 end
@@ -276,12 +293,18 @@ local function onHotBarChange(_, changed, shouldUpdate, category)
     end
 end
 
-function AH.ShareData(shareType, value, instant)
+function AH.ShareData(shareType, value, instant, stackCount)
     if (not AH.Share) then
         return
     end
 
-    local encoded = tonumber(string.format("%d%d", shareType, value))
+    local encoded
+
+    if (stackCount) then
+        encoded = encode(value, stackCount)
+    else
+        encoded = tonumber(string.format("%d%d", shareType, value))
+    end
 
     if (instant) then
         AH.Share:SendData(encoded)
@@ -339,8 +362,12 @@ function AH.HandleDataShare(_, info)
             AH.FOUND_GW = true
         end
     elseif (shareType == AH.SHARE.ABILITY) then
-        if (shareData and (shareData > 0)) then
-            AH.GroupChat(shareData, getOtherPlayer())
+        if (shareData) then
+            local data = tostring(info)
+
+            if (data:len() > 7) then
+                AH.GroupChat(data, getOtherPlayer())
+            end
         end
     end
 end
