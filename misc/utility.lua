@@ -360,7 +360,6 @@ function AH.GroupChat(abilityData, name)
         local message = zo_strformat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(name), "|c" .. colour .. buff .. "|r")
 
         if (avatar) then
-            count = AH.Vars.AvatarVisionCount[avatar] or 0
             message = message .. " |cffff00(" .. zo_strformat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
         elseif (count > 1) then
             message = message .. " |cffff00(" .. count .. ")|r"
