@@ -84,7 +84,7 @@ local function doChecks()
     AH.CHECK_FABLED = AH.Vars.FabledCheck
     AH.CHECK_SHARDS = false
     AH.CHECK_GW = false
-    AH.FOUND_GW = false
+    AH.CHECK_FLAMESHAPER = false
 
     if (arc == 1) then
         -- no marauders in arc 1
@@ -96,8 +96,9 @@ local function doChecks()
     end
 
     if (cycle < 5 and stage == 3) then
-        -- possible fabled due to one boss, no marauders or shards
-        AH.CHECK_FABLED = true and AH.Vars.FabledCheck
+        -- possible fabled (flameshaper) due to one boss, no marauders or shards
+        AH.CHECK_FLAMESHAPER = true and AH.Vars.FabledCheck
+        AH.CHECK_FABLED = false
         AH.CHECK_MARAUDERS = false
         AH.CHECK_SHARDS = false
         AH.CHECK_GW = true and AH.Vars.GWCheck
@@ -133,7 +134,7 @@ local function find(name)
 
     for _, text in ipairs(AH.SearchText) do
         if (name:find(text, 1, true)) then
-            return true, text == gwText
+            return true
         end
     end
     return false
