@@ -84,6 +84,7 @@ local function doChecks()
     AH.CHECK_FABLED = AH.Vars.FabledCheck
     AH.CHECK_SHARDS = false
     AH.CHECK_GW = false
+    AH.CHECK_FLAMESHAPER = false
     AH.FOUND_GW = false
 
     if (arc == 1) then
@@ -97,7 +98,8 @@ local function doChecks()
 
     if (cycle < 5 and stage == 3) then
         -- possible fabled due to one boss, no marauders or shards
-        AH.CHECK_FABLED = true and AH.Vars.FabledCheck
+        AH.CHECK_FLAMESHAPER = true and AH.Vars.FabledCheck
+        AH.CHECK_FABLED = false
         AH.CHECK_MARAUDERS = false
         AH.CHECK_SHARDS = false
         AH.CHECK_GW = true and AH.Vars.GWCheck
@@ -136,6 +138,7 @@ local function find(name)
             return true, text == gwText
         end
     end
+
     return false
 end
 
