@@ -178,26 +178,33 @@ end
 local solo = _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO
 
 function AH.GetActualGroupType()
-    local groupType = GetEndlessDungeonGroupType()
-    local groupSize = GetGroupSize()
+    if (IsInstanceEndlessDungeon()) then
+        local groupType = GetEndlessDungeonGroupType()
+        local groupSize = GetGroupSize()
 
-    if (groupSize == 0 or groupType == solo) then
-        return solo
-    end
+        if (groupSize == 0 or groupType == solo) then
+            groupType = solo
+        else
+            local size = 0
 
-    local size = 0
+            for unit = 1, groupSize do
+                if (IsUnitOnline(string.format("group%d", unit))) then
+                    size = size + 1
+                end
+            end
 
-    for unit = 1, groupSize do
-        if (IsUnitOnline(string.format("group%d", unit))) then
-            size = size + 1
+            if (size == 1) then
+                groupType = solo
+            end
+
+            if (AH.CurrentGroupType ~= groupType) then
+                AH.CallbackManager:FireCallbacks("GroupCompositionChanged", AH.CurrentGroupType, groupType)
+                AH.CurrentGroupType = groupType
+            end
         end
-    end
 
-    if (size == 1) then
-        return solo
+        return groupType
     end
-
-    return groupType
 end
 
 function AH.UpdateSlottedSkills()
@@ -348,7 +355,7 @@ function AH.GroupChat(abilityData, name)
         name = name or GetUnitName("player")
         abilityData = tostring(abilityData)
 
-        local abilityId = tonumber(abilityData:sub(2,7))
+        local abilityId = tonumber(abilityData:sub(2, 7))
         local count = tonumber(abilityData:sub(8))
         local buff = AH.Format(GetAbilityName(abilityId))
         local abilityInfo = AH.ABILITIES[abilityId]

@@ -200,6 +200,8 @@ local function onPlayerActivated()
             end
         end
     end
+
+    AH.GetActualGroupType()
 end
 
 local function checkMessage(messageParams)
@@ -338,6 +340,20 @@ local function getOtherPlayer()
     end
 end
 
+local function onGroupCompositionChanged(oldType, newType)
+    local oldText = oldType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO and "solo" or "duo"
+    local newText = newType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO and "solo" or "duo"
+
+    if (oldType == nil) then
+        oldText = "nil"
+    end
+    if (newType == nil) then
+        newText = "nil"
+    end
+
+    d("Group composition changed from '" .. oldText .. "' to '" .. newText .. "'")
+end
+
 function AH.HandleDataShare(_, info)
     local shareType = tonumber(tostring(info):sub(1, 1))
     local shareData = tonumber(tostring(info):sub(2))
@@ -405,4 +421,20 @@ function AH.SetupEvents()
         AH.UpdateSlottedSkills()
         EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
     end
+
+    local groupEvents = {
+        _G.EVENT_COMPANION_ACTIVATED,
+        _G.EVENT_COMPANION_DEACTIVATED,
+        _G.EVENT_GROUP_MEMBER_LEFT,
+        _G.EVENT_GROUP_MEMBER_JOINED,
+        _G.EVENT_GROUP_MEMBER_SUBZONE_CHANGED,
+        _G.EVENT_GROUP_MEMBER_CONNECTED_STATUS,
+        _G.EVENT_GROUP_UPDATE
+    }
+
+    for _, event in ipairs(groupEvents) do
+        EVENT_MANAGER:RegisterForEvent(AH.Name, event, AH.GetActualGroupType)
+    end
+
+    AH.CallbackManager:RegisterCallback("GroupCompositionChanged", onGroupCompositionChanged)
 end
