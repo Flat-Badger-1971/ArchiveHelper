@@ -25,7 +25,7 @@ L(AH .. "HERD_FAIL", "assez") -- Vous n'avez pas assez rassemblé de lueurs fant
 L(AH .. "HERD_SUCCESS", "ramené") -- Vous avez ramené les lueurs fantômes
 L(AH .. "MARAUDER_MARKER", "Mettre un marqueur de cible sur les Maraudeurs")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Jouer un son à l'arrivée d'un Maraudeur")
-L(AH .. "PROGRESS", "Avancement du critère <<1>><<2>><<3>>. Reste <<4>>.")
+L(AH .. "PROGRESS", "Avancement du critère <<1>><<2>><<3>>. Encore <<4>>.")
 L(AH .. "PROGRESS_ACHIEVEMENT", "Progression des succès")
 L(AH .. "PROGRESS_CHAT", "Afficher dans le log")
 L(AH .. "PROGRESS_SCREEN", "Annoncer à l'écran")
