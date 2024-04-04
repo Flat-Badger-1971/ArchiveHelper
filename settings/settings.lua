@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.1.2",
+    version = "1.1.3",
     registerForRefresh = true
 }
 local favouriteChoices = {}

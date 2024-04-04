@@ -102,7 +102,7 @@ local function doChecks()
         AH.CHECK_FABLED = false
         AH.CHECK_MARAUDERS = false
         AH.CHECK_SHARDS = false
-        AH.CHECK_GW = true and AH.Vars.GWCheck
+        AH.CHECK_GW = true and AH.Vars.GwCheck
     end
 
     if (cycle == 5 and stage == 3 and arc < 4) then
@@ -135,7 +135,7 @@ local function find(name)
 
     for _, text in ipairs(AH.SearchText) do
         if (name:find(text, 1, true)) then
-            return true, text == gwText
+            return text
         end
     end
 
@@ -146,13 +146,13 @@ local function markerCheck()
     local extantMarker = GetUnitTargetMarkerType("reticleover")
 
     if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
-        local found, isGw = find(GetUnitName("reticleover"))
+        local found = find(GetUnitName("reticleover"))
 
         if (found and (not IsUnitDead("reticleover"))) then
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
 
-            if (isGw and AH.Vars.GwPlay and (not AH.FOUND_GW)) then
+            if ((found == gwText) and AH.Vars.GwPlay and (not AH.FOUND_GW)) then
                 AH.PlayAlarm(AH.Sounds.Gw)
                 AH.FOUND_GW = true
                 AH.ShareData(AH.SHARE.GW, 2)
@@ -210,7 +210,7 @@ end
 function AH.CombatCheck(_, incombat)
     local check = AH.Vars.FabledCheck and AH.CompatibilityCheck()
 
-    check = check or AH.Vars.MarauderCheck or AH.Vars.ShardCheck or AH.Vars.GWCheck
+    check = check or AH.Vars.MarauderCheck or AH.Vars.ShardCheck or AH.Vars.GwCheck
 
     if (check and AH.InsideArchive) then
         if (not incombat) then

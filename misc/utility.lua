@@ -359,14 +359,14 @@ function AH.GroupChat(abilityData, name)
         local count = tonumber(abilityData:sub(8))
         local buff = AH.Format(GetAbilityName(abilityId))
         local abilityInfo = AH.ABILITIES[abilityId]
-        local abilityType = abilityInfo.type or AH.TYPES.VE.RSE
+        local abilityType = abilityInfo.type or AH.TYPES.VERSE
         local avatar = AH.IsAvatar(abilityId)
         local colourChoices = colours[abilityType]
         local colour = avatar and colourChoices.avatar or colourChoices.normal
         local channel = AH.GetActualGroupType() == solo and _G.CHAT_CHANNEL_SAY or _G.CHAT_CHANNEL_PARTY
         local message = zo_strformat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(name), "|c" .. colour .. buff .. "|r")
 
-        if (avatar) then
+        if (avatar and (abilityType == AH.TYPES.VISION)) then
             message = message .. " |cffff00(" .. zo_strformat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
         elseif (count > 1) then
             message = message .. " |cffff00(" .. count .. ")|r"

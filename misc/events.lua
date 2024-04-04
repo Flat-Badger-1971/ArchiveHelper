@@ -422,19 +422,21 @@ function AH.SetupEvents()
         EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
     end
 
-    local groupEvents = {
-        _G.EVENT_COMPANION_ACTIVATED,
-        _G.EVENT_COMPANION_DEACTIVATED,
-        _G.EVENT_GROUP_MEMBER_LEFT,
-        _G.EVENT_GROUP_MEMBER_JOINED,
-        _G.EVENT_GROUP_MEMBER_SUBZONE_CHANGED,
-        _G.EVENT_GROUP_MEMBER_CONNECTED_STATUS,
-        _G.EVENT_GROUP_UPDATE
-    }
+    if (AH.DEBUG) then
+        local groupEvents = {
+            _G.EVENT_COMPANION_ACTIVATED,
+            _G.EVENT_COMPANION_DEACTIVATED,
+            _G.EVENT_GROUP_MEMBER_LEFT,
+            _G.EVENT_GROUP_MEMBER_JOINED,
+            _G.EVENT_GROUP_MEMBER_SUBZONE_CHANGED,
+            _G.EVENT_GROUP_MEMBER_CONNECTED_STATUS,
+            _G.EVENT_GROUP_UPDATE
+        }
 
-    for _, event in ipairs(groupEvents) do
-        EVENT_MANAGER:RegisterForEvent(AH.Name, event, AH.GetActualGroupType)
+        for _, event in ipairs(groupEvents) do
+            EVENT_MANAGER:RegisterForEvent(AH.Name, event, AH.GetActualGroupType)
+        end
+
+        AH.CallbackManager:RegisterCallback("GroupCompositionChanged", onGroupCompositionChanged)
     end
-
-    AH.CallbackManager:RegisterCallback("GroupCompositionChanged", onGroupCompositionChanged)
 end
