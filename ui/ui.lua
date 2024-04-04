@@ -31,7 +31,7 @@ function baseFrame:Initialise()
 
     self.control.Label = WINDOW_MANAGER:CreateControl(nil, self.control, CT_LABEL)
     self.control.Label:SetAnchor(CENTER)
-    self.control.Label:SetFont("EsoUi/Common/Fonts/Univers67.otf|24")
+    self.control.Label:SetFont("${MEDIUM_FONT}|24")
     self.control.Label:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
     self.control.Label:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
     self.control.Label:SetColor(1, 1, 0, 1)

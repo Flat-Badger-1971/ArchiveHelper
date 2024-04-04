@@ -11,20 +11,20 @@ L(AH .. "BUFF_SELECTED", "<<1>> hat <<2>> ausgewählt")
 L(AH .. "COUNT", "<<1>> von <<2>>")
 L(AH .. "CYCLE_BOSS", "Bosskampf folgt")
 L(AH .. "FABLED", "umwobene")
-L(AH .. "FABLED_MARKER", "Zielmarkierungen zu Sagenumwobenen hinzufüge")
+L(AH .. "FABLED_MARKER", "Zielmarkierungen zu Sagenumwobenen hinzufügen")
 L(
     AH .. "FABLED_TOOLTIP",
     "Diese Funktion wird nicht zusammen mit Lykeions Fabled Marker Addon funktionieren, da sonst beide Addons die gleichen Dinge markieren würden."
 )
 L(AH .. "FLAMESHAPER", "Flammenformer")
 L(AH .. "GW", "Gw Langfinger")
-L(AH .. "GW_MARKER", "Zielmarkierungen zu Gw Langfinger hinzufüge")
-L(AH .. "GW_PLAY", "Warnung bei ankommenden Gw abspiele")
+L(AH .. "GW_MARKER", "Zielmarkierungen zu Gw Langfinger hinzufügen")
+L(AH .. "GW_PLAY", "Warnung bei ankommenden Gw abspielen")
 L(AH .. "HERD", "Hütet die Geisterlichter")
 L(AH .. "HERD_FAIL", "ausreichend") -- Ihr habt nicht ausreichend Geisterlichter gehütet
 L(AH .. "HERD_SUCCESS", "erfolgreich") -- Ihr habt die Geisterlichter erfolgreich zurückgebracht
 L(AH .. "MARAUDER_MARKER", "Zielmarkierungen zu Marodeuren hinzufügen")
-L(AH .. "MARAUDER_INCOMING_PLAY", "Warnung bei ankommenden Marodeuren abspiele")
+L(AH .. "MARAUDER_INCOMING_PLAY", "Warnung bei ankommenden Marodeuren abspielen")
 L(AH .. "PROGRESS", "<<1>><<2>><<3>> Kriterien fortgeschritten. <<4>> verbleiben.")
 L(AH .. "PROGRESS_ACHIEVEMENT", "Fortschritt der Errungenschaften")
 L(AH .. "PROGRESS_CHAT", "Im Chat anzeigen")
