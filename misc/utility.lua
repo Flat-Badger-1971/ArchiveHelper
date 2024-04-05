@@ -198,7 +198,6 @@ function AH.GetActualGroupType()
             end
 
             if (AH.CurrentGroupType ~= groupType) then
-                AH.CallbackManager:FireCallbacks("GroupCompositionChanged", AH.CurrentGroupType, groupType)
                 AH.CurrentGroupType = groupType
             end
         end
