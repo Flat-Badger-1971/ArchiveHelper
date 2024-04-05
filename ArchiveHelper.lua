@@ -24,8 +24,6 @@ local function Initialise()
         AH.SELECTOR_OBJECT = string.format(selectorObject, "KEYBOARD")
     end
 
-    AH.CallbackManager = ZO_CallbackObject:Subclass()
-
     AH.CheckDataShareLib()
     AH.SetupHooks()
     AH.FindMissingAbilityIds()

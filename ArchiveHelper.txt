@@ -2,8 +2,8 @@
 ## Description: Marks versions and visions on the buff selector for achievement requirements, avatars and favourites
 ## Author: Flat Badger
 ## APIVersion: 101041
-## AddOnVersion: 1103
-## Version: 1.1.3
+## AddOnVersion: 1104
+## Version: 1.1.4
 ## SavedVariables: ArchiveHelperSavedVars
 ## DependsOn: LibSavedVars>=60007 LibAddonMenu-2.0>=35
 ## OptionalDependsOn: LykeionsFabledMarker LibChatMessage>=105 LibDataShare>=3

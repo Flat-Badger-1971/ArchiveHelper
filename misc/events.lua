@@ -16,6 +16,7 @@ local function onSelectorHiding()
     zo_callLater(
         function()
             AH.ShowingBuffs = false
+            CALLBACK_MANAGER:FireCallbacks("ArchiveHelperBuffSelectorClosing")
         end,
         1500
     )
@@ -54,6 +55,7 @@ local function onChoiceCommitted()
 
                 AH.GroupChat(encode(selected, count))
                 AH.ShareData(AH.SHARE.ABILITY, selected, nil, count)
+                CALLBACK_MANAGER:FireCallbacks("ArchiveHelperBuffSelectionCommitted")
             end,
             500
         )
@@ -88,6 +90,7 @@ local function onShowing()
     AH.OnBuffSelectorShowing()
     AH.ShowingBuffs = true
     checkNotice()
+    CALLBACK_MANAGER:FireCallbacks("ArchiveHelperBuffSelectorShowing")
 end
 
 local function onSelecting(_, buffControl)
@@ -138,6 +141,7 @@ local function tomeCheck(...)
             local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesLeft)
 
             AH.TomeCount:SetText(message)
+            CALLBACK_MANAGER:FireCallbacks("ArchiveHelperTomeshellKilled")
         end
     end
 end
@@ -205,7 +209,11 @@ local function onPlayerActivated()
 end
 
 local function checkMessage(messageParams)
-    if (IsInstanceEndlessDungeon() and not AH.DenStarted) then
+    if (not IsInstanceEndlessDungeon()) then
+        return
+    end
+
+    if (not AH.DenStarted) then
         onPlayerActivated()
     end
 
@@ -276,8 +284,20 @@ local function onStunned(_, stunned)
 end
 
 local function onDungeonInitialised()
-    if (not IsEndlessDungeonStarted()) then
-        AH.Vars.AvatarVisionCount = {ICE = 0, WOLF = 0, IRON = 0}
+    local visionCount = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(_G.ENDLESS_DUNGEON_BUFF_TYPE_VISION)
+
+    AH.Vars.AvatarVisionCount = {ICE = 0, WOLF = 0, IRON = 0}
+
+    if (visionCount) then
+        for avatar, data in pairs(AH.AVATAR) do
+            for _, abilityId in ipairs(data.abilityIds) do
+                if (abilityId ~= data.transform) then
+                    local count = visionCount[abilityId] or 0
+
+                    AH.Vars.AvatarVisionCount[avatar] = AH.Vars.AvatarVisionCount[avatar] + count
+                end
+            end
+        end
     end
 end
 
@@ -338,20 +358,6 @@ local function getOtherPlayer()
             end
         end
     end
-end
-
-local function onGroupCompositionChanged(oldType, newType)
-    local oldText = oldType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO and "solo" or "duo"
-    local newText = newType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO and "solo" or "duo"
-
-    if (oldType == nil) then
-        oldText = "nil"
-    end
-    if (newType == nil) then
-        newText = "nil"
-    end
-
-    d("Group composition changed from '" .. oldText .. "' to '" .. newText .. "'")
 end
 
 function AH.HandleDataShare(_, info)
@@ -420,23 +426,5 @@ function AH.SetupEvents()
     if (AH.Vars.AutoCheck) then
         AH.UpdateSlottedSkills()
         EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
-    end
-
-    if (AH.DEBUG) then
-        local groupEvents = {
-            _G.EVENT_COMPANION_ACTIVATED,
-            _G.EVENT_COMPANION_DEACTIVATED,
-            _G.EVENT_GROUP_MEMBER_LEFT,
-            _G.EVENT_GROUP_MEMBER_JOINED,
-            _G.EVENT_GROUP_MEMBER_SUBZONE_CHANGED,
-            _G.EVENT_GROUP_MEMBER_CONNECTED_STATUS,
-            _G.EVENT_GROUP_UPDATE
-        }
-
-        for _, event in ipairs(groupEvents) do
-            EVENT_MANAGER:RegisterForEvent(AH.Name, event, AH.GetActualGroupType)
-        end
-
-        AH.CallbackManager:RegisterCallback("GroupCompositionChanged", onGroupCompositionChanged)
     end
 end

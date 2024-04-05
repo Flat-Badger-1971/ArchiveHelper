@@ -372,7 +372,7 @@ function AH.GroupChat(abilityData, name)
             message = message .. " |cffff00(" .. count .. ")|r"
         end
 
-        CHAT_ROUTER:FormatAndAddChatMessage(_G.EVENT_CHAT_MESSAGE_CHANNEL, channel, AH.Name, message)
+        CHAT_ROUTER:FormatAndAddChatMessage(_G.EVENT_CHAT_MESSAGE_CHANNEL, channel, AH.Name, message, false, AH.Name)
     end
 end
 
