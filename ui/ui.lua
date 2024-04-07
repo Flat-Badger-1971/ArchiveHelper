@@ -17,6 +17,7 @@ function baseFrame:Initialise()
     self.control:SetDrawTier(DT_HIGH)
     self.control:SetMouseEnabled(true)
     self.control:SetMovable(true)
+    self.control:SetClampedToScreen(true)
 
     self.control.Background = WINDOW_MANAGER:CreateControl(nil, self.control, CT_BACKDROP)
     self.control.Background:SetAnchorFill()
@@ -47,7 +48,7 @@ function baseFrame:SetPosition()
     local defaultX = GuiRoot:GetCenter()
 
     defaultX = defaultX - (self.width / 2)
-
+    d(self.Name)
     if (not AH.Vars[self.name .. "Position"]) then
         AH.Vars[self.name .. "Position"] = {top = defaultY, left = defaultX}
     end
@@ -117,6 +118,7 @@ local function ensureFramePoolExists()
                 frame:ClearAnchors()
                 frame:SetText("")
                 frame:SetColour(1, 1, 0, 1)
+                frame.control:SetResizeToFitDescendents(true)
             end
         )
     end
@@ -261,6 +263,8 @@ local function createComboBox(name, parent, width, height, choices, default, cal
     combo.UpdateValues = function(self, array, index)
         local comboBox = self.m_comboBox
 
+        combo.comboBox = comboBox
+
         if (array) then
             comboBox:ClearItems()
 
@@ -314,6 +318,10 @@ local function createComboBox(name, parent, width, height, choices, default, cal
         end
 
         index = combo.array[index]
+    end
+
+    combo.SetSelected = function(idx, ignoreCallback)
+        combo.comboBox:SetSelected(idx, ignoreCallback)
     end
 
     combo:UpdateValues(choices, index)
@@ -468,7 +476,13 @@ function AH.ShowCrossingHelper(bypass)
         helper.control:SetWidth(400)
         helper.control:SetHeight(500)
 
-        helper:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, AH.Vars.CountPosition.left, AH.Vars.CountPosition.top)
+        helper:SetAnchor(
+            TOPLEFT,
+            GuiRoot,
+            TOPLEFT,
+            AH.Vars.CrossingHelperPosition.left,
+            AH.Vars.CrossingHelperPosition.top
+        )
         helper:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_TITLE))
         helper:SetColour(1, 1, 0, 1)
         helper:SetHidden(false)
@@ -495,7 +509,7 @@ function AH.ShowCrossingHelper(bypass)
         helper.text:SetFont("${MEDIUM_FONT}|14")
         helper.text:SetHorizontalAlignment(_G.TEXT_ALIGN_LEFT)
         helper.text:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
-        helper.text:SetColor(0.529, 0.243, 0.137, 1)
+        helper.text:SetColor(0.82, 0.82, 0.82, 1)
         helper.text:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_INSTRUCTIONS))
 
         local ordinals = {
@@ -562,15 +576,6 @@ function AH.ShowCrossingHelper(bypass)
             helper.pathsLabel:SetColor(1, 1, 0, 1)
             helper.pathsLabel:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
 
-            helper.key =
-                _G[AH.Name .. "_key"] or WINDOW_MANAGER:CreateControl(AH.Name .. "_key", helper.control, CT_LABEL)
-            helper.key:ClearAnchors()
-            helper.key:SetAnchor(CENTER, helper.pathsLabel, CENTER, 0, -40)
-            helper.key:SetFont("${BOLD_FONT}|16")
-            helper.key:SetColor(0.976, 0.976, 0.976, 1)
-            helper.key:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
-            helper.key:SetText(zo_strformat(GetString(_G.ARCHIVEHELPER_CROSSING_KEY), icons.L, icons.R))
-
             solutionsWindow =
                 _G[AH.Name .. "_solutions"] or
                 WINDOW_MANAGER:CreateControl(AH.Name .. "_solutions", helper.control, CT_LABEL)
@@ -582,6 +587,15 @@ function AH.ShowCrossingHelper(bypass)
             solutionsWindow:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
             solutionsWindow:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
             solutionsWindow:SetColor(0.976, 0.976, 0.976, 1)
+
+            helper.key =
+                _G[AH.Name .. "_key"] or WINDOW_MANAGER:CreateControl(AH.Name .. "_key", helper.control, CT_LABEL)
+            helper.key:ClearAnchors()
+            helper.key:SetAnchor(CENTER, helper.control, CENTER, 0, 230)
+            helper.key:SetFont("${BOLD_FONT}|16")
+            helper.key:SetColor(0.82, 0.82, 0.82, 1)
+            helper.key:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+            helper.key:SetText(zo_strformat(GetString(_G.ARCHIVEHELPER_CROSSING_KEY), icons.L, icons.R))
         end
 
         setHideHelperControls(false, helper)
@@ -593,6 +607,16 @@ function AH.ShowCrossingHelper(bypass)
 end
 
 function AH.HideCrossingHelper()
+    AH.selectedBox[1] = false
+    AH.selectedBox[2] = false
+    AH.selectedBox[3] = false
+
+    AH.CrossingHelper.box1.SetSelected(7, true)
+    AH.CrossingHelper.box2.SetSelected(7, true)
+    AH.CrossingHelper.box3.SetSelected(7, true)
+
+    solutionsWindow:SetText("")
+
     setHideHelperControls(true)
     AH.Release("CrossingHelper")
 end
