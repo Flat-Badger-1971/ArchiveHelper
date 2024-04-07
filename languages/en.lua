@@ -9,9 +9,11 @@ L(AH .. "ARC_BOSS", "Arc boss next")
 L(AH .. "AVOID", "Avoid")
 L(AH .. "BUFF_SELECTED", "<<1>> selected <<2>>")
 L(AH .. "COUNT", "<<1>> of <<2>>")
+L(AH .. "CROSSING_FAIL", "Failed")
 L(AH .. "CROSSING_NO_SOLUTIONS", "No Paths Found")
 L(AH .. "CROSSING_PATHS", "Possible Paths")
 L(AH .. "CROSSING_START", "Start")
+L(AH .. "CROSSING_SUCCESS", "Solved")
 L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
 L(
     AH .. "CROSSING_INSTRUCTIONS",

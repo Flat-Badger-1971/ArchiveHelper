@@ -20,6 +20,7 @@ _G.ArchiveHelper = {
         NotifyScreen = true,
         ShardCheck = true,
         ShardIgnore = true,
+        ShowHelper = true,
         ShowNotice = true,
         ShowSelection = true,
         ShowStacks = true,
