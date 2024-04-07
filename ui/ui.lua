@@ -383,7 +383,7 @@ local function isReset()
     return true
 end
 
-local function crossingUpdate(box, value)
+function AH.CrossingUpdate(box, value)
     AH.selectedBox[box] = tostring(value)
 
     findOptions(options)
@@ -418,20 +418,26 @@ end
 local function setHideHelperControls(hide, helper)
     local helperRef = helper or AH.CrossingHelper
     local controls = {
+        "box",
+        "boxlabel",
+        "boxt",
         "close",
-        "text",
-        "box1",
-        "box2",
-        "box3",
-        "boxlabel1",
-        "boxlabel2",
-        "boxlabel3",
+        "key",
         "pathsLabel",
-        "key"
+        "text"
     }
+    local triples = {"box", "boxlabel", "boxt"}
 
     for _, control in ipairs(controls) do
-        helperRef[control]:SetHidden(hide)
+        if (ZO_IsElementInNumericallyIndexedTable(triples, control)) then
+            for idx = 1, 3 do
+                if (helperRef[control .. idx]) then
+                    helperRef[control .. idx]:SetHidden(hide)
+                end
+            end
+        else
+            helperRef[control]:SetHidden(hide)
+        end
     end
 
     solutionsWindow:SetHidden(hide)
@@ -439,6 +445,18 @@ end
 
 function AH.ShowCrossingHelper(bypass)
     if ((AH.IsInCrossing and AH.Vars.ShowHelper) or bypass) then
+        local groupType = AH.GetActualGroupType()
+
+        if (IsUnitGroupLeader("player") or groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
+            AH.IsLeader = true
+        else
+            AH.IsLeader = false
+        end
+
+        if (not AH.AH_SHARING) then
+            AH.IsLeader = true
+        end
+
         ensureFramePoolExists()
 
         local helper, helperKey = AH.FrameObjectPool:AcquireObject()
@@ -487,19 +505,38 @@ function AH.ShowCrossingHelper(bypass)
         }
 
         for box = 1, 3 do
-            helper["box" .. box] =
-                _G[AH.Name .. "_choice" .. box] or
-                createComboBox(
-                    AH.Name .. "_choice" .. box,
-                    helper.control,
-                    40,
-                    40,
-                    {1, 2, 3, 4, 5, 6, ""},
-                    nil,
-                    function(value)
-                        crossingUpdate(box, value)
-                    end
-                )
+            if (AH.IsLeader) then
+                helper["box" .. box] =
+                    _G[AH.Name .. "_choice" .. box] or
+                    createComboBox(
+                        AH.Name .. "_choice" .. box,
+                        helper.control,
+                        40,
+                        40,
+                        {1, 2, 3, 4, 5, 6, ""},
+                        nil,
+                        function(value)
+                            AH.CrossingUpdate(box, value)
+                        end
+                    )
+            else
+                helper["box" .. box] =
+                    _G[AH.Name .. "_choice" .. box] or
+                    WINDOW_MANAGER:CreateControl(AH.Name .. "_choice" .. box, helper.control, CT_LABEL)
+                helper["box" .. box]:SetWidth(40)
+                helper["box" .. box]:SetHeight(40)
+                helper["box" .. box]:SetFont("${MEDIUM_FONT}|22")
+                helper["box" .. box]:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+                helper["box" .. box]:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+
+                helper["boxt" .. box] =
+                    _G[AH.Name .. "_bbg" .. box] or
+                    WINDOW_MANAGER:CreateControl(AH.Name .. "_bbg" .. box, helper["box" .. box], CT_BACKDROP)
+                helper["boxt" .. box]:SetEdgeTexture("esoui/art/tooltips/ui-border.dds", 128, 16)
+                helper["boxt" .. box]:SetCenterTexture("esoui/art/tooltips/ui-tooltipcenter.dds")
+                helper["boxt" .. box]:SetAnchorFill()
+            end
+
             helper["box" .. box]:SetAnchor(TOPLEFT, helper.text, BOTTOMLEFT, 20 + (box * 75), 50)
             helper["boxlabel" .. box] =
                 _G[AH.Name .. "_boxlabel" .. box] or

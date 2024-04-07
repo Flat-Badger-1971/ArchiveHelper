@@ -345,6 +345,38 @@ local function onHotBarChange(_, changed, shouldUpdate, category)
     end
 end
 
+local player = GetUnitName("player")
+
+local function getOtherPlayer()
+    local groupSize = GetGroupSize()
+
+    if (groupSize == 0) then
+        return
+    end
+
+    for unit = 1, groupSize do
+        if (IsUnitOnline(string.format("group%d", unit))) then
+            local name = GetUnitName(string.format("group%d", unit))
+            if (name ~= player) then
+                return name
+            end
+        end
+    end
+end
+
+local function onCrossingChange(selections)
+    if (not AH.IsLeader and AH.CrossingHelper) then
+        selections = selections:gsub("0", " ")
+
+        AH.CrossingHelper.box1:SetText(selections[1])
+        AH.CrossingHelper.box2:SetText(selections[2])
+        AH.CrossingHelper.box3:SetText(selections[3])
+        AH.selectedBox[1] = selections[1]
+        AH.selectedBox[2] = selections[2]
+        AH.CrossingUpdate(3, selections[3])
+    end
+end
+
 function AH.ShareData(shareType, value, instant, stackCount)
     if (not AH.Share) then
         return
@@ -362,25 +394,6 @@ function AH.ShareData(shareType, value, instant, stackCount)
         AH.Share:SendData(encoded)
     else
         AH.Share:QueueData(encoded)
-    end
-end
-
-local player = GetUnitName("player")
-
-local function getOtherPlayer()
-    local groupSize = GetGroupSize()
-
-    if (groupSize == 0) then
-        return
-    end
-
-    for unit = 1, groupSize do
-        if (IsUnitOnline(string.format("group%d", unit))) then
-            local name = GetUnitName(string.format("group%d", unit))
-            if (name ~= player) then
-                return name
-            end
-        end
     end
 end
 
@@ -421,6 +434,10 @@ function AH.HandleDataShare(_, info)
                 AH.GroupChat(data, getOtherPlayer())
             end
         end
+    elseif (shareType == AH.SHARE.CROSSING) then
+        onCrossingChange(tostring(info):sub(2))
+    elseif (shareType == AH.SHARE.SHARING) then
+        AH.AH_SHARING = true
     end
 end
 

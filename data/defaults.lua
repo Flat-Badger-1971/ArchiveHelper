@@ -78,7 +78,9 @@ _G.ArchiveHelper = {
         MARK = 2,
         UNMARK = 3,
         GW = 4,
-        ABILITY = 5
+        ABILITY = 5,
+        CROSSING = 6,
+        SHARING = 7
     },
     SKILL_TYPE_PET = 999,
     SORCERER = 2,

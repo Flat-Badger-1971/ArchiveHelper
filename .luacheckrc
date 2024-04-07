@@ -463,6 +463,7 @@ read_globals = {
     "IsSlotUsed",
     "IsUnitDead",
     "IsUnitGrouped",
+    "IsUnitGroupLeader",
     "IsUnitInCombat",
     "IsUnitInDungeon",
     "IsUnitOnline",
