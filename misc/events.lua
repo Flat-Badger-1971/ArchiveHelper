@@ -170,16 +170,25 @@ end
 
 local function zoneCheck()
     local mapId = GetCurrentMapId()
+
     if (mapId == AH.MAPS.ECHOING_DEN.id) then
         AH.IsInEchoingDen = true
         AH.DenStarted = true
         AH.ShowTimer()
+    elseif (mapId == AH.MAPS.TREACHEROUS_CROSSING) then
+        AH.IsInCrossing = true
+        AH.ShowCrossingHelper()
     else
-        AH.InEchoingDen = false
+        AH.IsInEchoingDen = false
         AH.DenStarted = false
+        AH.IsInCrossing = false
 
         if (AH.Timer) then
             AH.HideTimer()
+        end
+
+        if (AH.CrossingHelper) then
+            AH.HideCrossingHelper()
         end
     end
 end

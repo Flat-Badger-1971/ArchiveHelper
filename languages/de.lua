@@ -9,6 +9,15 @@ L(AH .. "ARC_BOSS", "Tho’at Replicanum folgt")
 L(AH .. "AVOID", "Zu Vermeiden")
 L(AH .. "BUFF_SELECTED", "<<1>> hat <<2>> ausgewählt")
 L(AH .. "COUNT", "<<1>> von <<2>>")
+L(AH .. "CROSSING_NO_SOLUTIONS", "No Paths Found")
+L(AH .. "CROSSING_PATHS", "Possible Paths")
+L(AH .. "CROSSING_START", "Anfang")
+L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
+L(
+    AH .. "CROSSING_INSTRUCTIONS",
+    "Find the switch corresponding to the start of the path and select it in the dropdown below (1 is the leftmost switch, 6 the rightmost)." ..
+        " Then, if necessary, find the 2nd step or the end of the path."
+)
 L(AH .. "CYCLE_BOSS", "Bosskampf folgt")
 L(AH .. "FABLED", "umwobene")
 L(AH .. "FABLED_MARKER", "Zielmarkierungen zu Sagenumwobenen hinzufügen")

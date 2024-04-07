@@ -9,6 +9,15 @@ L(AH .. "ARC_BOSS", "Arc boss next")
 L(AH .. "AVOID", "Avoid")
 L(AH .. "BUFF_SELECTED", "<<1>> selected <<2>>")
 L(AH .. "COUNT", "<<1>> of <<2>>")
+L(AH .. "CROSSING_NO_SOLUTIONS", "No Paths Found")
+L(AH .. "CROSSING_PATHS", "Possible Paths")
+L(AH .. "CROSSING_START", "Start")
+L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
+L(
+    AH .. "CROSSING_INSTRUCTIONS",
+    "Find the switch corresponding to the start of the path and select it in the dropdown below (1 is the leftmost switch, 6 the rightmost)." ..
+        " Then, if necessary, find the 2nd step or the end of the path."
+)
 L(AH .. "CYCLE_BOSS", "Cycle boss next")
 L(AH .. "FABLED", "Fabled")
 L(AH .. "FABLED_MARKER", "Add Target Markers to Fabled")
@@ -50,7 +59,10 @@ L(AH .. "SLASH_MISSING", "missing")
 L(AH .. "STACKS", "Stack count")
 L(AH .. "TOMESHELL", "Tomeshell")
 L(AH .. "USE_AUTO_AVOID", "Use automatic avoids")
-L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Automatically mark verses or visions that are of no use to you due to unslotted skills")
+L(
+    AH .. "USE_AUTO_AVOID_TOOLTIP",
+    "Automatically mark verses or visions that are of no use to you due to unslotted skills"
+)
 L(AH .. "WARNING", "Warning: Dropdowns may not refresh without a UI reload")
 L(AH .. "WEREWOLF_BEHEMOTH", "Werewolf Behemoth")
 

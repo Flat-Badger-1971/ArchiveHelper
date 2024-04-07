@@ -6,7 +6,7 @@
 ## Version: 1.1.5
 ## SavedVariables: ArchiveHelperSavedVars
 ## DependsOn: LibSavedVars>=60007 LibAddonMenu-2.0>=35
-## OptionalDependsOn: LykeionsFabledMarker LibChatMessage>=105 LibDataShare>=3
+## OptionalDependsOn: LykeionsFabledMarker LibChatMessage>=113 LibDataShare>=3
 
 # DISCLAIMER:
 #
