@@ -245,6 +245,21 @@ local function checkMessage(messageParams)
             AH.DenDone = true
         end
     end
+
+    -- Treacherous Crossing
+    if (AH.IsInCrossing) then
+        local message = AH.Format(messageParams:GetMainText()):lower()
+        local secondaryMessage = AH.Format(messageParams:GetSecondaryText() or ""):lower()
+        local fail = AH.Format(_G.ARCHIVEHELPER_CROSSING_FAIL):lower()
+        local success = AH.Format(_G.ARCHIVEHELPER_CROSSING_SUCCESS):lower()
+
+        if
+            (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
+                secondaryMessage:find(success, 1, true))
+         then
+            AH.HideCrossingHelper()
+        end
+    end
 end
 
 local function onMessage(_, messageParams)
