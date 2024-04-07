@@ -30,6 +30,7 @@ _G.ArchiveHelper = {
     ArchiveQuests = {GetQuestName(7091), GetQuestName(7101), GetQuestName(7102)},
     CrossingOptions = {
         "1542L36",
+        "1624R53",
         "25143",
         "3R1465L2",
         "35142L6",
