@@ -9,14 +9,14 @@ L(AH .. "ARC_BOSS", "Boss d'arc à venir")
 L(AH .. "AVOID", "Indésirables")
 L(AH .. "BUFF_SELECTED", "<<1>> a sélectionné <<2>>")
 L(AH .. "COUNT", "<<1>> sur <<2>>")
-L(AH .. "CROSSING_NO_SOLUTIONS", "No Paths Found")
-L(AH .. "CROSSING_PATHS", "Possible Paths")
+L(AH .. "CROSSING_NO_SOLUTIONS", "Aucun chemin trouvé")
+L(AH .. "CROSSING_PATHS", "Chemins possibles")
 L(AH .. "CROSSING_START", "Début")
-L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
+L(AH .. "CROSSING_TITLE", " Aide pour le Gué traître")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
-    "Find the switch corresponding to the start of the path and select it in the dropdown below (1 is the leftmost switch, 6 the rightmost)." ..
-        " Then, if necessary, find the 2nd step or the end of the path."
+    "Trouvez l'interrupteur correspondant au début du chemin et sélectionnez-le ci-dessous (1 est le plus à gauche, 6 le plus à droite)." ..
+        " Puis, si nécessaire, trouvez la 2nde étape ou la fin du chemin."
 )
 L(AH .. "CYCLE_BOSS", "Boss de cycle à venir")
 L(AH .. "FABLED", "fabule")
