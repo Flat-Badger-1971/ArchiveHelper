@@ -377,8 +377,14 @@ local function onCrossingChange(selections)
     end
 end
 
+local function onLeaderUpdate()
+    if (not AH.CrossingHelperFrame:IsHidden()) then
+        AH.SetDisableCombos()
+    end
+end
+
 function AH.ShareData(shareType, value, instant, stackCount)
-    if (not AH.Share) then
+    if ((not AH.Share) and (not AH.DEBUG)) then
         return
     end
 
@@ -390,11 +396,15 @@ function AH.ShareData(shareType, value, instant, stackCount)
         encoded = tonumber(string.format("%d%d", shareType, value))
     end
 
-    if (instant) then
-        AH.Share:SendData(encoded)
-    else
-        AH.Share:QueueData(encoded)
+    if (AH.Share) then
+        if (instant) then
+            AH.Share:SendData(encoded)
+        else
+            AH.Share:QueueData(encoded)
+        end
     end
+
+    AH.Debug("Shared: " .. encoded)
 end
 
 function AH.HandleDataShare(_, info)
@@ -412,19 +422,23 @@ function AH.HandleDataShare(_, info)
 
         AH.TomeCount:SetText(message)
         AH.PlayAlarm(AH.Sounds.Tomeshell)
+        AH.Debug("Received tome data: " .. shareData)
     elseif (shareType == AH.SHARE.MARK) then
         if (shareData and (shareData > 0) and (shareData < 8)) then
             AH.MARKERS[shareData].used = true
             AH.MARKERS[shareData].manual = true
+            AH.Debug("Received mark data: " .. shareData)
         end
     elseif (shareType == AH.SHARE.UNMARK) then
         if (shareData and (shareData > 0) and (shareData < 8)) then
             AH.MARKERS[shareData].manual = false
+            AH.Debug("Received unmark data: " .. shareData)
         end
     elseif (shareType == AH.SHARE.GW) then
         if (shareData and (shareData > 0) and (not AH.FOUND_GW)) then
             AH.PlayAlarm(AH.Sounds.Gw)
             AH.FOUND_GW = true
+            AH.Debug("Received Gw detection")
         end
     elseif (shareType == AH.SHARE.ABILITY) then
         if (shareData) then
@@ -433,11 +447,14 @@ function AH.HandleDataShare(_, info)
             if (data:len() > 7) then
                 AH.GroupChat(data, getOtherPlayer())
             end
+            AH.Debug("Received ability data: " .. shareData)
         end
     elseif (shareType == AH.SHARE.CROSSING) then
         onCrossingChange(tostring(info):sub(2))
+        AH.Debug("Received crossing data: " .. tostring(info):sub(2))
     elseif (shareType == AH.SHARE.SHARING) then
         AH.AH_SHARING = true
+        AH.Debug("Received sharing notification")
     end
 end
 
@@ -459,6 +476,7 @@ function AH.SetupEvents()
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_QUEST_CONDITION_COUNTER_CHANGED, onQuestCounterChanged)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_STUNNED_STATE_CHANGED, onStunned)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED, onHotBarChange)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_LEADER_UPDATE, onLeaderUpdate)
 
     if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
         EVENT_MANAGER:RegisterForEvent(AH.Name .. "_Fabled", _G.EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)

@@ -48,7 +48,7 @@ function baseFrame:SetPosition()
     local defaultX = GuiRoot:GetCenter()
 
     defaultX = defaultX - (self.width / 2)
-    d(self.Name)
+
     if (not AH.Vars[self.name .. "Position"]) then
         AH.Vars[self.name .. "Position"] = {top = defaultY, left = defaultX}
     end
@@ -117,8 +117,6 @@ local function ensureFramePoolExists()
                 frame:SetHidden(true)
                 frame:ClearAnchors()
                 frame:SetText("")
-                frame:SetColour(1, 1, 0, 1)
-                frame.control:SetResizeToFitDescendents(true)
             end
         )
     end
@@ -421,189 +419,172 @@ function AH.CrossingUpdate(box, value)
     end
 
     solutionsWindow:SetText(solutions)
+
+    AH.ShareData(
+        AH.SHARE.CROSSING,
+        string.format(
+            "%d%d%d",
+            AH.selectedBox[1] == "" and 0 or tonumber(AH.selectedBox[1]),
+            AH.selectedBox[2] == "" and 0 or tonumber(AH.selectedBox[2]),
+            AH.selectedBox[3] == "" and 0 or tonumber(AH.selectedBox[3])
+        )
+    )
 end
 
-local function setHideHelperControls(hide, helper)
-    local helperRef = helper or AH.CrossingHelper
-    local controls = {
-        "box",
-        "boxlabel",
-        "boxt",
-        "close",
-        "key",
-        "pathsLabel",
-        "text"
-    }
-    local triples = {"box", "boxlabel", "boxt"}
+function AH.SetDisableCombos()
+    local groupType = AH.GetActualGroupType()
+    local isLeader = false
 
-    for _, control in ipairs(controls) do
-        if (ZO_IsElementInNumericallyIndexedTable(triples, control)) then
-            for idx = 1, 3 do
-                if (helperRef[control .. idx]) then
-                    helperRef[control .. idx]:SetHidden(hide)
-                end
-            end
-        else
-            helperRef[control]:SetHidden(hide)
-        end
+    if (IsUnitGroupLeader("player") or groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
+        isLeader = true
     end
 
-    solutionsWindow:SetHidden(hide)
+    if (not AH.AH_SHARING) then
+        isLeader = true
+    end
+
+    for combo = 1, 3 do
+        AH.CrossingHelperFrame["box" .. combo]:SetDisabled(not isLeader)
+    end
 end
 
 function AH.ShowCrossingHelper(bypass)
     if ((AH.IsInCrossing and AH.Vars.ShowHelper) or bypass) then
-        local groupType = AH.GetActualGroupType()
+        if (not AH.CrossingHelperFrame) then
+            local frame = WINDOW_MANAGER:CreateTopLevelWindow()
 
-        if (IsUnitGroupLeader("player") or groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
-            AH.IsLeader = true
-        else
-            AH.IsLeader = false
-        end
+            frame:SetDrawTier(DT_HIGH)
+            frame:SetMouseEnabled(true)
+            frame:SetMovable(true)
+            frame:SetClampedToScreen(true)
 
-        if (not AH.AH_SHARING) then
-            AH.IsLeader = true
-        end
+            frame.background = WINDOW_MANAGER:CreateControl(nil, frame, CT_BACKDROP)
+            frame.background:SetAnchorFill()
+            frame.background:SetEdgeColor(0, 0, 0, 0)
+            frame.background:SetCenterColor(0, 0, 0, 0.9)
 
-        ensureFramePoolExists()
+            frame.border = WINDOW_MANAGER:CreateControl(nil, frame, CT_BACKDROP)
+            frame.border:SetDrawTier(_G.DT_MEDIUM)
+            frame.border:SetCenterTexture(0, 0, 0, 0)
+            frame.border:SetAnchorFill()
+            frame.border:SetEdgeTexture("/esoui/art/worldmap/worldmap_frame_edge.dds", 128, 16)
 
-        local helper, helperKey = AH.FrameObjectPool:AcquireObject()
-        local label = helper.control.Label
+            frame:SetWidth(400)
+            frame:SetHeight(500)
+            frame:SetHidden(true)
 
-        setCommon(helper, "CrossingHelper", 400, 470)
+            local defaultY = GuiRoot:GetHeight() / 6
+            local defaultX = GuiRoot:GetCenter()
 
-        helper.control:SetResizeToFitDescendents(false)
-        helper.control:SetWidth(400)
-        helper.control:SetHeight(500)
-
-        helper:SetAnchor(
-            TOPLEFT,
-            GuiRoot,
-            TOPLEFT,
-            AH.Vars.CrossingHelperPosition.left,
-            AH.Vars.CrossingHelperPosition.top
-        )
-        helper:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_TITLE))
-        helper:SetColour(1, 1, 0, 1)
-        helper:SetHidden(false)
-        helper:SetBackgroundColour(0, 0, 0, 0.9)
-
-        label:ClearAnchors()
-        label:SetAnchor(TOPLEFT, helper.control, TOPLEFT, 0, 10)
-        label:SetHeight(20)
-
-        helper.close =
-            _G[AH.Name .. "_close"] or
-            WINDOW_MANAGER:CreateControlFromVirtual(AH.Name .. "_close", helper.control, "ZO_CloseButton")
-
-        helper.close:ClearAnchors()
-        helper.close:SetAnchor(TOPRIGHT, helper.control, TOPRIGHT, -10, 10)
-        helper.close:SetHandler("OnClicked", AH.HideCrossingHelper)
-
-        helper.text =
-            _G[AH.Name .. "_ch_text"] or WINDOW_MANAGER:CreateControl(AH.Name .. "_ch_text", helper.control, CT_LABEL)
-
-        helper.text:ClearAnchors()
-        helper.text:SetAnchor(TOPLEFT, label, BOTTOMLEFT, 10, 10)
-        helper.text:SetAnchor(BOTTOMRIGHT, helper.control, BOTTOMRIGHT, -10, -370)
-        helper.text:SetFont("${MEDIUM_FONT}|14")
-        helper.text:SetHorizontalAlignment(_G.TEXT_ALIGN_LEFT)
-        helper.text:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
-        helper.text:SetColor(0.82, 0.82, 0.82, 1)
-        helper.text:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_INSTRUCTIONS))
-
-        local ordinals = {
-            [1] = GetString(_G.ARCHIVEHELPER_CROSSING_START),
-            [2] = zo_strformat("<<i:1>>", 2),
-            [3] = AH.Format(_G.SI_KEYCODE16)
-        }
-
-        for box = 1, 3 do
-            if (AH.IsLeader) then
-                helper["box" .. box] =
-                    _G[AH.Name .. "_choice" .. box] or
-                    createComboBox(
-                        AH.Name .. "_choice" .. box,
-                        helper.control,
-                        40,
-                        40,
-                        {1, 2, 3, 4, 5, 6, ""},
-                        nil,
-                        function(value)
-                            AH.CrossingUpdate(box, value)
-                        end
-                    )
-            else
-                helper["box" .. box] =
-                    _G[AH.Name .. "_choice" .. box] or
-                    WINDOW_MANAGER:CreateControl(AH.Name .. "_choice" .. box, helper.control, CT_LABEL)
-                helper["box" .. box]:SetWidth(40)
-                helper["box" .. box]:SetHeight(40)
-                helper["box" .. box]:SetFont("${MEDIUM_FONT}|22")
-                helper["box" .. box]:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
-                helper["box" .. box]:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
-
-                helper["boxt" .. box] =
-                    _G[AH.Name .. "_bbg" .. box] or
-                    WINDOW_MANAGER:CreateControl(AH.Name .. "_bbg" .. box, helper["box" .. box], CT_BACKDROP)
-                helper["boxt" .. box]:SetEdgeTexture("esoui/art/tooltips/ui-border.dds", 128, 16)
-                helper["boxt" .. box]:SetCenterTexture("esoui/art/tooltips/ui-tooltipcenter.dds")
-                helper["boxt" .. box]:SetAnchorFill()
+            defaultX = defaultX - (frame:GetWidth() / 2)
+            if (not AH.Vars["CrossingHelperPosition"]) then
+                AH.Vars["CrossingHelperPosition"] = {top = defaultY, left = defaultX}
             end
 
-            helper["box" .. box]:SetAnchor(TOPLEFT, helper.text, BOTTOMLEFT, 20 + (box * 75), 50)
-            helper["boxlabel" .. box] =
-                _G[AH.Name .. "_boxlabel" .. box] or
-                WINDOW_MANAGER:CreateControl(AH.Name .. "_boxlabel" .. box, helper.control, CT_LABEL)
+            if (not AH.Vars["CrossingHelperPosition"]) then
+                AH.Vars["CrossingHelperPosition"] = {top = defaultY, left = defaultX}
+            end
 
-            local boxlabel = helper["boxlabel" .. box]
+            local onMouseUp = function()
+                local top, left = frame:GetTop(), frame:GetLeft()
 
-            boxlabel:SetText(ordinals[box])
-            boxlabel:ClearAnchors()
-            boxlabel:SetAnchor(CENTER, helper["box" .. box], CENTER, 0, -40)
-            boxlabel:SetFont("${MEDIUM_FONT}|16")
-            boxlabel:SetHorizontalAlignment(_G.TEXT_ALIGN_LEFT)
-            boxlabel:SetColor(1, 1, 0, 1)
+                AH.Vars["CrossingHelperPosition"] = {top = top, left = left}
+            end
 
-            helper.pathsLabel =
-                _G[AH.Name .. "_pathslabel"] or
-                WINDOW_MANAGER:CreateControl(AH.Name .. "_pathslabel", helper.control, CT_LABEL)
+            frame:SetHandler("OnMouseUp", onMouseUp)
 
-            helper.pathsLabel:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_PATHS))
-            helper.pathsLabel:ClearAnchors()
-            helper.pathsLabel:SetAnchor(CENTER, helper.text, CENTER, 0, 180)
-            helper.pathsLabel:SetFont("${BOLD_FONT}|24")
-            helper.pathsLabel:SetColor(1, 1, 0, 1)
-            helper.pathsLabel:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame:SetAnchor(
+                TOPLEFT,
+                GuiRoot,
+                TOPLEFT,
+                AH.Vars.CrossingHelperPosition.left,
+                AH.Vars.CrossingHelperPosition.top
+            )
 
-            solutionsWindow =
-                _G[AH.Name .. "_solutions"] or
-                WINDOW_MANAGER:CreateControl(AH.Name .. "_solutions", helper.control, CT_LABEL)
+            frame.label = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+            frame.label:SetFont("${BOLD_FONT}|24")
+            frame.label:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.label:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.label:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_TITLE))
+            frame.label:SetColor(1, 1, 0, 1)
+            frame.label:SetAnchor(TOPLEFT, frame, TOPLEFT, 0, 10)
+            frame.label:SetAnchor(BOTTOMRIGHT, frame, TOPRIGHT, 0, 30)
 
-            solutionsWindow:ClearAnchors()
-            solutionsWindow:SetAnchor(TOPLEFT, helper.text, BOTTOMLEFT, 0, 100)
-            solutionsWindow:SetAnchor(BOTTOMRIGHT, helper.control, BOTTOMRIGHT, -10, -10)
+            frame.close = WINDOW_MANAGER:CreateControlFromVirtual(nil, frame, "ZO_CloseButton")
+            frame.close:SetAnchor(TOPRIGHT, frame, TOPRIGHT, -10, 10)
+            frame.close:SetHandler("OnClicked", AH.HideCrossingHelper)
+
+            frame.text = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+            frame.text:SetAnchor(TOPLEFT, frame.label, BOTTOMLEFT, 10, 10)
+            frame.text:SetAnchor(BOTTOMRIGHT, frame, BOTTOMRIGHT, -10, -370)
+            frame.text:SetFont("${MEDIUM_FONT}|14")
+            frame.text:SetHorizontalAlignment(_G.TEXT_ALIGN_LEFT)
+            frame.text:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.text:SetColor(0.82, 0.82, 0.82, 1)
+            frame.text:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_INSTRUCTIONS))
+
+            local ordinals = {
+                [1] = GetString(_G.ARCHIVEHELPER_CROSSING_START),
+                [2] = zo_strformat("<<i:1>>", 2),
+                [3] = AH.Format(_G.SI_KEYCODE16)
+            }
+
+            for box = 1, 3 do
+                frame["box" .. box] =
+                    createComboBox(
+                    AH.Name .. "_choice" .. box,
+                    frame,
+                    40,
+                    40,
+                    {1, 2, 3, 4, 5, 6, ""},
+                    nil,
+                    function(value)
+                        AH.CrossingUpdate(box, value)
+                    end
+                )
+
+                frame["box" .. box]:SetAnchor(TOPLEFT, frame.text, BOTTOMLEFT, 20 + (box * 75), 50)
+                frame["boxlabel" .. box] = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+
+                local boxlabel = frame["boxlabel" .. box]
+
+                boxlabel:SetText(ordinals[box])
+                boxlabel:SetAnchor(CENTER, frame["box" .. box], CENTER, 0, -40)
+                boxlabel:SetFont("${MEDIUM_FONT}|16")
+                boxlabel:SetHorizontalAlignment(_G.TEXT_ALIGN_LEFT)
+                boxlabel:SetColor(1, 1, 0, 1)
+            end
+
+            frame.pathsLabel = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+            frame.pathsLabel:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_PATHS))
+            frame.pathsLabel:SetAnchor(CENTER, frame.text, CENTER, 0, 180)
+            frame.pathsLabel:SetFont("${BOLD_FONT}|24")
+            frame.pathsLabel:SetColor(1, 1, 0, 1)
+            frame.pathsLabel:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+
+            solutionsWindow = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+
+            solutionsWindow:SetAnchor(TOPLEFT, frame.text, BOTTOMLEFT, 0, 100)
+            solutionsWindow:SetAnchor(BOTTOMRIGHT, frame.control, BOTTOMRIGHT, -10, -10)
             solutionsWindow:SetFont("${MEDIUM_FONT}|24")
             solutionsWindow:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
             solutionsWindow:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
             solutionsWindow:SetColor(0.976, 0.976, 0.976, 1)
 
-            helper.key =
-                _G[AH.Name .. "_key"] or WINDOW_MANAGER:CreateControl(AH.Name .. "_key", helper.control, CT_LABEL)
-            helper.key:ClearAnchors()
-            helper.key:SetAnchor(CENTER, helper.control, CENTER, 0, 230)
-            helper.key:SetFont("${BOLD_FONT}|16")
-            helper.key:SetColor(0.82, 0.82, 0.82, 1)
-            helper.key:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
-            helper.key:SetText(zo_strformat(GetString(_G.ARCHIVEHELPER_CROSSING_KEY), icons.L, icons.R))
+            frame.key = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+            frame.key:SetAnchor(CENTER, frame, CENTER, 0, 230)
+            frame.key:SetFont("${BOLD_FONT}|16")
+            frame.key:SetColor(0.82, 0.82, 0.82, 1)
+            frame.key:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.key:SetText(zo_strformat(GetString(_G.ARCHIVEHELPER_CROSSING_KEY), icons.L, icons.R))
+
+            AH.selectedBox = {[1] = "", [2] = "", [3] = ""}
+            AH.CrossingHelperFrame = frame
         end
-
-        setHideHelperControls(false, helper)
-
-        AH.Keys["CrossingHelper"] = helperKey
-        AH.CrossingHelper = helper
-        AH.selectedBox = {[1] = false, [2] = false, [3] = false}
     end
+
+    AH.SetDisableCombos()
+    AH.CrossingHelperFrame:SetHidden(false)
 end
 
 function AH.HideCrossingHelper()
@@ -611,12 +592,11 @@ function AH.HideCrossingHelper()
     AH.selectedBox[2] = false
     AH.selectedBox[3] = false
 
-    AH.CrossingHelper.box1.SetSelected(7, true)
-    AH.CrossingHelper.box2.SetSelected(7, true)
-    AH.CrossingHelper.box3.SetSelected(7, true)
+    AH.CrossingHelperFrame.box1.SetSelected(7, true)
+    AH.CrossingHelperFrame.box2.SetSelected(7, true)
+    AH.CrossingHelperFrame.box3.SetSelected(7, true)
 
     solutionsWindow:SetText("")
 
-    setHideHelperControls(true)
-    AH.Release("CrossingHelper")
+    AH.CrossingHelperFrame:SetHidden(true)
 end

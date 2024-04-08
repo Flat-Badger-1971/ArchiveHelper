@@ -374,3 +374,10 @@ function AH.GroupChat(abilityData, name)
         CHAT_ROUTER:FormatAndAddChatMessage(_G.EVENT_CHAT_MESSAGE_CHANNEL, channel, AH.Name, message, false, AH.Name)
     end
 end
+
+function AH.Debug(message)
+    if (AH.DEBUG) then
+        AH.Chat:SetTagColor(AH.COLOURS.PURPLE)
+        AH.Chat:Print(message)
+    end
+end
