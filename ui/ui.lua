@@ -323,7 +323,6 @@ local function createComboBox(name, parent, width, height, choices, default, cal
     end
 
     combo:UpdateValues(choices, index)
-    combo:SetBackground()
 
     return combo
 end
