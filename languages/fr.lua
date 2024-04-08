@@ -16,8 +16,8 @@ L(AH .. "CROSSING_START", "Début")
 L(AH .. "CROSSING_TITLE", " Aide pour le Gué traître")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
-    "Trouvez l'interrupteur correspondant au début du chemin et sélectionnez-le ci-dessous (1 est le plus à gauche, 6 le plus à droite)." ..
-    " Puis, si nécessaire, trouvez la 2nde étape ou la fin du chemin."
+    "Trouvez l'interrupteur correspondant au début du chemin et sélectionnez-le dans la liste déroulante ci-dessous (1 est le plus à gauche, 6 le plus à droite)." ..
+    " Puis, si nécessaire, trouvez la 2ème étape ou la fin du chemin."
 )
 L(AH .. "CYCLE_BOSS", "Boss de cycle à venir")
 L(AH .. "FABLED", "fabule")
@@ -50,6 +50,7 @@ L(AH .. "SHARD", "Fragment de Tho'at")
 L(AH .. "SHARD_IGNORE", "Ignorer les Fragments en dehors du cycle 5")
 L(AH .. "SHARD_MARKER", "Mettre un marqueur sur les Fragments de Tho'at")
 L(AH .. "SHOW_COUNT", "Décompter les tomes-carapaces de l'Aile du greffier")
+L(AH .. "SHOW_CROSSING_HELPER", "Show Treacherous Crossing helper")
 -- luacheck: push ignore 631
 L(
     AH .. "SHOW_COUNT_TOOLTIP",

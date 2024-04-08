@@ -50,6 +50,7 @@ L(AH .. "SHARD", "Tho'at-Scherbe")
 L(AH .. "SHARD_IGNORE", "Scherben außerhalb von Zyklus 5 ignorieren")
 L(AH .. "SHARD_MARKER", "Zielmarkierungen zu Tho'at Scherben hinzufügen")
 L(AH .. "SHOW_COUNT", "Verbleibende Buchsiedler im Erfasser-Flügel zählen")
+L(AH .. "SHOW_CROSSING_HELPER", "Show Treacherous Crossing helper")
 -- luacheck: push ignore 631
 L(
     AH .. "SHOW_COUNT_TOOLTIP",

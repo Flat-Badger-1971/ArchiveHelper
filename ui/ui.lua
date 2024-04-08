@@ -323,6 +323,7 @@ local function createComboBox(name, parent, width, height, choices, default, cal
     end
 
     combo:UpdateValues(choices, index)
+    combo:SetBackground()
 
     return combo
 end
@@ -544,6 +545,7 @@ function AH.ShowCrossingHelper(bypass)
                 )
 
                 frame["box" .. box]:SetAnchor(TOPLEFT, frame.text, BOTTOMLEFT, 20 + (box * 75), 50)
+                frame["box" .. box].SetBackground()
                 frame["boxlabel" .. box] = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
 
                 local boxlabel = frame["boxlabel" .. box]

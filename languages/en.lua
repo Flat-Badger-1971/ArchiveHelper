@@ -52,6 +52,7 @@ L(AH .. "SHARD", "Tho'at Shard")
 L(AH .. "SHARD_IGNORE", "Ignore Shards outside cycle 5")
 L(AH .. "SHARD_MARKER", "Add Target Markers to Tho'at Shards")
 L(AH .. "SHOW_COUNT", "Show Tomeshell count in the Filer's Wing")
+L(AH .. "SHOW_CROSSING_HELPER", "Show Treacherous Crossing helper")
 L(
     AH .. "SHOW_COUNT_TOOLTIP",
     "For Duo mode to work correctly, the other player must have this addon installed. Both players must also have LibDataShare installed."
