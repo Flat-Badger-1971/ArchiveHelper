@@ -50,13 +50,11 @@ L(AH .. "SHARD", "Fragment de Tho'at")
 L(AH .. "SHARD_IGNORE", "Ignorer les Fragments en dehors du cycle 5")
 L(AH .. "SHARD_MARKER", "Mettre un marqueur sur les Fragments de Tho'at")
 L(AH .. "SHOW_COUNT", "Décompter les tomes-carapaces de l'Aile du greffier")
-L(AH .. "SHOW_CROSSING_HELPER", "Show Treacherous Crossing helper")
--- luacheck: push ignore 631
+L(AH .. "SHOW_CROSSING_HELPER", "Afficher l'aide dans le Gué traître")
 L(
     AH .. "SHOW_COUNT_TOOLTIP",
     "Pour que le mode Duo fonctionne correctement, l'autre joueur doit avoir installé cet addon. Les deux joueurs doivent également avoir installé LibDataShare."
 )
--- luacheck: pop
 L(AH .. "SHOW_ECHO", "Afficher un minuteur dans l'Antre aux échos")
 L(AH .. "SHOW_SELECTION", "Afficher vos choix de bienfaits en discussion")
 L(AH .. "SLASH_MISSING", "manquant")
