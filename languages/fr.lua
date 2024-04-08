@@ -13,7 +13,7 @@ L(AH .. "CROSSING_KEY", "<<1>> Prendre à gauche - <<2>> Prendre à droite")
 L(AH .. "CROSSING_NO_SOLUTIONS", "Aucun chemin trouvé")
 L(AH .. "CROSSING_PATHS", "Chemins possibles")
 L(AH .. "CROSSING_START", "Début")
-L(AH .. "CROSSING_TITLE", " Aide pour le Gué traître")
+L(AH .. "CROSSING_TITLE", "Aide pour le Gué traître")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
     "Trouvez l'interrupteur correspondant au début du chemin et sélectionnez-le dans la liste déroulante ci-dessous (1 est le plus à gauche, 6 le plus à droite)." ..
