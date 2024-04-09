@@ -368,12 +368,12 @@ local function onCrossingChange(selections)
     if (not AH.IsLeader and AH.CrossingHelper) then
         selections = selections:gsub("0", " ")
 
-        AH.CrossingHelper.box1:SetText(selections[1])
-        AH.CrossingHelper.box2:SetText(selections[2])
-        AH.CrossingHelper.box3:SetText(selections[3])
+        AH.CrossingHelperFrame.box1.SetSelected(selections[1])
+        AH.CrossingHelperFrame.box2.SetSelected(selections[2])
+        AH.CrossingHelperFrame.box3.SetSelected(selections[3])
         AH.selectedBox[1] = selections[1]
         AH.selectedBox[2] = selections[2]
-        AH.CrossingUpdate(3, selections[3])
+        AH.CrossingUpdate(3, selections[3], true)
     end
 end
 

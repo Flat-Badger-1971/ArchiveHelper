@@ -318,8 +318,8 @@ local function createComboBox(name, parent, width, height, choices, default, cal
         index = combo.array[index]
     end
 
-    combo.SetSelected = function(idx, ignoreCallback)
-        combo.comboBox:SetSelected(idx, ignoreCallback)
+    combo.SetSelected = function(idx)
+        combo.comboBox:SetSelected(idx, true)
     end
 
     combo:UpdateValues(choices, index)
@@ -389,7 +389,7 @@ local function isReset()
     return true
 end
 
-function AH.CrossingUpdate(box, value)
+function AH.CrossingUpdate(box, value, doNotShare)
     AH.selectedBox[box] = tostring(value)
 
     findOptions(options)
@@ -420,15 +420,13 @@ function AH.CrossingUpdate(box, value)
 
     solutionsWindow:SetText(solutions)
 
-    AH.ShareData(
-        AH.SHARE.CROSSING,
-        string.format(
-            "%d%d%d",
-            AH.selectedBox[1] == "" and 0 or tonumber(AH.selectedBox[1]),
-            AH.selectedBox[2] == "" and 0 or tonumber(AH.selectedBox[2]),
-            AH.selectedBox[3] == "" and 0 or tonumber(AH.selectedBox[3])
-        )
-    )
+    if (doNotShare == false) then
+        local box1 = tonumber(AH.selectedBox[1]) or 0
+        local box2 = tonumber(AH.selectedBox[2]) or 0
+        local box3 = tonumber(AH.selectedBox[3]) or 0
+
+        AH.ShareData(AH.SHARE.CROSSING, string.format("%d%d%d", box1, box2, box3))
+    end
 end
 
 function AH.SetDisableCombos()
@@ -544,7 +542,6 @@ function AH.ShowCrossingHelper(bypass)
                 )
 
                 frame["box" .. box]:SetAnchor(TOPLEFT, frame.text, BOTTOMLEFT, 20 + (box * 75), 50)
-                frame["box" .. box].SetBackground()
                 frame["boxlabel" .. box] = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
 
                 local boxlabel = frame["boxlabel" .. box]
@@ -560,7 +557,7 @@ function AH.ShowCrossingHelper(bypass)
             frame.pathsLabel:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_PATHS))
             frame.pathsLabel:SetAnchor(CENTER, frame.text, CENTER, 0, 180)
             frame.pathsLabel:SetFont("${BOLD_FONT}|24")
-            frame.pathsLabel:SetColor(1, 1, 0, 1)
+            frame.pathsLabel:SetColor(0.46, 0.74, 0.76, 1)
             frame.pathsLabel:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
 
             solutionsWindow = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
