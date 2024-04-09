@@ -405,10 +405,14 @@ function AH.CrossingUpdate(box, value, doNotShare)
             if (opt:len() == 2) then
                 opt = opt:sub(1, 1) .. icons[selection:sub(2)] .. ((index == #solution) and "" or "  ")
             else
-                opt = opt .. ((index == #solution) and "" or "      ")
+                opt = opt .. ((index == #solution) and "" or AH.Spaces(6))
             end
 
             formattedSolution = string.format("%s%s", formattedSolution, opt)
+        end
+
+        if (#solution == 5) then
+            formattedSolution = string.format("%s%s", formattedSolution, AH.Spaces(8))
         end
 
         solutions = string.format("%s%s%s", solutions, AH.LF, formattedSolution)

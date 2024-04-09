@@ -375,6 +375,16 @@ function AH.GroupChat(abilityData, name)
     end
 end
 
+function AH.Spaces(numberOfSpaces)
+    local output = {}
+
+    for _ = 1, numberOfSpaces do
+        table.insert(output, " ")
+    end
+
+    return unpack(output)
+end
+
 function AH.Debug(message)
     if (AH.DEBUG) then
         AH.Chat:SetTagColor(AH.COLOURS.PURPLE)
