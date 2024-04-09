@@ -13,7 +13,7 @@ L(AH .. "CROSSING_KEY", "<<1>> Prendre à gauche - <<2>> Prendre à droite")
 L(AH .. "CROSSING_NO_SOLUTIONS", "Aucun chemin trouvé")
 L(AH .. "CROSSING_PATHS", "Chemins possibles")
 L(AH .. "CROSSING_START", "Début")
-L(AH .. "CROSSING_TITLE", " Aide pour le Gué traître")
+L(AH .. "CROSSING_TITLE", "Aide pour le Gué traître")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
     "Trouvez l'interrupteur correspondant au début du chemin et sélectionnez-le dans la liste déroulante ci-dessous (1 est le plus à gauche, 6 le plus à droite)." ..
@@ -50,13 +50,11 @@ L(AH .. "SHARD", "Fragment de Tho'at")
 L(AH .. "SHARD_IGNORE", "Ignorer les Fragments en dehors du cycle 5")
 L(AH .. "SHARD_MARKER", "Mettre un marqueur sur les Fragments de Tho'at")
 L(AH .. "SHOW_COUNT", "Décompter les tomes-carapaces de l'Aile du greffier")
-L(AH .. "SHOW_CROSSING_HELPER", "Show Treacherous Crossing helper")
--- luacheck: push ignore 631
+L(AH .. "SHOW_CROSSING_HELPER", "Afficher l'aide dans le Gué traître")
 L(
     AH .. "SHOW_COUNT_TOOLTIP",
     "Pour que le mode Duo fonctionne correctement, l'autre joueur doit avoir installé cet addon. Les deux joueurs doivent également avoir installé LibDataShare."
 )
--- luacheck: pop
 L(AH .. "SHOW_ECHO", "Afficher un minuteur dans l'Antre aux échos")
 L(AH .. "SHOW_SELECTION", "Afficher vos choix de bienfaits en discussion")
 L(AH .. "SLASH_MISSING", "manquant")
