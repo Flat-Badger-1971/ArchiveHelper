@@ -12,6 +12,7 @@ L(AH .. "COUNT", "<<1>> von <<2>>")
 L(AH .. "CROSSING_KEY", "<<1>> Biegen Sie links ab - <<2>> Biegen Sie rechts ab")
 L(AH .. "CROSSING_NO_SOLUTIONS", "No Paths Found")
 L(AH .. "CROSSING_PATHS", "Possible Paths")
+L(AH .. "CROSSING_SLASH", "helfer")
 L(AH .. "CROSSING_START", "Anfang")
 L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
 L(
@@ -69,4 +70,5 @@ L(AH .. "WEREWOLF_BEHEMOTH", "Werwolfbehemoth")
 
 -- keybinds
 L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Aktuelles Ziel markieren")
+L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Toggle Crossing Helper")
 L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Markierung des aktuellen Ziels aufheben")

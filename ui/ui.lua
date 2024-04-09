@@ -587,10 +587,10 @@ function AH.ShowCrossingHelper(bypass)
             AH.selectedBox = {[1] = "", [2] = "", [3] = ""}
             AH.CrossingHelperFrame = frame
         end
-    end
 
-    AH.SetDisableCombos()
-    AH.CrossingHelperFrame:SetHidden(false)
+        AH.SetDisableCombos()
+        AH.CrossingHelperFrame:SetHidden(false)
+    end
 end
 
 function AH.HideCrossingHelper()

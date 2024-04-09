@@ -1,4 +1,5 @@
 -- French localisation
+-- luacheck: ignore 631
 local L = ZO_CreateStringId
 local AH = "ARCHIVEHELPER_"
 L(AH .. "ADD_AVOID", "Ajouter à la liste des Indésirables")
@@ -12,12 +13,13 @@ L(AH .. "COUNT", "<<1>> sur <<2>>")
 L(AH .. "CROSSING_KEY", "<<1>> Prendre à gauche - <<2>> Prendre à droite")
 L(AH .. "CROSSING_NO_SOLUTIONS", "Aucun chemin trouvé")
 L(AH .. "CROSSING_PATHS", "Chemins possibles")
+L(AH .. "CROSSING_SLASH", "aide")
 L(AH .. "CROSSING_START", "Début")
 L(AH .. "CROSSING_TITLE", "Aide pour le Gué traître")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
     "Trouvez l'interrupteur correspondant au début du chemin et sélectionnez-le dans la liste déroulante ci-dessous (1 est le plus à gauche, 6 le plus à droite)." ..
-    " Puis, si nécessaire, trouvez la 2ème étape ou la fin du chemin."
+        " Puis, si nécessaire, trouvez la 2ème étape ou la fin du chemin."
 )
 L(AH .. "CYCLE_BOSS", "Boss de cycle à venir")
 L(AH .. "FABLED", "fabule")
@@ -70,4 +72,5 @@ L(AH .. "WEREWOLF_BEHEMOTH", "Béhémoth loup-garou")
 
 -- keybinds
 L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Marquer la cible actuelle")
+L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Toggle Crossing Helper")
 L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Retirer la marque sur la cible actuelle")

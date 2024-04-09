@@ -13,6 +13,7 @@ L(AH .. "CROSSING_KEY", "<<1>> Turn Left - <<2>> Turn Right")
 L(AH .. "CROSSING_FAIL", "Failed")
 L(AH .. "CROSSING_NO_SOLUTIONS", "No Paths Found")
 L(AH .. "CROSSING_PATHS", "Possible Paths")
+L(AH .. "CROSSING_SLASH", "helper")
 L(AH .. "CROSSING_START", "Start")
 L(AH .. "CROSSING_SUCCESS", "Solved")
 L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
@@ -72,4 +73,5 @@ L(AH .. "WEREWOLF_BEHEMOTH", "Werewolf Behemoth")
 
 -- keybinds
 L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Mark Current Target")
+L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Toggle Crossing Helper")
 L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Unmark Current Target")

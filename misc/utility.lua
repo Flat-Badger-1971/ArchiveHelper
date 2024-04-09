@@ -385,6 +385,14 @@ function AH.Spaces(numberOfSpaces)
     return unpack(output)
 end
 
+function AH.ToggleCrossingHelper()
+    if ((AH.CrossingHelperFrame and AH.CrossingHelperFrame:IsHidden()) or not AH.CrossingHelperFrame) then
+        AH.ShowCrossingHelper(AH.DEBUG)
+    elseif (AH.CrossingHelperFrame and (not AH.CrossingHelperFrame:IsHidden())) then
+        AH.HideCrossingHelper()
+    end
+end
+
 function AH.Debug(message)
     if (AH.DEBUG) then
         AH.Chat:SetTagColor(AH.COLOURS.PURPLE)
