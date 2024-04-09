@@ -168,14 +168,20 @@ local function stopTomeCheck()
     EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Tome", _G.EVENT_COMBAT_EVENT)
 end
 
+local function checkSharing()
+    AH.ShareData(AH.SHARE.SHARING, 1)
+end
+
 local function zoneCheck()
     local mapId = GetCurrentMapId()
 
     if (mapId == AH.MAPS.ECHOING_DEN.id) then
+        checkSharing()
         AH.IsInEchoingDen = true
         AH.DenStarted = true
         AH.ShowTimer()
     elseif (mapId == AH.MAPS.TREACHEROUS_CROSSING.id) then
+        checkSharing()
         AH.IsInCrossing = true
         AH.ShowCrossingHelper()
     else
@@ -336,6 +342,7 @@ end
 local function onHotBarChange(_, changed, shouldUpdate, category)
     if (AH.IsInFilersWing) then
         if ((category == _G.HOTBAR_CATEGORY_TEMPORARY) and shouldUpdate and changed) then
+            checkSharing()
             startTomeCheck()
         end
 

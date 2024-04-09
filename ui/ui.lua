@@ -433,6 +433,10 @@ function AH.SetDisableCombos()
     local groupType = AH.GetActualGroupType()
     local isLeader = false
 
+    if ((groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) and AH.AH_SHARING) then
+        AH.AH_SHARING = false
+    end
+
     if (IsUnitGroupLeader("player") or groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
         isLeader = true
     end
