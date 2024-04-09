@@ -21,6 +21,7 @@ L(
         " Then, if necessary, find the 2nd step or the end of the path."
 )
 L(AH .. "CYCLE_BOSS", "Bosskampf folgt")
+L(AH .. "DEN_TIMER", "Noch <<1[0s übrig/1s übrig/$ds übrig]>>")
 L(AH .. "FABLED", "umwobene")
 L(AH .. "FABLED_MARKER", "Zielmarkierungen zu Sagenumwobenen hinzufügen")
 L(
@@ -63,6 +64,7 @@ L(AH .. "SHOW_SELECTION", "Buff-Auswahl im Gruppenchat anzeigen")
 L(AH .. "SLASH_MISSING", "fehlende")
 L(AH .. "STACKS", "Anzahl der Stapel")
 L(AH .. "TOMESHELL", "Buchsiedler")
+L(AH .. "TOMESHELL_COUNT", "<<1[0 verbleibend/1 verbleibend/$d verbleibend]>>")
 L(AH .. "USE_AUTO_AVOID", "Automatische Markierungen benutzen")
 L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Automatisch Verse oder Visionen markieren, die aufgrund nicht vorhandener Fähigkeiten nutzlos sind")
 L(AH .. "WARNING", "Warnung: Liste benötigt zum Aktualisieren ein Neuladen der Benutzeroberfläche")

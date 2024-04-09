@@ -22,6 +22,7 @@ L(
         " Puis, si nécessaire, trouvez la 2ème étape ou la fin du chemin."
 )
 L(AH .. "CYCLE_BOSS", "Boss de cycle à venir")
+L(AH .. "DEN_TIMER", "<<1[0s restantes/1s restante/$ds restantes]>>")
 L(AH .. "FABLED", "fabule")
 L(AH .. "FABLED_MARKER", "Mettre un marqueur de cible sur les Fables")
 L(
@@ -62,6 +63,7 @@ L(AH .. "SHOW_SELECTION", "Afficher vos choix de bienfaits en discussion")
 L(AH .. "SLASH_MISSING", "manquant")
 L(AH .. "STACKS", "Nombre de bienfaits cumulés")
 L(AH .. "TOMESHELL", "Tome-carapace")
+L(AH .. "TOMESHELL_COUNT", "<<1[0 restants/1 restant/$d restants]>>")
 L(AH .. "USE_AUTO_AVOID", "Marquer automatiquement les Indésirables")
 L(
     AH .. "USE_AUTO_AVOID_TOOLTIP",

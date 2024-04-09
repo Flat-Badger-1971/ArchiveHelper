@@ -123,11 +123,7 @@ local function ensureFramePoolExists()
 end
 
 function AH.SetTime()
-    local time =
-        ZO_CachedStrFormat(
-        _G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER,
-        AH.CurrentTimerValue .. AH.Format(_G.ARCHIVEHELPER_SECONDS):lower()
-    )
+    local time = ZO_CachedStrFormat(_G.ARCHIVEHELPER_DEN_TIMER, AH.CurrentTimerValue)
 
     AH.Timer:SetText(time)
 

@@ -23,6 +23,7 @@ L(
         " Then, if necessary, find the 2nd step or the end of the path."
 )
 L(AH .. "CYCLE_BOSS", "Cycle boss next")
+L(AH .. "DEN_TIMER", "<<1[0s remaining/1s remaining/$ds remaining]>>")
 L(AH .. "FABLED", "Fabled")
 L(AH .. "FABLED_MARKER", "Add Target Markers to Fabled")
 L(
@@ -63,6 +64,7 @@ L(AH .. "SHOW_SELECTION", "Show buff selection in group chat")
 L(AH .. "SLASH_MISSING", "missing")
 L(AH .. "STACKS", "Stack count")
 L(AH .. "TOMESHELL", "Tomeshell")
+L(AH .. "TOMESHELL_COUNT", "<<1[0 remaining/1 remaining/$ds remaining]>>")
 L(AH .. "USE_AUTO_AVOID", "Use automatic avoids")
 L(
     AH .. "USE_AUTO_AVOID_TOOLTIP",

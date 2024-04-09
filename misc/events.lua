@@ -425,7 +425,7 @@ function AH.HandleDataShare(_, info)
 
         tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
 
-        local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesLeft)
+        local message = zo_strformat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
 
         AH.TomeCount:SetText(message)
         AH.PlayAlarm(AH.Sounds.Tomeshell)
