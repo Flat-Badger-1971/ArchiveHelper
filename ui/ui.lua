@@ -424,7 +424,7 @@ function AH.CrossingUpdate(box, value, doNotShare)
 
     solutionsWindow:SetText(solutions)
 
-    if (doNotShare == false) then
+    if (doNotShare ~= true) then
         local box1 = tonumber(AH.selectedBox[1]) or 0
         local box2 = tonumber(AH.selectedBox[2]) or 0
         local box3 = tonumber(AH.selectedBox[3]) or 0
@@ -437,7 +437,7 @@ function AH.SetDisableCombos()
     local groupType = AH.GetActualGroupType()
     local isLeader = false
 
-    if ((groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) and AH.AH_SHARING) then
+    if ((groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) and AH.AH_SHARING and (not AH.DEBUG)) then
         AH.AH_SHARING = false
     end
 
