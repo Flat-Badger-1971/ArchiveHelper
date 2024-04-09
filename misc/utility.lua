@@ -376,13 +376,13 @@ function AH.GroupChat(abilityData, name)
 end
 
 function AH.Spaces(numberOfSpaces)
-    local output = {}
+    local output = ""
 
     for _ = 1, numberOfSpaces do
-        table.insert(output, " ")
+        output = string.format("%s%s", output, " ")
     end
 
-    return unpack(output)
+    return output
 end
 
 function AH.ToggleCrossingHelper()
