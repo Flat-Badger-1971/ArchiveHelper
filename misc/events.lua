@@ -372,15 +372,25 @@ local function getOtherPlayer()
 end
 
 local function onCrossingChange(selections)
-    if (not AH.IsLeader and AH.CrossingHelper) then
-        selections = selections:gsub("0", " ")
+    if (AH.CrossingHelper) then
+        if (not AH.IsLeader) then
+            local values = {}
 
-        AH.CrossingHelperFrame.box1.SetSelected(selections[1])
-        AH.CrossingHelperFrame.box2.SetSelected(selections[2])
-        AH.CrossingHelperFrame.box3.SetSelected(selections[3])
-        AH.selectedBox[1] = selections[1]
-        AH.selectedBox[2] = selections[2]
-        AH.CrossingUpdate(3, selections[3], true)
+            -- convert the text to an array, replacing 0 with " "
+            selections:gsub("0", " "):gsub(
+                ".",
+                function(c)
+                    table.insert(values, c)
+                end
+            )
+
+            AH.CrossingHelperFrame.box1.SetSelected(values[1])
+            AH.CrossingHelperFrame.box2.SetSelected(values[2])
+            AH.CrossingHelperFrame.box3.SetSelected(values[3])
+            AH.selectedBox[1] = values[1]
+            AH.selectedBox[2] = values[2]
+            AH.CrossingUpdate(3, values[3], true)
+        end
     end
 end
 
