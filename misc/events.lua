@@ -183,7 +183,10 @@ local function zoneCheck()
     elseif (mapId == AH.MAPS.TREACHEROUS_CROSSING.id) then
         checkSharing()
         AH.IsInCrossing = true
-        AH.ShowCrossingHelper()
+
+        if (AH.Vars.ShowHelper) then
+            AH.ShowCrossingHelper()
+        end
     else
         AH.IsInEchoingDen = false
         AH.DenStarted = false
@@ -372,12 +375,12 @@ local function getOtherPlayer()
 end
 
 local function onCrossingChange(selections)
-    if (AH.CrossingHelper) then
+    if (AH.CrossingHelperFrame) then
         if (not AH.IsLeader) then
             local values = {}
 
             -- convert the text to an array, replacing 0 with " "
-            selections:gsub("0", " "):gsub(
+            selections:gsub(
                 ".",
                 function(c)
                     table.insert(values, c)
@@ -395,8 +398,10 @@ local function onCrossingChange(selections)
 end
 
 local function onLeaderUpdate()
-    if (not AH.CrossingHelperFrame:IsHidden()) then
-        AH.SetDisableCombos()
+    if (AH.CrossingHelperFrame) then
+        if (not AH.CrossingHelperFrame:IsHidden()) then
+            AH.SetDisableCombos()
+        end
     end
 end
 
@@ -410,8 +415,10 @@ function AH.ShareData(shareType, value, instant, stackCount)
     if (stackCount) then
         encoded = encode(value, stackCount)
     else
-        encoded = tonumber(string.format("%d%d", shareType, value))
+        encoded = string.format("%s%s", shareType, value)
     end
+
+    encoded = tonumber(encoded)
 
     if (AH.Share) then
         if (instant) then

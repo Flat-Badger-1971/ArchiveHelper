@@ -348,7 +348,7 @@ local function findOptions(searchOptions, box)
     box = box or 1
 
     for _, option in ipairs(searchOptions) do
-        if (AH.selectedBox[box]) then
+        if (tonumber(AH.selectedBox[box]) ~= 0) then
             local opt = box
 
             if (box == 3) then
@@ -386,46 +386,56 @@ local function isReset()
 end
 
 function AH.CrossingUpdate(box, value, doNotShare)
+    if (value == "") then
+        value = 0
+    end
+
     AH.selectedBox[box] = tostring(value)
 
-    findOptions(options)
+    local test = tonumber(AH.selectedBox[1]) + tonumber(AH.selectedBox[2]) + tonumber(AH.selectedBox[3])
 
-    local solutions = ""
+    if (test == 0) then
+        solutionsWindow:SetText("")
+    else
+        findOptions(options)
 
-    for _, solution in ipairs(refined) do
-        local formattedSolution = ""
+        local solutions = ""
 
-        for index, selection in ipairs(solution) do
-            local opt = selection
+        for _, solution in ipairs(refined) do
+            local formattedSolution = ""
 
-            if (opt:len() == 2) then
-                opt = opt:sub(1, 1) .. icons[selection:sub(2)] .. ((index == #solution) and "" or "  ")
-            else
-                opt = opt .. ((index == #solution) and "" or AH.Spaces(6))
+            for index, selection in ipairs(solution) do
+                local opt = selection
+
+                if (opt:len() == 2) then
+                    opt = opt:sub(1, 1) .. icons[selection:sub(2)] .. ((index == #solution) and "" or "  ")
+                else
+                    opt = opt .. ((index == #solution) and "" or AH.Spaces(6))
+                end
+
+                formattedSolution = string.format("%s%s", formattedSolution, opt)
             end
 
-            formattedSolution = string.format("%s%s", formattedSolution, opt)
+            if (#solution == 5) then
+                formattedSolution = string.format("%s%s", formattedSolution, AH.Spaces(8))
+            end
+
+            solutions = string.format("%s%s%s", solutions, AH.LF, formattedSolution)
         end
 
-        if (#solution == 5) then
-            formattedSolution = string.format("%s%s", formattedSolution, AH.Spaces(8))
+        if ((solutions:len() == 0) or isReset()) then
+            solutions = GetString(_G.ARCHIVEHELPER_CROSSING_NO_SOLUTIONS)
         end
 
-        solutions = string.format("%s%s%s", solutions, AH.LF, formattedSolution)
+        solutionsWindow:SetText(solutions)
     end
-
-    if ((solutions:len() == 0) or isReset()) then
-        solutions = GetString(_G.ARCHIVEHELPER_CROSSING_NO_SOLUTIONS)
-    end
-
-    solutionsWindow:SetText(solutions)
 
     if (doNotShare ~= true) then
         local box1 = tonumber(AH.selectedBox[1]) or 0
         local box2 = tonumber(AH.selectedBox[2]) or 0
         local box3 = tonumber(AH.selectedBox[3]) or 0
 
-        AH.ShareData(AH.SHARE.CROSSING, string.format("%d%d%d", box1, box2, box3))
+        AH.ShareData(AH.SHARE.CROSSING, string.format("%s%s%s", box1, box2, box3))
     end
 end
 
@@ -451,7 +461,7 @@ function AH.SetDisableCombos()
 end
 
 function AH.ShowCrossingHelper(bypass)
-    if ((AH.IsInCrossing and AH.Vars.ShowHelper) or bypass) then
+    if (AH.IsInCrossing or bypass) then
         if (not AH.CrossingHelperFrame) then
             local frame = WINDOW_MANAGER:CreateTopLevelWindow()
 
@@ -580,7 +590,7 @@ function AH.ShowCrossingHelper(bypass)
             frame.key:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
             frame.key:SetText(zo_strformat(GetString(_G.ARCHIVEHELPER_CROSSING_KEY), icons.L, icons.R))
 
-            AH.selectedBox = {[1] = "", [2] = "", [3] = ""}
+            AH.selectedBox = {[1] = 0, [2] = 0, [3] = 0}
             AH.CrossingHelperFrame = frame
         end
 
@@ -590,9 +600,9 @@ function AH.ShowCrossingHelper(bypass)
 end
 
 function AH.HideCrossingHelper()
-    AH.selectedBox[1] = false
-    AH.selectedBox[2] = false
-    AH.selectedBox[3] = false
+    AH.selectedBox[1] = 0
+    AH.selectedBox[2] = 0
+    AH.selectedBox[3] = 0
 
     AH.CrossingHelperFrame.box1.SetSelected(7, true)
     AH.CrossingHelperFrame.box2.SetSelected(7, true)
