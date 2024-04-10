@@ -234,12 +234,12 @@ local function buildOptions()
         },
         [8] = {
             type = "checkbox",
-            name = AH.Format(_G.ARCHIVEHELPER_SHOW_CROSSING_HELPER),
+            name = AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST),
             getFunc = function()
-                return AH.Vars.ShowHelper
+                return AH.Vars.CheckQuestItems
             end,
             setFunc = function(value)
-                AH.Vars.ShowHelper = value
+                AH.Vars.CheckQuestItems = value
             end,
             width = "full"
         },
@@ -287,12 +287,12 @@ local function buildOptions()
         },
         [12] = {
             type = "checkbox",
-            name = AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST),
+            name = AH.Format(_G.ARCHIVEHELPER_SHOW_CROSSING_HELPER),
             getFunc = function()
-                return AH.Vars.CheckQuestItems
+                return AH.Vars.ShowHelper
             end,
             setFunc = function(value)
-                AH.Vars.CheckQuestItems = value
+                AH.Vars.ShowHelper = value
             end,
             width = "full"
         },
