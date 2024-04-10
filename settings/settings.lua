@@ -234,6 +234,17 @@ local function buildOptions()
         },
         [8] = {
             type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_SHOW_CROSSING_HELPER),
+            getFunc = function()
+                return AH.Vars.ShowHelper
+            end,
+            setFunc = function(value)
+                AH.Vars.ShowHelper = value
+            end,
+            width = "full"
+        },
+        [9] = {
+            type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_ECHO),
             getFunc = function()
                 return AH.Vars.ShowTimer
@@ -243,7 +254,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [9] = {
+        [10] = {
             type = "dropdown",
             name = string.format(
                 "%s (%s)",
@@ -262,7 +273,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [10] = {
+        [11] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT),
             tooltip = AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
@@ -274,7 +285,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [11] = {
+        [12] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST),
             getFunc = function()
@@ -282,17 +293,6 @@ local function buildOptions()
             end,
             setFunc = function(value)
                 AH.Vars.CheckQuestItems = value
-            end,
-            width = "full"
-        },
-        [12] = {
-            type = "checkbox",
-            name = AH.Format(_G.ARCHIVEHELPER_SHOW_CROSSING_HELPER),
-            getFunc = function()
-                return AH.Vars.ShowHelper
-            end,
-            setFunc = function(value)
-                AH.Vars.ShowHelper = value
             end,
             width = "full"
         },
