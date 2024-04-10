@@ -360,6 +360,17 @@ local function buildOptions()
         },
         [17] = {
             type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_GW_MARKER),
+            getFunc = function()
+                return AH.Vars.GwCheck
+            end,
+            setFunc = function(value)
+                AH.Vars.GwCheck = value
+            end,
+            width = "full"
+        },
+        [18] = {
+            type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_GW_PLAY),
             getFunc = function()
                 return AH.Vars.GwPlay or false
@@ -372,18 +383,19 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [18] = {
+        [19] = {
             type = "checkbox",
-            name = AH.Format(_G.ARCHIVEHELPER_GW_MARKER),
+            name = AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER) ..
+                " " .. zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24),
             getFunc = function()
-                return AH.Vars.GwCheck
+                return AH.Vars.MarauderCheck
             end,
             setFunc = function(value)
-                AH.Vars.GwCheck = value
+                AH.Vars.MarauderCheck = value
             end,
             width = "full"
         },
-        [19] = {
+        [20] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_MARAUDER_INCOMING_PLAY),
             getFunc = function()
@@ -391,18 +403,6 @@ local function buildOptions()
             end,
             setFunc = function(value)
                 AH.Vars.MarauderPlay = value
-            end,
-            width = "full"
-        },
-        [20] = {
-            type = "checkbox",
-            name = zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24) ..
-                AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER),
-            getFunc = function()
-                return AH.Vars.MarauderCheck
-            end,
-            setFunc = function(value)
-                AH.Vars.MarauderCheck = value
             end,
             width = "full"
         }
