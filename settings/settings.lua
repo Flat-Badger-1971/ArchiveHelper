@@ -334,9 +334,6 @@ local function buildOptions()
             setFunc = function(value)
                 AH.Vars.ShardCheck = value
             end,
-            disabled = function()
-                return not AH.CompatibilityCheck()
-            end,
             width = "full"
         },
         [16] = {
@@ -354,7 +351,7 @@ local function buildOptions()
                 AH.Vars.ShardIgnore = value
             end,
             disabled = function()
-                return not AH.CompatibilityCheck()
+                return not AH.Vars.ShardCheck
             end,
             width = "full"
         },

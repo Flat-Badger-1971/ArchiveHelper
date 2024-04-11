@@ -138,7 +138,7 @@ local function tomeCheck(...)
 
             tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
 
-            local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesLeft)
+            local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
 
             AH.TomeCount:SetText(message)
             CALLBACK_MANAGER:FireCallbacks("ArchiveHelperTomeshellKilled")
@@ -151,7 +151,7 @@ local function startTomeCheck()
     AH.TomeGroupType = AH.GetActualGroupType()
     AH.MaxTomes = AH.TomeGroupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO and AH.Tomeshells.Solo or AH.Tomeshells.Duo
 
-    local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, AH.MaxTomes)
+    local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, AH.MaxTomes)
 
     AH.ShowTomeshellCount()
     AH.TomeCount:SetText(message)
@@ -442,7 +442,7 @@ function AH.HandleDataShare(_, info)
 
         tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
 
-        local message = zo_strformat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
+        local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
 
         AH.TomeCount:SetText(message)
         AH.PlayAlarm(AH.Sounds.Tomeshell)

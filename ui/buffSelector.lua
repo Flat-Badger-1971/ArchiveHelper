@@ -160,7 +160,7 @@ function AH.OnBuffSelectorShowing()
 
                 if (avatar) then
                     count = AH.Vars.AvatarVisionCount[avatar] or 0
-                    countText = zo_strformat(_G.ARCHIVEHELPER_COUNT, count, 3)
+                    countText = ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3)
                 end
 
                 if (count > 0) then

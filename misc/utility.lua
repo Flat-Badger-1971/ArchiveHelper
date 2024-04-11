@@ -69,7 +69,7 @@ end
 
 function AH.Announce(achievementName, icon, remaining)
     local message =
-        zo_strformat(GetString(_G.ARCHIVEHELPER_PROGRESS), "|cffff00", achievementName, "|r", remaining) .. "|r"
+        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), "|cffff00", achievementName, "|r", remaining) .. "|r"
 
     if (AH.Vars.NotifyScreen) then
         AH.ScreenAnnounce(AH.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
@@ -363,10 +363,10 @@ function AH.GroupChat(abilityData, name)
         local colourChoices = colours[abilityType]
         local colour = avatar and colourChoices.avatar or colourChoices.normal
         local channel = AH.GetActualGroupType() == solo and _G.CHAT_CHANNEL_SAY or _G.CHAT_CHANNEL_PARTY
-        local message = zo_strformat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(name), "|c" .. colour .. buff .. "|r")
+        local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(name), "|c" .. colour .. buff .. "|r")
 
         if (avatar and (abilityType == AH.TYPES.VISION)) then
-            message = message .. " |cffff00(" .. zo_strformat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
+            message = message .. " |cffff00(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
         elseif (count > 1) then
             message = message .. " |cffff00(" .. count .. ")|r"
         end

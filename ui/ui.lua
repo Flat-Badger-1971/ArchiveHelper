@@ -117,6 +117,7 @@ local function ensureFramePoolExists()
                 frame:SetHidden(true)
                 frame:ClearAnchors()
                 frame:SetText("")
+                frame:SetColour(1, 1, 0, 1)
             end
         )
     end
@@ -537,7 +538,7 @@ function AH.ShowCrossingHelper(bypass)
 
             local ordinals = {
                 [1] = GetString(_G.ARCHIVEHELPER_CROSSING_START),
-                [2] = zo_strformat("<<i:1>>", 2),
+                [2] = ZO_CachedStrFormat("<<i:1>>", 2),
                 [3] = AH.Format(_G.SI_KEYCODE16)
             }
 
@@ -588,7 +589,7 @@ function AH.ShowCrossingHelper(bypass)
             frame.key:SetFont("${BOLD_FONT}|16")
             frame.key:SetColor(0.82, 0.82, 0.82, 1)
             frame.key:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
-            frame.key:SetText(zo_strformat(GetString(_G.ARCHIVEHELPER_CROSSING_KEY), icons.L, icons.R))
+            frame.key:SetText(ZO_CachedStrFormat(_G.ARCHIVEHELPER_CROSSING_KEY, icons.L, icons.R))
 
             AH.selectedBox = {[1] = 0, [2] = 0, [3] = 0}
             AH.CrossingHelperFrame = frame
