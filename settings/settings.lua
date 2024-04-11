@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.1.5",
+    version = "1.1.6",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -297,11 +297,23 @@ local function buildOptions()
             width = "full"
         },
         [13] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_PREVENT),
+            tooltip = AH.Format(_G.ARCHIVEHELPER_PREVENT_TOOLTIP),
+            getFunc = function()
+                return AH.Vars.PreventSelection
+            end,
+            setFunc = function(value)
+                AH.Vars.PreventSelection = value
+            end,
+            width = "full"
+        },
+        [14] = {
             type = "header",
             name = AH.Format(_G.SI_INTERFACE_OPTIONS_NAMEPLATES_TARGET_MARKERS),
             width = "full"
         },
-        [14] = {
+        [15] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_FABLED_MARKER),
             tooltip = function()
@@ -320,7 +332,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [15] = {
+        [16] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHARD_MARKER),
             tooltip = function()
@@ -336,7 +348,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [16] = {
+        [17] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHARD_IGNORE),
             tooltip = function()
@@ -355,7 +367,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [17] = {
+        [18] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_GW_MARKER),
             getFunc = function()
@@ -366,7 +378,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [18] = {
+        [19] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_GW_PLAY),
             getFunc = function()
@@ -380,7 +392,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [19] = {
+        [20] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER) ..
                 " " .. zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24),
@@ -392,7 +404,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [20] = {
+        [21] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_MARAUDER_INCOMING_PLAY),
             getFunc = function()

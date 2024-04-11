@@ -18,6 +18,7 @@ _G.ArchiveHelper = {
         Notify = true,
         NotifyChat = true,
         NotifyScreen = true,
+        PreventSelection = true,
         ShardCheck = true,
         ShardIgnore = true,
         ShowHelper = true,
@@ -54,7 +55,7 @@ _G.ArchiveHelper = {
         PURPLE="a02ef7"
     },
     DATA_ID = 28, -- map id for libDataShare
-    DEBUG = false,
+    DEBUG = true,
     ICONS = {
         ACH = {name = "login/login_icon_yield", colour = {1, 0, 0, 1}},
         FAV = {name = "campaign/overview_indexicon_bonus_down", colour = {0, 1, 0, 1}},

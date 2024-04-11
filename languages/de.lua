@@ -38,6 +38,8 @@ L(AH .. "HERD_FAIL", "ausreichend") -- Ihr habt nicht ausreichend Geisterlichter
 L(AH .. "HERD_SUCCESS", "erfolgreich") -- Ihr habt die Geisterlichter erfolgreich zurückgebracht
 L(AH .. "MARAUDER_MARKER", "Zielmarkierungen zu Marodeuren hinzufügen")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Warnung bei ankommenden Marodeuren abspielen")
+L(AH .. "PREVENT", "Prevent accidental buff selection")
+L(AH .. "PREVENT_TOOLTIP", "Disables the action key briefly when the buff selector opens")
 L(AH .. "PROGRESS", "<<1>><<2>><<3>> Kriterien fortgeschritten. <<4>> verbleiben.")
 L(AH .. "PROGRESS_ACHIEVEMENT", "Fortschritt der Errungenschaften")
 L(AH .. "PROGRESS_CHAT", "Im Chat anzeigen")

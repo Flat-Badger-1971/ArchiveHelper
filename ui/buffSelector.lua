@@ -24,6 +24,10 @@ local function clearPositions()
 end
 
 function AH.OnBuffSelectorShowing()
+    if (AH.Vars.PreventSelection) then
+        _G[AH.SELECTOR_OBJECT].keybindStripDescriptor.enabled = false
+    end
+
     local numChoices = 0
     local buffChoices = {}
     local container = AH.SELECTOR_SHORT .. "Container"
@@ -172,5 +176,14 @@ function AH.OnBuffSelectorShowing()
                 end
             end
         end
+    end
+
+    if (AH.Vars.PreventSelection) then
+        zo_callLater(
+            function()
+                _G[AH.SELECTOR_OBJECT].keybindStripDescriptor.enabled = true
+            end,
+            1500
+        )
     end
 end
