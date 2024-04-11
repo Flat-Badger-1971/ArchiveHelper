@@ -39,8 +39,8 @@ L(AH .. "HERD_FAIL", "assez") -- Vous n'avez pas assez rassemblé de lueurs fant
 L(AH .. "HERD_SUCCESS", "ramené") -- Vous avez ramené les lueurs fantômes
 L(AH .. "MARAUDER_MARKER", "Mettre un marqueur de cible sur les Maraudeurs")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Jouer un son à l'arrivée d'un Maraudeur")
-L(AH .. "PREVENT", "Prévenir la sélection d'un bienfait par erreur")
-L(AH .. "PREVENT_TOOLTIP", "Disables the action key briefly when the buff selector opens")
+L(AH .. "PREVENT", "Empêcher de sélectionner un bienfait par erreur")
+L(AH .. "PREVENT_TOOLTIP", "Désactive la sélection du bienfait brièvement lorsque le panneau de sélection s'ouvre pour éviter un choix accidentel.")
 L(AH .. "PROGRESS", "Avancement du critère <<1>><<2>><<3>>. Encore <<4>>.")
 L(AH .. "PROGRESS_ACHIEVEMENT", "Progression des succès")
 L(AH .. "PROGRESS_CHAT", "Afficher dans le log")

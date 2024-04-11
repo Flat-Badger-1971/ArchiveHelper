@@ -41,7 +41,7 @@ L(AH .. "HERD_SUCCESS", "Returned") -- You Successfully Returned the Ghostlights
 L(AH .. "MARAUDER_MARKER", "Add Target Markers to Marauders")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Play warning for incoming Marauders")
 L(AH .. "PREVENT", "Prevent accidental buff selection")
-L(AH .. "PREVENT_TOOLTIP", "Disables the action key briefly when the buff selector opens")
+L(AH .. "PREVENT_TOOLTIP", "Disables the buff selection briefly when the panel opens to prevent accidental selection.")
 L(AH .. "PROGRESS", "<<1>><<2>><<3>> criteria advanced. <<4>> remaining.")
 L(AH .. "PROGRESS_ACHIEVEMENT", "Achievement progress")
 L(AH .. "PROGRESS_CHAT", "Show in chat")
