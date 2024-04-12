@@ -152,8 +152,10 @@ local function markerCheck()
             local marker = getAvailableMarker()
             AssignTargetMarkerToReticleTarget(marker)
 
-            if ((found == gwText) and AH.Vars.GwPlay and (not AH.FOUND_GW)) then
-                AH.PlayAlarm(AH.Sounds.Gw)
+            if ((found == gwText) and (not AH.FOUND_GW)) then
+                if (AH.Vars.GwPlay) then
+                    AH.PlayAlarm(AH.Sounds.Gw)
+                end
                 AH.FOUND_GW = true
                 AH.ShareData(AH.SHARE.GW, 2)
             end

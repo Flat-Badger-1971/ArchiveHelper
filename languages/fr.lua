@@ -8,6 +8,7 @@ L(AH .. "ALL_VISIONS", "Toutes les visions acquises")
 L(AH .. "ALL_VERSES", "Tous les versets acquis")
 L(AH .. "ARC_BOSS", "Boss d'arc à venir")
 L(AH .. "AVOID", "Indésirables")
+L(AH .. "BONUS", "Niveaux bonus")
 L(AH .. "BUFF_SELECTED", "<<1>> a sélectionné <<2>>")
 L(AH .. "COUNT", "<<1>> sur <<2>>")
 L(AH .. "CROSSING_INVALID", "L'aide ne peut être activée qu'à l'intérieur du Gué traître dans l'Archive Infinie")
@@ -33,7 +34,7 @@ L(
 L(AH .. "FLAMESHAPER", "Façonne-feu")
 L(AH .. "GW", "Gw le pillard")
 L(AH .. "GW_MARKER", "Ajouter un marqueur de cible sur Gw le pillard")
-L(AH .. "GW_PLAY", "Jouer un son quand Gw apparaît")
+L(AH .. "GW_PLAY", "Jouer un son quand Gw est marqué")
 L(AH .. "HERD", "Rassemblez les lueurs fantômes") -- Rassemblez les lueurs fantômes
 L(AH .. "HERD_FAIL", "assez") -- Vous n'avez pas assez rassemblé de lueurs fantômes
 L(AH .. "HERD_SUCCESS", "ramené") -- Vous avez ramené les lueurs fantômes

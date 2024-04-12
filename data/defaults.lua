@@ -74,6 +74,7 @@ _G.ArchiveHelper = {
         DESTOZUNOS_LIBRARY = {id = 2425, name = "Destozuno's Library"}
     },
     OAKENSOUL = 187658,
+    SELECTION_DELAY = 1250,
     SHARE = {
         TOME = 1,
         MARK = 2,

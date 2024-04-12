@@ -316,7 +316,7 @@ local function createComboBox(name, parent, width, height, choices, default, cal
     end
 
     combo.SetSelected = function(idx)
-        combo.comboBox:SetSelected(idx, true)
+        combo.comboBox:SelectItemByIndex(idx, true)
     end
 
     combo:UpdateValues(choices, index)

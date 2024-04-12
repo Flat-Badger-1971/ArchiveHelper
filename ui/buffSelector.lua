@@ -183,7 +183,7 @@ function AH.OnBuffSelectorShowing()
             function()
                 _G[AH.SELECTOR_OBJECT].keybindStripDescriptor.enabled = true
             end,
-            1500
+            AH.SELECTION_DELAY
         )
     end
 end

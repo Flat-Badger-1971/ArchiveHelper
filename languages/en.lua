@@ -7,6 +7,7 @@ L(AH .. "ALL_VISIONS", "All visions acquired")
 L(AH .. "ALL_VERSES", "All verses acquired")
 L(AH .. "ARC_BOSS", "Arc boss next")
 L(AH .. "AVOID", "Avoid")
+L(AH .. "BONUS", "Bonus Levels")
 L(AH .. "BUFF_SELECTED", "<<1>> selected <<2>>")
 L(AH .. "COUNT", "<<1>> of <<2>>")
 L(AH .. "CROSSING_KEY", "<<1>> Turn Left - <<2>> Turn Right")
@@ -34,7 +35,7 @@ L(
 L(AH .. "FLAMESHAPER", "Flame-Shaper")
 L(AH .. "GW", "Gw the Pilferer")
 L(AH .. "GW_MARKER", "Add Target Marker to Gw the Pilferer")
-L(AH .. "GW_PLAY", "Play warning when Gw appears")
+L(AH .. "GW_PLAY", "Play warning when Gw has been marked")
 L(AH .. "HERD", "Herd the Ghost Lights")
 L(AH .. "HERD_FAIL", "Enough") -- You Did Not Herd Enough Ghostlights
 L(AH .. "HERD_SUCCESS", "Returned") -- You Successfully Returned the Ghostlights
