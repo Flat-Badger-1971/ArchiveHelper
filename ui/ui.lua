@@ -443,23 +443,10 @@ end
 
 function AH.SetDisableCombos()
     local groupType = AH.GetActualGroupType()
-    --local isLeader = false
 
     if ((groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) and AH.AH_SHARING and (not AH.DEBUG)) then
         AH.AH_SHARING = false
     end
-
-    -- if (IsUnitGroupLeader("player") or groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
-    --     isLeader = true
-    -- end
-
-    -- if (not AH.AH_SHARING) then
-    --     isLeader = true
-    -- end
-
-    -- for combo = 1, 3 do
-    --     AH.CrossingHelperFrame["box" .. combo]:SetDisabled(not isLeader)
-    -- end
 end
 
 function AH.ShowCrossingHelper(bypass)

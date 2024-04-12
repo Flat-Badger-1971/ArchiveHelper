@@ -379,7 +379,7 @@ local function onCrossingChange(selections)
         if (not AH.IsLeader) then
             local values = {}
 
-            -- convert the text to an array, replacing 0 with " "
+            -- convert the text to an array
             selections:gsub(
                 ".",
                 function(c)
@@ -387,12 +387,14 @@ local function onCrossingChange(selections)
                 end
             )
 
-            AH.CrossingHelperFrame.box1.SetSelected(tonumber(values[1]) or 7)
-            AH.CrossingHelperFrame.box2.SetSelected(tonumber(values[2]) or 7)
-            AH.CrossingHelperFrame.box3.SetSelected(tonumber(values[3]) or 7)
-            AH.selectedBox[1] = values[1]
-            AH.selectedBox[2] = values[2]
-            AH.CrossingUpdate(3, values[3], true)
+            local box1, box2, box3 = tonumber(values[1]), tonumber(values[2]), tonumber(values[3])
+
+            AH.CrossingHelperFrame.box1.SetSelected(box1 == 0 and 7 or box1)
+            AH.CrossingHelperFrame.box2.SetSelected(box2 == 0 and 7 or box2)
+            AH.CrossingHelperFrame.box3.SetSelected(box3 == 0 and 7 or box3)
+            AH.selectedBox[1] = box1
+            AH.selectedBox[2] = box2
+            AH.CrossingUpdate(3, box3, true)
         end
     end
 end
