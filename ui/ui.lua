@@ -317,6 +317,7 @@ local function createComboBox(name, parent, width, height, choices, default, cal
 
     combo.SetSelected = function(idx)
         combo.comboBox:SelectItemByIndex(idx, true)
+        combo.comboBox:HideDropdown()
     end
 
     combo:UpdateValues(choices, index)
@@ -456,9 +457,9 @@ function AH.SetDisableCombos()
         isLeader = true
     end
 
-    for combo = 1, 3 do
-        AH.CrossingHelperFrame["box" .. combo]:SetDisabled(not isLeader)
-    end
+    -- for combo = 1, 3 do
+    --     AH.CrossingHelperFrame["box" .. combo]:SetDisabled(not isLeader)
+    -- end
 end
 
 function AH.ShowCrossingHelper(bypass)
