@@ -20,8 +20,8 @@ L(AH .. "CROSSING_START", "Anfang")
 L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
-    "Suchen Sie den Schalter, der dem Anfang des Pfads entspricht, und wählen Sie ihn im Dropdown-Menü unten aus (1 ist der Schalter ganz links, 6 ganz rechts)." ..
-        " Finden Sie dann ggf. den 2. Schritt oder das Ende des Weges, bis nur noch eine Lösung übrig bleibt."
+    "Suchen Sie den Schalter, der dem Anfang des Pfades entspricht, und wählen Sie ihn in der Dropdown-Liste unten aus (1 ist der Schalter ganz links, 6 der ganz rechts)." ..
+        " Suchen Sie dann ggf. den 2. Schritt oder das Ende des Weges, bis nur noch eine Lösung übrig bleibt."
 )
 L(AH .. "CYCLE_BOSS", "Bosskampf folgt")
 L(AH .. "DEN_TIMER", "Noch <<1[0s übrig/1s übrig/$ds übrig]>>")
