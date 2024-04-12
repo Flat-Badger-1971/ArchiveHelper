@@ -387,9 +387,9 @@ local function onCrossingChange(selections)
                 end
             )
 
-            AH.CrossingHelperFrame.box1.SetSelected(values[1])
-            AH.CrossingHelperFrame.box2.SetSelected(values[2])
-            AH.CrossingHelperFrame.box3.SetSelected(values[3])
+            AH.CrossingHelperFrame.box1.SetSelected(tonumber(values[1]) or 7)
+            AH.CrossingHelperFrame.box2.SetSelected(tonumber(values[2]) or 7)
+            AH.CrossingHelperFrame.box3.SetSelected(tonumber(values[3]) or 7)
             AH.selectedBox[1] = values[1]
             AH.selectedBox[2] = values[2]
             AH.CrossingUpdate(3, values[3], true)
