@@ -407,6 +407,35 @@ local function onLeaderUpdate()
     end
 end
 
+local function onSingleSlotUpdate(_, _, previousSlotData)
+    if (previousSlotData) then
+        local icon = previousSlotData.iconFile
+
+        for _, iconname in pairs(AH.MYSTERY) do
+            if (icon:find(iconname)) then
+                AH.MysteryVerse = true
+                return
+            end
+        end
+
+        AH.MysteryVerse = false
+    end
+end
+
+local function onBuffStackCountChanged(_, abilityId)
+    zo_callLater(
+        function()
+            if (AH.MysteryVerse) then
+                AH.GroupChat(encode(abilityId, 999))
+                AH.ShareData(AH.SHARE.ABILITY, abilityId, nil, 999)
+                CALLBACK_MANAGER:FireCallbacks("ArchiveHelperMysteryVerse")
+                AH.MysteryVerse = false
+            end
+        end,
+        1000
+    )
+end
+
 function AH.ShareData(shareType, value, instant, stackCount)
     if ((not AH.Share) and (not AH.DEBUG)) then
         return
@@ -512,4 +541,7 @@ function AH.SetupEvents()
         AH.UpdateSlottedSkills()
         EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
     end
+
+    SHARED_INVENTORY:RegisterCallback("SingleSlotInventoryUpdate", onSingleSlotUpdate)
+    ENDLESS_DUNGEON_MANAGER:RegisterCallback("BuffStackCountChanged", onBuffStackCountChanged)
 end

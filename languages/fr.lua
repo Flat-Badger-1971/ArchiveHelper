@@ -21,7 +21,7 @@ L(AH .. "CROSSING_TITLE", "Aide pour le Gué traître")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
     "Trouvez l'interrupteur correspondant au début du chemin et sélectionnez-le dans la liste déroulante ci-dessous (1 est le plus à gauche, 6 le plus à droite)." ..
-        " Puis, si nécessaire, trouvez la 2ème étape ou la fin du chemin."
+        " Puis, si nécessaire, trouvez la 2ème étape ou la fin du chemin, jusqu'à ce qu'il ne reste qu'une solution."
 )
 L(AH .. "CYCLE_BOSS", "Boss de cycle à venir")
 L(AH .. "DEN_TIMER", "<<1[0s restantes/1s restante/$ds restantes]>>")
@@ -46,6 +46,7 @@ L(AH .. "PROGRESS", "Avancement du critère <<1>><<2>><<3>>. Encore <<4>>.")
 L(AH .. "PROGRESS_ACHIEVEMENT", "Progression des succès")
 L(AH .. "PROGRESS_CHAT", "Afficher dans le log")
 L(AH .. "PROGRESS_SCREEN", "Annoncer à l'écran")
+L(AH .. "RANDOM", "<<1>> a reçu <<2>>")
 L(AH .. "REMINDER", "Signaler les prochaines phases de boss")
 L(AH .. "REMINDER_QUEST", "Rappel en cas d'objet de quête non ramassé")
 L(AH .. "REMINDER_QUEST_TEXT", "Pensez à ramasser l'objet de quête !")

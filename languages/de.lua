@@ -1,4 +1,5 @@
 -- German localisation
+-- luacheck: ignore 631
 local L = ZO_CreateStringId
 local AH = "ARCHIVEHELPER_"
 L(AH .. "ADD_AVOID", "Auf \"Zu Vermeiden\" hinzufügen")
@@ -12,15 +13,15 @@ L(AH .. "BUFF_SELECTED", "<<1>> hat <<2>> ausgewählt")
 L(AH .. "COUNT", "<<1>> von <<2>>")
 L(AH .. "CROSSING_INVALID", "Hilfe kann nur im Treacherous Ford im Infinite Archive aktiviert werden")
 L(AH .. "CROSSING_KEY", "<<1>> Biegen Sie links ab - <<2>> Biegen Sie rechts ab")
-L(AH .. "CROSSING_NO_SOLUTIONS", "No Paths Found")
-L(AH .. "CROSSING_PATHS", "Possible Paths")
+L(AH .. "CROSSING_NO_SOLUTIONS", "Keine Pfade gefunden")
+L(AH .. "CROSSING_PATHS", "Mögliche Wege")
 L(AH .. "CROSSING_SLASH", "helfer")
 L(AH .. "CROSSING_START", "Anfang")
 L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
-    "Find the switch corresponding to the start of the path and select it in the dropdown below (1 is the leftmost switch, 6 the rightmost)." ..
-        " Then, if necessary, find the 2nd step or the end of the path."
+    "Suchen Sie den Schalter, der dem Anfang des Pfads entspricht, und wählen Sie ihn im Dropdown-Menü unten aus (1 ist der Schalter ganz links, 6 ganz rechts)." ..
+        " Finden Sie dann ggf. den 2. Schritt oder das Ende des Weges, bis nur noch eine Lösung übrig bleibt."
 )
 L(AH .. "CYCLE_BOSS", "Bosskampf folgt")
 L(AH .. "DEN_TIMER", "Noch <<1[0s übrig/1s übrig/$ds übrig]>>")
@@ -39,12 +40,13 @@ L(AH .. "HERD_FAIL", "ausreichend") -- Ihr habt nicht ausreichend Geisterlichter
 L(AH .. "HERD_SUCCESS", "erfolgreich") -- Ihr habt die Geisterlichter erfolgreich zurückgebracht
 L(AH .. "MARAUDER_MARKER", "Zielmarkierungen zu Marodeuren hinzufügen")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Warnung bei ankommenden Marodeuren abspielen")
-L(AH .. "PREVENT", "Prevent accidental buff selection")
-L(AH .. "PREVENT_TOOLTIP", "Disables the action key briefly when the buff selector opens")
+L(AH .. "PREVENT", "Verhindern Sie eine versehentliche Buff-Auswahl")
+L(AH .. "PREVENT_TOOLTIP", "Deaktiviert die Aktionstaste kurzzeitig, wenn die Buff-Auswahl geöffnet wird")
 L(AH .. "PROGRESS", "<<1>><<2>><<3>> Kriterien fortgeschritten. <<4>> verbleiben.")
 L(AH .. "PROGRESS_ACHIEVEMENT", "Fortschritt der Errungenschaften")
 L(AH .. "PROGRESS_CHAT", "Im Chat anzeigen")
 L(AH .. "PROGRESS_SCREEN", "Auf dem Bildschirm ankündigen")
+L(AH .. "RANDOM", "<<1>> hat <<2>> bekommen")
 L(AH .. "REMINDER", "Erinnerung an ein Bosskampf anzeigen")
 L(AH .. "REMINDER_QUEST", "Erinnerung an ein Quest Gegenstand anzeigen")
 L(AH .. "REMINDER_QUEST_TEXT", "Questgegenstand nicht vergessen!")

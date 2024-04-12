@@ -49,10 +49,10 @@ _G.ArchiveHelper = {
     Shards = {},
     Tomeshells = {Solo = 4, Duo = 8},
     COLOURS = {
-        BLUE="3a92ff",
-        GOLD="ccaa1a",
-        GREEN="2dc50e",
-        PURPLE="a02ef7"
+        BLUE = "3a92ff",
+        GOLD = "ccaa1a",
+        GREEN = "2dc50e",
+        PURPLE = "a02ef7"
     },
     DATA_ID = 28, -- map id for libDataShare
     DEBUG = true,

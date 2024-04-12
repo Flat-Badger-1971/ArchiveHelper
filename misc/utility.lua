@@ -354,6 +354,7 @@ function AH.GroupChat(abilityData, name)
         name = name or GetUnitName("player")
         abilityData = tostring(abilityData)
 
+        local replaceText = _G.ARCHIVEHELPER_BUFF_SELECTED
         local abilityId = tonumber(abilityData:sub(2, 7))
         local count = tonumber(abilityData:sub(8))
         local buff = AH.Format(GetAbilityName(abilityId))
@@ -363,12 +364,19 @@ function AH.GroupChat(abilityData, name)
         local colourChoices = colours[abilityType]
         local colour = avatar and colourChoices.avatar or colourChoices.normal
         local channel = AH.GetActualGroupType() == solo and _G.CHAT_CHANNEL_SAY or _G.CHAT_CHANNEL_PARTY
-        local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_BUFF_SELECTED, AH.Format(name), "|c" .. colour .. buff .. "|r")
 
-        if (avatar and (abilityType == AH.TYPES.VISION)) then
-            message = message .. " |cffff00(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
-        elseif (count > 1) then
-            message = message .. " |cffff00(" .. count .. ")|r"
+        if (count == 999) then
+            replaceText = _G.ARCHIVEHELPER_RANDOM
+        end
+
+        local message = ZO_CachedStrFormat(replaceText, AH.Format(name), "|c" .. colour .. buff .. "|r")
+
+        if (count < 999) then
+            if (avatar and (abilityType == AH.TYPES.VISION)) then
+                message = message .. " |cffff00(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
+            elseif (count > 1) then
+                message = message .. " |cffff00(" .. count .. ")|r"
+            end
         end
 
         CHAT_ROUTER:FormatAndAddChatMessage(_G.EVENT_CHAT_MESSAGE_CHANNEL, channel, AH.Name, message, false, AH.Name)
