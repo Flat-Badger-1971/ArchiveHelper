@@ -83,5 +83,5 @@ L(AH .. "WEREWOLF_BEHEMOTH", "Béhémoth loup-garou")
 
 -- keybinds
 L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Marquer la cible actuelle")
-L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Toggle Crossing Helper")
+L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Ouvrir/fermer l'aide du Gué traître")
 L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Retirer la marque sur la cible actuelle")
