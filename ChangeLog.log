@@ -2,6 +2,8 @@
 Prevent accidental buff selection
 Miscellaneous bugfixes
 Treacherous crossing helper added
+Share information in Duo mode (verse selections, mystery verses, etc.) - Requires LibDataShare
+Settings reorganised
 
 [color=#ff9900][b]Version: 1.1.5 ---------------[/b][/color]
 Bugged line of code removed

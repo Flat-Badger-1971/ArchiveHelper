@@ -394,7 +394,10 @@ function AH.CrossingUpdate(box, value, doNotShare)
 
     AH.selectedBox[box] = tostring(value)
 
-    local test = tonumber(AH.selectedBox[1]) + tonumber(AH.selectedBox[2]) + tonumber(AH.selectedBox[3])
+    local box1 = tonumber(AH.selectedBox[1]) or 0
+    local box2 = tonumber(AH.selectedBox[2]) or 0
+    local box3 = tonumber(AH.selectedBox[3]) or 0
+    local test = box1 + box2 + box3
 
     if (test == 0) then
         solutionsWindow:SetText("")
@@ -415,7 +418,12 @@ function AH.CrossingUpdate(box, value, doNotShare)
                     opt = opt .. ((index == #solution) and "" or AH.Spaces(6))
                 end
 
-                formattedSolution = string.format("%s%s", formattedSolution, opt)
+                local isFirst  = box1 ~= 0 and index == 1;
+                local isSecond = box2 ~= 0 and index == 2;
+                local isLast   = box3 ~= 0 and index == #solution;
+                local colour = (isFirst or isSecond or isLast) and AH.COLOURS.YELLOW or AH.COLOURS.WHITE
+
+                formattedSolution = string.format("%s|c%s%s|r", formattedSolution, colour, opt)
             end
 
             if (#solution == 5) then
@@ -433,10 +441,6 @@ function AH.CrossingUpdate(box, value, doNotShare)
     end
 
     if (doNotShare ~= true) then
-        local box1 = tonumber(AH.selectedBox[1]) or 0
-        local box2 = tonumber(AH.selectedBox[2]) or 0
-        local box3 = tonumber(AH.selectedBox[3]) or 0
-
         AH.ShareData(AH.SHARE.CROSSING, string.format("%s%s%s", box1, box2, box3))
     end
 end

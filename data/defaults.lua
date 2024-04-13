@@ -52,7 +52,9 @@ _G.ArchiveHelper = {
         BLUE = "3a92ff",
         GOLD = "ccaa1a",
         GREEN = "2dc50e",
-        PURPLE = "a02ef7"
+        PURPLE = "a02ef7",
+        WHITE = "f9f9f9",
+        YELLOW = "ffff00"
     },
     DATA_ID = 28, -- map id for libDataShare
     DEBUG = true,

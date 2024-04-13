@@ -11,12 +11,14 @@ L(AH .. "AVOID", "Zu Vermeiden")
 L(AH .. "BONUS", "Bonuslevel")
 L(AH .. "BUFF_SELECTED", "<<1>> hat <<2>> ausgewählt")
 L(AH .. "COUNT", "<<1>> von <<2>>")
+L(AH .. "CROSSING_FAIL", "Locked")
 L(AH .. "CROSSING_INVALID", "Hilfe kann nur im Treacherous Ford im Infinite Archive aktiviert werden")
 L(AH .. "CROSSING_KEY", "<<1>> Biegen Sie links ab - <<2>> Biegen Sie rechts ab")
 L(AH .. "CROSSING_NO_SOLUTIONS", "Keine Pfade gefunden")
 L(AH .. "CROSSING_PATHS", "Mögliche Wege")
 L(AH .. "CROSSING_SLASH", "helfer")
 L(AH .. "CROSSING_START", "Anfang")
+L(AH .. "CROSSING_SUCCESS", "Solved")
 L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
@@ -40,6 +42,8 @@ L(AH .. "HERD_FAIL", "ausreichend") -- Ihr habt nicht ausreichend Geisterlichter
 L(AH .. "HERD_SUCCESS", "erfolgreich") -- Ihr habt die Geisterlichter erfolgreich zurückgebracht
 L(AH .. "MARAUDER_MARKER", "Zielmarkierungen zu Marodeuren hinzufügen")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Warnung bei ankommenden Marodeuren abspielen")
+L(AH .. "OPTIONAL_LIBS_CHAT", "Archive Helper works best with LibChatMessage installed. ")
+L(AH .. "OPTIONAL_LIBS_SHARE", "For Duo mode to work effectively, please install LibDataShare.")
 L(AH .. "PREVENT", "Verhindern Sie eine versehentliche Buff-Auswahl")
 L(AH .. "PREVENT_TOOLTIP", "Deaktiviert die Aktionstaste kurzzeitig, wenn die Buff-Auswahl geöffnet wird")
 L(AH .. "PROGRESS", "<<1>><<2>><<3>> Kriterien fortgeschritten. <<4>> verbleiben.")

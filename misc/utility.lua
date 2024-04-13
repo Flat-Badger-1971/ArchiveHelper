@@ -394,6 +394,12 @@ function AH.Spaces(numberOfSpaces)
 end
 
 function AH.ToggleCrossingHelper()
+    if (AH.CrossingHelperFrame and (not AH.CrossingHelperFrame:IsHidden())) then
+        AH.HideCrossingHelper()
+
+        return
+    end
+
     if (not AH.IsInCrossing and not AH.DEBUG) then
         local message = GetString(_G.ARCHIVEHELPER_CROSSING_INVALID)
 
@@ -407,8 +413,6 @@ function AH.ToggleCrossingHelper()
 
     if ((AH.CrossingHelperFrame and AH.CrossingHelperFrame:IsHidden()) or not AH.CrossingHelperFrame) then
         AH.ShowCrossingHelper(AH.DEBUG)
-    elseif (AH.CrossingHelperFrame and (not AH.CrossingHelperFrame:IsHidden())) then
-        AH.HideCrossingHelper()
     end
 end
 

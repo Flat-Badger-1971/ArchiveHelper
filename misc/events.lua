@@ -196,7 +196,7 @@ local function zoneCheck()
             AH.HideTimer()
         end
 
-        if (AH.CrossingHelper) then
+        if (AH.CrossingHelperFrame) then
             AH.HideCrossingHelper()
         end
     end
