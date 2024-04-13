@@ -1,5 +1,4 @@
 -- German localisation
--- luacheck: ignore 631
 local L = ZO_CreateStringId
 local AH = "ARCHIVEHELPER_"
 L(AH .. "ADD_AVOID", "Auf \"Zu Vermeiden\" hinzufügen")
@@ -76,11 +75,12 @@ L(AH .. "TOMESHELL_COUNT", "<<1[0 verbleibend/1 verbleibend/$d verbleibend]>>")
 L(AH .. "USE_AUTO_AVOID", "Automatische Markierungen benutzen")
 L(
     AH .. "USE_AUTO_AVOID_TOOLTIP",
-    "Automatisch Verse oder Visionen markieren, die aufgrund nicht vorhandener Fähigkeiten nutzlos sind")
+    "Automatisch Verse oder Visionen markieren, die aufgrund nicht vorhandener Fähigkeiten nutzlos sind"
+)
 L(AH .. "WARNING", "Warnung: Liste benötigt zum Aktualisieren ein Neuladen der Benutzeroberfläche")
 L(AH .. "WEREWOLF_BEHEMOTH", "Werwolfbehemoth")
 
 -- keybinds
 L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Aktuelles Ziel markieren")
-L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Toggle Crossing Helper")
+L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Treacherous Ford Helfer öffnen/schließen")
 L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Markierung des aktuellen Ziels aufheben")
