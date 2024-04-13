@@ -17,7 +17,7 @@ L(AH .. "CROSSING_NO_SOLUTIONS", "No Paths Found")
 L(AH .. "CROSSING_PATHS", "Possible Paths")
 L(AH .. "CROSSING_SLASH", "helper")
 L(AH .. "CROSSING_START", "Start")
-L(AH .. "CROSSING_SUCCESS", "Solved")
+L(AH .. "CROSSING_SUCCESS", "Solved") -- You Solved the Corridor Puzzle
 L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
