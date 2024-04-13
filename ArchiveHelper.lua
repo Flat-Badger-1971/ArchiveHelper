@@ -12,7 +12,7 @@ local function Initialise()
 
     local selector_short = "ZO_EndDunBuffSelector_%s"
     local selector = "ZO_EndlessDungeonBuffSelector_%s"
-    local selectorObject = "ENDLESS_DUNGEON_BUFF_SELECTOR_"
+    local selectorObject = "ENDLESS_DUNGEON_BUFF_SELECTOR_%s"
 
     if (IsInGamepadPreferredMode()) then
         AH.SELECTOR_SHORT = string.format(selector_short, "Gamepad")

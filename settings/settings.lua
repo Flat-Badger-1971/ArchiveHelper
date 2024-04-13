@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.1.5",
+    version = "1.1.6",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -154,13 +154,32 @@ end
 local function buildOptions()
     populateRemovableOptions()
 
+    local optional = ""
+
+    if (not AH.Chat) then
+        optional = "|cffff00" .. GetString(_G.ARCHIVEHELPER_OPTIONAL_LIBS_CHAT) .. "|r"
+    end
+
+    if (not _G.LibDataShare) then
+        if (optional ~= "") then
+            optional = optional .. AH.LF
+        end
+
+        optional = optional .. "|cffff00" .. GetString(_G.ARCHIVEHELPER_OPTIONAL_LIBS_SHARE) .. "|r"
+    end
+
     local options = {
         [1] = {
+            type = "description",
+            text = optional,
+            width = "full"
+        },
+        [2] = {
             type = "header",
             name = AH.Format(_G.SI_BINDING_NAME_TOGGLE_NOTIFICATIONS),
             width = "full"
         },
-        [2] = {
+        [3] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT),
             getFunc = function()
@@ -171,7 +190,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [3] = {
+        [4] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_PROGRESS_CHAT),
             tooltip = AH.Format(_G.ARCHIVEHELPER_REQUIRES),
@@ -186,7 +205,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [4] = {
+        [5] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_PROGRESS_SCREEN),
             getFunc = function()
@@ -200,10 +219,10 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [5] = {
+        [6] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_SELECTION),
-            tooltip = AH.Format(_G.ARCHIVEHELPER_REQUIRES) .. '. ' .. AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
+            tooltip = AH.Format(_G.ARCHIVEHELPER_REQUIRES) .. ". " .. AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
             getFunc = function()
                 return AH.Vars.ShowSelection
             end,
@@ -215,12 +234,12 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [6] = {
+        [7] = {
             type = "header",
             name = AH.Format(_G.SI_ITEMFILTERTYPE5),
             width = "full"
         },
-        [7] = {
+        [8] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_REMINDER),
             tooltip = AH.Format(_G.ARCHIVEHELPER_REMINDER_TOOLTIP),
@@ -232,7 +251,35 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [8] = {
+        [9] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST),
+            getFunc = function()
+                return AH.Vars.CheckQuestItems
+            end,
+            setFunc = function(value)
+                AH.Vars.CheckQuestItems = value
+            end,
+            width = "full"
+        },
+        [10] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_PREVENT),
+            tooltip = AH.Format(_G.ARCHIVEHELPER_PREVENT_TOOLTIP),
+            getFunc = function()
+                return AH.Vars.PreventSelection
+            end,
+            setFunc = function(value)
+                AH.Vars.PreventSelection = value
+            end,
+            width = "full"
+        },
+        [11] = {
+            type = "header",
+            name = AH.Format(_G.ARCHIVEHELPER_BONUS),
+            width = "full"
+        },
+        [12] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_ECHO),
             getFunc = function()
@@ -243,7 +290,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [9] = {
+        [13] = {
             type = "dropdown",
             name = string.format(
                 "%s (%s)",
@@ -262,7 +309,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [10] = {
+        [14] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT),
             tooltip = AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
@@ -274,18 +321,23 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [11] = {
+        [15] = {
             type = "checkbox",
-            name = AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST),
+            name = AH.Format(_G.ARCHIVEHELPER_SHOW_CROSSING_HELPER),
             getFunc = function()
-                return AH.Vars.CheckQuestItems
+                return AH.Vars.ShowHelper
             end,
             setFunc = function(value)
-                AH.Vars.CheckQuestItems = value
+                AH.Vars.ShowHelper = value
             end,
             width = "full"
         },
-        [12] = {
+        [16] = {
+            type = "header",
+            name = AH.Format(_G.SI_INTERFACE_OPTIONS_NAMEPLATES_TARGET_MARKERS),
+            width = "full"
+        },
+        [17] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_FABLED_MARKER),
             tooltip = function()
@@ -304,7 +356,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [13] = {
+        [18] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHARD_MARKER),
             tooltip = function()
@@ -318,12 +370,9 @@ local function buildOptions()
             setFunc = function(value)
                 AH.Vars.ShardCheck = value
             end,
-            disabled = function()
-                return not AH.CompatibilityCheck()
-            end,
             width = "full"
         },
-        [14] = {
+        [19] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHARD_IGNORE),
             tooltip = function()
@@ -338,11 +387,11 @@ local function buildOptions()
                 AH.Vars.ShardIgnore = value
             end,
             disabled = function()
-                return not AH.CompatibilityCheck()
+                return not AH.Vars.ShardCheck
             end,
             width = "full"
         },
-        [15] = {
+        [20] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_GW_MARKER),
             getFunc = function()
@@ -353,7 +402,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [16] = {
+        [21] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_GW_PLAY),
             getFunc = function()
@@ -362,13 +411,15 @@ local function buildOptions()
             setFunc = function(value)
                 AH.Vars.GwPlay = value
             end,
-            disabled = function() return not AH.Vars.GwCheck end,
+            disabled = function()
+                return not AH.Vars.GwCheck
+            end,
             width = "full"
         },
-        [17] = {
+        [22] = {
             type = "checkbox",
-            name = zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24) ..
-                AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER),
+            name = AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER) ..
+                " " .. zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24),
             getFunc = function()
                 return AH.Vars.MarauderCheck
             end,
@@ -377,7 +428,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [18] = {
+        [23] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_MARAUDER_INCOMING_PLAY),
             getFunc = function()
@@ -387,7 +438,7 @@ local function buildOptions()
                 AH.Vars.MarauderPlay = value
             end,
             width = "full"
-        },
+        }
     }
 
     options[#options + 1] = {

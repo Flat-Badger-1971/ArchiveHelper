@@ -17,11 +17,11 @@ function baseFrame:Initialise()
     self.control:SetDrawTier(DT_HIGH)
     self.control:SetMouseEnabled(true)
     self.control:SetMovable(true)
+    self.control:SetClampedToScreen(true)
 
     self.control.Background = WINDOW_MANAGER:CreateControl(nil, self.control, CT_BACKDROP)
     self.control.Background:SetAnchorFill()
     self.control.Background:SetEdgeColor(0, 0, 0, 0)
-    self.control.Background:SetCenterColor(0.23, 0.23, 0.23, 0.7)
 
     self.control.Border = WINDOW_MANAGER:CreateControl(nil, self.control, CT_BACKDROP)
     self.control.Border:SetDrawTier(_G.DT_MEDIUM)
@@ -37,6 +37,10 @@ function baseFrame:Initialise()
     self.control.Label:SetColor(1, 1, 0, 1)
 
     self.control:SetHidden(true)
+end
+
+function baseFrame:SetBackgroundColour(r, g, b, a)
+    self.control.Background:SetCenterColor(r, g, b, a)
 end
 
 function baseFrame:SetPosition()
@@ -98,6 +102,8 @@ function baseFrame:ClearAnchors()
     self.control:ClearAnchors()
 end
 
+local solutionsWindow
+
 local function ensureFramePoolExists()
     if (not AH.FrameObjectPool) then
         AH.FrameObjectPool =
@@ -118,11 +124,7 @@ local function ensureFramePoolExists()
 end
 
 function AH.SetTime()
-    local time =
-        ZO_CachedStrFormat(
-        _G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER,
-        AH.CurrentTimerValue .. AH.Format(_G.ARCHIVEHELPER_SECONDS):lower()
-    )
+    local time = ZO_CachedStrFormat(_G.ARCHIVEHELPER_DEN_TIMER, AH.CurrentTimerValue)
 
     AH.Timer:SetText(time)
 
@@ -164,6 +166,7 @@ local function setCommon(frame, name, width, height)
     frame:SetDimensions(width, height)
     frame:SetPosition()
     frame:SetMouseHandler()
+    frame:SetBackgroundColour(0.23, 0.23, 0.23, 0.7)
 end
 
 function AH.ShowTimer()
@@ -244,4 +247,361 @@ function AH.ShowTomeshellCount()
         AH.TomeCount = count
         AH.Keys["TomeCount"] = countKey
     end
+end
+
+-- borrowed from Bandits UI
+local function createComboBox(name, parent, width, height, choices, default, callback)
+    local combo = WINDOW_MANAGER:CreateControlFromVirtual(name, parent, "ZO_ComboBox")
+
+    combo:SetDimensions(width, height)
+
+    combo.UpdateValues = function(self, array, index)
+        local comboBox = self.m_comboBox
+
+        combo.comboBox = comboBox
+
+        if (array) then
+            comboBox:ClearItems()
+
+            for idx, value in pairs(array) do
+                local entry =
+                    ZO_ComboBox:CreateItemEntry(
+                    value,
+                    function()
+                        combo.value = value
+                        self:UpdateParent()
+
+                        if (callback) then
+                            callback(value)
+                        end
+                    end
+                )
+                entry.id = idx
+                comboBox:AddItem(entry, _G.ZO_COMBOBOX_SUPRESS_UPDATE)
+            end
+        end
+
+        comboBox:SelectItemByIndex(index, true)
+        combo.value = default
+        self:UpdateParent()
+    end
+
+    combo.SetDisabled = function(self, value)
+        self.disabled = value
+        self:SetMouseEnabled(not value)
+        self:GetNamedChild("OpenDropdown"):SetMouseEnabled(not value)
+        self:SetAlpha(value and 0.5 or 1)
+        self:UpdateParent()
+    end
+
+    combo.UpdateParent = function(self)
+        if (parent:GetType() == CT_LABEL) then
+            local colour =
+                self.disabled and {0.3, 0.3, 0.3, 1} or choices[combo.value] == "Disabled" and {0.5, 0.5, 0.4, 1} or
+                {0.8, 0.8, 0.6, 1}
+            parent:SetColor(unpack(colour))
+        end
+    end
+
+    local index = default
+
+    if (type(index) == "string") then
+        combo.array = {}
+
+        for idx, value in pairs(choices) do
+            combo.array[value] = idx
+        end
+
+        index = combo.array[index]
+    end
+
+    combo.SetSelected = function(idx)
+        combo.comboBox:SelectItemByIndex(idx, true)
+        combo.comboBox:HideDropdown()
+    end
+
+    combo:UpdateValues(choices, index)
+
+    return combo
+end
+
+local function getOptions()
+    local options = {}
+
+    for _, optionGroup in ipairs(AH.CrossingOptions) do
+        local group = {}
+
+        for path in optionGroup:gmatch("(%d[LR]?)") do
+            table.insert(group, path)
+        end
+
+        table.insert(options, group)
+    end
+
+    return options
+end
+
+local options = getOptions()
+local refined = {}
+
+local function findOptions(searchOptions, box)
+    local refinedOptions = {}
+
+    box = box or 1
+
+    for _, option in ipairs(searchOptions) do
+        if (tonumber(AH.selectedBox[box]) ~= 0) then
+            local opt = box
+
+            if (box == 3) then
+                opt = #option
+            end
+
+            if (option[opt]:find(AH.selectedBox[box])) then
+                table.insert(refinedOptions, option)
+            end
+        else
+            table.insert(refinedOptions, option)
+        end
+    end
+
+    if (box == 3) then
+        refined = refinedOptions
+    else
+        findOptions(refinedOptions, box + 1)
+    end
+end
+
+local icons = {
+    L = AH.ColourIcon("/esoui/art/buttons/large_leftdoublearrow_up.dds", "f9f9f9", 20, 20),
+    R = AH.ColourIcon("esoui/art/buttons/large_rightdoublearrow_up.dds", "f9f9f9", 20, 20)
+}
+
+local function isReset()
+    for _, value in pairs(AH.selectedBox) do
+        if (tonumber(value)) then
+            return false
+        end
+    end
+
+    return true
+end
+
+function AH.CrossingUpdate(box, value, doNotShare)
+    if (value == "") then
+        value = 0
+    end
+
+    AH.selectedBox[box] = tostring(value)
+
+    local box1 = tonumber(AH.selectedBox[1]) or 0
+    local box2 = tonumber(AH.selectedBox[2]) or 0
+    local box3 = tonumber(AH.selectedBox[3]) or 0
+    local test = box1 + box2 + box3
+
+    if (test == 0) then
+        solutionsWindow:SetText("")
+    else
+        findOptions(options)
+
+        local solutions = ""
+
+        for _, solution in ipairs(refined) do
+            local formattedSolution = ""
+
+            for index, selection in ipairs(solution) do
+                local opt = selection
+
+                if (opt:len() == 2) then
+                    opt = opt:sub(1, 1) .. icons[selection:sub(2)] .. ((index == #solution) and "" or "  ")
+                else
+                    opt = opt .. ((index == #solution) and "" or AH.Spaces(6))
+                end
+
+                local isFirst  = box1 ~= 0 and index == 1;
+                local isSecond = box2 ~= 0 and index == 2;
+                local isLast   = box3 ~= 0 and index == #solution;
+                local colour = (isFirst or isSecond or isLast) and AH.COLOURS.YELLOW or AH.COLOURS.WHITE
+
+                formattedSolution = string.format("%s|c%s%s|r", formattedSolution, colour, opt)
+            end
+
+            if (#solution == 5) then
+                formattedSolution = string.format("%s%s", formattedSolution, AH.Spaces(8))
+            end
+
+            solutions = string.format("%s%s%s", solutions, AH.LF, formattedSolution)
+        end
+
+        if ((solutions:len() == 0) or isReset()) then
+            solutions = GetString(_G.ARCHIVEHELPER_CROSSING_NO_SOLUTIONS)
+        end
+
+        solutionsWindow:SetText(solutions)
+    end
+
+    if (doNotShare ~= true) then
+        AH.ShareData(AH.SHARE.CROSSING, string.format("%s%s%s", box1, box2, box3))
+    end
+end
+
+function AH.SetDisableCombos()
+    local groupType = AH.GetActualGroupType()
+
+    if ((groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) and AH.AH_SHARING and (not AH.DEBUG)) then
+        AH.AH_SHARING = false
+    end
+end
+
+function AH.ShowCrossingHelper(bypass)
+    if (AH.IsInCrossing or bypass) then
+        if (not AH.CrossingHelperFrame) then
+            local frame = WINDOW_MANAGER:CreateTopLevelWindow()
+
+            frame:SetDrawTier(DT_HIGH)
+            frame:SetMouseEnabled(true)
+            frame:SetMovable(true)
+            frame:SetClampedToScreen(true)
+
+            frame.background = WINDOW_MANAGER:CreateControl(nil, frame, CT_BACKDROP)
+            frame.background:SetAnchorFill()
+            frame.background:SetEdgeColor(0, 0, 0, 0)
+            frame.background:SetCenterColor(0, 0, 0, 0.9)
+
+            frame.border = WINDOW_MANAGER:CreateControl(nil, frame, CT_BACKDROP)
+            frame.border:SetDrawTier(_G.DT_MEDIUM)
+            frame.border:SetCenterTexture(0, 0, 0, 0)
+            frame.border:SetAnchorFill()
+            frame.border:SetEdgeTexture("/esoui/art/worldmap/worldmap_frame_edge.dds", 128, 16)
+
+            frame:SetWidth(400)
+            frame:SetHeight(500)
+            frame:SetHidden(true)
+
+            local defaultY = GuiRoot:GetHeight() / 6
+            local defaultX = GuiRoot:GetCenter()
+
+            defaultX = defaultX - (frame:GetWidth() / 2)
+            if (not AH.Vars["CrossingHelperPosition"]) then
+                AH.Vars["CrossingHelperPosition"] = {top = defaultY, left = defaultX}
+            end
+
+            if (not AH.Vars["CrossingHelperPosition"]) then
+                AH.Vars["CrossingHelperPosition"] = {top = defaultY, left = defaultX}
+            end
+
+            local onMouseUp = function()
+                local top, left = frame:GetTop(), frame:GetLeft()
+
+                AH.Vars["CrossingHelperPosition"] = {top = top, left = left}
+            end
+
+            frame:SetHandler("OnMouseUp", onMouseUp)
+
+            frame:SetAnchor(
+                TOPLEFT,
+                GuiRoot,
+                TOPLEFT,
+                AH.Vars.CrossingHelperPosition.left,
+                AH.Vars.CrossingHelperPosition.top
+            )
+
+            frame.label = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+            frame.label:SetFont("${BOLD_FONT}|24")
+            frame.label:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.label:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.label:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_TITLE))
+            frame.label:SetColor(1, 1, 0, 1)
+            frame.label:SetAnchor(TOPLEFT, frame, TOPLEFT, 0, 10)
+            frame.label:SetAnchor(BOTTOMRIGHT, frame, TOPRIGHT, 0, 30)
+
+            frame.close = WINDOW_MANAGER:CreateControlFromVirtual(nil, frame, "ZO_CloseButton")
+            frame.close:SetAnchor(TOPRIGHT, frame, TOPRIGHT, -10, 10)
+            frame.close:SetHandler("OnClicked", AH.HideCrossingHelper)
+
+            frame.text = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+            frame.text:SetAnchor(TOPLEFT, frame.label, BOTTOMLEFT, 10, 10)
+            frame.text:SetAnchor(BOTTOMRIGHT, frame, BOTTOMRIGHT, -10, -370)
+            frame.text:SetFont("${MEDIUM_FONT}|14")
+            frame.text:SetHorizontalAlignment(_G.TEXT_ALIGN_LEFT)
+            frame.text:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.text:SetColor(0.82, 0.82, 0.82, 1)
+            frame.text:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_INSTRUCTIONS))
+
+            local ordinals = {
+                [1] = GetString(_G.ARCHIVEHELPER_CROSSING_START),
+                [2] = ZO_CachedStrFormat("<<i:1>>", 2),
+                [3] = AH.Format(_G.SI_KEYCODE16)
+            }
+
+            for box = 1, 3 do
+                frame["box" .. box] =
+                    createComboBox(
+                    AH.Name .. "_choice" .. box,
+                    frame,
+                    40,
+                    40,
+                    {1, 2, 3, 4, 5, 6, ""},
+                    nil,
+                    function(value)
+                        AH.CrossingUpdate(box, value)
+                    end
+                )
+
+                frame["box" .. box]:SetAnchor(TOPLEFT, frame.text, BOTTOMLEFT, 20 + (box * 75), 50)
+                frame["boxlabel" .. box] = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+
+                local boxlabel = frame["boxlabel" .. box]
+
+                boxlabel:SetText(ordinals[box])
+                boxlabel:SetAnchor(CENTER, frame["box" .. box], CENTER, 0, -40)
+                boxlabel:SetFont("${MEDIUM_FONT}|16")
+                boxlabel:SetHorizontalAlignment(_G.TEXT_ALIGN_LEFT)
+                boxlabel:SetColor(1, 1, 0, 1)
+            end
+
+            frame.pathsLabel = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+            frame.pathsLabel:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_PATHS))
+            frame.pathsLabel:SetAnchor(CENTER, frame.text, CENTER, 0, 180)
+            frame.pathsLabel:SetFont("${BOLD_FONT}|24")
+            frame.pathsLabel:SetColor(0.46, 0.74, 0.76, 1)
+            frame.pathsLabel:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+
+            solutionsWindow = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+
+            solutionsWindow:SetAnchor(TOPLEFT, frame.text, BOTTOMLEFT, 0, 100)
+            solutionsWindow:SetAnchor(BOTTOMRIGHT, frame.control, BOTTOMRIGHT, -10, -10)
+            solutionsWindow:SetFont("${MEDIUM_FONT}|24")
+            solutionsWindow:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+            solutionsWindow:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+            solutionsWindow:SetColor(0.976, 0.976, 0.976, 1)
+
+            frame.key = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
+            frame.key:SetAnchor(CENTER, frame, CENTER, 0, 230)
+            frame.key:SetFont("${BOLD_FONT}|16")
+            frame.key:SetColor(0.82, 0.82, 0.82, 1)
+            frame.key:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.key:SetText(ZO_CachedStrFormat(_G.ARCHIVEHELPER_CROSSING_KEY, icons.L, icons.R))
+
+            AH.selectedBox = {[1] = 0, [2] = 0, [3] = 0}
+            AH.CrossingHelperFrame = frame
+        end
+
+        AH.SetDisableCombos()
+        AH.CrossingHelperFrame:SetHidden(false)
+    end
+end
+
+function AH.HideCrossingHelper()
+    AH.selectedBox[1] = 0
+    AH.selectedBox[2] = 0
+    AH.selectedBox[3] = 0
+
+    AH.CrossingHelperFrame.box1.SetSelected(7, true)
+    AH.CrossingHelperFrame.box2.SetSelected(7, true)
+    AH.CrossingHelperFrame.box3.SetSelected(7, true)
+
+    solutionsWindow:SetText("")
+
+    AH.CrossingHelperFrame:SetHidden(true)
 end

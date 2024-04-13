@@ -146,7 +146,8 @@ read_globals = {
     ["SHARED_INVENTORY"] = {
         fields = {
             GenerateFullSlotData = {read_only = true},
-            bagCache = {read_only = true}
+            bagCache = {read_only = true},
+            RegisterCallback = {read_only = true}
         }
     },
     ["STABLE_MANAGER"] = {
@@ -463,6 +464,7 @@ read_globals = {
     "IsSlotUsed",
     "IsUnitDead",
     "IsUnitGrouped",
+    "IsUnitGroupLeader",
     "IsUnitInCombat",
     "IsUnitInDungeon",
     "IsUnitOnline",

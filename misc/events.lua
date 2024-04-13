@@ -138,7 +138,7 @@ local function tomeCheck(...)
 
             tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
 
-            local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesLeft)
+            local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
 
             AH.TomeCount:SetText(message)
             CALLBACK_MANAGER:FireCallbacks("ArchiveHelperTomeshellKilled")
@@ -151,7 +151,7 @@ local function startTomeCheck()
     AH.TomeGroupType = AH.GetActualGroupType()
     AH.MaxTomes = AH.TomeGroupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO and AH.Tomeshells.Solo or AH.Tomeshells.Duo
 
-    local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, AH.MaxTomes)
+    local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, AH.MaxTomes)
 
     AH.ShowTomeshellCount()
     AH.TomeCount:SetText(message)
@@ -168,18 +168,36 @@ local function stopTomeCheck()
     EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Tome", _G.EVENT_COMBAT_EVENT)
 end
 
+local function checkSharing()
+    AH.ShareData(AH.SHARE.SHARING, 1)
+end
+
 local function zoneCheck()
     local mapId = GetCurrentMapId()
+
     if (mapId == AH.MAPS.ECHOING_DEN.id) then
+        checkSharing()
         AH.IsInEchoingDen = true
         AH.DenStarted = true
         AH.ShowTimer()
+    elseif (mapId == AH.MAPS.TREACHEROUS_CROSSING.id) then
+        checkSharing()
+        AH.IsInCrossing = true
+
+        if (AH.Vars.ShowHelper) then
+            AH.ShowCrossingHelper()
+        end
     else
-        AH.InEchoingDen = false
+        AH.IsInEchoingDen = false
         AH.DenStarted = false
+        AH.IsInCrossing = false
 
         if (AH.Timer) then
             AH.HideTimer()
+        end
+
+        if (AH.CrossingHelperFrame) then
+            AH.HideCrossingHelper()
         end
     end
 end
@@ -234,6 +252,21 @@ local function checkMessage(messageParams)
          then
             AH.StopTimer()
             AH.DenDone = true
+        end
+    end
+
+    -- Treacherous Crossing
+    if (AH.IsInCrossing) then
+        local message = AH.Format(messageParams:GetMainText()):lower()
+        local secondaryMessage = AH.Format(messageParams:GetSecondaryText() or ""):lower()
+        local fail = AH.Format(_G.ARCHIVEHELPER_CROSSING_FAIL):lower()
+        local success = AH.Format(_G.ARCHIVEHELPER_CROSSING_SUCCESS):lower()
+
+        if
+            (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
+                secondaryMessage:find(success, 1, true))
+         then
+            AH.HideCrossingHelper()
         end
     end
 end
@@ -312,32 +345,13 @@ end
 local function onHotBarChange(_, changed, shouldUpdate, category)
     if (AH.IsInFilersWing) then
         if ((category == _G.HOTBAR_CATEGORY_TEMPORARY) and shouldUpdate and changed) then
+            checkSharing()
             startTomeCheck()
         end
 
         if ((category == _G.HOTBAR_CATEGORY_PRIMARY) and changed and not shouldUpdate) then
             stopTomeCheck()
         end
-    end
-end
-
-function AH.ShareData(shareType, value, instant, stackCount)
-    if (not AH.Share) then
-        return
-    end
-
-    local encoded
-
-    if (stackCount) then
-        encoded = encode(value, stackCount)
-    else
-        encoded = tonumber(string.format("%d%d", shareType, value))
-    end
-
-    if (instant) then
-        AH.Share:SendData(encoded)
-    else
-        AH.Share:QueueData(encoded)
     end
 end
 
@@ -360,6 +374,94 @@ local function getOtherPlayer()
     end
 end
 
+local function onCrossingChange(selections)
+    if (AH.CrossingHelperFrame) then
+        if (not AH.IsLeader) then
+            local values = {}
+
+            -- convert the text to an array
+            selections:gsub(
+                ".",
+                function(c)
+                    table.insert(values, c)
+                end
+            )
+
+            local box1, box2, box3 = tonumber(values[1]), tonumber(values[2]), tonumber(values[3])
+
+            AH.CrossingHelperFrame.box1.SetSelected(box1 == 0 and 7 or box1)
+            AH.CrossingHelperFrame.box2.SetSelected(box2 == 0 and 7 or box2)
+            AH.CrossingHelperFrame.box3.SetSelected(box3 == 0 and 7 or box3)
+            AH.selectedBox[1] = box1
+            AH.selectedBox[2] = box2
+            AH.CrossingUpdate(3, box3, true)
+        end
+    end
+end
+
+local function onLeaderUpdate()
+    if (AH.CrossingHelperFrame) then
+        if (not AH.CrossingHelperFrame:IsHidden()) then
+            AH.SetDisableCombos()
+        end
+    end
+end
+
+local function onSingleSlotUpdate(_, _, previousSlotData)
+    if (previousSlotData) then
+        local icon = previousSlotData.iconFile
+
+        for _, iconname in pairs(AH.MYSTERY) do
+            if (icon:find(iconname)) then
+                AH.MysteryVerse = true
+                return
+            end
+        end
+
+        AH.MysteryVerse = false
+    end
+end
+
+local function onBuffStackCountChanged(_, abilityId)
+    zo_callLater(
+        function()
+            if (AH.MysteryVerse) then
+                AH.GroupChat(encode(abilityId, 999))
+                AH.ShareData(AH.SHARE.ABILITY, abilityId, nil, 999)
+                CALLBACK_MANAGER:FireCallbacks("ArchiveHelperMysteryVerse")
+                AH.MysteryVerse = false
+            end
+        end,
+        1000
+    )
+end
+
+function AH.ShareData(shareType, value, instant, stackCount)
+    if ((not AH.Share) and (not AH.DEBUG)) then
+        return
+    end
+
+    local encoded
+
+    if (stackCount) then
+        encoded = encode(value, stackCount)
+    else
+        encoded = string.format("%s%s", shareType, value)
+    end
+
+    encoded = tonumber(encoded)
+
+    if (AH.Share) then
+        if (instant) then
+            AH.Share:SendData(encoded)
+        else
+            AH.Share:QueueData(encoded)
+        end
+    end
+
+    AH.Debug("Shared: " .. encoded)
+end
+
 function AH.HandleDataShare(_, info)
     local shareType = tonumber(tostring(info):sub(1, 1))
     local shareData = tonumber(tostring(info):sub(2))
@@ -371,23 +473,29 @@ function AH.HandleDataShare(_, info)
 
         tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
 
-        local message = zo_strformat(_G.SI_SCREEN_NARRATION_TIMER_BAR_DESCENDING_FORMATTER, tomesLeft)
+        local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
 
         AH.TomeCount:SetText(message)
         AH.PlayAlarm(AH.Sounds.Tomeshell)
+        AH.Debug("Received tome data: " .. shareData)
     elseif (shareType == AH.SHARE.MARK) then
         if (shareData and (shareData > 0) and (shareData < 8)) then
             AH.MARKERS[shareData].used = true
             AH.MARKERS[shareData].manual = true
+            AH.Debug("Received mark data: " .. shareData)
         end
     elseif (shareType == AH.SHARE.UNMARK) then
         if (shareData and (shareData > 0) and (shareData < 8)) then
             AH.MARKERS[shareData].manual = false
+            AH.Debug("Received unmark data: " .. shareData)
         end
     elseif (shareType == AH.SHARE.GW) then
         if (shareData and (shareData > 0) and (not AH.FOUND_GW)) then
-            AH.PlayAlarm(AH.Sounds.Gw)
+            if (AH.Vars.GwPlay) then
+                AH.PlayAlarm(AH.Sounds.Gw)
+            end
             AH.FOUND_GW = true
+            AH.Debug("Received Gw detection")
         end
     elseif (shareType == AH.SHARE.ABILITY) then
         if (shareData) then
@@ -396,7 +504,14 @@ function AH.HandleDataShare(_, info)
             if (data:len() > 7) then
                 AH.GroupChat(data, getOtherPlayer())
             end
+            AH.Debug("Received ability data: " .. shareData)
         end
+    elseif (shareType == AH.SHARE.CROSSING) then
+        onCrossingChange(tostring(info):sub(2))
+        AH.Debug("Received crossing data: " .. tostring(info):sub(2))
+    elseif (shareType == AH.SHARE.SHARING) then
+        AH.AH_SHARING = true
+        AH.Debug("Received sharing notification")
     end
 end
 
@@ -418,6 +533,7 @@ function AH.SetupEvents()
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_QUEST_CONDITION_COUNTER_CHANGED, onQuestCounterChanged)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_STUNNED_STATE_CHANGED, onStunned)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED, onHotBarChange)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_LEADER_UPDATE, onLeaderUpdate)
 
     if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
         EVENT_MANAGER:RegisterForEvent(AH.Name .. "_Fabled", _G.EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)
@@ -427,4 +543,7 @@ function AH.SetupEvents()
         AH.UpdateSlottedSkills()
         EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
     end
+
+    SHARED_INVENTORY:RegisterCallback("SingleSlotInventoryUpdate", onSingleSlotUpdate)
+    ENDLESS_DUNGEON_MANAGER:RegisterCallback("BuffStackCountChanged", onBuffStackCountChanged)
 end

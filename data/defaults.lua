@@ -18,8 +18,10 @@ _G.ArchiveHelper = {
         Notify = true,
         NotifyChat = true,
         NotifyScreen = true,
+        PreventSelection = true,
         ShardCheck = true,
         ShardIgnore = true,
+        ShowHelper = true,
         ShowNotice = true,
         ShowSelection = true,
         ShowStacks = true,
@@ -29,6 +31,7 @@ _G.ArchiveHelper = {
     ArchiveQuests = {GetQuestName(7091), GetQuestName(7101), GetQuestName(7102)},
     CrossingOptions = {
         "1542L36",
+        "1624R53",
         "25143",
         "3R1465L2",
         "35142L6",
@@ -46,10 +49,12 @@ _G.ArchiveHelper = {
     Shards = {},
     Tomeshells = {Solo = 4, Duo = 8},
     COLOURS = {
-        BLUE="3a92ff",
-        GOLD="ccaa1a",
-        GREEN="2dc50e",
-        PURPLE="a02ef7"
+        BLUE = "3a92ff",
+        GOLD = "ccaa1a",
+        GREEN = "2dc50e",
+        PURPLE = "a02ef7",
+        WHITE = "f9f9f9",
+        YELLOW = "ffff00"
     },
     DATA_ID = 28, -- map id for libDataShare
     DEBUG = false,
@@ -71,12 +76,15 @@ _G.ArchiveHelper = {
         DESTOZUNOS_LIBRARY = {id = 2425, name = "Destozuno's Library"}
     },
     OAKENSOUL = 187658,
+    SELECTION_DELAY = 1250,
     SHARE = {
         TOME = 1,
         MARK = 2,
         UNMARK = 3,
         GW = 4,
-        ABILITY = 5
+        ABILITY = 5,
+        CROSSING = 6,
+        SHARING = 7
     },
     SKILL_TYPE_PET = 999,
     SORCERER = 2,

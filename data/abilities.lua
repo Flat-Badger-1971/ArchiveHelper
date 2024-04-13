@@ -138,6 +138,12 @@ AH.GENERAL = {
     3807
 }
 
+AH.MYSTERY = {
+    [203611] = "u40_verse_item_offense", -- offensive
+    [203612] = "u40_verse_item_defense", -- defensive
+    [203613] = "u40_verse_item_utility" -- utility
+}
+
 AH.ACHIEVEMENTS = {
     IDS = {
         [3751] = true,

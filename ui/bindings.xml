@@ -7,6 +7,9 @@
             <Action name="ARCHIVEHELPER_UNMARK_CURRENT_TARGET">
                 <Down>ArchiveHelper.UnmarkCurrentTarget()</Down>
             </Action>
+            <Action name="ARCHIVEHELPER_TOGGLE_CROSSING_HELPER">
+                <Down>ArchiveHelper.ToggleCrossingHelper()</Down>
+            </Action>
         </Category>
     </Layer>
 </Bindings>

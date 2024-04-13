@@ -24,6 +24,10 @@ local function clearPositions()
 end
 
 function AH.OnBuffSelectorShowing()
+    if (AH.Vars.PreventSelection) then
+        _G[AH.SELECTOR_OBJECT].keybindStripDescriptor.enabled = false
+    end
+
     local numChoices = 0
     local buffChoices = {}
     local container = AH.SELECTOR_SHORT .. "Container"
@@ -160,7 +164,7 @@ function AH.OnBuffSelectorShowing()
 
                 if (avatar) then
                     count = AH.Vars.AvatarVisionCount[avatar] or 0
-                    countText = zo_strformat(_G.ARCHIVEHELPER_COUNT, count, 3)
+                    countText = ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3)
                 end
 
                 if (count > 0) then
@@ -172,5 +176,14 @@ function AH.OnBuffSelectorShowing()
                 end
             end
         end
+    end
+
+    if (AH.Vars.PreventSelection) then
+        zo_callLater(
+            function()
+                _G[AH.SELECTOR_OBJECT].keybindStripDescriptor.enabled = true
+            end,
+            AH.SELECTION_DELAY
+        )
     end
 end
