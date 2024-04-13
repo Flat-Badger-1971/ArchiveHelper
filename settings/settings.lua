@@ -154,18 +154,25 @@ end
 local function buildOptions()
     populateRemovableOptions()
 
-    local optional =
-        string.format(
-        "|cffff00%s%s|r",
-        (not AH.Chat) and GetString(_G.ARCHIVEHELPER_OPTIONAL_LIBS_CHAT) or "",
-        (not _G.LibDataShare) and GetString(_G.ARCHIVEHELPER_OPTIONAL_LIBS_SHARE) or ""
-    )
+    local optional = ""
+
+    if (not AH.Chat) then
+        optional = "|cffff00" .. GetString(_G.ARCHIVEHELPER_OPTIONAL_LIBS_CHAT) .. "|r"
+    end
+
+    if (not _G.LibDataShare) then
+        if (optional ~= "") then
+            optional = optional .. AH.LF
+        end
+
+        optional = optional .. "|cffff00" .. GetString(_G.ARCHIVEHELPER_OPTIONAL_LIBS_SHARE) .. "|r"
+    end
 
     local options = {
         [1] = {
             type = "description",
-            text=optional,
-            width="full"
+            text = optional,
+            width = "full"
         },
         [2] = {
             type = "header",

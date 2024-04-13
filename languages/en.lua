@@ -12,12 +12,12 @@ L(AH .. "BUFF_SELECTED", "<<1>> selected <<2>>")
 L(AH .. "COUNT", "<<1>> of <<2>>")
 L(AH .. "CROSSING_KEY", "<<1>> Turn Left - <<2>> Turn Right")
 L(AH .. "CROSSING_INVALID", "The Crossing Helper can only be activated within the Treacherous Crossing in the Infinite Archive")
-L(AH .. "CROSSING_FAIL", "Locked")
+L(AH .. "CROSSING_FAIL", "Locked") -- The Levers are Locked. No-one can cross
 L(AH .. "CROSSING_NO_SOLUTIONS", "No Paths Found")
 L(AH .. "CROSSING_PATHS", "Possible Paths")
 L(AH .. "CROSSING_SLASH", "helper")
 L(AH .. "CROSSING_START", "Start")
-L(AH .. "CROSSING_SUCCESS", "Solved")
+L(AH .. "CROSSING_SUCCESS", "Solved") -- You Solved the Corridor Puzzle
 L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
@@ -41,7 +41,7 @@ L(AH .. "HERD_FAIL", "Enough") -- You Did Not Herd Enough Ghostlights
 L(AH .. "HERD_SUCCESS", "Returned") -- You Successfully Returned the Ghostlights
 L(AH .. "MARAUDER_MARKER", "Add Target Markers to Marauders")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Play warning for incoming Marauders")
-L(AH .. "OPTIONAL_LIBS_CHAT", "Archive Helper works best with LibChatMessage installed. ")
+L(AH .. "OPTIONAL_LIBS_CHAT", "Archive Helper works best with LibChatMessage installed.")
 L(AH .. "OPTIONAL_LIBS_SHARE", "For Duo mode to work effectively, please install LibDataShare.")
 L(AH .. "PREVENT", "Prevent accidental buff selection")
 L(AH .. "PREVENT_TOOLTIP", "Disables the buff selection briefly when the panel opens to prevent accidental selection.")

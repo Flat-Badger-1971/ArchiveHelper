@@ -57,7 +57,7 @@ _G.ArchiveHelper = {
         YELLOW = "ffff00"
     },
     DATA_ID = 28, -- map id for libDataShare
-    DEBUG = true,
+    DEBUG = false,
     ICONS = {
         ACH = {name = "login/login_icon_yield", colour = {1, 0, 0, 1}},
         FAV = {name = "campaign/overview_indexicon_bonus_down", colour = {0, 1, 0, 1}},

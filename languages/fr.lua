@@ -11,14 +11,14 @@ L(AH .. "AVOID", "Indésirables")
 L(AH .. "BONUS", "Niveaux bonus")
 L(AH .. "BUFF_SELECTED", "<<1>> a sélectionné <<2>>")
 L(AH .. "COUNT", "<<1>> sur <<2>>")
-L(AH .. "CROSSING_FAIL", "verrouillé")
+L(AH .. "CROSSING_FAIL", "verrouillés") -- Les leviers sont verrouillés. Personne ne peut passer.
 L(AH .. "CROSSING_INVALID", "L'aide ne peut être activée qu'à l'intérieur du Gué traître dans l'Archive Infinie")
 L(AH .. "CROSSING_KEY", "<<1>> Prendre à gauche - <<2>> Prendre à droite")
 L(AH .. "CROSSING_NO_SOLUTIONS", "Aucun chemin trouvé")
 L(AH .. "CROSSING_PATHS", "Chemins possibles")
 L(AH .. "CROSSING_SLASH", "aide")
 L(AH .. "CROSSING_START", "Début")
-L(AH .. "CROSSING_SUCCESS", "résolu")
+L(AH .. "CROSSING_SUCCESS", "résolu") -- Vous avez résolu l'énigme du couloir
 L(AH .. "CROSSING_TITLE", "Aide pour le Gué traître")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
