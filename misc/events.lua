@@ -491,7 +491,9 @@ function AH.HandleDataShare(_, info)
         end
     elseif (shareType == AH.SHARE.GW) then
         if (shareData and (shareData > 0) and (not AH.FOUND_GW)) then
-            AH.PlayAlarm(AH.Sounds.Gw)
+            if (AH.Vars.GwPlay) then
+                AH.PlayAlarm(AH.Sounds.Gw)
+            end
             AH.FOUND_GW = true
             AH.Debug("Received Gw detection")
         end
