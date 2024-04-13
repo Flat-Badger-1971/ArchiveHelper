@@ -11,15 +11,15 @@ L(AH .. "AVOID", "Zu Vermeiden")
 L(AH .. "BONUS", "Bonuslevel")
 L(AH .. "BUFF_SELECTED", "<<1>> hat <<2>> ausgewählt")
 L(AH .. "COUNT", "<<1>> von <<2>>")
-L(AH .. "CROSSING_FAIL", "Locked")
+L(AH .. "CROSSING_FAIL", "gesperrt") -- Die Hebel sind gesperrt. Keiner kommt weiter
 L(AH .. "CROSSING_INVALID", "Hilfe kann nur im Treacherous Ford im Infinite Archive aktiviert werden")
 L(AH .. "CROSSING_KEY", "<<1>> Biegen Sie links ab - <<2>> Biegen Sie rechts ab")
 L(AH .. "CROSSING_NO_SOLUTIONS", "Keine Pfade gefunden")
 L(AH .. "CROSSING_PATHS", "Mögliche Wege")
 L(AH .. "CROSSING_SLASH", "helfer")
 L(AH .. "CROSSING_START", "Anfang")
-L(AH .. "CROSSING_SUCCESS", "Solved")
-L(AH .. "CROSSING_TITLE", "Treacherous Crossing Helper")
+L(AH .. "CROSSING_SUCCESS", "gelöst") -- Ihr habt des Rätsel der Gänge gelöst
+L(AH .. "CROSSING_TITLE", "Treacherous Ford Helfer")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
     "Suchen Sie den Schalter, der dem Anfang des Pfades entspricht, und wählen Sie ihn in der Dropdown-Liste unten aus (1 ist der Schalter ganz links, 6 der ganz rechts)." ..
@@ -42,8 +42,8 @@ L(AH .. "HERD_FAIL", "ausreichend") -- Ihr habt nicht ausreichend Geisterlichter
 L(AH .. "HERD_SUCCESS", "erfolgreich") -- Ihr habt die Geisterlichter erfolgreich zurückgebracht
 L(AH .. "MARAUDER_MARKER", "Zielmarkierungen zu Marodeuren hinzufügen")
 L(AH .. "MARAUDER_INCOMING_PLAY", "Warnung bei ankommenden Marodeuren abspielen")
-L(AH .. "OPTIONAL_LIBS_CHAT", "Archive Helper works best with LibChatMessage installed. ")
-L(AH .. "OPTIONAL_LIBS_SHARE", "For Duo mode to work effectively, please install LibDataShare.")
+L(AH .. "OPTIONAL_LIBS_CHAT", "Archive Helper funktioniert am besten, wenn LibChatMessage installiert ist.")
+L(AH .. "OPTIONAL_LIBS_SHARE", "Damit der Duo-Modus effektiv funktioniert, installieren Sie bitte LibDataShare.")
 L(AH .. "PREVENT", "Verhindern Sie eine versehentliche Buff-Auswahl")
 L(AH .. "PREVENT_TOOLTIP", "Deaktiviert die Aktionstaste kurzzeitig, wenn die Buff-Auswahl geöffnet wird")
 L(AH .. "PROGRESS", "<<1>><<2>><<3>> Kriterien fortgeschritten. <<4>> verbleiben.")
@@ -62,13 +62,11 @@ L(AH .. "SHARD", "Tho'at-Scherbe")
 L(AH .. "SHARD_IGNORE", "Scherben außerhalb von Zyklus 5 ignorieren")
 L(AH .. "SHARD_MARKER", "Zielmarkierungen zu Tho'at Scherben hinzufügen")
 L(AH .. "SHOW_COUNT", "Verbleibende Buchsiedler im Erfasser-Flügel zählen")
-L(AH .. "SHOW_CROSSING_HELPER", "Show Treacherous Crossing helper")
--- luacheck: push ignore 631
+L(AH .. "SHOW_CROSSING_HELPER", "Treacherous Ford Helfer anzeigen")
 L(
     AH .. "SHOW_COUNT_TOOLTIP",
     "Damit der Duo-Modus korrekt funktioniert, muss auch der andere Spieler dieses Addon installiert haben. Außerdem müssen beide Spieler LibDataShare installiert haben."
 )
--- luacheck: pop
 L(AH .. "SHOW_ECHO", "Verbleibende Zeit in der Hallende Höhle anzeigen")
 L(AH .. "SHOW_SELECTION", "Buff-Auswahl im Gruppenchat anzeigen")
 L(AH .. "SLASH_MISSING", "fehlende")
