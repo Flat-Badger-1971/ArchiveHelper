@@ -1,5 +1,4 @@
 -- German localisation
--- luacheck: ignore 631
 local L = ZO_CreateStringId
 local AH = "ARCHIVEHELPER_"
 L(AH .. "ADD_AVOID", "Auf \"Zu Vermeiden\" hinzufügen")
@@ -11,15 +10,15 @@ L(AH .. "AVOID", "Zu Vermeiden")
 L(AH .. "BONUS", "Bonuslevel")
 L(AH .. "BUFF_SELECTED", "<<1>> hat <<2>> ausgewählt")
 L(AH .. "COUNT", "<<1>> von <<2>>")
-L(AH .. "CROSSING_FAIL", "gesperrt") -- Die Hebel sind gesperrt. Keiner kommt weiter.
+L(AH .. "CROSSING_FAIL", "gesperrt") -- Die Hebel sind gesperrt. Keiner kommt weiter
 L(AH .. "CROSSING_INVALID", "Hilfe kann nur im Treacherous Ford im Infinite Archive aktiviert werden")
 L(AH .. "CROSSING_KEY", "<<1>> Biegen Sie links ab - <<2>> Biegen Sie rechts ab")
 L(AH .. "CROSSING_NO_SOLUTIONS", "Keine Pfade gefunden")
 L(AH .. "CROSSING_PATHS", "Mögliche Wege")
 L(AH .. "CROSSING_SLASH", "helfer")
 L(AH .. "CROSSING_START", "Anfang")
-L(AH .. "CROSSING_SUCCESS","gelöst") -- Ihr habt des Rätsel der Gänge gelöst
-L(AH .. "CROSSING_TITLE", "Ford Hilfer")
+L(AH .. "CROSSING_SUCCESS", "gelöst") -- Ihr habt des Rätsel der Gänge gelöst
+L(AH .. "CROSSING_TITLE", "Treacherous Ford Helfer")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
     "Suchen Sie den Schalter, der dem Anfang des Pfades entspricht, und wählen Sie ihn in der Dropdown-Liste unten aus (1 ist der Schalter ganz links, 6 der ganz rechts)." ..
@@ -63,12 +62,10 @@ L(AH .. "SHARD_IGNORE", "Scherben außerhalb von Zyklus 5 ignorieren")
 L(AH .. "SHARD_MARKER", "Zielmarkierungen zu Tho'at Scherben hinzufügen")
 L(AH .. "SHOW_COUNT", "Verbleibende Buchsiedler im Erfasser-Flügel zählen")
 L(AH .. "SHOW_CROSSING_HELPER", "Treacherous Ford Helfer anzeigen")
--- luacheck: push ignore 631
 L(
     AH .. "SHOW_COUNT_TOOLTIP",
     "Damit der Duo-Modus korrekt funktioniert, muss auch der andere Spieler dieses Addon installiert haben. Außerdem müssen beide Spieler LibDataShare installiert haben."
 )
--- luacheck: pop
 L(AH .. "SHOW_ECHO", "Verbleibende Zeit in der Hallende Höhle anzeigen")
 L(AH .. "SHOW_SELECTION", "Buff-Auswahl im Gruppenchat anzeigen")
 L(AH .. "SLASH_MISSING", "fehlende")
@@ -76,7 +73,10 @@ L(AH .. "STACKS", "Anzahl der Stapel")
 L(AH .. "TOMESHELL", "Buchsiedler")
 L(AH .. "TOMESHELL_COUNT", "<<1[0 verbleibend/1 verbleibend/$d verbleibend]>>")
 L(AH .. "USE_AUTO_AVOID", "Automatische Markierungen benutzen")
-L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Automatisch Verse oder Visionen markieren, die aufgrund nicht vorhandener Fähigkeiten nutzlos sind")
+L(
+    AH .. "USE_AUTO_AVOID_TOOLTIP",
+    "Automatisch Verse oder Visionen markieren, die aufgrund nicht vorhandener Fähigkeiten nutzlos sind"
+)
 L(AH .. "WARNING", "Warnung: Liste benötigt zum Aktualisieren ein Neuladen der Benutzeroberfläche")
 L(AH .. "WEREWOLF_BEHEMOTH", "Werwolfbehemoth")
 
