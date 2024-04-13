@@ -372,9 +372,11 @@ function AH.GroupChat(abilityData, name)
         local message = ZO_CachedStrFormat(replaceText, AH.Format(name), "|c" .. colour .. buff .. "|r")
 
         if (count < 999) then
-            if (avatar and (abilityType == AH.TYPES.VISION)) then
-                message = message .. " |cffff00(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
-            elseif (count > 1 and (not avatar)) then
+            if (avatar) then
+                if (abilityType == AH.TYPES.VISION) then
+                    message = message .. " |cffff00(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
+                end
+            elseif (count > 1) then
                 message = message .. " |cffff00(" .. count .. ")|r"
             end
         end
