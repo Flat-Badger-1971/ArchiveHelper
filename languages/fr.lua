@@ -10,7 +10,7 @@ L(AH .. "AVOID", "Indésirables")
 L(AH .. "BONUS", "Niveaux bonus")
 L(AH .. "BUFF_SELECTED", "<<1>> a sélectionné <<2>>")
 L(AH .. "COUNT", "<<1>> sur <<2>>")
-L(AH .. "CROSSING_FAIL", "verrouillé") -- Les leviers sont verrouillés. Personne ne peut passer
+L(AH .. "CROSSING_FAIL", "verrouillés") -- Les leviers sont verrouillés. Personne ne peut passer
 L(AH .. "CROSSING_INVALID", "L'aide ne peut être activée qu'à l'intérieur du Gué traître dans l'Archive Infinie")
 L(AH .. "CROSSING_KEY", "<<1>> Prendre à gauche - <<2>> Prendre à droite")
 L(AH .. "CROSSING_NO_SOLUTIONS", "Aucun chemin trouvé")
