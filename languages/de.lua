@@ -1,4 +1,5 @@
 -- German localisation
+-- luacheck: ignore 631
 local L = ZO_CreateStringId
 local AH = "ARCHIVEHELPER_"
 L(AH .. "ADD_AVOID", "Auf \"Zu Vermeiden\" hinzufügen")
