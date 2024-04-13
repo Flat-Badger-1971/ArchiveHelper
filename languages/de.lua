@@ -74,7 +74,9 @@ L(AH .. "STACKS", "Anzahl der Stapel")
 L(AH .. "TOMESHELL", "Buchsiedler")
 L(AH .. "TOMESHELL_COUNT", "<<1[0 verbleibend/1 verbleibend/$d verbleibend]>>")
 L(AH .. "USE_AUTO_AVOID", "Automatische Markierungen benutzen")
-L(AH .. "USE_AUTO_AVOID_TOOLTIP", "Automatisch Verse oder Visionen markieren, die aufgrund nicht vorhandener Fähigkeiten nutzlos sind")
+L(
+    AH .. "USE_AUTO_AVOID_TOOLTIP",
+    "Automatisch Verse oder Visionen markieren, die aufgrund nicht vorhandener Fähigkeiten nutzlos sind")
 L(AH .. "WARNING", "Warnung: Liste benötigt zum Aktualisieren ein Neuladen der Benutzeroberfläche")
 L(AH .. "WEREWOLF_BEHEMOTH", "Werwolfbehemoth")
 
