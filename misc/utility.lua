@@ -374,7 +374,7 @@ function AH.GroupChat(abilityData, name)
         if (count < 999) then
             if (avatar and (abilityType == AH.TYPES.VISION)) then
                 message = message .. " |cffff00(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
-            elseif (count > 1) then
+            elseif (count > 1 and (not avatar)) then
                 message = message .. " |cffff00(" .. count .. ")|r"
             end
         end
