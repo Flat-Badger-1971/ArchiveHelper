@@ -120,8 +120,10 @@ read_globals = {
     },
     ["QUEST_JOURNAL_MANAGER"] = {
         fields = {
+            BuildTextForConditions = {read_only = true},
+            GetQuestList = {read_only = true},
             GetQuestListData = {read_only = true},
-            BuildTextForConditions = {read_only = true}
+            RegisterCallback = {read_only = true}
         }
     },
     ["REWARDS_MANAGER"] = {
@@ -237,7 +239,9 @@ read_globals = {
     -- lua
     "unpack",
     --API
+    "AddMenuItem",
     "AssignTargetMarkerToReticleTarget",
+    "ClearMenu",
     "CreateSimpleAnimation",
     "DoesAntiquityHaveLead",
     "DoesUnitExist",
@@ -440,6 +444,7 @@ read_globals = {
     "GetUnitReaction",
     "GetUnitTargetMarkerType",
     "GetUnitXP",
+    "GetUnitXPMax",
     "GetUnitZone",
     "GetUnitZoneIndex",
     "GetZoneId",
@@ -477,6 +482,7 @@ read_globals = {
     "RequestTributeClubData",
     "SecurePostHook",
     "SetGameCameraUIMode",
+    "ShowMenu",
     "TriggerTutorial",
     "UseCollectible",
     -- Zenimax objects

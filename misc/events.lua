@@ -146,10 +146,18 @@ local function tomeCheck(...)
     end
 end
 
-local function startTomeCheck()
+local function getMaxTomes()
     -- for the purposes of this check, players with companions count as solo
     AH.TomeGroupType = AH.GetActualGroupType()
-    AH.MaxTomes = AH.TomeGroupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO and AH.Tomeshells.Solo or AH.Tomeshells.Duo
+    if (AH.TomeGroupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
+        return AH.Tomeshells.Solo
+    else
+        return AH.Tomeshells.Duo
+    end
+end
+
+local function startTomeCheck()
+    AH.MaxTomes = getMaxTomes()
 
     local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, AH.MaxTomes)
 
@@ -466,8 +474,12 @@ function AH.HandleDataShare(_, info)
     local shareType = tonumber(tostring(info):sub(1, 1))
     local shareData = tonumber(tostring(info):sub(2))
 
+    if (not AH.MaxTomes) then
+        AH.MaxTomes = getMaxTomes()
+    end
+
     if (shareType == AH.SHARE.TOME) then
-        tomesTotal = tomesFound + shareData
+        tomesTotal = (tomesFound or 0) + (shareData or 0)
 
         local tomesLeft = AH.MaxTomes - tomesTotal
 
