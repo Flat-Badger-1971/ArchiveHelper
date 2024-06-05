@@ -11,6 +11,7 @@ L(AH .. "AVOID", "Zu Vermeiden")
 L(AH .. "BONUS", "Bonuslevel")
 L(AH .. "BUFF_SELECTED", "<<1>> hat <<2>> ausgewählt")
 L(AH .. "COUNT", "<<1>> von <<2>>")
+L(AH .. "CROSSING_END", "Ende")
 L(AH .. "CROSSING_FAIL", "gesperrt") -- Die Hebel sind gesperrt. Keiner kommt weiter
 L(AH .. "CROSSING_INVALID", "Hilfe kann nur im Treacherous Ford im Infinite Archive aktiviert werden")
 L(AH .. "CROSSING_KEY", "<<1>> Biegen Sie links ab - <<2>> Biegen Sie rechts ab")
@@ -85,3 +86,16 @@ L(AH .. "WEREWOLF_BEHEMOTH", "Werwolfbehemoth")
 L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Aktuelles Ziel markieren")
 L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Treacherous Ford Helfer öffnen/schließen")
 L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Markierung des aktuellen Ziels aufheben")
+
+-- Marauders
+L(AH .. "MARAUDER_GOTHMAU", "gothmau")
+L(AH .. "MARAUDER_HILKARAX", "hilkarax")
+L(AH .. "MARAUDER_ULMOR", "ulmor")
+
+-- Zones
+L(AH .. "MAP_TREACHEROUS_CROSSING", "Treacherous Crossing")
+L(AH .. "MAP_HAEFELS_BUTCHERY", "Haefel's Butchery")
+L(AH .. "MAP_FILERS_WING", "Filer's Wing")
+L(AH .. "MAP_ECHOING_DEN", "Echoing Den")
+L(AH .. "MAP_THEATRE_OF_WAR", "Theatre of War")
+L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozuno's Library")

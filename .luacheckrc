@@ -489,6 +489,7 @@ read_globals = {
     "HUD_SCENE",
     "ZO_CachedStrFormat",
     "ZO_CallbackObject",
+    "ZO_ChatEvent",
     "ZO_CheckButton_IsChecked",
     "ZO_CheckButton_SetCheckState",
     "ZO_CheckButton_SetLabelText",

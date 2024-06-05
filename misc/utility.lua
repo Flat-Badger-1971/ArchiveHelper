@@ -69,7 +69,7 @@ end
 
 function AH.Announce(achievementName, icon, remaining)
     local message =
-        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), "|cffff00", achievementName, "|r", remaining) .. "|r"
+        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), "|cffff00", achievementName, "|r", remaining)
 
     if (AH.Vars.NotifyScreen) then
         AH.ScreenAnnounce(AH.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
@@ -381,7 +381,14 @@ function AH.GroupChat(abilityData, name)
             end
         end
 
-        CHAT_ROUTER:FormatAndAddChatMessage(_G.EVENT_CHAT_MESSAGE_CHANNEL, channel, AH.Name, message, false, AH.Name)
+        ZO_ChatEvent(
+            _G.EVENT_CHAT_MESSAGE_CHANNEL,
+            channel,
+            AH.Name,
+            message,
+            false,
+            (not _G.pChat or not _G.pChat.db or _G.pChat.db.groupNames <= 2) and AH.Name or ""
+        )
     end
 end
 

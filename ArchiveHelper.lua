@@ -29,6 +29,10 @@ local function Initialise()
     AH.FindMissingAbilityIds()
     AH.SetupEvents()
 
+    if (GetCVar("language.2") == "ru") then
+        AH.IsRu = true
+    end
+
     _G.SLASH_COMMANDS["/ah"] = function(...)
         AH.HandleSlashCommand(...)
     end

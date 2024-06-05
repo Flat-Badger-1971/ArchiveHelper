@@ -43,7 +43,11 @@ _G.ArchiveHelper = {
     FoundQuestItem = false,
     InEchoingDen = false,
     Keys = {},
-    Marauders = {"gothmau", "hilkarax", "ulmor"},
+    Marauders = {
+        _G.ARCHIVEHELPER_MARADEUR_GOTHMAU,
+        _G.ARCHIVEHELPER_MARADEUR_HILKARAX,
+        _G.ARCHIVEHELPER_MARADEUR_ULMOR
+    },
     Name = "ArchiveHelper",
     SearchText = {},
     Shards = {},
@@ -68,12 +72,12 @@ _G.ArchiveHelper = {
     },
     LF = string.char(10),
     MAPS = {
-        TREACHEROUS_CROSSING = {id = 2420, name = "Treacherous Crossing"},
-        HAEFELS_BUTCHERY = {id = 2421, name = "Haefel's Butchery"},
-        FILERS_WING = {id = 2422, name = "Filer's Wing"},
-        ECHOING_DEN = {id = 2423, name = "Echoing Den"},
-        THEATRE_OF_WAR = {id = 2424, name = "Theatre of War"},
-        DESTOZUNOS_LIBRARY = {id = 2425, name = "Destozuno's Library"}
+        TREACHEROUS_CROSSING = {id = 2420, name = GetString(_G.ARCHIVEHELPER_MAP_TREACHEROUS_CROSSING)},
+        HAEFELS_BUTCHERY = {id = 2421, name = GetString(_G.ARCHIVEHELPER_MAP_HAEFELS_BUTCHERY)},
+        FILERS_WING = {id = 2422, name = GetString(_G.ARCHIVEHELPER_MAP_FILERS_WING)},
+        ECHOING_DEN = {id = 2423, name = GetString(_G.ARCHIVEHELPER_MAP_ECHOING_DEN)},
+        THEATRE_OF_WAR = {id = 2424, name = GetString(_G.ARCHIVEHELPER_MAP_THEATRE_OF_WAR)},
+        DESTOZUNOS_LIBRARY = {id = 2425, name = GetString(_G.ARCHIVEHELPER_MAP_DESTOZUNOS_LIBRARY)}
     },
     OAKENSOUL = 187658,
     SELECTION_DELAY = 1250,

@@ -199,7 +199,7 @@ function AH.ShowNotice(message)
         local parent = _G[AH.SELECTOR_SHORT]
         local notice, noticeKey = AH.FrameObjectPool:AcquireObject()
 
-        setCommon(notice, "Notice", 300, 40)
+        setCommon(notice, "Notice", 300 + (AH.IsRu and 50 or 0), 40)
 
         notice:ClearAnchors()
         notice:SetAnchor(BOTTOM, parent, TOP, 0, -32)
@@ -219,7 +219,7 @@ function AH.ShowQuestReminder()
         local parent = _G[AH.SELECTOR_SHORT]
         local questReminder, questReminderKey = AH.FrameObjectPool:AcquireObject()
 
-        setCommon(questReminder, "Quest", 400, 40)
+        setCommon(questReminder, "Quest", 400 + (AH.IsRu and 100 or 0), 40)
 
         questReminder:ClearAnchors()
         questReminder:SetAnchor(BOTTOM, parent, TOP, 0, -120)
@@ -418,9 +418,9 @@ function AH.CrossingUpdate(box, value, doNotShare)
                     opt = opt .. ((index == #solution) and "" or AH.Spaces(6))
                 end
 
-                local isFirst  = box1 ~= 0 and index == 1;
-                local isSecond = box2 ~= 0 and index == 2;
-                local isLast   = box3 ~= 0 and index == #solution;
+                local isFirst = box1 ~= 0 and index == 1
+                local isSecond = box2 ~= 0 and index == 2
+                local isLast = box3 ~= 0 and index == #solution
                 local colour = (isFirst or isSecond or isLast) and AH.COLOURS.YELLOW or AH.COLOURS.WHITE
 
                 formattedSolution = string.format("%s|c%s%s|r", formattedSolution, colour, opt)
@@ -531,7 +531,7 @@ function AH.ShowCrossingHelper(bypass)
             local ordinals = {
                 [1] = GetString(_G.ARCHIVEHELPER_CROSSING_START),
                 [2] = ZO_CachedStrFormat("<<i:1>>", 2),
-                [3] = AH.Format(_G.SI_KEYCODE16)
+                [3] = GetString(_G.ARCHIVEHELPER_CROSSING_END)
             }
 
             for box = 1, 3 do

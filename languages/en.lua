@@ -1,4 +1,5 @@
 -- English localisation
+-- luacheck: push ignore 631
 local L = ZO_CreateStringId
 local AH = "ARCHIVEHELPER_"
 L(AH .. "ADD_AVOID", "Add to avoid list")
@@ -10,6 +11,7 @@ L(AH .. "AVOID", "Avoid")
 L(AH .. "BONUS", "Bonus Levels")
 L(AH .. "BUFF_SELECTED", "<<1>> selected <<2>>")
 L(AH .. "COUNT", "<<1>> of <<2>>")
+L(AH .. "CROSSING_END", "End")
 L(AH .. "CROSSING_KEY", "<<1>> Turn Left - <<2>> Turn Right")
 L(AH .. "CROSSING_INVALID", "The Crossing Helper can only be activated within the Treacherous Crossing in the Infinite Archive")
 L(AH .. "CROSSING_FAIL", "Locked") -- The Levers are Locked. No-one can cross
@@ -84,3 +86,17 @@ L(AH .. "WEREWOLF_BEHEMOTH", "Werewolf Behemoth")
 L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Mark Current Target")
 L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Toggle Crossing Helper")
 L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Unmark Current Target")
+
+-- Marauders
+L(AH .. "MARAUDER_GOTHMAU", "gothmau")
+L(AH .. "MARAUDER_HILKARAX", "hilkarax")
+L(AH .. "MARAUDER_ULMOR", "ulmor")
+
+-- Zones
+L(AH .. "MAP_TREACHEROUS_CROSSING", "Treacherous Crossing")
+L(AH .. "MAP_HAEFELS_BUTCHERY", "Haefel's Butchery")
+L(AH .. "MAP_FILERS_WING", "Filer's Wing")
+L(AH .. "MAP_ECHOING_DEN", "Echoing Den")
+L(AH .. "MAP_THEATRE_OF_WAR", "Theatre of War")
+L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozuno's Library")
+-- luacheck: pop

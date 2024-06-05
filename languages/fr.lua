@@ -11,6 +11,7 @@ L(AH .. "AVOID", "Indésirables")
 L(AH .. "BONUS", "Niveaux bonus")
 L(AH .. "BUFF_SELECTED", "<<1>> a sélectionné <<2>>")
 L(AH .. "COUNT", "<<1>> sur <<2>>")
+L(AH .. "CROSSING_END", "Fin")
 L(AH .. "CROSSING_FAIL", "verrouillés") -- Les leviers sont verrouillés. Personne ne peut passer
 L(AH .. "CROSSING_INVALID", "L'aide ne peut être activée qu'à l'intérieur du Gué traître dans l'Archive Infinie")
 L(AH .. "CROSSING_KEY", "<<1>> Prendre à gauche - <<2>> Prendre à droite")
@@ -85,3 +86,16 @@ L(AH .. "WEREWOLF_BEHEMOTH", "Béhémoth loup-garou")
 L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Marquer la cible actuelle")
 L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Ouvrir/fermer l'aide du Gué traître")
 L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Retirer la marque sur la cible actuelle")
+
+-- Marauders
+L(AH .. "MARAUDER_GOTHMAU", "gothmau")
+L(AH .. "MARAUDER_HILKARAX", "hilkarax")
+L(AH .. "MARAUDER_ULMOR", "ulmor")
+
+-- Zones
+L(AH .. "MAP_TREACHEROUS_CROSSING", "Treacherous Crossing")
+L(AH .. "MAP_HAEFELS_BUTCHERY", "Haefel's Butchery")
+L(AH .. "MAP_FILERS_WING", "Filer's Wing")
+L(AH .. "MAP_ECHOING_DEN", "Echoing Den")
+L(AH .. "MAP_THEATRE_OF_WAR", "Theatre of War")
+L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozuno's Library")
