@@ -13,14 +13,14 @@ L(AH .. "BUFF_SELECTED", "<<1>> hat <<2>> ausgewählt")
 L(AH .. "COUNT", "<<1>> von <<2>>")
 L(AH .. "CROSSING_END", "Ende")
 L(AH .. "CROSSING_FAIL", "gesperrt") -- Die Hebel sind gesperrt. Keiner kommt weiter
-L(AH .. "CROSSING_INVALID", "Hilfe kann nur im Treacherous Ford im Infinite Archive aktiviert werden")
+L(AH .. "CROSSING_INVALID", "Hilfe kann nur in \"Tückischer Übergang\" im Endlosen Archiv aktiviert werden")
 L(AH .. "CROSSING_KEY", "<<1>> Biegen Sie links ab - <<2>> Biegen Sie rechts ab")
 L(AH .. "CROSSING_NO_SOLUTIONS", "Keine Pfade gefunden")
 L(AH .. "CROSSING_PATHS", "Mögliche Wege")
 L(AH .. "CROSSING_SLASH", "helfer")
 L(AH .. "CROSSING_START", "Anfang")
 L(AH .. "CROSSING_SUCCESS", "gelöst") -- Ihr habt des Rätsel der Gänge gelöst
-L(AH .. "CROSSING_TITLE", "Treacherous Ford Helfer")
+L(AH .. "CROSSING_TITLE", "Tückischer Übergang Helfer")
 L(
     AH .. "CROSSING_INSTRUCTIONS",
     "Suchen Sie den Schalter, der dem Anfang des Pfades entspricht, und wählen Sie ihn in der Dropdown-Liste unten aus (1 ist der Schalter ganz links, 6 der ganz rechts)." ..
@@ -63,7 +63,7 @@ L(AH .. "SHARD", "Tho'at-Scherbe")
 L(AH .. "SHARD_IGNORE", "Scherben außerhalb von Zyklus 5 ignorieren")
 L(AH .. "SHARD_MARKER", "Zielmarkierungen zu Tho'at Scherben hinzufügen")
 L(AH .. "SHOW_COUNT", "Verbleibende Buchsiedler im Erfasser-Flügel zählen")
-L(AH .. "SHOW_CROSSING_HELPER", "Treacherous Ford Helfer anzeigen")
+L(AH .. "SHOW_CROSSING_HELPER", "Tückischer Übergang Helfer anzeigen")
 L(
     AH .. "SHOW_COUNT_TOOLTIP",
     "Damit der Duo-Modus korrekt funktioniert, muss auch der andere Spieler dieses Addon installiert haben. Außerdem müssen beide Spieler LibDataShare installiert haben."
@@ -84,7 +84,7 @@ L(AH .. "WEREWOLF_BEHEMOTH", "Werwolfbehemoth")
 
 -- keybinds
 L("SI_BINDING_NAME_" .. AH .. "MARK_CURRENT_TARGET", "Aktuelles Ziel markieren")
-L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Treacherous Ford Helfer öffnen/schließen")
+L("SI_BINDING_NAME_" .. AH .. "TOGGLE_CROSSING_HELPER", "Tückischer Übergang Helfer öffnen/schließen")
 L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Markierung des aktuellen Ziels aufheben")
 
 -- Marauders
@@ -93,9 +93,9 @@ L(AH .. "MARAUDER_HILKARAX", "hilkarax")
 L(AH .. "MARAUDER_ULMOR", "ulmor")
 
 -- Zones
-L(AH .. "MAP_TREACHEROUS_CROSSING", "Treacherous Crossing")
-L(AH .. "MAP_HAEFELS_BUTCHERY", "Haefel's Butchery")
-L(AH .. "MAP_FILERS_WING", "Filer's Wing")
-L(AH .. "MAP_ECHOING_DEN", "Echoing Den")
-L(AH .. "MAP_THEATRE_OF_WAR", "Theatre of War")
-L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozuno's Library")
+L(AH .. "MAP_TREACHEROUS_CROSSING", "Tückischer Übergang")
+L(AH .. "MAP_HAEFELS_BUTCHERY", "Haefals Schlachterei")
+L(AH .. "MAP_FILERS_WING", "Erfasser-Flügel")
+L(AH .. "MAP_ECHOING_DEN", "Hallende Höhle")
+L(AH .. "MAP_THEATRE_OF_WAR", "Kriegsspielplatz")
+L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozunos Bibliothek")
