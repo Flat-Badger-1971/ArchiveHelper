@@ -593,15 +593,18 @@ function AH.ShowCrossingHelper(bypass)
 end
 
 function AH.HideCrossingHelper()
+    AH.selectedBox = AH.selectedBox or {}
     AH.selectedBox[1] = 0
     AH.selectedBox[2] = 0
     AH.selectedBox[3] = 0
 
-    AH.CrossingHelperFrame.box1.SetSelected(7, true)
-    AH.CrossingHelperFrame.box2.SetSelected(7, true)
-    AH.CrossingHelperFrame.box3.SetSelected(7, true)
+    if (AH.CrossingHelperFrame) then
+        AH.CrossingHelperFrame.box1.SetSelected(7, true)
+        AH.CrossingHelperFrame.box2.SetSelected(7, true)
+        AH.CrossingHelperFrame.box3.SetSelected(7, true)
 
-    solutionsWindow:SetText("")
+        solutionsWindow:SetText("")
 
-    AH.CrossingHelperFrame:SetHidden(true)
+        AH.CrossingHelperFrame:SetHidden(true)
+    end
 end
