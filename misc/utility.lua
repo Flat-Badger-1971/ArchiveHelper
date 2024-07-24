@@ -350,45 +350,48 @@ local colours = {
 }
 
 function AH.GroupChat(abilityData, name)
-    if (AH.Vars.ShowSelection) then
-        name = name or GetUnitName("player")
-        abilityData = tostring(abilityData)
+    if (IsInstanceEndlessDungeon()) then
+        if (AH.Vars.ShowSelection) then
+            name = name or GetUnitName("player")
+            abilityData = tostring(abilityData)
 
-        local replaceText = _G.ARCHIVEHELPER_BUFF_SELECTED
-        local abilityId = tonumber(abilityData:sub(2, 7))
-        local count = tonumber(abilityData:sub(8))
-        local buff = AH.Format(GetAbilityName(abilityId))
-        local abilityInfo = AH.ABILITIES[abilityId]
-        local abilityType = abilityInfo.type or AH.TYPES.VERSE
-        local avatar = AH.IsAvatar(abilityId)
-        local colourChoices = colours[abilityType]
-        local colour = avatar and colourChoices.avatar or colourChoices.normal
-        local channel = AH.GetActualGroupType() == solo and _G.CHAT_CHANNEL_SAY or _G.CHAT_CHANNEL_PARTY
+            local replaceText = _G.ARCHIVEHELPER_BUFF_SELECTED
+            local abilityId = tonumber(abilityData:sub(2, 7))
+            local count = tonumber(abilityData:sub(8))
+            local buff = AH.Format(GetAbilityName(abilityId))
+            local abilityInfo = AH.ABILITIES[abilityId]
+            local abilityType = abilityInfo.type or AH.TYPES.VERSE
+            local avatar = AH.IsAvatar(abilityId)
+            local colourChoices = colours[abilityType]
+            local colour = avatar and colourChoices.avatar or colourChoices.normal
+            local channel = AH.GetActualGroupType() == solo and _G.CHAT_CHANNEL_SAY or _G.CHAT_CHANNEL_PARTY
 
-        if (count == 999) then
-            replaceText = _G.ARCHIVEHELPER_RANDOM
-        end
-
-        local message = ZO_CachedStrFormat(replaceText, AH.Format(name), "|c" .. colour .. buff .. "|r")
-
-        if (count < 999) then
-            if (avatar) then
-                if (abilityType == AH.TYPES.VISION) then
-                    message = message .. " |cffff00(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
-                end
-            elseif (count > 1) then
-                message = message .. " |cffff00(" .. count .. ")|r"
+            if (count == 999) then
+                replaceText = _G.ARCHIVEHELPER_RANDOM
             end
-        end
 
-        ZO_ChatEvent(
-            _G.EVENT_CHAT_MESSAGE_CHANNEL,
-            channel,
-            AH.Name,
-            message,
-            false,
-            (not _G.pChat or not _G.pChat.db or _G.pChat.db.groupNames <= 2) and AH.Name or ""
-        )
+            local message = ZO_CachedStrFormat(replaceText, AH.Format(name), "|c" .. colour .. buff .. "|r")
+
+            if (count < 999) then
+                if (avatar) then
+                    if (abilityType == AH.TYPES.VISION) then
+                        message =
+                            message .. " |cffff00(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
+                    end
+                elseif (count > 1) then
+                    message = message .. " |cffff00(" .. count .. ")|r"
+                end
+            end
+
+            ZO_ChatEvent(
+                _G.EVENT_CHAT_MESSAGE_CHANNEL,
+                channel,
+                AH.Name,
+                message,
+                false,
+                (not _G.pChat or not _G.pChat.db or _G.pChat.db.groupNames <= 2) and AH.Name or ""
+            )
+        end
     end
 end
 
