@@ -327,7 +327,7 @@ end
 local function onDungeonInitialised()
     local visionCount = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(_G.ENDLESS_DUNGEON_BUFF_TYPE_VISION)
 
-    AH.Vars.AvatarVisionCount = {ICE = 0, WOLF = 0, IRON = 0}
+    AH.Vars.AvatarVisionCount = {ICE = 0, WOLF = 0, IRON = 0, UNDEAD = 0}
 
     if (visionCount) then
         for avatar, data in pairs(AH.AVATAR) do

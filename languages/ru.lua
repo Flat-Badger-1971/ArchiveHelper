@@ -12,6 +12,8 @@ L(AH .. "FLAMESHAPER", "огненн") -- Flame-Shaper
 L(AH .. "MARADEUR_GOTHMAU", "готмо") -- gothmau
 L(AH .. "MARADEUR_HILKARAX", "хилькаракс") -- hilkarax
 L(AH .. "MARADEUR_ULMOR", "ульмор") -- ulmor
+L(AH .. "MARAUDER_BITTOG", "bittog") -- bittog
+L(AH .. "MARAUDER_ZULFIMBUL", "zulfimbul") -- zulfimbul
 
 -- Ability
 L(AH .. "WEREWOLF_BEHEMOTH", "Чудовищный вервольф") -- Werewolf Behemoth
