@@ -52,13 +52,17 @@ function AH.Print(type, offensive, defensive, utility)
     local toPrint = {}
 
     for abilityId, info in pairs(AH.ABILITIES) do
-        if (info.type == type) then
+        if ((info.type or AH.TYPES.VERSE) == type) then
             if
                 ((offensive and info.class == AH.CLASSES.OFFENCE) or (defensive and info.class == AH.CLASSES.DEFENCE) or
                     (utility and info.class == AH.CLASSES.UTILITY) or
                     ((utility or offensive or defensive) == false))
              then
-                table.insert(toPrint, GetAbilityName(abilityId))
+                local name = GetAbilityName(abilityId)
+
+                if (name and name ~= "") then
+                    table.insert(toPrint, name)
+                end
             end
         end
     end
@@ -76,9 +80,9 @@ function AH.PrintMissingAbilities(versesOnly, visionsOnly)
     end
 
     local missing = {}
-    local insert = true
 
     for _, abilityInfo in ipairs(AH.MissingAbilities) do
+        local insert = true
         local buffType = GetAbilityEndlessDungeonBuffType(abilityInfo.id)
 
         if (versesOnly and buffType ~= AH.TYPES.VERSE) then
@@ -88,7 +92,11 @@ function AH.PrintMissingAbilities(versesOnly, visionsOnly)
         end
 
         if (insert) then
-            table.insert(missing, GetAbilityName(abilityInfo.id))
+            local name = GetAbilityName(abilityInfo.id)
+
+            if (name and name ~= "") then
+                table.insert(missing, name)
+            end
         end
     end
 

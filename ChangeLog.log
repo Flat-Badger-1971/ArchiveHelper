@@ -1,5 +1,10 @@
 [color=#ff9900][b]Version: 1.3.0 ---------------[/b][/color]
-Changes for patch 43
+Changes for patch 43:
+    Handle new Marauders
+    Handle new achievements
+    Handle new verses/visions
+    Handle new Fabled
+Bugfixes
 
 [color=#ff9900][b]Version: 1.2.2 ---------------[/b][/color]
 Suppress chat message outside the Infinite Archive
