@@ -31,7 +31,11 @@ do
     local tmpTable = {}
 
     for abilityId, _ in pairs(AH.ABILITIES) do
-        table.insert(tmpTable, {id = abilityId, name = AH.Format(GetAbilityName(abilityId))})
+        local name = GetAbilityName(abilityId)
+
+        if (name and name ~= "") then
+            table.insert(tmpTable, {id = abilityId, name = AH.Format(name)})
+        end
     end
 
     doSort(tmpTable, favouriteChoices, favouriteChoiceValues)
