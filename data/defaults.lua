@@ -44,9 +44,11 @@ _G.ArchiveHelper = {
     InEchoingDen = false,
     Keys = {},
     Marauders = {
-        _G.ARCHIVEHELPER_MARADEUR_GOTHMAU,
-        _G.ARCHIVEHELPER_MARADEUR_HILKARAX,
-        _G.ARCHIVEHELPER_MARADEUR_ULMOR
+        GetString(_G.ARCHIVEHELPER_MARAUDER_GOTHMAU),
+        GetString(_G.ARCHIVEHELPER_MARAUDER_HILKARAX),
+        GetString(_G.ARCHIVEHELPER_MARAUDER_ULMOR),
+        GetString(_G.ARCHIVEHELPER_MARAUDER_BITTOG),
+        GetString(_G.ARCHIVEHELPER_MARAUDER_ZULFIMBUL)
     },
     Name = "ArchiveHelper",
     SearchText = {},
@@ -68,7 +70,8 @@ _G.ArchiveHelper = {
         IRON = {name = "icons/achievement_u40_ed2_iron_atronach", colour = {1, 1, 1, 1}},
         WOLF = {name = "icons/achievement_u40_ed2_werewolf_behemoth", colour = {1, 1, 1, 1}},
         ICE = {name = "icons/achievement_u40_ed2_ice_avatar", colour = {1, 1, 1, 1}},
-        AVOID = {name = "castbar/forbiddenaction", colour = {1, 0, 0, 1}}
+        AVOID = {name = "castbar/forbiddenaction", colour = {1, 0, 0, 1}},
+        UNDEAD = {name = "icons/poly_lich", colour = {1, 1, 1, 1}}
     },
     LF = string.char(10),
     MAPS = {

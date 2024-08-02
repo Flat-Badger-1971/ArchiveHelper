@@ -91,6 +91,8 @@ L("SI_BINDING_NAME_" .. AH .. "UNMARK_CURRENT_TARGET", "Unmark Current Target")
 L(AH .. "MARAUDER_GOTHMAU", "gothmau")
 L(AH .. "MARAUDER_HILKARAX", "hilkarax")
 L(AH .. "MARAUDER_ULMOR", "ulmor")
+L(AH .. "MARAUDER_BITTOG", "bittog")
+L(AH .. "MARAUDER_ZULFIMBUL", "zulfimbul")
 
 -- Zones
 L(AH .. "MAP_TREACHEROUS_CROSSING", "Treacherous Crossing")

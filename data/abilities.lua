@@ -58,6 +58,7 @@ AH.ABILITIES = {
     [200018] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Archival Assault
     [200020] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Magical Multitudes
     [200022] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Bolstered Mending
+    [200045] = {ids = {3799, 3800, 3801, 4153}, class = AH.CLASSES.OFFENCE}, -- Orbiting Echoes ***
     [200051] = {ids = {3785}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Energized Salve
     [200075] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Frenzied Zeal
     [200093] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Guardian of Pestilence
@@ -108,7 +109,24 @@ AH.ABILITIES = {
     [202743] = {ids = {3796, 3786}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Ferocious Support
     [202804] = {ids = {3786, 3797}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Scorching Support
     [203352] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Fire Orb
-    [211730] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY} -- Supplemental Thread
+    [211730] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Supplemental Thread
+    [220160] = {ids = {3802, 3803, 3804, 4153}, class = AH.CLASSES.DEFENCE}, -- Reflected Ruin ***
+    [220184] = {ids = {3799, 3800, 3801, 4153}, class = AH.CLASSES.OFFENCE}, -- Tempest ***
+    [220189] = {ids = {4153, 4155}, class = AH.CLASSES.AVATAR}, -- Undead Avatar ***
+    [220193] = {ids = {3805, 3806, 3807, 4153}, class = AH.CLASSES.UTILITY}, -- Grasping Limbs ***
+    [220194] = {ids = {3805, 3806, 3807, 4153}, class = AH.CLASSES.UTILITY}, -- Temporal Speed ***
+    [220195] = {ids = {3805, 3806, 3807, 4153}, class = AH.CLASSES.UTILITY}, -- Extravagant Elixirs ***
+    [220557] = {ids = {3802, 3803, 3804, 4154, 4155}, type=AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Necrotic Fortification ***
+    [220563] = {ids = {3799, 3800, 3801, 4154, 4155}, type=AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Necrotic Strikes ***
+    [220568] = {ids = {3805, 3806, 3807, 4154, 4155}, type=AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Necrotic Support ***
+    [220730] = {ids = {3802, 3803, 3804, 4153}, class = AH.CLASSES.DEFENCE}, -- Phalanx ***
+    [220765] = {ids = {3799, 3800, 3801, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Storm Projection ***
+    [220770] = {ids = {3802, 3803, 3804, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Prickly Retort ***
+    [220775] = {ids = {3802, 3803, 3804, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Apocryphal Emissary ***
+    [220780] = {ids = {3805, 3806, 3807, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Quickened Tinctures ***
+    [222405] = {ids = {3802, 3803, 3804, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Adaptive Defender ***
+    [222413] = {ids = {3799, 3800, 3801, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Adaptive Conqueror ***
+    [222418] = {ids = {3805, 3806, 3807, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.UTILITY} -- Adaptive Athlete ***
 }
 
 do
@@ -122,7 +140,8 @@ end
 AH.AVATAR = {
     ICE = {id = 3795, abilityIds = {202134, 202510, 200494, 199997}, class = AH.CLASSES.DEFENCE, transform = 202134},
     WOLF = {id = 3796, abilityIds = {202743, 200421, 199990, 191802}, class = AH.CLASSES.OFFENCE, transform = 191802},
-    IRON = {id = 3797, abilityIds = {202804, 200679, 200004, 196018}, class = AH.CLASSES.UTILITY, transform = 196018}
+    IRON = {id = 3797, abilityIds = {202804, 200679, 200004, 196018}, class = AH.CLASSES.UTILITY, transform = 196018},
+    UNDEAD = {id = 4155, abilityIds = {220557, 220563, 220568, 220189}, class = AH.CLASSES.OFFENCE, transform = 220189}
 }
 
 -- collect a number of unspecified verse/vision types
@@ -217,7 +236,15 @@ AH.ACHIEVEMENTS = {
         [3937] = true,
         [3938] = true,
         [4005] = true,
-        [4008] = true
+        [4008] = true,
+        [4152] = true,
+        [4153] = true,
+        [4154] = true,
+        [4155] = true,
+        [4156] = true,
+        [4157] = true,
+        [4198] = true,
+        [4199] = true
     },
     LIMIT = {
         3760,
@@ -277,18 +304,25 @@ AH.PETS = {
 3782, -- You can't touch me
 3783, -- Viable and versatile
 3784, -- Visions of violence
-3785, -- Endless defender
+3785, -- Infinite defender
 3786, -- Seeing the big picture
 3795, -- Keeping it cool
 3796, -- Howling with rage
 3797, -- Molten measures
-3799, -- Battle ready
-3800, -- Armed onslaught
-3801, -- Mora's onslaught
-3802, -- A sturdy shield
-3803, -- Forceful Fortification
-3804, -- Under Mora's protection
-3805, -- Studying up
-3806, -- Unorthdox approach
-3807, -- Power practicum
+3799, -- Battle ready 5 offensive versions/visions
+3800, -- Armed onslaught 25 offensive versions/visions
+3801, -- Mora's onslaught 75 offensive versions/visions
+3802, -- A sturdy shield 5 defensive versions/visions
+3803, -- Forceful Fortification 25 defensive versions/visions
+3804, -- Under Mora's protection 75 defensive versions/visions
+3805, -- Studying up 5 utility versions/visions
+3806, -- Unorthdox approach 25 utility versions/visions
+3807, -- Power practicum 75 utility versions/visions
+4153, -- Gifted and Accomplished 8 verses
+4154, -- Prepared Foresight 10 visions
+4155, -- Cadaverous Crusader - necrotic set
+
 ]]
+
+-- GetAbilityEndlessDungeonBuffType returns bufftype, isavatarvision
+--endless_dungeon_buff_type_none/verse/vision 0/1/2
