@@ -447,85 +447,58 @@ local function onBuffStackCountChanged(_, abilityId)
         1000
     )
 end
---[[
-function AH.ScreenAnnounce(header, message, icon, lifespan, sound)
-    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_LARGE_TEXT)
 
-    if (sound ~= "none") then
-        messageParams:SetSound(sound or "Justice_NowKOS")
-    end
-
-    messageParams:SetText(header or "Test Header", message or "Test Message")
-    messageParams:SetLifespanMS(lifespan or 6000)
-    messageParams:SetCSAType(_G.CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
-
-    if (icon) then
-        messageParams:SetIconData(icon)
-    end
-
-    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
-end
-]]
-
-local frigidWaters = GetAbilityName(224944)
-local lava = GetAbilityName(182805)
-local detected, detectedTime = nil, 1000
-
+AH.Detected = nil
 AH.Triggered = false
 
-local function warnNow(type)
-    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_LARGE_TEXT)
+local function warnNow(abilityId)
+    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_MAJOR_TEXT)
+    local colour = (abilityId > 200000) and "|c329ea8" or "|cff0000"
 
-    messageParams:SetText("|cff0000" .. type .. "!|r")
+    messageParams:SetText(colour .. ZO_CachedStrFormat("<<C:1>>", AH.Detected) .. "!|r")
     messageParams:SetSound(AH.Sounds.Terrain.sound)
     messageParams:SetCSAType(_G.CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
     messageParams:MarkShowImmediately()
-    
+
     CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
 end
 
 local function terrainWarnings(...)
     local abilityId = select(17, ...)
-    local name = GetAbilityName(abilityId)
-    local time = GetGameTimeMilliseconds()
 
     if (not AH.InsideArchive) then
         AH.InsideArchive = IsInstanceEndlessDungeon() and (GetCurrentMapId() ~= AH.ArchiveIndex)
     end
 
-    if (AH.InsideArchive) then
-        if (name == frigidWaters) then
-            detected = frigidWaters
-            detectedTime = time
+    if (AH.InsideArchive and (not AH.Triggered)) then
+        if (AH.TERRAIN[abilityId]) then
+            AH.Detected = GetAbilityName(abilityId)
         else
-            detected = nil
-            detectedTime = 1000
+            AH.Detected = nil
         end
 
-        if (name == lava) then
-            detected = lava
-            detectedTime = time
-        else
-            detected = nil
-            detectedTime = 1000
-        end
-
-        if ((time - detectedTime) <= 500 and (not AH.Triggered)) then
-            warnNow((detected == frigidWaters) and frigidWaters or lava)
+        if (AH.Detected and (not AH.Triggered)) then
             AH.Triggered = true
-            zo_callLater(function() AH.Triggered = false end, 1000)
+            warnNow(abilityId)
+            zo_callLater(
+                function()
+                    AH.Triggered = false
+                    AH.Detected = nil
+                end,
+                1000
+            )
         end
     end
 end
 
 function AH.SetTerrainWarnings(enable)
     if (enable) then
-        -- EVENT_MANAGER:AddFilterForEvent(
-        --     AH.Name,
-        --     _G.EVENT_COMBAT_EVENT,
-        --     _G.REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE,
-        --     _G.COMBAT_UNIT_TYPE_PLAYER
-        -- )
+        EVENT_MANAGER:AddFilterForEvent(
+            AH.Name,
+            _G.EVENT_COMBAT_EVENT,
+            _G.REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE,
+            _G.COMBAT_UNIT_TYPE_PLAYER
+        )
         EVENT_MANAGER:RegisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT, terrainWarnings)
     else
         EVENT_MANAGER:UnregisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT)
@@ -650,4 +623,14 @@ function AH.SetupEvents()
 
     SHARED_INVENTORY:RegisterCallback("SingleSlotInventoryUpdate", onSingleSlotUpdate)
     ENDLESS_DUNGEON_MANAGER:RegisterCallback("BuffStackCountChanged", onBuffStackCountChanged)
+end
+
+function AH.T()
+    for x = 182700, 182900 do
+        local name = GetAbilityName(x)
+
+        if (name == "Lava") then
+            d(x, name)
+        end
+    end
 end

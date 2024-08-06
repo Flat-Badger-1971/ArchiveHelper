@@ -116,17 +116,17 @@ AH.ABILITIES = {
     [220193] = {ids = {3805, 3806, 3807, 4153}, class = AH.CLASSES.UTILITY}, -- Grasping Limbs ***
     [220194] = {ids = {3805, 3806, 3807, 4153}, class = AH.CLASSES.UTILITY}, -- Temporal Speed ***
     [220195] = {ids = {3805, 3806, 3807, 4153}, class = AH.CLASSES.UTILITY}, -- Extravagant Elixirs ***
-    [220557] = {ids = {3802, 3803, 3804, 4154, 4155}, type=AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Necrotic Fortification ***
-    [220563] = {ids = {3799, 3800, 3801, 4154, 4155}, type=AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Necrotic Strikes ***
-    [220568] = {ids = {3805, 3806, 3807, 4154, 4155}, type=AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Necrotic Support ***
+    [220557] = {ids = {3802, 3803, 3804, 4154, 4155}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Necrotic Fortification ***
+    [220563] = {ids = {3799, 3800, 3801, 4154, 4155}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Necrotic Strikes ***
+    [220568] = {ids = {3805, 3806, 3807, 4154, 4155}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Necrotic Support ***
     [220730] = {ids = {3802, 3803, 3804, 4153}, class = AH.CLASSES.DEFENCE}, -- Phalanx ***
-    [220765] = {ids = {3799, 3800, 3801, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Storm Projection ***
-    [220770] = {ids = {3802, 3803, 3804, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Prickly Retort ***
-    [220775] = {ids = {3802, 3803, 3804, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Apocryphal Emissary ***
-    [220780] = {ids = {3805, 3806, 3807, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Quickened Tinctures ***
-    [222405] = {ids = {3802, 3803, 3804, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Adaptive Defender ***
-    [222413] = {ids = {3799, 3800, 3801, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Adaptive Conqueror ***
-    [222418] = {ids = {3805, 3806, 3807, 4154}, type=AH.TYPES.VISION, class = AH.CLASSES.UTILITY} -- Adaptive Athlete ***
+    [220765] = {ids = {3799, 3800, 3801, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Storm Projection ***
+    [220770] = {ids = {3802, 3803, 3804, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Prickly Retort ***
+    [220775] = {ids = {3802, 3803, 3804, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Apocryphal Emissary ***
+    [220780] = {ids = {3805, 3806, 3807, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Quickened Tinctures ***
+    [222405] = {ids = {3802, 3803, 3804, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Adaptive Defender ***
+    [222413] = {ids = {3799, 3800, 3801, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Adaptive Conqueror ***
+    [222418] = {ids = {3805, 3806, 3807, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY} -- Adaptive Athlete ***
 }
 
 do
@@ -298,6 +298,20 @@ AH.PETS = {
     [85991] = true,
     [85992] = true,
     [85993] = true
+}
+
+AH.TERRAIN = {
+    [182805] = true,
+    [182806] = true,
+    [182807] = true,
+    [182833] = true,
+    [224944] = true,
+    [224945] = true,
+    [224947] = true,
+    [224948] = true,
+    [224949] = true,
+    [224951] = true,
+    [224952] = true
 }
 --[[
 3781, -- I crave violence
