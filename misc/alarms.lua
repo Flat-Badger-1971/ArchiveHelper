@@ -2,7 +2,8 @@ local AH = _G.ArchiveHelper
 AH.Sounds = {
     Gw = {sound = _G.SOUNDS.BATTLEGROUND_ONE_MINUTE_WARNING, cycle = 1},
     Marauder = {sound = _G.SOUNDS.DUEL_START, cycle = 5},
-    Tomeshell = {sound = _G.SOUNDS.CHAMPION_POINTS_COMMITTED, cycle = 1}
+    Terrain = {sound = _G.SOUNDS.DUEL_START, cycle = 1},
+    Tomeshell = {sound = _G.SOUNDS.CHAMPION_POINTS_COMMITTED, cycle = 1},
 }
 
 AH.bosses = {}

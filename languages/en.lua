@@ -70,6 +70,7 @@ L(
 )
 L(AH .. "SHOW_ECHO", "Show timer in the Echoing Den")
 L(AH .. "SHOW_SELECTION", "Show buff selection in group chat")
+L(AH .. "SHOW_TERRAIN_WARNING", "Show warnings for terrain damage")
 L(AH .. "SLASH_MISSING", "missing")
 L(AH .. "STACKS", "Stack count")
 L(AH .. "TOMESHELL", "Tomeshell")

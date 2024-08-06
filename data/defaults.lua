@@ -53,6 +53,7 @@ _G.ArchiveHelper = {
     Name = "ArchiveHelper",
     SearchText = {},
     Shards = {},
+    TerrainWarnings = true,
     Tomeshells = {Solo = 4, Duo = 8},
     COLOURS = {
         BLUE = "3a92ff",
@@ -80,7 +81,9 @@ _G.ArchiveHelper = {
         FILERS_WING = {id = 2422, name = GetString(_G.ARCHIVEHELPER_MAP_FILERS_WING)},
         ECHOING_DEN = {id = 2423, name = GetString(_G.ARCHIVEHELPER_MAP_ECHOING_DEN)},
         THEATRE_OF_WAR = {id = 2424, name = GetString(_G.ARCHIVEHELPER_MAP_THEATRE_OF_WAR)},
-        DESTOZUNOS_LIBRARY = {id = 2425, name = GetString(_G.ARCHIVEHELPER_MAP_DESTOZUNOS_LIBRARY)}
+        DESTOZUNOS_LIBRARY = {id = 2425, name = GetString(_G.ARCHIVEHELPER_MAP_DESTOZUNOS_LIBRARY)},
+        FRIGID_WATERS = {2567},
+        TOTHER_ONE = {}
     },
     OAKENSOUL = 187658,
     SELECTION_DELAY = 1250,

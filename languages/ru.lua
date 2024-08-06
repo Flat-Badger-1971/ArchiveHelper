@@ -78,6 +78,7 @@ L(AH .. "SHOW_ECHO", "Показывать таймер в Гулком лого
 L(AH .. "SHOW_COUNT", "Показывать кол-во книжных оболочек в Крыле Архивиста") -- Show Tomeshell count in the Filer's Wing
 L(AH .. "SHOW_COUNT_TOOLTIP", "Для корректной работы в режиме группы из 2х игроков оба игрока должны установить Archive Helper и LibDataShare.") -- For Duo mode to work correctly, the other player must have this addon installed. Both players must also have LibDataShare installed.
 L(AH .. "SHOW_CROSSING_HELPER", "Включить помошника на Коварном перекрёстке") -- Show Treacherous Crossing helper
+L(AH .. "SHOW_TERRAIN_WARNING", "Показывать предупреждения о повреждении рельефа")
 L(AH .. "FABLED_MARKER", "Ставить метки на ''Вымышленных'' врагов") -- Add Target Markers to Fabled
 L(AH .. "FABLED_TOOLTIP", "Эта функция не будет работать при установленном Lykeions Fabled Marker.") -- This feature will not work with Lykeions Fabled Marker addon to avoid both addons trying to mark the same things.
 L(AH .. "SHARD_MARKER", "Ставить метки на Осколки То’ат") -- Add Target Markers to Tho'at Shards

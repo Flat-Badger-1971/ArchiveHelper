@@ -70,6 +70,7 @@ L(
 )
 L(AH .. "SHOW_ECHO", "Verbleibende Zeit in der Hallende Höhle anzeigen")
 L(AH .. "SHOW_SELECTION", "Buff-Auswahl im Gruppenchat anzeigen")
+L(AH .. "SHOW_TERRAIN_WARNING", "Warnungen für Geländeschäden anzeigen")
 L(AH .. "SLASH_MISSING", "fehlende")
 L(AH .. "STACKS", "Anzahl der Stapel")
 L(AH .. "TOMESHELL", "Buchsiedler")

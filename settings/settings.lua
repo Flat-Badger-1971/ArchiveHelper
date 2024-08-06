@@ -239,11 +239,20 @@ local function buildOptions()
             width = "full"
         },
         [7] = {
+            type="checkbox",
+            name=AH.Format(_G.ARCHIVEHELPER_SHOW_TERRAIN_WARNING),
+            getFunc = function() return AH.Vars.TerrainWarnings end,
+            setFunc = function(value)
+                AH.Vars.TerrainWarnings = value
+                AH.SetTerrainWarnings(value)
+            end
+        },
+        [8] = {
             type = "header",
             name = AH.Format(_G.SI_ITEMFILTERTYPE5),
             width = "full"
         },
-        [8] = {
+        [9] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_REMINDER),
             tooltip = AH.Format(_G.ARCHIVEHELPER_REMINDER_TOOLTIP),
@@ -255,7 +264,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [9] = {
+        [10] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST),
             getFunc = function()
@@ -266,7 +275,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [10] = {
+        [11] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_PREVENT),
             tooltip = AH.Format(_G.ARCHIVEHELPER_PREVENT_TOOLTIP),
@@ -278,12 +287,12 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [11] = {
+        [12] = {
             type = "header",
             name = AH.Format(_G.ARCHIVEHELPER_BONUS),
             width = "full"
         },
-        [12] = {
+        [13] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_ECHO),
             getFunc = function()
@@ -294,7 +303,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [13] = {
+        [14] = {
             type = "dropdown",
             name = string.format(
                 "%s (%s)",
@@ -313,7 +322,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [14] = {
+        [15] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT),
             tooltip = AH.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
@@ -325,7 +334,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [15] = {
+        [16] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_CROSSING_HELPER),
             getFunc = function()
@@ -336,12 +345,12 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [16] = {
+        [17] = {
             type = "header",
             name = AH.Format(_G.SI_INTERFACE_OPTIONS_NAMEPLATES_TARGET_MARKERS),
             width = "full"
         },
-        [17] = {
+        [18] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_FABLED_MARKER),
             tooltip = function()
@@ -360,7 +369,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [18] = {
+        [19] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHARD_MARKER),
             tooltip = function()
@@ -376,7 +385,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [19] = {
+        [20] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHARD_IGNORE),
             tooltip = function()
@@ -395,7 +404,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [20] = {
+        [21] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_GW_MARKER),
             getFunc = function()
@@ -406,7 +415,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [21] = {
+        [22] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_GW_PLAY),
             getFunc = function()
@@ -420,7 +429,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [22] = {
+        [23] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER) ..
                 " " .. zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24),
@@ -432,7 +441,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [23] = {
+        [24] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_MARAUDER_INCOMING_PLAY),
             getFunc = function()

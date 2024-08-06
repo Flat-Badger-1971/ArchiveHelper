@@ -303,6 +303,10 @@ local function resetValues()
     for _, info in pairs(AH.MARKERS) do
         info.manual = false
     end
+
+    if (AH.InsideArchive) then
+        AH.SetTerrainWarnings(AH.Vars.TerrainWarnings)
+    end
 end
 
 -- minimise false zone change detections
@@ -443,6 +447,90 @@ local function onBuffStackCountChanged(_, abilityId)
         1000
     )
 end
+--[[
+function AH.ScreenAnnounce(header, message, icon, lifespan, sound)
+    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_LARGE_TEXT)
+
+    if (sound ~= "none") then
+        messageParams:SetSound(sound or "Justice_NowKOS")
+    end
+
+    messageParams:SetText(header or "Test Header", message or "Test Message")
+    messageParams:SetLifespanMS(lifespan or 6000)
+    messageParams:SetCSAType(_G.CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
+
+    if (icon) then
+        messageParams:SetIconData(icon)
+    end
+
+    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
+end
+]]
+
+local frigidWaters = GetAbilityName(224944)
+local lava = GetAbilityName(182805)
+local detected, detectedTime = nil, 1000
+
+AH.Triggered = false
+
+local function warnNow(type)
+    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_LARGE_TEXT)
+
+    messageParams:SetText("|cff0000" .. type .. "!|r")
+    messageParams:SetSound(AH.Sounds.Terrain.sound)
+    messageParams:SetCSAType(_G.CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
+    messageParams:MarkShowImmediately()
+    
+    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
+end
+
+local function terrainWarnings(...)
+    local abilityId = select(17, ...)
+    local name = GetAbilityName(abilityId)
+    local time = GetGameTimeMilliseconds()
+
+    if (not AH.InsideArchive) then
+        AH.InsideArchive = IsInstanceEndlessDungeon() and (GetCurrentMapId() ~= AH.ArchiveIndex)
+    end
+
+    if (AH.InsideArchive) then
+        if (name == frigidWaters) then
+            detected = frigidWaters
+            detectedTime = time
+        else
+            detected = nil
+            detectedTime = 1000
+        end
+
+        if (name == lava) then
+            detected = lava
+            detectedTime = time
+        else
+            detected = nil
+            detectedTime = 1000
+        end
+
+        if ((time - detectedTime) <= 500 and (not AH.Triggered)) then
+            warnNow((detected == frigidWaters) and frigidWaters or lava)
+            AH.Triggered = true
+            zo_callLater(function() AH.Triggered = false end, 1000)
+        end
+    end
+end
+
+function AH.SetTerrainWarnings(enable)
+    if (enable) then
+        -- EVENT_MANAGER:AddFilterForEvent(
+        --     AH.Name,
+        --     _G.EVENT_COMBAT_EVENT,
+        --     _G.REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE,
+        --     _G.COMBAT_UNIT_TYPE_PLAYER
+        -- )
+        EVENT_MANAGER:RegisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT, terrainWarnings)
+    else
+        EVENT_MANAGER:UnregisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT)
+    end
+end
 
 function AH.ShareData(shareType, value, instant, stackCount)
     if ((not AH.Share) and (not AH.DEBUG)) then
@@ -554,6 +642,10 @@ function AH.SetupEvents()
     if (AH.Vars.AutoCheck) then
         AH.UpdateSlottedSkills()
         EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
+    end
+
+    if (AH.Vars.TerrainWarnings) then
+        AH.SetTerrainWarnings(true)
     end
 
     SHARED_INVENTORY:RegisterCallback("SingleSlotInventoryUpdate", onSingleSlotUpdate)

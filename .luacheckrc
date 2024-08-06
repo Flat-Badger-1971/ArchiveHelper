@@ -487,6 +487,7 @@ read_globals = {
     "UseCollectible",
     -- Zenimax objects
     "HUD_SCENE",
+    "ZO_Alert",
     "ZO_CachedStrFormat",
     "ZO_CallbackObject",
     "ZO_ChatEvent",

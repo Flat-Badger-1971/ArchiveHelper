@@ -70,6 +70,7 @@ L(
 )
 L(AH .. "SHOW_ECHO", "Afficher un minuteur dans l'Antre aux échos")
 L(AH .. "SHOW_SELECTION", "Afficher vos choix de bienfaits en discussion")
+L(AH .. "SHOW_TERRAIN_WARNING", "Afficher les avertissements concernant les dommages causés au terrain")
 L(AH .. "SLASH_MISSING", "manquant")
 L(AH .. "STACKS", "Nombre de bienfaits cumulés")
 L(AH .. "TOMESHELL", "Tome-carapace")
