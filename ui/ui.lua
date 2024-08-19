@@ -233,7 +233,7 @@ function AH.ShowQuestReminder()
 end
 
 function AH.ShowTomeshellCount()
-    if (AH.IsInFilersWing and AH.Vars.CountTomes) then
+    if (AH.IsInFilersWing and AH.Vars.CountTomes and (not AH.TomeCount)) then
         ensureFramePoolExists()
 
         local count, countKey = AH.FrameObjectPool:AcquireObject()

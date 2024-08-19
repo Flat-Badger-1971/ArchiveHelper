@@ -428,6 +428,25 @@ function AH.ToggleCrossingHelper()
     end
 end
 
+function AH.BuildList(listInfo)
+    local list = {}
+
+    for _, info in ipairs(listInfo) do
+        if (type(info) == "string") then
+            local comma = info:find(",")
+            local s, e = tonumber(info:sub(1, comma - 1)), tonumber(info:sub(comma + 1))
+
+            for i = s, e do
+                list[i] = true
+            end
+        else
+            list[info] = true
+        end
+    end
+
+    return list
+end
+
 function AH.Debug(message)
     if (AH.DEBUG) then
         AH.Chat:SetTagColor(AH.COLOURS.PURPLE)

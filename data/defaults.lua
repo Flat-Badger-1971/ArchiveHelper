@@ -25,7 +25,8 @@ _G.ArchiveHelper = {
         ShowNotice = true,
         ShowSelection = true,
         ShowStacks = true,
-        ShowTimer = true
+        ShowTimer = true,
+        TerrainWarnings = true
     },
     ArchiveIndex = 2407,
     ArchiveQuests = {GetQuestName(7091), GetQuestName(7101), GetQuestName(7102)},

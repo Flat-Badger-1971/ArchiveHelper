@@ -140,7 +140,9 @@ local function tomeCheck(...)
 
             local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
 
-            AH.TomeCount:SetText(message)
+            if (AH.TomeCount) then
+                AH.TomeCount:SetText(message)
+            end
             CALLBACK_MANAGER:FireCallbacks("ArchiveHelperTomeshellKilled")
         end
     end
@@ -463,6 +465,8 @@ local function warnNow(abilityId)
     CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
 end
 
+local terrainList
+
 local function terrainWarnings(...)
     local abilityId = select(17, ...)
 
@@ -471,7 +475,7 @@ local function terrainWarnings(...)
     end
 
     if (AH.InsideArchive and (not AH.Triggered)) then
-        if (AH.TERRAIN[abilityId]) then
+        if (terrainList[abilityId]) then
             AH.Detected = GetAbilityName(abilityId)
         else
             AH.Detected = nil
@@ -500,6 +504,9 @@ function AH.SetTerrainWarnings(enable)
             _G.COMBAT_UNIT_TYPE_PLAYER
         )
         EVENT_MANAGER:RegisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT, terrainWarnings)
+        if (not terrainList) then
+            terrainList= AH.BuildList(AH.TERRAIN)
+        end
     else
         EVENT_MANAGER:UnregisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT)
     end
@@ -535,6 +542,10 @@ function AH.HandleDataShare(_, info)
     local shareType = tonumber(tostring(info):sub(1, 1))
     local shareData = tonumber(tostring(info):sub(2))
 
+    if (not AH.TomeCount) then
+        AH.ShowTomeshellCount()
+    end
+
     if (not AH.MaxTomes) then
         AH.MaxTomes = getMaxTomes()
     end
@@ -548,9 +559,11 @@ function AH.HandleDataShare(_, info)
 
         local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
 
-        AH.TomeCount:SetText(message)
-        AH.PlayAlarm(AH.Sounds.Tomeshell)
-        AH.Debug("Received tome data: " .. shareData)
+        if (AH.TomeCount) then
+            AH.TomeCount:SetText(message)
+            AH.PlayAlarm(AH.Sounds.Tomeshell)
+            AH.Debug("Received tome data: " .. shareData)
+        end
     elseif (shareType == AH.SHARE.MARK) then
         if (shareData and (shareData > 0) and (shareData < 8)) then
             AH.MARKERS[shareData].used = true
@@ -623,14 +636,4 @@ function AH.SetupEvents()
 
     SHARED_INVENTORY:RegisterCallback("SingleSlotInventoryUpdate", onSingleSlotUpdate)
     ENDLESS_DUNGEON_MANAGER:RegisterCallback("BuffStackCountChanged", onBuffStackCountChanged)
-end
-
-function AH.T()
-    for x = 182700, 182900 do
-        local name = GetAbilityName(x)
-
-        if (name == "Lava") then
-            d(x, name)
-        end
-    end
 end

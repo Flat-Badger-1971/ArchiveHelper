@@ -108,7 +108,6 @@ AH.ABILITIES = {
     [202510] = {ids = {3786, 3795}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Crystalline Support
     [202743] = {ids = {3796, 3786}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Ferocious Support
     [202804] = {ids = {3786, 3797}, type = AH.TYPES.VISION, class = AH.CLASSES.AVATAR}, -- Scorching Support
-    [203352] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Fire Orb
     [211730] = {ids = {3786}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Supplemental Thread
     [220160] = {ids = {3802, 3803, 3804, 4153}, class = AH.CLASSES.DEFENCE}, -- Reflected Ruin ***
     [220184] = {ids = {3799, 3800, 3801, 4153}, class = AH.CLASSES.OFFENCE}, -- Tempest ***
@@ -124,6 +123,7 @@ AH.ABILITIES = {
     [220770] = {ids = {3802, 3803, 3804, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Prickly Retort ***
     [220775] = {ids = {3802, 3803, 3804, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Apocryphal Emissary ***
     [220780] = {ids = {3805, 3806, 3807, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY}, -- Quickened Tinctures ***
+    [221194] = {ids = {3781, 3799, 3800, 3801}, class = AH.CLASSES.OFFENCE}, -- Fire Orb
     [222405] = {ids = {3802, 3803, 3804, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.DEFENCE}, -- Adaptive Defender ***
     [222413] = {ids = {3799, 3800, 3801, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.OFFENCE}, -- Adaptive Conqueror ***
     [222418] = {ids = {3805, 3806, 3807, 4154}, type = AH.TYPES.VISION, class = AH.CLASSES.UTILITY} -- Adaptive Athlete ***
@@ -301,17 +301,33 @@ AH.PETS = {
 }
 
 AH.TERRAIN = {
-    [182805] = true,
-    [182806] = true,
-    [182807] = true,
-    [182833] = true,
-    [224944] = true,
-    [224945] = true,
-    [224947] = true,
-    [224948] = true,
-    [224949] = true,
-    [224951] = true,
-    [224952] = true
+    -- Molten rain (which ones are relevant?)
+    151317, -- Molten rain
+    151328, -- Molten rain
+    "151357,151362", -- Molten rain
+    151365, -- Molten rain
+    151367, -- Molten rain
+    151369, -- Molten rain
+    "151370,151371", -- Molten rain
+    "151391,151395", -- Molten rain
+    151397, -- Molten rain
+    "151402,151403", -- Molten rain
+    152194, -- Molten rain
+    "154992,154993", -- Molten rain
+    "154995,154998", -- Molten rain
+    "155000,155001", -- Molten rain
+    "155004,155005", -- Molten rain
+    "156951,156952", -- Molten rain
+    "157482,157504", -- Molten rain
+    "158393,158405", -- Molten rain
+    "182805,182807", -- Lava
+    182833, -- Lava
+    "195454,195458", -- Molten rain
+    198997, -- Molten rain
+    199002, -- Molten rain
+    "224944,224945", -- Frigid waters
+    "224947,224949", -- Frigid Waters
+    "224951,224952" -- Frigid waters
 }
 --[[
 3781, -- I crave violence
