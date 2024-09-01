@@ -379,10 +379,13 @@ local function getOtherPlayer()
     end
 
     for unit = 1, groupSize do
-        if (IsUnitOnline(string.format("group%d", unit))) then
-            local name = GetUnitName(string.format("group%d", unit))
+        local unitTag = string.format("group%d", unit)
+
+        if (IsUnitOnline(unitTag)) then
+            local name = GetUnitName(unitTag)
+
             if (name ~= player) then
-                return name
+                return name, unitTag
             end
         end
     end
@@ -455,9 +458,9 @@ AH.Triggered = false
 
 local function warnNow(abilityId)
     local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_MAJOR_TEXT)
-    local colour = (abilityId > 200000) and "|c329ea8" or "|cff0000"
+    local colour = (abilityId > 200000) and AH.COLOURS.CYAN or AH.COLOURS.RED
 
-    messageParams:SetText(colour .. ZO_CachedStrFormat("<<C:1>>", AH.Detected) .. "!|r")
+    messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", AH.Detected) .. "!"))
     messageParams:SetSound(AH.Sounds.Terrain.sound)
     messageParams:SetCSAType(_G.CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
     messageParams:MarkShowImmediately()
@@ -588,8 +591,11 @@ function AH.HandleDataShare(_, info)
             local data = tostring(info)
 
             if (data:len() > 7) then
-                AH.GroupChat(data, getOtherPlayer())
+                local name, unitTag = getOtherPlayer()
+
+                AH.GroupChat(data, name, unitTag)
             end
+
             AH.Debug("Received ability data: " .. shareData)
         end
     elseif (shareType == AH.SHARE.CROSSING) then

@@ -44,7 +44,7 @@ end
 function AH.ColourIcon(icon, colour, width, height)
     local texture = zo_iconFormat(icon, width or 24, height or 24)
 
-    texture = string.format("|c%s%s|r", colour, texture:gsub("|t$", ":inheritColor|t"))
+    texture = colour:Colorize(texture:gsub("|t$", ":inheritColor|t"))
 
     return texture
 end
@@ -69,7 +69,7 @@ end
 
 function AH.Announce(achievementName, icon, remaining)
     local message =
-        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), "|cffff00", achievementName, "|r", remaining)
+        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), AH.COLOURS.YELLOW:Colorize(achievementName), remaining)
 
     if (AH.Vars.NotifyScreen) then
         AH.ScreenAnnounce(AH.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
@@ -349,37 +349,45 @@ local colours = {
     [AH.TYPES.VISION] = {normal = AH.COLOURS.BLUE, avatar = AH.COLOURS.PURPLE}
 }
 
-function AH.GroupChat(abilityData, name)
+function AH.GroupChat(abilityData, name, unitTag)
     if (IsInstanceEndlessDungeon()) then
         if (AH.Vars.ShowSelection) then
-            name = name or GetUnitName("player")
+            if (AH.Vars.UseDisplayName) then
+                name = ZO_LinkHandler_CreateDisplayNameLink(GetUnitDisplayName(unitTag or "player"))
+            else
+                name = AH.Format(name or GetUnitName("player"))
+            end
+
             abilityData = tostring(abilityData)
 
             local replaceText = _G.ARCHIVEHELPER_BUFF_SELECTED
             local abilityId = tonumber(abilityData:sub(2, 7))
             local count = tonumber(abilityData:sub(8))
-            local buff = AH.Format(GetAbilityName(abilityId))
             local abilityInfo = AH.ABILITIES[abilityId]
             local abilityType = abilityInfo.type or AH.TYPES.VERSE
             local avatar = AH.IsAvatar(abilityId)
             local colourChoices = colours[abilityType]
             local colour = avatar and colourChoices.avatar or colourChoices.normal
             local channel = AH.GetActualGroupType() == solo and _G.CHAT_CHANNEL_SAY or _G.CHAT_CHANNEL_PARTY
+            local abilityLink = GetAbilityLink(abilityId, _G.LINK_STYLE_BRACKETS)
 
             if (count == 999) then
                 replaceText = _G.ARCHIVEHELPER_RANDOM
             end
 
-            local message = ZO_CachedStrFormat(replaceText, AH.Format(name), "|c" .. colour .. buff .. "|r")
+            local message = ZO_CachedStrFormat(replaceText, name, colour:Colorize(abilityLink))
+            local yellow = AH.COLOURS.YELLOW
 
             if (count < 999) then
                 if (avatar) then
                     if (abilityType == AH.TYPES.VISION) then
+                        message = message .. " "
                         message =
-                            message .. " |cffff00(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")|r"
+                            message ..
+                            yellow:Colorize("(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")")
                     end
                 elseif (count > 1) then
-                    message = message .. " |cffff00(" .. count .. ")|r"
+                    message = message .. " " .. yellow:Colorize("(" .. count .. ")")
                 end
             end
 

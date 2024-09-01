@@ -372,11 +372,6 @@ local function findOptions(searchOptions, box)
     end
 end
 
-local icons = {
-    L = AH.ColourIcon("/esoui/art/buttons/large_leftdoublearrow_up.dds", "f9f9f9", 20, 20),
-    R = AH.ColourIcon("esoui/art/buttons/large_rightdoublearrow_up.dds", "f9f9f9", 20, 20)
-}
-
 local function isReset()
     for _, value in pairs(AH.selectedBox) do
         if (tonumber(value)) then
@@ -413,7 +408,7 @@ function AH.CrossingUpdate(box, value, doNotShare)
                 local opt = selection
 
                 if (opt:len() == 2) then
-                    opt = opt:sub(1, 1) .. icons[selection:sub(2)] .. ((index == #solution) and "" or "  ")
+                    opt = opt:sub(1, 1) .. AH.ch_icons[selection:sub(2)] .. ((index == #solution) and "" or "  ")
                 else
                     opt = opt .. ((index == #solution) and "" or AH.Spaces(6))
                 end
@@ -423,7 +418,7 @@ function AH.CrossingUpdate(box, value, doNotShare)
                 local isLast = box3 ~= 0 and index == #solution
                 local colour = (isFirst or isSecond or isLast) and AH.COLOURS.YELLOW or AH.COLOURS.WHITE
 
-                formattedSolution = string.format("%s|c%s%s|r", formattedSolution, colour, opt)
+                formattedSolution = string.format("%s%s", formattedSolution, colour:Colorize(opt))
             end
 
             if (#solution == 5) then
@@ -454,6 +449,13 @@ function AH.SetDisableCombos()
 end
 
 function AH.ShowCrossingHelper(bypass)
+    if (not AH.ch_icons) then
+        AH.ch_icons = {
+            L = AH.ColourIcon("/esoui/art/buttons/large_leftdoublearrow_up.dds", AH.COLOURS.WHITE, 20, 20),
+            R = AH.ColourIcon("esoui/art/buttons/large_rightdoublearrow_up.dds", AH.COLOURS.WHITE, 20, 20)
+        }
+    end
+
     if (AH.IsInCrossing or bypass) then
         if (not AH.CrossingHelperFrame) then
             local frame = WINDOW_MANAGER:CreateTopLevelWindow()
@@ -581,7 +583,7 @@ function AH.ShowCrossingHelper(bypass)
             frame.key:SetFont("${BOLD_FONT}|16")
             frame.key:SetColor(0.82, 0.82, 0.82, 1)
             frame.key:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
-            frame.key:SetText(ZO_CachedStrFormat(_G.ARCHIVEHELPER_CROSSING_KEY, icons.L, icons.R))
+            frame.key:SetText(ZO_CachedStrFormat(_G.ARCHIVEHELPER_CROSSING_KEY, AH.ch_icons.L, AH.ch_icons.R))
 
             AH.selectedBox = {[1] = 0, [2] = 0, [3] = 0}
             AH.CrossingHelperFrame = frame

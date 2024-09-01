@@ -172,7 +172,9 @@ function AH.OnBuffSelectorShowing()
                         countText = count
                     end
 
-                    buff:SetText(buff:GetText() .. AH.LF .. " |cffff00" .. "(" .. countText .. ")|r")
+                    countText = AH.COLOURS.YELLOW:Colorize(countText)
+
+                    buff:SetText(buff:GetText() .. AH.LF .. " (" .. countText .. ")")
                 end
             end
         end
