@@ -470,7 +470,10 @@ end
 
 local terrainList
 
+local playerName = GetUnitName("player")
+
 local function terrainWarnings(...)
+    local targetName = select(9, ...)
     local abilityId = select(17, ...)
 
     if (not AH.InsideArchive) then
@@ -478,37 +481,40 @@ local function terrainWarnings(...)
     end
 
     if (AH.InsideArchive and (not AH.Triggered)) then
-        if (terrainList[abilityId]) then
-            AH.Detected = GetAbilityName(abilityId)
-        else
-            AH.Detected = nil
-        end
+        if (targetName == playerName) then
+            if (terrainList[abilityId]) then
+                AH.Detected = GetAbilityName(abilityId)
+            else
+                AH.Detected = nil
+            end
 
-        if (AH.Detected and (not AH.Triggered)) then
-            AH.Triggered = true
-            warnNow(abilityId)
-            zo_callLater(
-                function()
-                    AH.Triggered = false
-                    AH.Detected = nil
-                end,
-                1000
-            )
+            if (AH.Detected and (not AH.Triggered)) then
+                AH.Triggered = true
+                warnNow(abilityId)
+                zo_callLater(
+                    function()
+                        AH.Triggered = false
+                        AH.Detected = nil
+                    end,
+                    1000
+                )
+            end
         end
     end
 end
 
 function AH.SetTerrainWarnings(enable)
     if (enable) then
+        EVENT_MANAGER:RegisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT, terrainWarnings)
         EVENT_MANAGER:AddFilterForEvent(
             AH.Name,
             _G.EVENT_COMBAT_EVENT,
             _G.REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE,
             _G.COMBAT_UNIT_TYPE_PLAYER
         )
-        EVENT_MANAGER:RegisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT, terrainWarnings)
+
         if (not terrainList) then
-            terrainList= AH.BuildList(AH.TERRAIN)
+            terrainList = AH.BuildList(AH.TERRAIN)
         end
     else
         EVENT_MANAGER:UnregisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT)
