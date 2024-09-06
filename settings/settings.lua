@@ -7,7 +7,7 @@ local panel = {
     name = "Archive Helper",
     displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.3.3",
+    version = "1.3.4",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -242,7 +242,17 @@ local function buildOptions()
         [7] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_SELECTION_DISPLAY_NAME),
-            tooltip = AH.Format(_G.ARCHIVEHELPER_REQUIRES),
+            tooltip = function()
+                if (_G.ARCHIVEHELPER_SHOW_SELECTION_DISPLAY_NAME_TOOLTIP) then
+                    return string.format(
+                        "%s. %s",
+                        AH.Format(_G.ARCHIVEHELPER_SHOW_SELECTION_DISPLAY_NAME_TOOLTIP),
+                        AH.Format(_G.ARCHIVEHELPER_REQUIRES)
+                    )
+                else
+                    return AH.Format(_G.ARCHIVEHELPER_REQUIRES)
+                end
+            end,
             getFunc = function()
                 return AH.Vars.UseDisplayName
             end,
@@ -257,6 +267,11 @@ local function buildOptions()
         [8] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_SHOW_TERRAIN_WARNING),
+            tooltip = function()
+                if (_G.ARCHIVEHELPER_SHOW_TERRAIN_WARNING_TOOLTIP) then
+                    return AH.Format(_G.ARCHIVEHELPER_SHOW_TERRAIN_WARNING_TOOLTIP)
+                end
+            end,
             getFunc = function()
                 return AH.Vars.TerrainWarnings
             end,

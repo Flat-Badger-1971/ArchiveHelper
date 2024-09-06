@@ -218,7 +218,7 @@ local function onPlayerActivated()
     if (lastMapId ~= mapId) then
         lastMapId = mapId
 
-        if (AH.Vars.ShowTimer) then
+        if (AH.Vars.ShowTimer or AH.Vars.ShowHelper) then
             zoneCheck()
         end
 
@@ -470,10 +470,10 @@ end
 
 local terrainList
 
-local playerName = GetUnitName("player")
+local playerName = ZO_CachedStrFormat(_G.SI_UNIT_NAME, GetUnitName("player"))
 
 local function terrainWarnings(...)
-    local targetName = select(9, ...)
+    local targetName = ZO_CachedStrFormat(_G.SI_UNIT_NAME, select(9, ...))
     local abilityId = select(17, ...)
 
     if (not AH.InsideArchive) then
