@@ -31,8 +31,12 @@ end
 local function makeMarkerAvailable(marker)
     local index = type(marker) == "number" and marker or getMarkerIndex(marker)
 
-    AH.MARKERS[index].used = false
-    AH.MARKERS[index].manual = false
+    if (AH.MARKERS) then
+        if (AH.MARKERS[index]) then
+            AH.MARKERS[index].used = false
+            AH.MARKERS[index].manual = false
+        end
+    end
 end
 
 local function getAvailableMarker()
