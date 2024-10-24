@@ -169,7 +169,7 @@ function AH.OnBuffSelectorShowing()
 
                 if (count > 0) then
                     if (countText == "") then
-                        countText = count
+                        countText = tostring(count)
                     end
 
                     countText = AH.COLOURS.YELLOW:Colorize(countText)
