@@ -224,7 +224,7 @@ function AH.ShowQuestReminder()
         questReminder:ClearAnchors()
         questReminder:SetAnchor(BOTTOM, parent, TOP, 0, -120)
         questReminder:SetAnchor(TOP, parent, TOP, 0, -160)
-        questReminder:SetText(AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST_TEXT))
+        questReminder:SetText(AH.LC.Format(_G.ARCHIVEHELPER_REMINDER_QUEST_TEXT))
         questReminder:SetHidden(false)
 
         AH.QuestReminder = questReminder
@@ -410,7 +410,7 @@ function AH.CrossingUpdate(box, value, doNotShare)
                 if (opt:len() == 2) then
                     opt = opt:sub(1, 1) .. AH.ch_icons[selection:sub(2)] .. ((index == #solution) and "" or "  ")
                 else
-                    opt = opt .. ((index == #solution) and "" or AH.Spaces(6))
+                    opt = opt .. ((index == #solution) and "" or AH.LC.Space(6))
                 end
 
                 local isFirst = box1 ~= 0 and index == 1
@@ -422,7 +422,7 @@ function AH.CrossingUpdate(box, value, doNotShare)
             end
 
             if (#solution == 5) then
-                formattedSolution = string.format("%s%s", formattedSolution, AH.Spaces(8))
+                formattedSolution = string.format("%s%s", formattedSolution, AH.LC.Space(8))
             end
 
             solutions = string.format("%s%s%s", solutions, AH.LF, formattedSolution)

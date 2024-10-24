@@ -1,28 +1,6 @@
 local AH = _G.ArchiveHelper
 local archiveQuestIndexes = {}
 
-function AH.Format(value, ...)
-    local text = value
-
-    if (type(value) == "number") then
-        text = GetString(value)
-    end
-
-    return ZO_CachedStrFormat("<<C:1>>", text, ...)
-end
-
-function AH.Filter(t, filterFunc)
-    local out = {}
-
-    for k, v in pairs(t) do
-        if (filterFunc(v, k, t)) then
-            table.insert(out, v)
-        end
-    end
-
-    return out
-end
-
 function AH.IsRecorded(id, list)
     for _, listItem in ipairs(list) do
         if (listItem.id == id) then
@@ -42,29 +20,7 @@ function AH.GetRecord(id, table)
 end
 
 function AH.ColourIcon(icon, colour, width, height)
-    local texture = zo_iconFormat(icon, width or 24, height or 24)
-
-    texture = colour:Colorize(texture:gsub("|t$", ":inheritColor|t"))
-
-    return texture
-end
-
-function AH.ScreenAnnounce(header, message, icon, lifespan, sound)
-    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_LARGE_TEXT)
-
-    if (sound ~= "none") then
-        messageParams:SetSound(sound or "Justice_NowKOS")
-    end
-
-    messageParams:SetText(header or "Test Header", message or "Test Message")
-    messageParams:SetLifespanMS(lifespan or 6000)
-    messageParams:SetCSAType(_G.CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
-
-    if (icon) then
-        messageParams:SetIconData(icon)
-    end
-
-    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
+    return AH.LC.GetIconTexture(icon, colour, width or 24, height or 24)
 end
 
 function AH.Announce(achievementName, icon, remaining)
@@ -72,7 +28,7 @@ function AH.Announce(achievementName, icon, remaining)
         ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), AH.COLOURS.YELLOW:Colorize(achievementName), remaining)
 
     if (AH.Vars.NotifyScreen) then
-        AH.ScreenAnnounce(AH.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
+        AH.LC.ScreenAnnounce(AH.LC.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
     end
 
     if (AH.Vars.NotifyChat and AH.Chat) then
@@ -355,7 +311,7 @@ function AH.GroupChat(abilityData, name, unitTag)
             if (AH.Vars.UseDisplayName) then
                 name = ZO_LinkHandler_CreateDisplayNameLink(GetUnitDisplayName(unitTag or "player"))
             else
-                name = AH.Format(name or GetUnitName("player"))
+                name = AH.LC.Format(name or GetUnitName("player"))
             end
 
             abilityData = tostring(abilityData)
@@ -403,16 +359,6 @@ function AH.GroupChat(abilityData, name, unitTag)
     end
 end
 
-function AH.Spaces(numberOfSpaces)
-    local output = ""
-
-    for _ = 1, numberOfSpaces do
-        output = string.format("%s%s", output, " ")
-    end
-
-    return output
-end
-
 function AH.ToggleCrossingHelper()
     if (AH.CrossingHelperFrame and (not AH.CrossingHelperFrame:IsHidden())) then
         AH.HideCrossingHelper()
@@ -434,25 +380,6 @@ function AH.ToggleCrossingHelper()
     if ((AH.CrossingHelperFrame and AH.CrossingHelperFrame:IsHidden()) or not AH.CrossingHelperFrame) then
         AH.ShowCrossingHelper(AH.DEBUG)
     end
-end
-
-function AH.BuildList(listInfo)
-    local list = {}
-
-    for _, info in ipairs(listInfo) do
-        if (type(info) == "string") then
-            local comma = info:find(",")
-            local s, e = tonumber(info:sub(1, comma - 1)), tonumber(info:sub(comma + 1))
-
-            for i = s, e do
-                list[i] = true
-            end
-        else
-            list[info] = true
-        end
-    end
-
-    return list
 end
 
 function AH.Debug(message)

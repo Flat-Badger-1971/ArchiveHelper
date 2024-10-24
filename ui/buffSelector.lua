@@ -55,7 +55,7 @@ function AH.OnBuffSelectorShowing()
                 buffType = buffType,
                 isAvatarVision = isAvatarVision,
                 index = numChoices,
-                name = AH.Format(GetAbilityName(abilityId))
+                name = AH.LC.Format(GetAbilityName(abilityId))
             }
         end
     end
