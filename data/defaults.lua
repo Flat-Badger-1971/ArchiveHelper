@@ -1,3 +1,24 @@
+if (not _G.LibFBCommon) then
+    ZO_Dialogs_RegisterCustomDialog(
+        "ArchiveHelperLibWarning",
+        {
+            title = {text = "|c4f34ebArchive Helper|r"},
+            mainText = {
+                text = GetString(_G.ARCHIVEHELPER_LIB_TEXT)
+            },
+            buttons = {
+                {
+                    text = ZO_CachedStrFormat("<<C:1>>", GetString(_G.SI_DIALOG_CONFIRM)),
+                    callback = function()
+                    end
+                }
+            }
+        }
+    )
+
+    ZO_Dialogs_ShowDialog("ArchiveHelperLibWarning")
+end
+
 _G.ArchiveHelper = {
     Defaults = {
         AvatarVisionCount = {IRON = 0, WOLF = 0, ICE = 0},
@@ -102,5 +123,6 @@ _G.ArchiveHelper = {
     SKILL_TYPE_PET = 999,
     SORCERER = 2,
     SUPPORT_SKILL_LINE = 71,
-    WARDEN = 4
+    WARDEN = 4,
+    LC = _G.LibFBCommon
 }

@@ -43,8 +43,6 @@ function AH.OnAddonLoaded(_, addonName)
         return
     end
 
-    AH.LC = _G.LibFBCommon
-
     if (_G.LibChatMessage ~= nil) then
         AH.Chat = _G.LibChatMessage(AH.Name, "AH")
     end
