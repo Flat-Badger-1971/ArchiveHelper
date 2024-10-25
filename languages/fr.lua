@@ -105,3 +105,8 @@ L(AH .. "MAP_FILERS_WING", "Filer's Wing")
 L(AH .. "MAP_ECHOING_DEN", "Echoing Den")
 L(AH .. "MAP_THEATRE_OF_WAR", "Theatre of War")
 L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozuno's Library")
+
+L(
+    AH .. "LIB_TEXT",
+    "Ce module complémentaire nécessite désormais LibFBCommon. Veuillez l'installer et le recharger. Veuillez ignorer les erreurs éventuelles jusqu'à ce que ce module soit installé."
+)

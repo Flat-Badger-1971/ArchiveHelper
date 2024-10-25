@@ -102,3 +102,9 @@ L(AH .. "MAP_FILERS_WING", "Erfasser-Flügel")
 L(AH .. "MAP_ECHOING_DEN", "Hallende Höhle")
 L(AH .. "MAP_THEATRE_OF_WAR", "Kriegsspielplatz")
 L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozunos Bibliothek")
+
+
+L(
+    AH .. "LIB_TEXT",
+    "Dieses Add-on erfordert jetzt LibFBCommon. Bitte installieren Sie es und laden Sie es neu. Bitte ignorieren Sie alle Fehler, bis dies installiert wurde."
+)

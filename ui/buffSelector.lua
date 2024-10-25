@@ -55,7 +55,7 @@ function AH.OnBuffSelectorShowing()
                 buffType = buffType,
                 isAvatarVision = isAvatarVision,
                 index = numChoices,
-                name = AH.Format(GetAbilityName(abilityId))
+                name = AH.LC.Format(GetAbilityName(abilityId))
             }
         end
     end
@@ -169,7 +169,7 @@ function AH.OnBuffSelectorShowing()
 
                 if (count > 0) then
                     if (countText == "") then
-                        countText = count
+                        countText = tostring(count)
                     end
 
                     countText = AH.COLOURS.YELLOW:Colorize(countText)
