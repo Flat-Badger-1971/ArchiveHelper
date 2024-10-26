@@ -416,7 +416,7 @@ function AH.CrossingUpdate(box, value, doNotShare)
                 local isFirst = box1 ~= 0 and index == 1
                 local isSecond = box2 ~= 0 and index == 2
                 local isLast = box3 ~= 0 and index == #solution
-                local colour = (isFirst or isSecond or isLast) and AH.COLOURS.YELLOW or AH.COLOURS.WHITE
+                local colour = (isFirst or isSecond or isLast) and AH.LC.Yellow or AH.LC.White
 
                 formattedSolution = string.format("%s%s", formattedSolution, colour:Colorize(opt))
             end
@@ -451,8 +451,8 @@ end
 function AH.ShowCrossingHelper(bypass)
     if (not AH.ch_icons) then
         AH.ch_icons = {
-            L = AH.ColourIcon("/esoui/art/buttons/large_leftdoublearrow_up.dds", AH.COLOURS.WHITE, 20, 20),
-            R = AH.ColourIcon("esoui/art/buttons/large_rightdoublearrow_up.dds", AH.COLOURS.WHITE, 20, 20)
+            L = AH.ColourIcon("/esoui/art/buttons/large_leftdoublearrow_up.dds", AH.LC.White, 20, 20),
+            R = AH.ColourIcon("esoui/art/buttons/large_rightdoublearrow_up.dds", AH.LC.White, 20, 20)
         }
     end
 
