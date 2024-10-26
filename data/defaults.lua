@@ -77,16 +77,6 @@ _G.ArchiveHelper = {
     Shards = {},
     TerrainWarnings = true,
     Tomeshells = {Solo = 4, Duo = 8},
-    COLOURS = {
-        BLUE = ZO_ColorDef:New("3a92ff"),
-        CYAN = ZO_ColorDef:New("329ea8"),
-        GOLD = ZO_ColorDef:New("ccaa1a"),
-        GREEN = ZO_ColorDef:New("2dc50e"),
-        PURPLE = ZO_ColorDef:New("a02ef7"),
-        RED = ZO_ColorDef:New("ff0000"),
-        WHITE = ZO_ColorDef:New("f9f9f9"),
-        YELLOW = ZO_ColorDef:New("ffff00")
-    },
     DATA_ID = 28, -- map id for libDataShare
     DEBUG = false,
     ICONS = {

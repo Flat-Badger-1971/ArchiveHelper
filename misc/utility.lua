@@ -25,7 +25,7 @@ end
 
 function AH.Announce(achievementName, icon, remaining)
     local message =
-        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), AH.COLOURS.YELLOW:Colorize(achievementName), remaining)
+        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), AH.LC.Yellow:Colorize(achievementName), remaining)
 
     if (AH.Vars.NotifyScreen) then
         AH.LC.ScreenAnnounce(AH.LC.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
@@ -301,8 +301,8 @@ function AH.HasSkills(abilityId)
 end
 
 local colours = {
-    [AH.TYPES.VERSE] = {normal = AH.COLOURS.GREEN, avatar = AH.COLOURS.GOLD},
-    [AH.TYPES.VISION] = {normal = AH.COLOURS.BLUE, avatar = AH.COLOURS.PURPLE}
+    [AH.TYPES.VERSE] = {normal = AH.LC.ZOSGreen, avatar = AH.LC.ZOSGold},
+    [AH.TYPES.VISION] = {normal = AH.LC.ZOSBlue, avatar = AH.LC.ZOSPurple}
 }
 
 function AH.GroupChat(abilityData, name, unitTag)
@@ -332,7 +332,7 @@ function AH.GroupChat(abilityData, name, unitTag)
             end
 
             local message = ZO_CachedStrFormat(replaceText, name, colour:Colorize(abilityLink))
-            local yellow = AH.COLOURS.YELLOW
+            local yellow = AH.LC.Yellow
 
             if (count < 999) then
                 if (avatar) then
@@ -370,7 +370,7 @@ function AH.ToggleCrossingHelper()
         local message = GetString(_G.ARCHIVEHELPER_CROSSING_INVALID)
 
         if (AH.Chat) then
-            AH.Chat:SetTagColor(AH.COLOURS.PURPLE)
+            AH.Chat:SetTagColor(AH.LC.ZOSPurple)
             AH.Chat:Print(message)
         end
 
@@ -384,7 +384,7 @@ end
 
 function AH.Debug(message)
     if (AH.DEBUG) then
-        AH.Chat:SetTagColor(AH.COLOURS.PURPLE)
+        AH.Chat:SetTagColor(AH.LC.ZOSPurple)
         AH.Chat:Print(message)
     end
 end

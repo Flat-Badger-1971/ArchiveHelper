@@ -159,7 +159,7 @@ local function buildOptions()
     populateRemovableOptions()
 
     local optional = ""
-    local yellow = AH.COLOURS.YELLOW
+    local yellow = AH.LC.Yellow
 
     if (not AH.Chat) then
         optional = yellow:Colorize(GetString(_G.ARCHIVEHELPER_OPTIONAL_LIBS_CHAT))
@@ -495,7 +495,7 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "checkbox",
-        name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.ACH.name), AH.COLOURS.RED) ..
+        name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.ACH.name), AH.LC.Red) ..
             " " .. AH.LC.Format(_G.SI_ZONECOMPLETIONTYPE3),
         getFunc = function()
             return AH.Vars.MarkAchievements
@@ -533,7 +533,7 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "checkbox",
-        name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.FAV.name), AH.COLOURS.GREEN) ..
+        name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.FAV.name), AH.LC.ZOSGreen) ..
             " " .. AH.LC.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
         getFunc = function()
             return AH.Vars.MarkFavourites
@@ -612,7 +612,7 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "description",
-        text = AH.COLOURS.RED:Colorize(AH.LC.Format(_G.ARCHIVEHELPER_WARNING)),
+        text = AH.LC.Red:Colorize(AH.LC.Format(_G.ARCHIVEHELPER_WARNING)),
         width = "full"
     }
 
@@ -700,7 +700,7 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "description",
-        text = AH.COLOURS.RED:Colorize(AH.LC.Format(_G.ARCHIVEHELPER_WARNING)),
+        text = AH.LC.Red:Colorize(AH.LC.Format(_G.ARCHIVEHELPER_WARNING)),
         width = "full"
     }
 

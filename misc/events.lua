@@ -458,7 +458,7 @@ AH.Triggered = false
 
 local function warnNow(abilityId)
     local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_MAJOR_TEXT)
-    local colour = (abilityId > 200000) and AH.COLOURS.CYAN or AH.COLOURS.RED
+    local colour = (abilityId > 200000) and AH.LC.Cyan or AH.LC.Red
 
     messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", AH.Detected) .. "!"))
     messageParams:SetSound(AH.Sounds.Terrain.sound)
