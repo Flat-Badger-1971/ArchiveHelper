@@ -2,7 +2,7 @@
 -- luacheck: ignore 631
 local L = ZO_CreateStringId
 local AH = "ARCHIVEHELPER_"
-L(AH .. "ADD_AVOID", "Auf \"Zu Vermeiden\" hinzufügen")
+L(AH .. "ADD_AVOID", 'Auf "Zu Vermeiden" hinzufügen')
 L(AH .. "ALL_BOTH", "Alle Verse und Visionen erworben")
 L(AH .. "ALL_VISIONS", "Alle Visionen erworben")
 L(AH .. "ALL_VERSES", "Alle Verse erworben")
@@ -13,7 +13,7 @@ L(AH .. "BUFF_SELECTED", "<<1>> hat <<2>> ausgewählt")
 L(AH .. "COUNT", "<<1>> von <<2>>")
 L(AH .. "CROSSING_END", "Ende")
 L(AH .. "CROSSING_FAIL", "gesperrt") -- Die Hebel sind gesperrt. Keiner kommt weiter
-L(AH .. "CROSSING_INVALID", "Hilfe kann nur in \"Tückischer Übergang\" im Endlosen Archiv aktiviert werden")
+L(AH .. "CROSSING_INVALID", 'Hilfe kann nur in "Tückischer Übergang" im Endlosen Archiv aktiviert werden')
 L(AH .. "CROSSING_KEY", "<<1>> Biegen Sie links ab - <<2>> Biegen Sie rechts ab")
 L(AH .. "CROSSING_NO_SOLUTIONS", "Keine Pfade gefunden")
 L(AH .. "CROSSING_PATHS", "Mögliche Wege")
@@ -55,8 +55,11 @@ L(AH .. "RANDOM", "<<1>> hat <<2>> bekommen")
 L(AH .. "REMINDER", "Erinnerung an ein Bosskampf anzeigen")
 L(AH .. "REMINDER_QUEST", "Erinnerung an ein Quest Gegenstand anzeigen")
 L(AH .. "REMINDER_QUEST_TEXT", "Questgegenstand nicht vergessen!")
-L(AH .. "REMINDER_TOOLTIP", "Bei der Auswahl von Versen eine Erinnerung anzeigen, wenn der nächste Abschnitt ein Boss ist.")
-L(AH .. "REMOVE_AVOID", "Von \"Zu Vermeiden\" entfernen")
+L(
+    AH .. "REMINDER_TOOLTIP",
+    "Bei der Auswahl von Versen eine Erinnerung anzeigen, wenn der nächste Abschnitt ein Boss ist."
+)
+L(AH .. "REMOVE_AVOID", 'Von "Zu Vermeiden" entfernen')
 L(AH .. "REQUIRES", "Benötigt LibChatMessage")
 L(AH .. "SECONDS", "s")
 L(AH .. "SHARD", "Tho'at-Scherbe")
@@ -102,9 +105,3 @@ L(AH .. "MAP_FILERS_WING", "Erfasser-Flügel")
 L(AH .. "MAP_ECHOING_DEN", "Hallende Höhle")
 L(AH .. "MAP_THEATRE_OF_WAR", "Kriegsspielplatz")
 L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozunos Bibliothek")
-
-
-L(
-    AH .. "LIB_TEXT",
-    "Dieses Add-on erfordert jetzt LibFBCommon. Bitte installieren Sie es und laden Sie es neu. Bitte ignorieren Sie alle Fehler, bis dies installiert wurde."
-)

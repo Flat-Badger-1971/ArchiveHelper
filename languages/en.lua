@@ -13,7 +13,10 @@ L(AH .. "BUFF_SELECTED", "<<1>> selected <<2>>")
 L(AH .. "COUNT", "<<1>> of <<2>>")
 L(AH .. "CROSSING_END", "End")
 L(AH .. "CROSSING_KEY", "<<1>> Turn Left - <<2>> Turn Right")
-L(AH .. "CROSSING_INVALID", "The Crossing Helper can only be activated within the Treacherous Crossing in the Infinite Archive")
+L(
+    AH .. "CROSSING_INVALID",
+    "The Crossing Helper can only be activated within the Treacherous Crossing in the Infinite Archive"
+)
 L(AH .. "CROSSING_FAIL", "Locked") -- The Levers are Locked. No-one can cross
 L(AH .. "CROSSING_NO_SOLUTIONS", "No Paths Found")
 L(AH .. "CROSSING_PATHS", "Possible Paths")
@@ -104,6 +107,4 @@ L(AH .. "MAP_FILERS_WING", "Filer's Wing")
 L(AH .. "MAP_ECHOING_DEN", "Echoing Den")
 L(AH .. "MAP_THEATRE_OF_WAR", "Theatre of War")
 L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozuno's Library")
-
-L(AH .. "LIB_TEXT","This addon now requires LibFBCommon. Please install it and reload. Please disregard any errors until this has been installed.")
 -- luacheck: pop

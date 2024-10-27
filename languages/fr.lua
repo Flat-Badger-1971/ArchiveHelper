@@ -46,7 +46,10 @@ L(AH .. "MARAUDER_INCOMING_PLAY", "Jouer un son à l'arrivée d'un Maraudeur")
 L(AH .. "OPTIONAL_LIBS_CHAT", "Archive Helper fonctionne mieux si LibChatMessage est installé.")
 L(AH .. "OPTIONAL_LIBS_SHARE", "Pour que le mode Duo fonctionne correctement, veuillez installer LibDataShare.")
 L(AH .. "PREVENT", "Empêcher de sélectionner un bienfait par erreur")
-L(AH .. "PREVENT_TOOLTIP", "Désactive la sélection du bienfait brièvement lorsque le panneau de sélection s'ouvre pour éviter un choix accidentel.")
+L(
+    AH .. "PREVENT_TOOLTIP",
+    "Désactive la sélection du bienfait brièvement lorsque le panneau de sélection s'ouvre pour éviter un choix accidentel."
+)
 L(AH .. "PROGRESS", "Avancement du critère <<1>>. Encore <<2>>.")
 L(AH .. "PROGRESS_ACHIEVEMENT", "Progression des succès")
 L(AH .. "PROGRESS_CHAT", "Afficher dans le log")
@@ -105,8 +108,3 @@ L(AH .. "MAP_FILERS_WING", "Filer's Wing")
 L(AH .. "MAP_ECHOING_DEN", "Echoing Den")
 L(AH .. "MAP_THEATRE_OF_WAR", "Theatre of War")
 L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozuno's Library")
-
-L(
-    AH .. "LIB_TEXT",
-    "Ce module complémentaire nécessite désormais LibFBCommon. Veuillez l'installer et le recharger. Veuillez ignorer les erreurs éventuelles jusqu'à ce que ce module soit installé."
-)

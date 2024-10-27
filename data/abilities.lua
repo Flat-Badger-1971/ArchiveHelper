@@ -353,6 +353,3 @@ AH.TERRAIN = {
 4155, -- Cadaverous Crusader - necrotic set
 
 ]]
-
--- GetAbilityEndlessDungeonBuffType returns bufftype, isavatarvision
---endless_dungeon_buff_type_none/verse/vision 0/1/2
