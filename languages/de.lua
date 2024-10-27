@@ -102,3 +102,5 @@ L(AH .. "MAP_FILERS_WING", "Erfasser-Flügel")
 L(AH .. "MAP_ECHOING_DEN", "Hallende Höhle")
 L(AH .. "MAP_THEATRE_OF_WAR", "Kriegsspielplatz")
 L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozunos Bibliothek")
+
+L(AH .. "LFC", "Die nächste Version dieses Add-ons erfordert LibFSCommon. Bitte installieren Sie es vor der nächsten Veröffentlichung.")

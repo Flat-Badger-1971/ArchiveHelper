@@ -36,6 +36,30 @@ local function Initialise()
     _G.SLASH_COMMANDS["/ah"] = function(...)
         AH.HandleSlashCommand(...)
     end
+
+    local libWarning = AH.Vars.LibWarning
+
+    if (not _G.LibFBCommon and not libWarning) then
+        ZO_Dialogs_RegisterCustomDialog(
+            "ArchiveHelperLibWarning",
+            {
+                title = {text = "|c4f34ebArchive Helper|r"},
+                mainText = {
+                    text = GetString(_G.ARCHIVEHLPER_LFC)
+                },
+                buttons = {
+                    {
+                        text = ZO_CachedStrFormat("<<C:1>>", GetString(_G.SI_DIALOG_CONFIRM)),
+                        callback = function()
+                            AH.Vars.LibWarning = true
+                        end
+                    }
+                }
+            }
+        )
+
+        ZO_Dialogs_ShowDialog("ArchiveHelperLibWarning")
+    end
 end
 
 function AH.OnAddonLoaded(_, addonName)

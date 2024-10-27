@@ -105,3 +105,5 @@ L(AH .. "MAP_FILERS_WING", "Filer's Wing")
 L(AH .. "MAP_ECHOING_DEN", "Echoing Den")
 L(AH .. "MAP_THEATRE_OF_WAR", "Theatre of War")
 L(AH .. "MAP_DESTOZUNOS_LIBRARY", "Destozuno's Library")
+
+L(AH .. "LFC", "La prochaine version de ce module complémentaire nécessitera LibFSCommon. Veuillez l'installer avant la prochaine version.")
