@@ -330,7 +330,7 @@ AH.TERRAIN = {
     "224951,224952" -- Frigid waters
 }
 
-AH.AUDITOR = 341 --12269
+AH.AUDITOR = 12269
 
 --[[
 3781, -- I crave violence
