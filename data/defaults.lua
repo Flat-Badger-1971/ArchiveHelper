@@ -3,6 +3,7 @@ _G.ArchiveHelper = {
         AvatarVisionCount = {IRON = 0, WOLF = 0, ICE = 0},
         CheckQuestItems = true,
         CountTomes = true,
+        Curator = false,
         EchoingDenTimer = 60,
         FabledCheck = true,
         Favourites = {},

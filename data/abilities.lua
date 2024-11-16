@@ -329,6 +329,9 @@ AH.TERRAIN = {
     "224947,224949", -- Frigid Waters
     "224951,224952" -- Frigid waters
 }
+
+AH.AUDITOR = 8006 --12269
+
 --[[
 3781, -- I crave violence
 3782, -- You can't touch me
@@ -353,6 +356,3 @@ AH.TERRAIN = {
 4155, -- Cadaverous Crusader - necrotic set
 
 ]]
-
--- GetAbilityEndlessDungeonBuffType returns bufftype, isavatarvision
---endless_dungeon_buff_type_none/verse/vision 0/1/2

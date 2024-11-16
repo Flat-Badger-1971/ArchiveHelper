@@ -279,6 +279,17 @@ local function checkMessage(messageParams)
             AH.HideCrossingHelper()
         end
     end
+
+    -- check for loyal curator
+    if (AH.Vars.Curator and IsCollectibleUsable(AH.CURATOR)) then
+        if (not IsCollectibleActive(AH.CURATOR)) then
+            local cooldown = GetCollectibleCooldownAndDuration(AH.CURATOR)
+
+            if (cooldown == 0) then
+                UseCollectible(AH.CURATOR)
+            end
+        end
+    end
 end
 
 local function onMessage(_, messageParams)

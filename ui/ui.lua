@@ -184,7 +184,7 @@ function AH.ShowTimer()
         AH.Timer = timer
         AH.Keys["Timer"] = timerKey
 
-        AH.SetTime(AH.Vars.EchoingDenTimer)
+        AH.SetTime()
     end
 end
 
