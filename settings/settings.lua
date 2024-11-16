@@ -326,8 +326,8 @@ local function buildOptions()
             getFunc = function()
                 return AH.Vars.Auditor
             end,
-            setFunc = function()
-                AH.Vars.Auditor = true
+            setFunc = function(value)
+                AH.Vars.Auditor = value
             end,
             width = "full",
             disabled = function()
