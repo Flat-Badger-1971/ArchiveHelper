@@ -5,7 +5,7 @@ AH.LAM = _G.LibAddonMenu2
 local panel = {
     type = "panel",
     name = "Archive Helper",
-    displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
+    displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. " |cff9900Archive Helper|r",
     author = "Flat Badger",
     version = "1.3.6",
     registerForRefresh = true
@@ -281,25 +281,11 @@ local function buildOptions()
             end
         },
         [9] = {
-            type = "checkbox",
-            name = AH.Format(_G.ARCHIVEHELPER_CURATOR),
-            getFunc = function()
-                return AH.Vars.Curator
-            end,
-            setFunc = function()
-                AH.Vars.Curator = true
-            end,
-            width = "full",
-            disabled = function()
-                return not IsCollectibleUnlocked(AH.CURATOR)
-            end
-        },
-        [10] = {
             type = "header",
             name = AH.Format(_G.SI_ITEMFILTERTYPE5),
             width = "full"
         },
-        [11] = {
+        [10] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_REMINDER),
             tooltip = AH.Format(_G.ARCHIVEHELPER_REMINDER_TOOLTIP),
@@ -311,7 +297,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [12] = {
+        [11] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST),
             getFunc = function()
@@ -322,7 +308,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [13] = {
+        [12] = {
             type = "checkbox",
             name = AH.Format(_G.ARCHIVEHELPER_PREVENT),
             tooltip = AH.Format(_G.ARCHIVEHELPER_PREVENT_TOOLTIP),
@@ -333,6 +319,20 @@ local function buildOptions()
                 AH.Vars.PreventSelection = value
             end,
             width = "full"
+        },
+        [13] = {
+            type = "checkbox",
+            name = AH.Format(_G.ARCHIVEHELPER_AUDITOR),
+            getFunc = function()
+                return AH.Vars.Auditor
+            end,
+            setFunc = function()
+                AH.Vars.Auditor = true
+            end,
+            width = "full",
+            disabled = function()
+                return not IsCollectibleUnlocked(AH.AUDITOR)
+            end
         },
         [14] = {
             type = "header",

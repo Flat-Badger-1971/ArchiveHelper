@@ -280,13 +280,13 @@ local function checkMessage(messageParams)
         end
     end
 
-    -- check for loyal curator
-    if (AH.Vars.Curator and IsCollectibleUsable(AH.CURATOR)) then
-        if (not IsCollectibleActive(AH.CURATOR)) then
-            local cooldown = GetCollectibleCooldownAndDuration(AH.CURATOR)
+    -- check for loyal auditor
+    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR)) then
+        if (not IsCollectibleActive(AH.AUDITOR)) then
+            local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
 
             if (cooldown == 0) then
-                UseCollectible(AH.CURATOR)
+                UseCollectible(AH.AUDITOR)
             end
         end
     end

@@ -30,6 +30,7 @@ L("BUFF_SELECTED", "<<1>> получает [<<2>>]") -- <<1>> selected <<2>>
 L("RANDOM", "<<1>> получает [<<2>>]") -- <<1>> received <<2>>
 L("COUNT", "<<1>> из <<2>>") -- <<1>> of <<2>>
 L("DEN_TIMER", "<<1[Осталось 0 сек./Осталось 1 сек./Осталось $d сек.]>>") -- <<1[0s remaining/1s remaining/$ds remaining]>>
+L("AUDITOR", "Autosummon Loyal Auditor")
 L("CROSSING_TITLE", "Помощник Коварного перекрёстка") -- Treacherous Crossing Helper
 L(
     "CROSSING_INSTRUCTIONS",
@@ -46,7 +47,6 @@ L("CROSSING_PATHS", "Возможные пути") -- Possible Paths
 L("CROSSING_NO_SOLUTIONS", "Пути не найдены") -- No Paths Found
 L("CROSSING_SUCCESS", "решили головоломку") -- you Solved the Corridor Puzzle / Вы решили головоломку в коридоре
 L("CROSSING_FAIL", "заклинил") -- Locked (the Levers are Locked. No-one can cross)
-L("CURATOR", "Autosummon Loyal Curator")
 L("HERD", "соберите призрачные огни") -- Herd the Ghost Lights
 L("HERD_SUCCESS", "удалось вернуть") -- you Successfully Returned the Ghostlights / Вам удалось вернуть призрачные огни
 L("HERD_FAIL", "достаточно") -- you Did Not Herd Enough Ghostlights / Вам не удалось собрать достаточно призрачных огней

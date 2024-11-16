@@ -9,6 +9,7 @@ L("ALL_BOTH", "Tous les versets et visions acquis")
 L("ALL_VISIONS", "Toutes les visions acquises")
 L("ALL_VERSES", "Tous les versets acquis")
 L("ARC_BOSS", "Replicanum de Tho’at à venir")
+L("AUDITOR", "Autosummon Loyal Auditor")
 L("AVOID", "Indésirables")
 L("BONUS", "Niveaux bonus")
 L("BUFF_SELECTED", "<<1>> a sélectionné <<2>>")
@@ -28,7 +29,6 @@ L(
     "Trouvez l'interrupteur correspondant au début du chemin et sélectionnez-le dans la liste déroulante ci-dessous (1 est le plus à gauche, 6 le plus à droite)." ..
         " Puis, si nécessaire, trouvez la 2ème étape ou la fin du chemin, jusqu'à ce qu'il ne reste qu'une solution."
 )
-L("CURATOR", "Autosummon Loyal Curator")
 L("CYCLE_BOSS", "Phase de boss à venir")
 L("DEN_TIMER", "<<1[0s restantes/1s restante/$ds restantes]>>")
 L("FABLED", "fabule")

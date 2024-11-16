@@ -9,6 +9,7 @@ L("ALL_BOTH", "All verses and visions acquired")
 L("ALL_VISIONS", "All visions acquired")
 L("ALL_VERSES", "All verses acquired")
 L("ARC_BOSS", "Tho'at Replicanum next")
+L("AUDITOR", "Autosummon Loyal Auditor")
 L("AVOID", "Avoid")
 L("BONUS", "Bonus Levels")
 L("BUFF_SELECTED", "<<1>> selected <<2>>")
@@ -31,7 +32,6 @@ L(
     "Find the switch corresponding to the start of the path and select it in the dropdown below (1 is the leftmost switch, 6 the rightmost)." ..
         " Then, if necessary, find the 2nd step or the end of the path, until only one solution remains."
 )
-L("CURATOR", "Autosummon Loyal Curator")
 L("CYCLE_BOSS", "Cycle boss next")
 L("DEN_TIMER", "<<1[0s remaining/1s remaining/$ds remaining]>>")
 L("FABLED", "Fabled")

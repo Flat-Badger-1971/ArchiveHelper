@@ -45,7 +45,7 @@ local function Initialise()
             {
                 title = {text = "|c4f34ebArchive Helper|r"},
                 mainText = {
-                    text = GetString(_G.ARCHIVEHLPER_LFC)
+                    text = GetString(_G.ARCHIVEHELPER_LFC)
                 },
                 buttons = {
                     {
