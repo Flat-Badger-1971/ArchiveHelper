@@ -94,6 +94,5 @@ _G.ArchiveHelper = {
     SKILL_TYPE_PET = 999,
     SORCERER = 2,
     SUPPORT_SKILL_LINE = 71,
-    WARDEN = 4,
-    LC = _G.LibFBCommon
+    WARDEN = 4
 }
