@@ -27,6 +27,7 @@ L("CROSSING_SLASH", "helper")
 L("CROSSING_START", "Start")
 L("CROSSING_SUCCESS", "Solved") -- You Solved the Corridor Puzzle
 L("CROSSING_TITLE", "Treacherous Crossing Helper")
+
 L(
     "CROSSING_INSTRUCTIONS",
     "Find the switch corresponding to the start of the path and select it in the dropdown below (1 is the leftmost switch, 6 the rightmost)." ..

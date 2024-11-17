@@ -24,6 +24,7 @@ L("CROSSING_SLASH", "helfer")
 L("CROSSING_START", "Anfang")
 L("CROSSING_SUCCESS", "gelöst") -- Ihr habt des Rätsel der Gänge gelöst
 L("CROSSING_TITLE", "Tückischer Übergang Helfer")
+
 L(
     "CROSSING_INSTRUCTIONS",
     "Suchen Sie den Schalter, der dem Anfang des Pfades entspricht, und wählen Sie ihn in der Dropdown-Liste unten aus (1 ist der Schalter ganz links, 6 der ganz rechts)." ..
@@ -37,6 +38,7 @@ L(
     "FABLED_TOOLTIP",
     "Diese Funktion wird nicht zusammen mit Lykeions Fabled Marker Addon funktionieren, da sonst beide Addons die gleichen Dinge markieren würden."
 )
+
 L("FLAMESHAPER", "Flammenformer")
 L("GW", "Gw Langfinger")
 L("GW_MARKER", "Zielmarkierungen zu Gw Langfinger hinzufügen")
@@ -67,6 +69,7 @@ L("SHARD_IGNORE", "Scherben außerhalb von Zyklus 5 ignorieren")
 L("SHARD_MARKER", "Zielmarkierungen zu Tho'at Scherben hinzufügen")
 L("SHOW_COUNT", "Verbleibende Buchsiedler im Erfasser-Flügel zählen")
 L("SHOW_CROSSING_HELPER", "Tückischer Übergang Helfer anzeigen")
+
 L(
     "SHOW_COUNT_TOOLTIP",
     "Damit der Duo-Modus korrekt funktioniert, muss auch der andere Spieler dieses Addon installiert haben. Außerdem müssen beide Spieler LibDataShare installiert haben."

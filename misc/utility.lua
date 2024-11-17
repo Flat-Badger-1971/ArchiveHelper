@@ -344,7 +344,7 @@ function AH.GroupChat(abilityData, name, unitTag)
             end
 
             local message = ZO_CachedStrFormat(replaceText, name, colour:Colorize(abilityLink))
-            local yellow = AH.COLOURS.YELLOW
+            local yellow = AH.LC.Yellow
 
             if (count < 999) then
                 if (avatar) then
@@ -382,7 +382,7 @@ function AH.ToggleCrossingHelper()
         local message = GetString(_G.ARCHIVEHELPER_CROSSING_INVALID)
 
         if (AH.Chat) then
-            AH.Chat:SetTagColor(AH.COLOURS.PURPLE)
+            AH.Chat:SetTagColor(AH.LC.ZOSPurple)
             AH.Chat:Print(message)
         end
 

@@ -37,6 +37,7 @@ L(
     "FABLED_TOOLTIP",
     "Cette fonctionnalité ne fonctionnera pas avec l'addon Lykeion's Fabled Marker afin d'éviter que les deux addons n'essaient de marquer les mêmes choses."
 )
+
 L("FLAMESHAPER", "Façonne-feu")
 L("GW", "Gw le pillard")
 L("GW_MARKER", "Ajouter un marqueur de cible sur Gw le pillard")
@@ -70,6 +71,7 @@ L("SHARD_IGNORE", "Ignorer les Fragments en dehors du cycle 5")
 L("SHARD_MARKER", "Mettre un marqueur sur les Fragments de Tho'at")
 L("SHOW_COUNT", "Décompter les tomes-carapaces de l'Aile du greffier")
 L("SHOW_CROSSING_HELPER", "Afficher l'aide dans le Gué traître")
+
 L(
     "SHOW_COUNT_TOOLTIP",
     "Pour que le mode Duo fonctionne correctement, l'autre joueur doit avoir installé cet addon. Les deux joueurs doivent également avoir installé LibDataShare."
