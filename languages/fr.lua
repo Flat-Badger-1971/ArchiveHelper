@@ -111,8 +111,3 @@ L("MAP_FILERS_WING", "Filer's Wing")
 L("MAP_ECHOING_DEN", "Echoing Den")
 L("MAP_THEATRE_OF_WAR", "Theatre of War")
 L("MAP_DESTOZUNOS_LIBRARY", "Destozuno's Library")
-
-L(
-    "LFC",
-    "La prochaine version de ce module complémentaire nécessitera LibFBCommon. Veuillez l'installer avant la prochaine version."
-)

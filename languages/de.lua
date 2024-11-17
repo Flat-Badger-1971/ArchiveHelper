@@ -105,8 +105,3 @@ L("MAP_FILERS_WING", "Erfasser-Flügel")
 L("MAP_ECHOING_DEN", "Hallende Höhle")
 L("MAP_THEATRE_OF_WAR", "Kriegsspielplatz")
 L("MAP_DESTOZUNOS_LIBRARY", "Destozunos Bibliothek")
-
-L(
-    "LFC",
-    "Die nächste Version dieses Add-ons erfordert LibFBCommon. Bitte installieren Sie es vor der nächsten Veröffentlichung."
-)

@@ -118,6 +118,4 @@ L("SLASH_MISSING", "missing")
 L("SI_BINDING_NAME_ARCHIVEHELPER_MARK_CURRENT_TARGET", "Поставить метку на цель") -- Mark Current Target
 L("SI_BINDING_NAME_ARCHIVEHELPER_UNMARK_CURRENT_TARGET", "Убрать метку с цели") -- Unmark Current Target
 L("SI_BINDING_NAME_ARCHIVEHELPER_TOGGLE_CROSSING_HELPER", "Помощник Коварного Перекрестка") -- Toggle Crossing Helper
-
-L("LFC", "Следующая версия этого дополнения потребует LibFBCommon. Пожалуйста, установите его перед следующим релизом.")
 -- luacheck: pop
