@@ -279,6 +279,17 @@ local function checkMessage(messageParams)
             AH.HideCrossingHelper()
         end
     end
+
+    -- check for loyal auditor
+    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR) and IsUnitInCombat("player")) then
+        if (not AH.IsAuditorActive()) then
+            local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
+
+            if (cooldown == 0) then
+                UseCollectible(AH.AUDITOR)
+            end
+        end
+    end
 end
 
 local function onMessage(_, messageParams)

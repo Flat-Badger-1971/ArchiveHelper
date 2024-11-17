@@ -1,3 +1,11 @@
+[color=#ff9900][b]Version: 1.3.7 ---------------[/b][/color]
+Now requires LibFBCommon
+Reduced the summoning frequency of the Auditor
+
+[color=#ff9900][b]Version: 1.3.6 ---------------[/b][/color]
+Added warning for new library
+Added autosummon for Loyal Auditor if unlocked
+
 [color=#ff9900][b]Version: 1.3.5 ---------------[/b][/color]
 Marker bugfix
 

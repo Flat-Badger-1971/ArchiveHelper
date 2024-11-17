@@ -5,9 +5,9 @@ AH.LAM = _G.LibAddonMenu2
 local panel = {
     type = "panel",
     name = "Archive Helper",
-    displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. "|cff9900Archive Helper|r",
+    displayName = zo_iconFormat("/esoui/art/icons/poi/poi_endlessdungeon_complete.dds") .. " |cff9900Archive Helper|r",
     author = "Flat Badger",
-    version = "1.3.5",
+    version = "1.3.6",
     registerForRefresh = true
 }
 local favouriteChoices = {}
@@ -227,7 +227,8 @@ local function buildOptions()
         [6] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_SHOW_SELECTION),
-            tooltip = AH.LC.Format(_G.ARCHIVEHELPER_REQUIRES) .. ". " .. AH.LC.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
+            tooltip = AH.LC.Format(_G.ARCHIVEHELPER_REQUIRES) ..
+                ". " .. AH.LC.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
             getFunc = function()
                 return AH.Vars.ShowSelection
             end,
@@ -321,11 +322,25 @@ local function buildOptions()
             width = "full"
         },
         [13] = {
+            type = "checkbox",
+            name = AH.LC.Format(_G.ARCHIVEHELPER_AUDITOR),
+            getFunc = function()
+                return AH.Vars.Auditor
+            end,
+            setFunc = function(value)
+                AH.Vars.Auditor = value
+            end,
+            width = "full",
+            disabled = function()
+                return not IsCollectibleUnlocked(AH.AUDITOR)
+            end
+        },
+        [14] = {
             type = "header",
             name = AH.LC.Format(_G.ARCHIVEHELPER_BONUS),
             width = "full"
         },
-        [14] = {
+        [15] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_SHOW_ECHO),
             getFunc = function()
@@ -336,7 +351,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [15] = {
+        [16] = {
             type = "dropdown",
             name = string.format(
                 "%s (%s)",
@@ -355,7 +370,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [16] = {
+        [17] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_SHOW_COUNT),
             tooltip = AH.LC.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
@@ -367,7 +382,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [17] = {
+        [18] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_SHOW_CROSSING_HELPER),
             getFunc = function()
@@ -378,12 +393,12 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [18] = {
+        [19] = {
             type = "header",
             name = AH.LC.Format(_G.SI_INTERFACE_OPTIONS_NAMEPLATES_TARGET_MARKERS),
             width = "full"
         },
-        [19] = {
+        [20] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_FABLED_MARKER),
             tooltip = function()
@@ -402,7 +417,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [20] = {
+        [21] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_SHARD_MARKER),
             tooltip = function()
@@ -418,7 +433,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [21] = {
+        [22] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_SHARD_IGNORE),
             tooltip = function()
@@ -437,7 +452,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [22] = {
+        [23] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_GW_MARKER),
             getFunc = function()
@@ -448,7 +463,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [23] = {
+        [24] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_GW_PLAY),
             getFunc = function()
@@ -462,7 +477,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [24] = {
+        [25] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_MARAUDER_MARKER) ..
                 " " .. zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24),
@@ -474,7 +489,7 @@ local function buildOptions()
             end,
             width = "full"
         },
-        [25] = {
+        [26] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_MARAUDER_INCOMING_PLAY),
             getFunc = function()
@@ -495,7 +510,7 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "checkbox",
-        name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.ACH.name), AH.LC.Red) ..
+        name = AH.LC.GetIconTexture(string.format("/esoui/art/%s.dds", AH.ICONS.ACH.name), AH.LC.Red, 24, 24) ..
             " " .. AH.LC.Format(_G.SI_ZONECOMPLETIONTYPE3),
         getFunc = function()
             return AH.Vars.MarkAchievements
@@ -533,7 +548,7 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "checkbox",
-        name = AH.ColourIcon(string.format("/esoui/art/%s.dds", AH.ICONS.FAV.name), AH.LC.ZOSGreen) ..
+        name = AH.LC.GetIconTexture(string.format("/esoui/art/%s.dds", AH.ICONS.FAV.name), AH.LC.Green, 24, 24) ..
             " " .. AH.LC.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
         getFunc = function()
             return AH.Vars.MarkFavourites

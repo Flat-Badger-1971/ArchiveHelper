@@ -1,5 +1,7 @@
 _G.ArchiveHelper = {
+    LC = _G.LibFBCommon,
     Defaults = {
+        Auditor = false,
         AvatarVisionCount = {IRON = 0, WOLF = 0, ICE = 0},
         CheckQuestItems = true,
         CountTomes = true,

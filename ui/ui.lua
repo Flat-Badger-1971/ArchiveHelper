@@ -451,8 +451,8 @@ end
 function AH.ShowCrossingHelper(bypass)
     if (not AH.ch_icons) then
         AH.ch_icons = {
-            L = AH.ColourIcon("/esoui/art/buttons/large_leftdoublearrow_up.dds", AH.LC.White, 20, 20),
-            R = AH.ColourIcon("esoui/art/buttons/large_rightdoublearrow_up.dds", AH.LC.White, 20, 20)
+            L = AH.LC.GetIconTexture("/esoui/art/buttons/large_leftdoublearrow_up.dds", AH.LC.White, 20, 20),
+            R = AH.LC.GetIconTexture("esoui/art/buttons/large_rightdoublearrow_up.dds", AH.LC.White, 20, 20)
         }
     end
 

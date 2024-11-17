@@ -19,10 +19,6 @@ function AH.GetRecord(id, table)
     end
 end
 
-function AH.ColourIcon(icon, colour, width, height)
-    return AH.LC.GetIconTexture(icon, colour, width or 24, height or 24)
-end
-
 function AH.Announce(achievementName, icon, remaining)
     local message =
         ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), AH.LC.Yellow:Colorize(achievementName), remaining)
@@ -298,6 +294,22 @@ function AH.HasSkills(abilityId)
     end
 
     return true
+end
+
+function AH.IsAuditorActive()
+    local auditor = GetString(_G.ARCHIVEHELPER_AUDITOR)
+
+    for pet = 1, _G.MAX_PET_UNIT_TAGS do
+        local name = AH.LC.Format(GetUnitName(string.format("playerPet%s", tostring(pet))))
+
+        if (name and (name ~= "")) then
+            if (name == auditor) then
+                return true
+            end
+        end
+    end
+
+    return false
 end
 
 local colours = {
