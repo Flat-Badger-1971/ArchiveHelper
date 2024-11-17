@@ -11,16 +11,16 @@ function AH.HandleSlashCommand(parameters)
         end
     end
 
-    local defensive = isInTable(options, AH.Format(_G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE1):lower())
+    local defensive = isInTable(options, AH.LC.Format(_G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE1):lower())
     local helper = GetString(_G.ARCHIVEHELPER_CROSSING_SLASH):lower()
     local missing = GetString(_G.ARCHIVEHELPER_SLASH_MISSING):lower()
-    local offensive = isInTable(options, AH.Format(_G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE0):lower())
-    local utility = isInTable(options, AH.Format(_G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE2):lower())
-    local verses = isInTable(options, AH.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_VERSES_HEADER):lower())
-    local visions = isInTable(options, AH.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_VISIONS_HEADER):lower())
+    local offensive = isInTable(options, AH.LC.Format(_G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE0):lower())
+    local utility = isInTable(options, AH.LC.Format(_G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE2):lower())
+    local verses = isInTable(options, AH.LC.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_VERSES_HEADER):lower())
+    local visions = isInTable(options, AH.LC.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_VISIONS_HEADER):lower())
 
-    verses = verses or isInTable(options, AH.Format(_G.SI_ENDLESSDUNGEONBUFFTYPE1):lower())
-    visions = visions or isInTable(options, AH.Format(_G.SI_ENDLESSDUNGEONBUFFTYPE2):lower())
+    verses = verses or isInTable(options, AH.LC.Format(_G.SI_ENDLESSDUNGEONBUFFTYPE1):lower())
+    visions = visions or isInTable(options, AH.LC.Format(_G.SI_ENDLESSDUNGEONBUFFTYPE2):lower())
 
     if (#options > 0) then
         if (isInTable(options, "missing") or isInTable(options, missing)) then
@@ -70,7 +70,7 @@ function AH.Print(type, offensive, defensive, utility)
     table.sort(toPrint)
 
     for _, name in ipairs(toPrint) do
-        AH.Chat:SetTagColor("dc143c"):Print(AH.Format(name))
+        AH.Chat:SetTagColor("dc143c"):Print(AH.LC.Format(name))
     end
 end
 
@@ -101,12 +101,12 @@ function AH.PrintMissingAbilities(versesOnly, visionsOnly)
     end
 
     if (#missing == 0) then
-        local message = AH.Format(_G.ARCHIVEHELPER_ALL_BOTH)
+        local message = AH.LC.Format(_G.ARCHIVEHELPER_ALL_BOTH)
 
         if (versesOnly) then
-            message = AH.Format(_G.ARCHIVEHELPER_ALL_VERSES)
+            message = AH.LC.Format(_G.ARCHIVEHELPER_ALL_VERSES)
         elseif (visionsOnly) then
-            message = AH.Format(_G.ARCHIVEHELPER_ALL_VISIONS)
+            message = AH.LC.Format(_G.ARCHIVEHELPER_ALL_VISIONS)
         end
 
         AH.Chat:SetTagColor("dc134c"):Print(message)
@@ -117,6 +117,6 @@ function AH.PrintMissingAbilities(versesOnly, visionsOnly)
     table.sort(missing)
 
     for _, missingName in ipairs(missing) do
-        AH.Chat:SetTagColor("dc143c"):Print(AH.Format(missingName))
+        AH.Chat:SetTagColor("dc143c"):Print(AH.LC.Format(missingName))
     end
 end

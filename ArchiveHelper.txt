@@ -1,11 +1,11 @@
 ## Title: Archive Helper
 ## Description: Marks versions and visions on the buff selector for achievement requirements, avatars and favourites
 ## Author: Flat Badger
-## APIVersion: 101043
-## AddOnVersion: 1306
-## Version: 1.3.6
+## APIVersion: 101044
+## AddOnVersion: 1307
+## Version: 1.3.7
 ## SavedVariables: ArchiveHelperSavedVars
-## DependsOn: LibSavedVars>=60007 LibAddonMenu-2.0>=35
+## DependsOn: LibFBCommon>=1003 LibSavedVars>=60007 LibAddonMenu-2.0>=35
 ## OptionalDependsOn: LykeionsFabledMarker LibChatMessage>=113 LibDataShare>=3
 
 # DISCLAIMER:

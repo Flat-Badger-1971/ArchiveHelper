@@ -74,9 +74,9 @@ local function checkNotice()
     end
 
     if (stageCounter == stageTarget and cycleCounter ~= cycleTarget) then
-        message = AH.Format(_G.ARCHIVEHELPER_CYCLE_BOSS)
+        message = AH.LC.Format(_G.ARCHIVEHELPER_CYCLE_BOSS)
     elseif (cycleCounter == cycleTarget and stageCounter == stageTarget) then
-        message = AH.Format(_G.ARCHIVEHELPER_ARC_BOSS)
+        message = AH.LC.Format(_G.ARCHIVEHELPER_ARC_BOSS)
     end
 
     if (message) then
@@ -122,8 +122,8 @@ local function tomeCheck(...)
     local sourceName, _, targetName = select(7, ...)
 
     if (result == _G.ACTION_RESULT_DIED or result == _G.ACTION_RESULT_DIED_XP) then
-        targetName = AH.Format(targetName):lower()
-        sourceName = AH.Format(sourceName):lower()
+        targetName = AH.LC.Format(targetName):lower()
+        sourceName = AH.LC.Format(sourceName):lower()
 
         if (targetName:find(tomeName, 1, true) or sourceName:find(tomeName, 1, true)) then
             tomesFound = tomesFound + 1
@@ -247,11 +247,11 @@ local function checkMessage(messageParams)
 
     -- Herd the Ghost Lights
     if (AH.IsInEchoingDen) then
-        local message = AH.Format(messageParams:GetMainText()):lower()
-        local secondaryMessage = AH.Format(messageParams:GetSecondaryText() or ""):lower()
-        local start = AH.Format(_G.ARCHIVEHELPER_HERD):lower()
-        local fail = AH.Format(_G.ARCHIVEHELPER_HERD_FAIL):lower()
-        local success = AH.Format(_G.ARCHIVEHELPER_HERD_SUCCESS):lower()
+        local message = AH.LC.Format(messageParams:GetMainText()):lower()
+        local secondaryMessage = AH.LC.Format(messageParams:GetSecondaryText() or ""):lower()
+        local start = AH.LC.Format(_G.ARCHIVEHELPER_HERD):lower()
+        local fail = AH.LC.Format(_G.ARCHIVEHELPER_HERD_FAIL):lower()
+        local success = AH.LC.Format(_G.ARCHIVEHELPER_HERD_SUCCESS):lower()
 
         if (message:find(start, 1, true)) then
             AH.DenDone = false
@@ -267,10 +267,10 @@ local function checkMessage(messageParams)
 
     -- Treacherous Crossing
     if (AH.IsInCrossing) then
-        local message = AH.Format(messageParams:GetMainText()):lower()
-        local secondaryMessage = AH.Format(messageParams:GetSecondaryText() or ""):lower()
-        local fail = AH.Format(_G.ARCHIVEHELPER_CROSSING_FAIL):lower()
-        local success = AH.Format(_G.ARCHIVEHELPER_CROSSING_SUCCESS):lower()
+        local message = AH.LC.Format(messageParams:GetMainText()):lower()
+        local secondaryMessage = AH.LC.Format(messageParams:GetSecondaryText() or ""):lower()
+        local fail = AH.LC.Format(_G.ARCHIVEHELPER_CROSSING_FAIL):lower()
+        local success = AH.LC.Format(_G.ARCHIVEHELPER_CROSSING_SUCCESS):lower()
 
         if
             (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
@@ -281,8 +281,8 @@ local function checkMessage(messageParams)
     end
 
     -- check for loyal auditor
-    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR)) then
-        if (not IsCollectibleActive(AH.AUDITOR)) then
+    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR) and IsUnitInCombat("player")) then
+        if (not AH.IsAuditorActive()) then
             local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
 
             if (cooldown == 0) then
@@ -469,7 +469,7 @@ AH.Triggered = false
 
 local function warnNow(abilityId)
     local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_MAJOR_TEXT)
-    local colour = (abilityId > 200000) and AH.COLOURS.CYAN or AH.COLOURS.RED
+    local colour = (abilityId > 200000) and AH.LC.Cyan or AH.LC.Red
 
     messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", AH.Detected) .. "!"))
     messageParams:SetSound(AH.Sounds.Terrain.sound)
@@ -525,7 +525,7 @@ function AH.SetTerrainWarnings(enable)
         )
 
         if (not terrainList) then
-            terrainList = AH.BuildList(AH.TERRAIN)
+            terrainList = AH.LC.BuildList(AH.TERRAIN)
         end
     else
         EVENT_MANAGER:UnregisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT)

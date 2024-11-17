@@ -224,7 +224,7 @@ function AH.ShowQuestReminder()
         questReminder:ClearAnchors()
         questReminder:SetAnchor(BOTTOM, parent, TOP, 0, -120)
         questReminder:SetAnchor(TOP, parent, TOP, 0, -160)
-        questReminder:SetText(AH.Format(_G.ARCHIVEHELPER_REMINDER_QUEST_TEXT))
+        questReminder:SetText(AH.LC.Format(_G.ARCHIVEHELPER_REMINDER_QUEST_TEXT))
         questReminder:SetHidden(false)
 
         AH.QuestReminder = questReminder
@@ -410,19 +410,19 @@ function AH.CrossingUpdate(box, value, doNotShare)
                 if (opt:len() == 2) then
                     opt = opt:sub(1, 1) .. AH.ch_icons[selection:sub(2)] .. ((index == #solution) and "" or "  ")
                 else
-                    opt = opt .. ((index == #solution) and "" or AH.Spaces(6))
+                    opt = opt .. ((index == #solution) and "" or AH.LC.Space(6))
                 end
 
                 local isFirst = box1 ~= 0 and index == 1
                 local isSecond = box2 ~= 0 and index == 2
                 local isLast = box3 ~= 0 and index == #solution
-                local colour = (isFirst or isSecond or isLast) and AH.COLOURS.YELLOW or AH.COLOURS.WHITE
+                local colour = (isFirst or isSecond or isLast) and AH.LC.Yellow or AH.LC.White
 
                 formattedSolution = string.format("%s%s", formattedSolution, colour:Colorize(opt))
             end
 
             if (#solution == 5) then
-                formattedSolution = string.format("%s%s", formattedSolution, AH.Spaces(8))
+                formattedSolution = string.format("%s%s", formattedSolution, AH.LC.Space(8))
             end
 
             solutions = string.format("%s%s%s", solutions, AH.LF, formattedSolution)
@@ -451,8 +451,8 @@ end
 function AH.ShowCrossingHelper(bypass)
     if (not AH.ch_icons) then
         AH.ch_icons = {
-            L = AH.ColourIcon("/esoui/art/buttons/large_leftdoublearrow_up.dds", AH.COLOURS.WHITE, 20, 20),
-            R = AH.ColourIcon("esoui/art/buttons/large_rightdoublearrow_up.dds", AH.COLOURS.WHITE, 20, 20)
+            L = AH.LC.GetIconTexture("/esoui/art/buttons/large_leftdoublearrow_up.dds", AH.LC.White, 20, 20),
+            R = AH.LC.GetIconTexture("esoui/art/buttons/large_rightdoublearrow_up.dds", AH.LC.White, 20, 20)
         }
     end
 

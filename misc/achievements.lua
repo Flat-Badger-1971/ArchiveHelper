@@ -30,7 +30,7 @@ function AH.GetAbilities(achievementIdToFind)
                 end
 
                 if (name and name ~= "") then
-                    table.insert(abilities, {id = abilityId, name = AH.Format(name)})
+                    table.insert(abilities, {id = abilityId, name = AH.LC.Format(name)})
                 end
             end
         end

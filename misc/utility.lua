@@ -1,28 +1,6 @@
 local AH = _G.ArchiveHelper
 local archiveQuestIndexes = {}
 
-function AH.Format(value, ...)
-    local text = value
-
-    if (type(value) == "number") then
-        text = GetString(value)
-    end
-
-    return ZO_CachedStrFormat("<<C:1>>", text, ...)
-end
-
-function AH.Filter(t, filterFunc)
-    local out = {}
-
-    for k, v in pairs(t) do
-        if (filterFunc(v, k, t)) then
-            table.insert(out, v)
-        end
-    end
-
-    return out
-end
-
 function AH.IsRecorded(id, list)
     for _, listItem in ipairs(list) do
         if (listItem.id == id) then
@@ -41,38 +19,12 @@ function AH.GetRecord(id, table)
     end
 end
 
-function AH.ColourIcon(icon, colour, width, height)
-    local texture = zo_iconFormat(icon, width or 24, height or 24)
-
-    texture = colour:Colorize(texture:gsub("|t$", ":inheritColor|t"))
-
-    return texture
-end
-
-function AH.ScreenAnnounce(header, message, icon, lifespan, sound)
-    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_LARGE_TEXT)
-
-    if (sound ~= "none") then
-        messageParams:SetSound(sound or "Justice_NowKOS")
-    end
-
-    messageParams:SetText(header or "Test Header", message or "Test Message")
-    messageParams:SetLifespanMS(lifespan or 6000)
-    messageParams:SetCSAType(_G.CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
-
-    if (icon) then
-        messageParams:SetIconData(icon)
-    end
-
-    CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
-end
-
 function AH.Announce(achievementName, icon, remaining)
     local message =
-        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), AH.COLOURS.YELLOW:Colorize(achievementName), remaining)
+        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), AH.LC.Yellow:Colorize(achievementName), remaining)
 
     if (AH.Vars.NotifyScreen) then
-        AH.ScreenAnnounce(AH.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
+        AH.LC.ScreenAnnounce(AH.LC.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
     end
 
     if (AH.Vars.NotifyChat and AH.Chat) then
@@ -344,9 +296,25 @@ function AH.HasSkills(abilityId)
     return true
 end
 
+function AH.IsAuditorActive()
+    local auditor = GetString(_G.ARCHIVEHELPER_AUDITOR)
+
+    for pet = 1, _G.MAX_PET_UNIT_TAGS do
+        local name = AH.LC.Format(GetUnitName(string.format("playerPet%s", tostring(pet))))
+
+        if (name and (name ~= "")) then
+            if (name == auditor) then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
 local colours = {
-    [AH.TYPES.VERSE] = {normal = AH.COLOURS.GREEN, avatar = AH.COLOURS.GOLD},
-    [AH.TYPES.VISION] = {normal = AH.COLOURS.BLUE, avatar = AH.COLOURS.PURPLE}
+    [AH.TYPES.VERSE] = {normal = AH.LC.ZOSGreen, avatar = AH.LC.ZOSGold},
+    [AH.TYPES.VISION] = {normal = AH.LC.ZOSBlue, avatar = AH.LC.ZOSPurple}
 }
 
 function AH.GroupChat(abilityData, name, unitTag)
@@ -355,7 +323,7 @@ function AH.GroupChat(abilityData, name, unitTag)
             if (AH.Vars.UseDisplayName) then
                 name = ZO_LinkHandler_CreateDisplayNameLink(GetUnitDisplayName(unitTag or "player"))
             else
-                name = AH.Format(name or GetUnitName("player"))
+                name = AH.LC.Format(name or GetUnitName("player"))
             end
 
             abilityData = tostring(abilityData)
@@ -403,16 +371,6 @@ function AH.GroupChat(abilityData, name, unitTag)
     end
 end
 
-function AH.Spaces(numberOfSpaces)
-    local output = ""
-
-    for _ = 1, numberOfSpaces do
-        output = string.format("%s%s", output, " ")
-    end
-
-    return output
-end
-
 function AH.ToggleCrossingHelper()
     if (AH.CrossingHelperFrame and (not AH.CrossingHelperFrame:IsHidden())) then
         AH.HideCrossingHelper()
@@ -436,28 +394,9 @@ function AH.ToggleCrossingHelper()
     end
 end
 
-function AH.BuildList(listInfo)
-    local list = {}
-
-    for _, info in ipairs(listInfo) do
-        if (type(info) == "string") then
-            local comma = info:find(",")
-            local s, e = tonumber(info:sub(1, comma - 1)), tonumber(info:sub(comma + 1))
-
-            for i = s, e do
-                list[i] = true
-            end
-        else
-            list[info] = true
-        end
-    end
-
-    return list
-end
-
 function AH.Debug(message)
     if (AH.DEBUG) then
-        AH.Chat:SetTagColor(AH.COLOURS.PURPLE)
+        AH.Chat:SetTagColor(AH.LC.ZOSPurple)
         AH.Chat:Print(message)
     end
 end
