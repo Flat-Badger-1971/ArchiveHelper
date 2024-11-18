@@ -30,7 +30,8 @@ L("BUFF_SELECTED", "<<1>> получает [<<2>>]") -- <<1>> selected <<2>>
 L("RANDOM", "<<1>> получает [<<2>>]") -- <<1>> received <<2>>
 L("COUNT", "<<1>> из <<2>>") -- <<1>> of <<2>>
 L("DEN_TIMER", "<<1[Осталось 0 сек./Осталось 1 сек./Осталось $d сек.]>>") -- <<1[0s remaining/1s remaining/$ds remaining]>>
-L("AUDITOR", "Autosummon Loyal Auditor")
+L("AUDITOR", "Автовызов лояльного аудитора")
+L("AUDITOR_NAME", "Верный Аудитор")
 L("CROSSING_TITLE", "Помощник Коварного перекрёстка") -- Treacherous Crossing Helper
 L(
     "CROSSING_INSTRUCTIONS",

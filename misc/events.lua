@@ -236,6 +236,22 @@ local function onPlayerActivated()
     AH.GetActualGroupType()
 end
 
+local function auditorCheck()
+    if (not IsInstanceEndlessDungeon()) then
+        return
+    end
+
+    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR) and (not IsUnitInCombat("player")) and not AH.IsInUnknown()) then
+        if (not AH.IsAuditorActive()) then
+            local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
+
+            if (cooldown == 0) then
+                UseCollectible(AH.AUDITOR)
+            end
+        end
+    end
+end
+
 local function checkMessage(messageParams)
     if (not IsInstanceEndlessDungeon()) then
         return
@@ -281,15 +297,7 @@ local function checkMessage(messageParams)
     end
 
     -- check for loyal auditor
-    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR) and IsUnitInCombat("player")) then
-        if (not AH.IsAuditorActive()) then
-            local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
-
-            if (cooldown == 0) then
-                UseCollectible(AH.AUDITOR)
-            end
-        end
-    end
+    auditorCheck()
 end
 
 local function onMessage(_, messageParams)
@@ -337,6 +345,18 @@ local function onStunned(_, stunned)
                 1000
             )
             lastStun = now
+        end
+    end
+end
+
+local function onReincarnated()
+    auditorCheck()
+end
+
+local function onResurrected(_, _, result, displayName)
+    if (displayName == GetUnitDisplayName("player"))then
+        if (result == _G.RESURRECT_RESULT_SUCCESS) then
+            auditorCheck()
         end
     end
 end
@@ -643,6 +663,8 @@ function AH.SetupEvents()
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_STUNNED_STATE_CHANGED, onStunned)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED, onHotBarChange)
     EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_LEADER_UPDATE, onLeaderUpdate)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_REINCARNATED, onReincarnated)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_RESURRECT_RESULT, onResurrected)
 
     if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
         EVENT_MANAGER:RegisterForEvent(AH.Name .. "_Fabled", _G.EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)

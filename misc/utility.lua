@@ -297,10 +297,10 @@ function AH.HasSkills(abilityId)
 end
 
 function AH.IsAuditorActive()
-    local auditor = GetString(_G.ARCHIVEHELPER_AUDITOR)
+    local auditor = GetString(_G.ARCHIVEHELPER_AUDITOR_NAME)
 
     for pet = 1, _G.MAX_PET_UNIT_TAGS do
-        local name = AH.LC.Format(GetUnitName(string.format("playerPet%s", tostring(pet))))
+        local name = AH.LC.Format(GetUnitName(string.format("playerpet%s", tostring(pet))))
 
         if (name and (name ~= "")) then
             if (name == auditor) then
