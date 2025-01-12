@@ -24,7 +24,7 @@ function baseFrame:Initialise()
     self.control.Background:SetEdgeColor(0, 0, 0, 0)
 
     self.control.Border = WINDOW_MANAGER:CreateControl(nil, self.control, CT_BACKDROP)
-    self.control.Border:SetDrawTier(_G.DT_MEDIUM)
+    self.control.Border:SetDrawTier(DT_MEDIUM)
     self.control.Border:SetCenterTexture(0, 0, 0, 0)
     self.control.Border:SetAnchorFill()
     self.control.Border:SetEdgeTexture("/esoui/art/worldmap/worldmap_frame_edge.dds", 128, 16)
@@ -32,8 +32,8 @@ function baseFrame:Initialise()
     self.control.Label = WINDOW_MANAGER:CreateControl(nil, self.control, CT_LABEL)
     self.control.Label:SetAnchor(CENTER)
     self.control.Label:SetFont("${BOLD_FONT}|24")
-    self.control.Label:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
-    self.control.Label:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+    self.control.Label:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
+    self.control.Label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
     self.control.Label:SetColor(1, 1, 0, 1)
 
     self.control:SetHidden(true)
@@ -277,7 +277,7 @@ local function createComboBox(name, parent, width, height, choices, default, cal
                     end
                 )
                 entry.id = idx
-                comboBox:AddItem(entry, _G.ZO_COMBOBOX_SUPRESS_UPDATE)
+                comboBox:AddItem(entry, ZO_COMBOBOX_SUPRESS_UPDATE)
             end
         end
 
@@ -443,7 +443,7 @@ end
 function AH.SetDisableCombos()
     local groupType = AH.GetActualGroupType()
 
-    if ((groupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) and AH.AH_SHARING and (not AH.DEBUG)) then
+    if ((groupType == ENDLESS_DUNGEON_GROUP_TYPE_SOLO) and AH.AH_SHARING and (not AH.DEBUG)) then
         AH.AH_SHARING = false
     end
 end
@@ -471,7 +471,7 @@ function AH.ShowCrossingHelper(bypass)
             frame.background:SetCenterColor(0, 0, 0, 0.9)
 
             frame.border = WINDOW_MANAGER:CreateControl(nil, frame, CT_BACKDROP)
-            frame.border:SetDrawTier(_G.DT_MEDIUM)
+            frame.border:SetDrawTier(DT_MEDIUM)
             frame.border:SetCenterTexture(0, 0, 0, 0)
             frame.border:SetAnchorFill()
             frame.border:SetEdgeTexture("/esoui/art/worldmap/worldmap_frame_edge.dds", 128, 16)
@@ -510,8 +510,8 @@ function AH.ShowCrossingHelper(bypass)
 
             frame.label = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
             frame.label:SetFont("${BOLD_FONT}|24")
-            frame.label:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
-            frame.label:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.label:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
+            frame.label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
             frame.label:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_TITLE))
             frame.label:SetColor(1, 1, 0, 1)
             frame.label:SetAnchor(TOPLEFT, frame, TOPLEFT, 0, 10)
@@ -525,8 +525,8 @@ function AH.ShowCrossingHelper(bypass)
             frame.text:SetAnchor(TOPLEFT, frame.label, BOTTOMLEFT, 10, 10)
             frame.text:SetAnchor(BOTTOMRIGHT, frame, BOTTOMRIGHT, -10, -370)
             frame.text:SetFont("${MEDIUM_FONT}|14")
-            frame.text:SetHorizontalAlignment(_G.TEXT_ALIGN_LEFT)
-            frame.text:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.text:SetHorizontalAlignment(TEXT_ALIGN_LEFT)
+            frame.text:SetVerticalAlignment(TEXT_ALIGN_CENTER)
             frame.text:SetColor(0.82, 0.82, 0.82, 1)
             frame.text:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_INSTRUCTIONS))
 
@@ -558,7 +558,7 @@ function AH.ShowCrossingHelper(bypass)
                 boxlabel:SetText(ordinals[box])
                 boxlabel:SetAnchor(CENTER, frame["box" .. box], CENTER, 0, -40)
                 boxlabel:SetFont("${MEDIUM_FONT}|16")
-                boxlabel:SetHorizontalAlignment(_G.TEXT_ALIGN_LEFT)
+                boxlabel:SetHorizontalAlignment(TEXT_ALIGN_LEFT)
                 boxlabel:SetColor(1, 1, 0, 1)
             end
 
@@ -567,22 +567,22 @@ function AH.ShowCrossingHelper(bypass)
             frame.pathsLabel:SetAnchor(CENTER, frame.text, CENTER, 0, 180)
             frame.pathsLabel:SetFont("${BOLD_FONT}|24")
             frame.pathsLabel:SetColor(0.46, 0.74, 0.76, 1)
-            frame.pathsLabel:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.pathsLabel:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
 
             solutionsWindow = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
 
             solutionsWindow:SetAnchor(TOPLEFT, frame.text, BOTTOMLEFT, 0, 100)
             solutionsWindow:SetAnchor(BOTTOMRIGHT, frame.control, BOTTOMRIGHT, -10, -10)
             solutionsWindow:SetFont("${MEDIUM_FONT}|24")
-            solutionsWindow:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
-            solutionsWindow:SetVerticalAlignment(_G.TEXT_ALIGN_CENTER)
+            solutionsWindow:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
+            solutionsWindow:SetVerticalAlignment(TEXT_ALIGN_CENTER)
             solutionsWindow:SetColor(0.976, 0.976, 0.976, 1)
 
             frame.key = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
             frame.key:SetAnchor(CENTER, frame, CENTER, 0, 230)
             frame.key:SetFont("${BOLD_FONT}|16")
             frame.key:SetColor(0.82, 0.82, 0.82, 1)
-            frame.key:SetHorizontalAlignment(_G.TEXT_ALIGN_CENTER)
+            frame.key:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
             frame.key:SetText(ZO_CachedStrFormat(_G.ARCHIVEHELPER_CROSSING_KEY, AH.ch_icons.L, AH.ch_icons.R))
 
             AH.selectedBox = {[1] = 0, [2] = 0, [3] = 0}

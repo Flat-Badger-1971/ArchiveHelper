@@ -11,16 +11,16 @@ function AH.HandleSlashCommand(parameters)
         end
     end
 
-    local defensive = isInTable(options, AH.LC.Format(_G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE1):lower())
+    local defensive = isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE1):lower())
     local helper = GetString(_G.ARCHIVEHELPER_CROSSING_SLASH):lower()
     local missing = GetString(_G.ARCHIVEHELPER_SLASH_MISSING):lower()
-    local offensive = isInTable(options, AH.LC.Format(_G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE0):lower())
-    local utility = isInTable(options, AH.LC.Format(_G.SI_ENDLESSDUNGEONBUFFBUCKETTYPE2):lower())
-    local verses = isInTable(options, AH.LC.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_VERSES_HEADER):lower())
-    local visions = isInTable(options, AH.LC.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_VISIONS_HEADER):lower())
+    local offensive = isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE0):lower())
+    local utility = isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE2):lower())
+    local verses = isInTable(options, AH.LC.Format(SI_ENDLESS_DUNGEON_SUMMARY_VERSES_HEADER):lower())
+    local visions = isInTable(options, AH.LC.Format(SI_ENDLESS_DUNGEON_SUMMARY_VISIONS_HEADER):lower())
 
-    verses = verses or isInTable(options, AH.LC.Format(_G.SI_ENDLESSDUNGEONBUFFTYPE1):lower())
-    visions = visions or isInTable(options, AH.LC.Format(_G.SI_ENDLESSDUNGEONBUFFTYPE2):lower())
+    verses = verses or isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFTYPE1):lower())
+    visions = visions or isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFTYPE2):lower())
 
     if (#options > 0) then
         if (isInTable(options, "missing") or isInTable(options, missing)) then

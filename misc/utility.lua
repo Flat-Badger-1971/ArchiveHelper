@@ -127,7 +127,7 @@ function AH.CheckDataShareLib()
     end
 end
 
-local solo = _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO
+local solo = ENDLESS_DUNGEON_GROUP_TYPE_SOLO
 
 function AH.GetActualGroupType()
     if (IsInstanceEndlessDungeon()) then
@@ -159,14 +159,14 @@ function AH.GetActualGroupType()
 end
 
 function AH.UpdateSlottedSkills()
-    local skillTypes = {_G.SKILL_TYPE_AVA, _G.SKILL_TYPE_CLASS, _G.SKILL_TYPE_GUILD, _G.SKILL_TYPE_WORLD}
+    local skillTypes = {SKILL_TYPE_AVA, SKILL_TYPE_CLASS, SKILL_TYPE_GUILD, SKILL_TYPE_WORLD}
     local purchasedSkills = {}
 
     AH.SKILL_TYPES = {
-        [_G.SKILL_TYPE_AVA] = false,
-        [_G.SKILL_TYPE_CLASS] = false,
-        [_G.SKILL_TYPE_GUILD] = false,
-        [_G.SKILL_TYPE_WORLD] = false
+        [SKILL_TYPE_AVA] = false,
+        [SKILL_TYPE_CLASS] = false,
+        [SKILL_TYPE_GUILD] = false,
+        [SKILL_TYPE_WORLD] = false
     }
 
     for _, skillType in ipairs(skillTypes) do
@@ -193,22 +193,22 @@ function AH.UpdateSlottedSkills()
 
     local slotted = {}
     local hasOakensoul =
-        GetItemId(_G.BAG_WORN, _G.EQUIP_SLOT_RING1) == AH.OAKENSOUL or
-        GetItemId(_G.BAG_WORN, _G.EQUIP_SLOT_RING2) == AH.OAKENSOUL
+        GetItemId(BAG_WORN, EQUIP_SLOT_RING1) == AH.OAKENSOUL or
+        GetItemId(BAG_WORN, EQUIP_SLOT_RING2) == AH.OAKENSOUL
 
     for slotIndex = 3, 8 do
         if
-            (IsSlotUsed(slotIndex, _G.HOTBAR_CATEGORY_PRIMARY) and
-                GetSlotType(slotIndex, _G.HOTBAR_CATEGORY_PRIMARY) == _G.ACTION_TYPE_ABILITY)
+            (IsSlotUsed(slotIndex, HOTBAR_CATEGORY_PRIMARY) and
+                GetSlotType(slotIndex, HOTBAR_CATEGORY_PRIMARY) == ACTION_TYPE_ABILITY)
          then
-            table.insert(slotted, GetSlotBoundId(slotIndex, _G.HOTBAR_CATEGORY_PRIMARY))
+            table.insert(slotted, GetSlotBoundId(slotIndex, HOTBAR_CATEGORY_PRIMARY))
         end
 
         if
-            ((not hasOakensoul) and IsSlotUsed(slotIndex, _G.HOTBAR_CATEGORY_BACKUP) and
-                GetSlotType(slotIndex, _G.HOTBAR_CATEGORY_BACKUP) == _G.ACTION_TYPE_ABILITY)
+            ((not hasOakensoul) and IsSlotUsed(slotIndex, HOTBAR_CATEGORY_BACKUP) and
+                GetSlotType(slotIndex, HOTBAR_CATEGORY_BACKUP) == ACTION_TYPE_ABILITY)
          then
-            table.insert(slotted, GetSlotBoundId(slotIndex, _G.HOTBAR_CATEGORY_BACKUP))
+            table.insert(slotted, GetSlotBoundId(slotIndex, HOTBAR_CATEGORY_BACKUP))
         end
     end
 
@@ -248,7 +248,7 @@ local function onEffectChanged(...)
     local effectType = select(11, ...)
     local abilityId = select(16, ...)
 
-    if (effectType ~= _G.BUFF_EFFECT_TYPE_BUFF) then
+    if (effectType ~= BUFF_EFFECT_TYPE_BUFF) then
         return
     end
 
@@ -258,12 +258,12 @@ local function onEffectChanged(...)
 end
 
 function AH.EnableAutoCheck()
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
 
     local classId = GetUnitClassId("player")
 
     if (classId == AH.SORCERER or classId == AH.WARDEN) then
-        EVENT_MANAGER:RegisterForEvent(AH.Name .. "_pet", _G.EVENT_EFFECT_CHANGED, onEffectChanged)
+        EVENT_MANAGER:RegisterForEvent(AH.Name .. "_pet", EVENT_EFFECT_CHANGED, onEffectChanged)
     end
 
     AH.Vars.AutoCheck = true
@@ -271,12 +271,12 @@ function AH.EnableAutoCheck()
 end
 
 function AH.DisableAutoCheck()
-    EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED)
+    EVENT_MANAGER:UnregisterForEvent(AH.Name, EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED)
 
     local classId = GetUnitClassId("player")
 
     if (classId == AH.SORCERER or classId == AH.WARDEN) then
-        EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_pet", _G.EVENT_EFFECT_CHANGED)
+        EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_pet", EVENT_EFFECT_CHANGED)
     end
 
     AH.Vars.AutoCheck = false
@@ -299,7 +299,7 @@ end
 function AH.IsAuditorActive()
     local auditor = GetString(_G.ARCHIVEHELPER_AUDITOR_NAME)
 
-    for pet = 1, _G.MAX_PET_UNIT_TAGS do
+    for pet = 1, MAX_PET_UNIT_TAGS do
         local name = AH.LC.Format(GetUnitName(string.format("playerpet%s", tostring(pet))))
 
         if (name and (name ~= "")) then
@@ -336,8 +336,8 @@ function AH.GroupChat(abilityData, name, unitTag)
             local avatar = AH.IsAvatar(abilityId)
             local colourChoices = colours[abilityType]
             local colour = avatar and colourChoices.avatar or colourChoices.normal
-            local channel = AH.GetActualGroupType() == solo and _G.CHAT_CHANNEL_SAY or _G.CHAT_CHANNEL_PARTY
-            local abilityLink = GetAbilityLink(abilityId, _G.LINK_STYLE_BRACKETS)
+            local channel = AH.GetActualGroupType() == solo and CHAT_CHANNEL_SAY or CHAT_CHANNEL_PARTY
+            local abilityLink = GetAbilityLink(abilityId, LINK_STYLE_BRACKETS)
 
             if (count == 999) then
                 replaceText = _G.ARCHIVEHELPER_RANDOM
@@ -360,7 +360,7 @@ function AH.GroupChat(abilityData, name, unitTag)
             end
 
             ZO_ChatEvent(
-                _G.EVENT_CHAT_MESSAGE_CHANNEL,
+                EVENT_CHAT_MESSAGE_CHANNEL,
                 channel,
                 AH.Name,
                 message,

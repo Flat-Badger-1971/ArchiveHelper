@@ -9,13 +9,13 @@ local IsUnitDead, AssignTargetMarkerToReticleTarget = IsUnitDead, AssignTargetMa
 
 -- marker 8 reserved for marauders
 AH.MARKERS = {
-    [1] = {marker = _G.TARGET_MARKER_TYPE_ONE, used = false, manual = false},
-    [2] = {marker = _G.TARGET_MARKER_TYPE_TWO, used = false, manual = false},
-    [3] = {marker = _G.TARGET_MARKER_TYPE_THREE, used = false, manual = false},
-    [4] = {marker = _G.TARGET_MARKER_TYPE_FOUR, used = false, manual = false},
-    [5] = {marker = _G.TARGET_MARKER_TYPE_FIVE, used = false, manual = false},
-    [6] = {marker = _G.TARGET_MARKER_TYPE_SIX, used = false, manual = false},
-    [7] = {marker = _G.TARGET_MARKER_TYPE_SEVEN, used = false, manual = false}
+    [1] = {marker = TARGET_MARKER_TYPE_ONE, used = false, manual = false},
+    [2] = {marker = TARGET_MARKER_TYPE_TWO, used = false, manual = false},
+    [3] = {marker = TARGET_MARKER_TYPE_THREE, used = false, manual = false},
+    [4] = {marker = TARGET_MARKER_TYPE_FOUR, used = false, manual = false},
+    [5] = {marker = TARGET_MARKER_TYPE_FIVE, used = false, manual = false},
+    [6] = {marker = TARGET_MARKER_TYPE_SIX, used = false, manual = false},
+    [7] = {marker = TARGET_MARKER_TYPE_SEVEN, used = false, manual = false}
 }
 
 local markerKeys = {1, 2, 3, 4, 5, 6, 7}
@@ -56,7 +56,7 @@ local function getAvailableMarker()
         info.used = false
     end
 
-    return _G.TARGET_MARKER_TYPE_ONE, 1
+    return TARGET_MARKER_TYPE_ONE, 1
 end
 
 local function buildSearchTable()
@@ -128,7 +128,7 @@ local function isItDeadDave()
     if (IsUnitDead("reticleover")) then
         local marker = GetUnitTargetMarkerType("reticleover")
 
-        if (marker ~= _G.TARGET_MARKER_TYPE_NONE) then
+        if (marker ~= TARGET_MARKER_TYPE_NONE) then
             makeMarkerAvailable(marker)
         end
     end
@@ -149,7 +149,7 @@ end
 local function markerCheck()
     local extantMarker = GetUnitTargetMarkerType("reticleover")
 
-    if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
+    if (extantMarker == TARGET_MARKER_TYPE_NONE) then
         local found = find(GetUnitName("reticleover"))
 
         if (found and (not IsUnitDead("reticleover"))) then
@@ -164,7 +164,7 @@ local function markerCheck()
                 AH.ShareData(AH.SHARE.GW, 2)
             end
         end
-    elseif (extantMarker ~= _G.TARGET_MARKER_TYPE_EIGHT) then
+    elseif (extantMarker ~= TARGET_MARKER_TYPE_EIGHT) then
         -- sanity check
         local index = getMarkerIndex(extantMarker)
 
@@ -179,11 +179,11 @@ function AH.MarauderCheck()
     if (AH.MARAUDER) then
         local extantMarker = GetUnitTargetMarkerType("reticleover")
 
-        if (extantMarker == _G.TARGET_MARKER_TYPE_NONE) then
+        if (extantMarker == TARGET_MARKER_TYPE_NONE) then
             if (GetUnitName("reticleover") == AH.MARAUDER and not IsUnitDead("reticleover")) then
-                AssignTargetMarkerToReticleTarget(_G.TARGET_MARKER_TYPE_EIGHT)
+                AssignTargetMarkerToReticleTarget(TARGET_MARKER_TYPE_EIGHT)
             end
-        elseif (extantMarker == _G.TARGET_MARKER_TYPE_EIGHT) then
+        elseif (extantMarker == TARGET_MARKER_TYPE_EIGHT) then
             -- sanity check
             if (not GetUnitName("reticleover") == AH.MARAUDER) then
                 AssignTargetMarkerToReticleTarget(extantMarker)
@@ -194,7 +194,7 @@ end
 
 -- for keybinds
 function AH.MarkCurrentTarget()
-    if (GetUnitTargetMarkerType("reticleover") == _G.TARGET_MARKER_TYPE_NONE) then
+    if (GetUnitTargetMarkerType("reticleover") == TARGET_MARKER_TYPE_NONE) then
         local marker, key = getAvailableMarker()
 
         AssignTargetMarkerToReticleTarget(marker)
@@ -206,7 +206,7 @@ end
 function AH.UnmarkCurrentTarget()
     local marker = GetUnitTargetMarkerType("reticleover")
 
-    if (marker ~= _G.TARGET_MARKER_TYPE_NONE) then
+    if (marker ~= TARGET_MARKER_TYPE_NONE) then
         AssignTargetMarkerToReticleTarget(marker)
         makeMarkerAvailable(marker)
         AH.ShareData(AH.SHARE.UNMARK, getMarkerIndex(marker))
@@ -220,8 +220,8 @@ function AH.CombatCheck(_, incombat)
 
     if (check and AH.InsideArchive) then
         if (not incombat) then
-            EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Fabled", _G.EVENT_COMBAT_EVENT)
-            EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_RETICLE_TARGET_CHANGED)
+            EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Fabled", EVENT_COMBAT_EVENT)
+            EVENT_MANAGER:UnregisterForEvent(AH.Name, EVENT_RETICLE_TARGET_CHANGED)
 
             for _, info in pairs(AH.MARKERS) do
                 info.used = false
@@ -233,7 +233,7 @@ function AH.CombatCheck(_, incombat)
 
             EVENT_MANAGER:RegisterForEvent(
                 AH.Name,
-                _G.EVENT_RETICLE_TARGET_CHANGED,
+                EVENT_RETICLE_TARGET_CHANGED,
                 function()
                     if (AH.InsideArchive) then
                         if (#AH.SearchText > 0) then

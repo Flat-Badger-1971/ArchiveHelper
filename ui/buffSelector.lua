@@ -43,7 +43,7 @@ function AH.OnBuffSelectorShowing()
     AH.EnsureIconPoolExists()
     AH.IconObjectPool:ReleaseAllObjects()
 
-    for bucketType = _G.ENDLESS_DUNGEON_BUFF_BUCKET_TYPE_ITERATION_BEGIN, _G.ENDLESS_DUNGEON_BUFF_BUCKET_TYPE_ITERATION_END do
+    for bucketType = ENDLESS_DUNGEON_BUFF_BUCKET_TYPE_ITERATION_BEGIN, ENDLESS_DUNGEON_BUFF_BUCKET_TYPE_ITERATION_END do
         local abilityId = GetEndlessDungeonBuffSelectorBucketTypeChoice(bucketType)
 
         if abilityId > 0 then
@@ -153,7 +153,7 @@ function AH.OnBuffSelectorShowing()
 
     -- show stack counts
     if (AH.Vars.ShowStacks) then
-        if (buffChoices[1].buffType == _G.ENDLESS_DUNGEON_BUFF_TYPE_VISION) then
+        if (buffChoices[1].buffType == ENDLESS_DUNGEON_BUFF_TYPE_VISION) then
             local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(buffChoices[1].buffType)
 
             for _, buffInfo in pairs(buffChoices) do

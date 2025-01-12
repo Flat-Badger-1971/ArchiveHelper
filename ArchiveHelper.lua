@@ -47,9 +47,9 @@ function AH.OnAddonLoaded(_, addonName)
         AH.Chat = _G.LibChatMessage(AH.Name, "AH")
     end
 
-    EVENT_MANAGER:UnregisterForEvent(AH.Name, _G.EVENT_ADD_ON_LOADED)
+    EVENT_MANAGER:UnregisterForEvent(AH.Name, EVENT_ADD_ON_LOADED)
 
     Initialise()
 end
 
-EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ADD_ON_LOADED, AH.OnAddonLoaded)
+EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ADD_ON_LOADED, AH.OnAddonLoaded)

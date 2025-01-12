@@ -354,15 +354,15 @@ local function onReincarnated()
 end
 
 local function onResurrected(_, _, result, displayName)
-    if (displayName == GetUnitDisplayName("player"))then
-        if (result == _G.RESURRECT_RESULT_SUCCESS) then
+    if (displayName == GetUnitDisplayName("player")) then
+        if (result == RESURRECT_RESULT_SUCCESS) then
             auditorCheck()
         end
     end
 end
 
 local function onDungeonInitialised()
-    local visionCount = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(_G.ENDLESS_DUNGEON_BUFF_TYPE_VISION)
+    local visionCount = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(ENDLESS_DUNGEON_BUFF_TYPE_VISION)
 
     AH.Vars.AvatarVisionCount = {ICE = 0, WOLF = 0, IRON = 0, UNDEAD = 0}
 
@@ -389,12 +389,12 @@ end
 
 local function onHotBarChange(_, changed, shouldUpdate, category)
     if (AH.IsInFilersWing) then
-        if ((category == _G.HOTBAR_CATEGORY_TEMPORARY) and shouldUpdate and changed) then
+        if ((category == HOTBAR_CATEGORY_TEMPORARY) and shouldUpdate and changed) then
             checkSharing()
             startTomeCheck()
         end
 
-        if ((category == _G.HOTBAR_CATEGORY_PRIMARY) and changed and not shouldUpdate) then
+        if ((category == HOTBAR_CATEGORY_PRIMARY) and changed and not shouldUpdate) then
             stopTomeCheck()
         end
     end
@@ -488,12 +488,12 @@ AH.Detected = nil
 AH.Triggered = false
 
 local function warnNow(abilityId)
-    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(_G.CSA_CATEGORY_MAJOR_TEXT)
+    local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(CSA_CATEGORY_MAJOR_TEXT)
     local colour = (abilityId > 200000) and AH.LC.Cyan or AH.LC.Red
 
     messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", AH.Detected) .. "!"))
     messageParams:SetSound(AH.Sounds.Terrain.sound)
-    messageParams:SetCSAType(_G.CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
+    messageParams:SetCSAType(CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
     messageParams:MarkShowImmediately()
 
     CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
@@ -501,10 +501,10 @@ end
 
 local terrainList
 
-local playerName = ZO_CachedStrFormat(_G.SI_UNIT_NAME, GetUnitName("player"))
+local playerName = ZO_CachedStrFormat(SI_UNIT_NAME, GetUnitName("player"))
 
 local function terrainWarnings(...)
-    local targetName = ZO_CachedStrFormat(_G.SI_UNIT_NAME, select(9, ...))
+    local targetName = ZO_CachedStrFormat(SI_UNIT_NAME, select(9, ...))
     local abilityId = select(17, ...)
 
     if (not AH.InsideArchive) then
@@ -536,19 +536,27 @@ end
 
 function AH.SetTerrainWarnings(enable)
     if (enable) then
-        EVENT_MANAGER:RegisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT, terrainWarnings)
+        EVENT_MANAGER:RegisterForEvent(
+            AH.Name .. "terrain",
+            EVENT_COMBAT_EVENT,
+            function(...)
+                if (AH.InsideArchive) then
+                    terrainWarnings(...)
+                end
+            end
+        )
         EVENT_MANAGER:AddFilterForEvent(
             AH.Name,
-            _G.EVENT_COMBAT_EVENT,
-            _G.REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE,
-            _G.COMBAT_UNIT_TYPE_PLAYER
+            EVENT_COMBAT_EVENT,
+            REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE,
+            COMBAT_UNIT_TYPE_PLAYER
         )
 
         if (not terrainList) then
             terrainList = AH.LC.BuildList(AH.TERRAIN)
         end
     else
-        EVENT_MANAGER:UnregisterForEvent(AH.Name .. "terrain", _G.EVENT_COMBAT_EVENT)
+        EVENT_MANAGER:UnregisterForEvent(AH.Name .. "terrain", EVENT_COMBAT_EVENT)
     end
 end
 
@@ -655,24 +663,24 @@ function AH.SetupHooks()
 end
 
 function AH.SetupEvents()
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_UPDATED, AH.FindMissingAbilityIds)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACHIEVEMENT_AWARDED, AH.FindMissingAbilityIds)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_ACTIVATED, onPlayerActivated)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ENDLESS_DUNGEON_INITIALIZED, onDungeonInitialised)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_QUEST_CONDITION_COUNTER_CHANGED, onQuestCounterChanged)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_STUNNED_STATE_CHANGED, onStunned)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED, onHotBarChange)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_LEADER_UPDATE, onLeaderUpdate)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_PLAYER_REINCARNATED, onReincarnated)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_RESURRECT_RESULT, onResurrected)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ACHIEVEMENT_UPDATED, AH.FindMissingAbilityIds)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ACHIEVEMENT_AWARDED, AH.FindMissingAbilityIds)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_PLAYER_ACTIVATED, onPlayerActivated)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ENDLESS_DUNGEON_INITIALIZED, onDungeonInitialised)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_QUEST_CONDITION_COUNTER_CHANGED, onQuestCounterChanged)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_PLAYER_STUNNED_STATE_CHANGED, onStunned)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED, onHotBarChange)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_LEADER_UPDATE, onLeaderUpdate)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_PLAYER_REINCARNATED, onReincarnated)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_RESURRECT_RESULT, onResurrected)
 
     if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
-        EVENT_MANAGER:RegisterForEvent(AH.Name .. "_Fabled", _G.EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)
+        EVENT_MANAGER:RegisterForEvent(AH.Name .. "_Fabled", EVENT_PLAYER_COMBAT_STATE, AH.CombatCheck)
     end
 
     if (AH.Vars.AutoCheck) then
         AH.UpdateSlottedSkills()
-        EVENT_MANAGER:RegisterForEvent(AH.Name, _G.EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
+        EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ACTION_SLOTS_ALL_HOTBARS_UPDATED, AH.UpdateSlottedSkills)
     end
 
     if (AH.Vars.TerrainWarnings) then

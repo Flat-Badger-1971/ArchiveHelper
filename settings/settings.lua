@@ -181,7 +181,7 @@ local function buildOptions()
         },
         [2] = {
             type = "header",
-            name = AH.LC.Format(_G.SI_BINDING_NAME_TOGGLE_NOTIFICATIONS),
+            name = AH.LC.Format(SI_BINDING_NAME_TOGGLE_NOTIFICATIONS),
             width = "full"
         },
         [3] = {
@@ -283,7 +283,7 @@ local function buildOptions()
         },
         [9] = {
             type = "header",
-            name = AH.LC.Format(_G.SI_ITEMFILTERTYPE5),
+            name = AH.LC.Format(SI_ITEMFILTERTYPE5),
             width = "full"
         },
         [10] = {
@@ -355,7 +355,7 @@ local function buildOptions()
             type = "dropdown",
             name = string.format(
                 "%s (%s)",
-                AH.LC.Format(_G.SI_ABILITY_TOOLTIP_DURATION_LABEL),
+                AH.LC.Format(SI_ABILITY_TOOLTIP_DURATION_LABEL),
                 AH.LC.Format(_G.ARCHIVEHELPER_SECONDS):lower()
             ),
             choices = getSecondsOptions(),
@@ -395,7 +395,7 @@ local function buildOptions()
         },
         [19] = {
             type = "header",
-            name = AH.LC.Format(_G.SI_INTERFACE_OPTIONS_NAMEPLATES_TARGET_MARKERS),
+            name = AH.LC.Format(SI_INTERFACE_OPTIONS_NAMEPLATES_TARGET_MARKERS),
             width = "full"
         },
         [20] = {
@@ -504,14 +504,14 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "header",
-        name = AH.LC.Format(_G.SI_INTERFACE_OPTIONS_INDICATORS),
+        name = AH.LC.Format(SI_INTERFACE_OPTIONS_INDICATORS),
         width = "full"
     }
 
     options[#options + 1] = {
         type = "checkbox",
         name = AH.LC.GetIconTexture(string.format("/esoui/art/%s.dds", AH.ICONS.ACH.name), AH.LC.Red, 24, 24) ..
-            " " .. AH.LC.Format(_G.SI_ZONECOMPLETIONTYPE3),
+            " " .. AH.LC.Format(SI_ZONECOMPLETIONTYPE3),
         getFunc = function()
             return AH.Vars.MarkAchievements
         end,
@@ -524,7 +524,7 @@ local function buildOptions()
     options[#options + 1] = {
         type = "checkbox",
         name = zo_iconFormat(string.format("/esoui/art/%s.dds", AH.ICONS.WOLF.name), 24, 24) ..
-            " " .. AH.LC.Format(_G.SI_ENDLESS_DUNGEON_SUMMARY_AVATAR_VISIONS_HEADER),
+            " " .. AH.LC.Format(SI_ENDLESS_DUNGEON_SUMMARY_AVATAR_VISIONS_HEADER),
         getFunc = function()
             return AH.Vars.MarkAvatar
         end,
@@ -549,7 +549,7 @@ local function buildOptions()
     options[#options + 1] = {
         type = "checkbox",
         name = AH.LC.GetIconTexture(string.format("/esoui/art/%s.dds", AH.ICONS.FAV.name), AH.LC.Green, 24, 24) ..
-            " " .. AH.LC.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
+            " " .. AH.LC.Format(SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
         getFunc = function()
             return AH.Vars.MarkFavourites
         end,
@@ -574,13 +574,13 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "header",
-        name = AH.LC.Format(_G.SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
+        name = AH.LC.Format(SI_COLLECTIONS_FAVORITES_CATEGORY_HEADER),
         width = "full"
     }
 
     options[#options + 1] = {
         type = "dropdown",
-        name = AH.LC.Format(_G.SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
+        name = AH.LC.Format(SI_COLLECTIBLE_ACTION_ADD_FAVORITE),
         choices = favouriteChoices,
         choicesValues = favouriteChoiceValues,
         scrollable = true,
@@ -601,7 +601,7 @@ local function buildOptions()
 
     options[#options + 1] = {
         type = "dropdown",
-        name = AH.LC.Format(_G.SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
+        name = AH.LC.Format(SI_COLLECTIBLE_ACTION_REMOVE_FAVORITE),
         choices = removeChoices,
         choicesValues = removeChoiceValues,
         scrollable = true,

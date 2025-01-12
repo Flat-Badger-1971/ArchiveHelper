@@ -20,7 +20,7 @@ end
 
 function baseIconControl:Initialise()
     self.control = self.control or WINDOW_MANAGER:CreateControl(nil, GuiRoot, CT_CONTROL)
-    self.control:SetDrawTier(_G.DT_HIGH)
+    self.control:SetDrawTier(DT_HIGH)
     self.control:SetDimensions(48, 48)
 
     self.texture = self.texture or WINDOW_MANAGER:CreateControl(nil, self.control, CT_TEXTURE)

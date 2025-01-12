@@ -52,7 +52,7 @@ end
 AH.IncompleteAchievements = {}
 
 function AH.FindMissingAbilityIds(event, id)
-    if (event == _G.EVENT_ACHIEVEMENT_UPDATED) then
+    if (event == EVENT_ACHIEVEMENT_UPDATED) then
         AH.EventNotifier(id)
 
         if (ZO_IsElementInNumericallyIndexedTable(AH.ACHIEVEMENTS.LIMIT, id)) then
