@@ -121,10 +121,16 @@ function AH.CompatibilityCheck()
     return true
 end
 
-function AH.CheckDataShareLib()
-    if (_G.LibDataShare) then
-        AH.Share = _G.LibDataShare:RegisterMap(AH.Name, AH.DATA_ID, AH.HandleDataShare)
+function AH.CheckDataShareLib(callback)
+    if (_G.LibGroupBroadcast) then
+        if (AH.IsSharing) then return true end
+
+        AH.IsSharing = AH.LC.RegisterForDataSharing(AH.LC.ADDON_ID_ENUM.AH, callback)
+
+        return true
     end
+
+    return false
 end
 
 local solo = ENDLESS_DUNGEON_GROUP_TYPE_SOLO
@@ -392,6 +398,34 @@ function AH.ToggleCrossingHelper()
     if ((AH.CrossingHelperFrame and AH.CrossingHelperFrame:IsHidden()) or not AH.CrossingHelperFrame) then
         AH.ShowCrossingHelper(AH.DEBUG)
     end
+end
+
+-- this was removed in update 45 for some reason
+function AH.GetAchievementStatus(achievementId)
+    local completed = 0
+    local total = 0
+    local numCriteria = GetAchievementNumCriteria(achievementId)
+
+    for criterionIndex = 1, numCriteria do
+        local _, numCompleted, numRequired = GetAchievementCriterion(achievementId, criterionIndex)
+
+        completed = completed + numCompleted
+        total = total + numRequired
+    end
+
+    if (total > 0) then
+        if (completed > 0) then
+            if (completed == total) then
+                return ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE
+            else
+                return ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS
+            end
+        else
+            return ZO_ACHIEVEMENTS_COMPLETION_STATUS.INCOMPLETE
+        end
+    end
+
+    return ZO_ACHIEVEMENTS_COMPLETION_STATUS.NOT_APPLICABLE
 end
 
 function AH.Debug(message)

@@ -29,6 +29,7 @@ _G.ArchiveHelper = {
         ShowStacks = true,
         ShowTimer = true,
         TerrainWarnings = true,
+        Theatre = true,
         UseDisplayName = false
     },
     ArchiveIndex = 2407,
@@ -82,6 +83,7 @@ _G.ArchiveHelper = {
     },
     OAKENSOUL = 187658,
     SELECTION_DELAY = 1250,
+    --- @enum SHARE
     SHARE = {
         TOME = 1,
         MARK = 2,

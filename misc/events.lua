@@ -23,7 +23,7 @@ local function onSelectorHiding()
 end
 
 local function encode(abilityId, count)
-    return tonumber(string.format("%d%06d%d", AH.SHARE.ABILITY, abilityId, count))
+    return tonumber(string.format("%06d%d", abilityId, count))
 end
 
 local function onChoiceCommitted()
@@ -54,7 +54,7 @@ local function onChoiceCommitted()
                 end
 
                 AH.GroupChat(encode(selected, count))
-                AH.ShareData(AH.SHARE.ABILITY, selected, nil, count)
+                AH.ShareData(AH.SHARE.ABILITY, selected, count)
                 CALLBACK_MANAGER:FireCallbacks("ArchiveHelperBuffSelectionCommitted")
             end,
             500
@@ -131,7 +131,7 @@ local function tomeCheck(...)
             AH.PlayAlarm(AH.Sounds.Tomeshell)
 
             if (AH.TomeGroupType ~= _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
-                AH.ShareData(AH.SHARE.TOME, tomesFound, true)
+                AH.ShareData(AH.SHARE.TOME, tomesFound)
             end
 
             local tomesLeft = AH.MaxTomes - tomesTotal
@@ -179,7 +179,9 @@ local function stopTomeCheck()
 end
 
 local function checkSharing()
-    AH.ShareData(AH.SHARE.SHARING, 1)
+    if (AH.CheckDataShareLib(AH.HandleDataShare)) then
+        AH.ShareData(AH.SHARE.SHARING, 1)
+    end
 end
 
 local function zoneCheck()
@@ -197,10 +199,17 @@ local function zoneCheck()
         if (AH.Vars.ShowHelper) then
             AH.ShowCrossingHelper()
         end
+    elseif (mapId == AH.MAPS.THEATRE_OF_WAR.id) then
+        AH.IsInTheatre = true
+
+        if (AH.Vars.Theatre) then
+            AH.SetTheatreWarning(true)
+        end
     else
         AH.IsInEchoingDen = false
         AH.DenStarted = false
         AH.IsInCrossing = false
+        AH.IsInTheatre = false
 
         if (AH.Timer) then
             AH.HideTimer()
@@ -275,7 +284,7 @@ local function checkMessage(messageParams)
         elseif
             (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
                 secondaryMessage:find(success, 1, true))
-         then
+        then
             AH.StopTimer()
             AH.DenDone = true
         end
@@ -291,7 +300,7 @@ local function checkMessage(messageParams)
         if
             (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
                 secondaryMessage:find(success, 1, true))
-         then
+        then
             AH.HideCrossingHelper()
         end
     end
@@ -364,7 +373,7 @@ end
 local function onDungeonInitialised()
     local visionCount = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(ENDLESS_DUNGEON_BUFF_TYPE_VISION)
 
-    AH.Vars.AvatarVisionCount = {ICE = 0, WOLF = 0, IRON = 0, UNDEAD = 0}
+    AH.Vars.AvatarVisionCount = { ICE = 0, WOLF = 0, IRON = 0, UNDEAD = 0 }
 
     if (visionCount) then
         for avatar, data in pairs(AH.AVATAR) do
@@ -475,7 +484,7 @@ local function onBuffStackCountChanged(_, abilityId)
         function()
             if (AH.MysteryVerse) then
                 AH.GroupChat(encode(abilityId, 999))
-                AH.ShareData(AH.SHARE.ABILITY, abilityId, nil, 999)
+                AH.ShareData(AH.SHARE.ABILITY, abilityId, 999)
                 CALLBACK_MANAGER:FireCallbacks("ArchiveHelperMysteryVerse")
                 AH.MysteryVerse = false
             end
@@ -497,6 +506,50 @@ local function warnNow(abilityId)
     messageParams:MarkShowImmediately()
 
     CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
+end
+
+local arcane, seeking
+
+-- Theatre of War
+local function theatreWarnings(...)
+    local source = select(7, ...)
+    local powerType = select(12, ...)
+    local abilityId = select(17, ...)
+
+    if (arcane[abilityId]) then
+        -- shard of chaos
+        d("shard!: " .. abilityId)
+    elseif (seeking[abilityId]) then
+        -- Aramril's sustained attack
+        d("Aramril!: " .. abilityId)
+    elseif (powerType == POWERTYPE_HEALTH and GetUnitName("boss1") == source) then
+        local health = GetUnitHealth("boss1")
+
+        d("boss health: " .. health)
+
+        if (health % 25 == 0) then
+            d("teleport: " .. health)
+        end
+    end
+end
+
+function AH.SetTheatreWarning(enable)
+    if (not arcane) then
+        arcane = AH.LC.BuildList(AH.ARCANE_BARRAGE)
+        seeking = AH.LC.BuildList(AH.SEEKING_RUNESCRAWL)
+    end
+
+    if (enable) then
+        EVENT_MANAGER:RegisterForEvent(
+            AH.Name .. "theatre",
+            EVENT_COMBAT_EVENT,
+            function(...)
+                if (AH.IsInTheatre) then
+                    theatreWarnings(...)
+                end
+            end
+        )
+    end
 end
 
 local terrainList
@@ -546,7 +599,7 @@ function AH.SetTerrainWarnings(enable)
             end
         )
         EVENT_MANAGER:AddFilterForEvent(
-            AH.Name,
+            AH.Name .. "terrain",
             EVENT_COMBAT_EVENT,
             REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE,
             COMBAT_UNIT_TYPE_PLAYER
@@ -560,8 +613,12 @@ function AH.SetTerrainWarnings(enable)
     end
 end
 
-function AH.ShareData(shareType, value, instant, stackCount)
-    if ((not AH.Share) and (not AH.DEBUG)) then
+--- Share data with group 
+---@param shareType SHARE
+---@param value number
+---@param stackCount number|nil
+function AH.ShareData(shareType, value, stackCount)
+    if ((not AH.IsSharing) and (not AH.DEBUG)) then
         return
     end
 
@@ -570,25 +627,21 @@ function AH.ShareData(shareType, value, instant, stackCount)
     if (stackCount) then
         encoded = encode(value, stackCount)
     else
-        encoded = string.format("%s%s", shareType, value)
+        encoded = value
     end
 
     encoded = tonumber(encoded)
 
-    if (AH.Share) then
-        if (instant) then
-            AH.Share:SendData(encoded)
-        else
-            AH.Share:QueueData(encoded)
-        end
+    if (AH.IsSharing) then
+        AH.LC.Share(AH.LC.ADDON_ID_ENUM.AH, shareType, encoded)
     end
 
     AH.Debug("Shared: " .. encoded)
 end
 
-function AH.HandleDataShare(_, info)
-    local shareType = tonumber(tostring(info):sub(1, 1))
-    local shareData = tonumber(tostring(info):sub(2))
+function AH.HandleDataShare(unitTag, info)
+    local shareType = info.class
+    local shareData = info.ndata
 
     if (not AH.TomeCount) then
         AH.ShowTomeshellCount()
@@ -610,18 +663,18 @@ function AH.HandleDataShare(_, info)
         if (AH.TomeCount) then
             AH.TomeCount:SetText(message)
             AH.PlayAlarm(AH.Sounds.Tomeshell)
-            AH.Debug("Received tome data: " .. shareData)
+            AH.Debug("Received tome data: " .. shareData .. " from: " .. unitTag)
         end
     elseif (shareType == AH.SHARE.MARK) then
         if (shareData and (shareData > 0) and (shareData < 8)) then
             AH.MARKERS[shareData].used = true
             AH.MARKERS[shareData].manual = true
-            AH.Debug("Received mark data: " .. shareData)
+            AH.Debug("Received mark data: " .. shareData .. " from: " .. unitTag)
         end
     elseif (shareType == AH.SHARE.UNMARK) then
         if (shareData and (shareData > 0) and (shareData < 8)) then
             AH.MARKERS[shareData].manual = false
-            AH.Debug("Received unmark data: " .. shareData)
+            AH.Debug("Received unmark data: " .. shareData .. " from: " .. unitTag)
         end
     elseif (shareType == AH.SHARE.GW) then
         if (shareData and (shareData > 0) and (not AH.FOUND_GW)) then
@@ -629,7 +682,7 @@ function AH.HandleDataShare(_, info)
                 AH.PlayAlarm(AH.Sounds.Gw)
             end
             AH.FOUND_GW = true
-            AH.Debug("Received Gw detection")
+            AH.Debug("Received Gw detection from: " .. unitTag)
         end
     elseif (shareType == AH.SHARE.ABILITY) then
         if (shareData) then
@@ -641,14 +694,14 @@ function AH.HandleDataShare(_, info)
                 AH.GroupChat(data, name, unitTag)
             end
 
-            AH.Debug("Received ability data: " .. shareData)
+            AH.Debug("Received ability data: " .. shareData .. " from: " .. unitTag)
         end
     elseif (shareType == AH.SHARE.CROSSING) then
         onCrossingChange(tostring(info):sub(2))
-        AH.Debug("Received crossing data: " .. tostring(info):sub(2))
+        AH.Debug("Received crossing data: " .. tostring(info):sub(2) .. " from: " .. unitTag)
     elseif (shareType == AH.SHARE.SHARING) then
         AH.AH_SHARING = true
-        AH.Debug("Received sharing notification")
+        AH.Debug("Received sharing notification from: " .. unitTag)
     end
 end
 

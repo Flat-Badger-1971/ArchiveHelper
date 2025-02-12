@@ -66,7 +66,7 @@ function AH.FindMissingAbilityIds(event, id)
     ZO_ClearNumericallyIndexedTable(AH.MissingAbilities)
 
     for _, achievementId in ipairs(achievementIds) do
-        local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(achievementId)
+        local status = AH.GetAchievementStatus(achievementId)
 
         if (status ~= _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
             table.insert(incomplete, achievementId)

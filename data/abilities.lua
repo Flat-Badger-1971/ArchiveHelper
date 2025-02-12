@@ -1,5 +1,7 @@
 local AH = _G.ArchiveHelper
 
+AH.PROTOCOL_ID = 511
+
 -- some ability names do not match the achievement name
 AH.EXCEPTIONS = {[191802] = _G.ARCHIVEHELPER_WEREWOLF_BEHEMOTH}
 
@@ -331,6 +333,14 @@ AH.TERRAIN = {
 }
 
 AH.AUDITOR = 12269
+
+AH.ARCANE_BARRAGE = {
+    "212081,212088"
+}
+
+AH.SEEKING_RUNESCRAWL = {
+    "207590,207592"
+}
 
 --[[
 3781, -- I crave violence

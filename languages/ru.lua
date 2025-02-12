@@ -88,6 +88,7 @@ L(
 L("SHOW_CROSSING_HELPER", "Включить помошника на Коварном перекрёстке") -- Show Treacherous Crossing helper
 L("SHOW_TERRAIN_WARNING", "Показывать предупреждения")
 L("SHOW_TERRAIN_WARNING_TOOLTIP", "Показывать предупреждения о повреждении рельефа")
+L("SHOW_THEATRE_WARNING", "Show warnings in the Theatre of War")
 L("FABLED_MARKER", "Ставить метки на ''Вымышленных'' врагов") -- Add Target Markers to Fabled
 L("FABLED_TOOLTIP", "Эта функция не будет работать при установленном Lykeions Fabled Marker.") -- This feature will not work with Lykeions Fabled Marker addon to avoid both addons trying to mark the same things.
 L("SHARD_MARKER", "Ставить метки на Осколки То’ат") -- Add Target Markers to Tho'at Shards
