@@ -197,10 +197,17 @@ local function zoneCheck()
         if (AH.Vars.ShowHelper) then
             AH.ShowCrossingHelper()
         end
+    elseif (mapId == AH.MAPS.THEATRE_OF_WAR.id) then
+        AH.IsInTheatre = true
+
+        if (AH.Vars.Theatre) then
+            AH.SetTheatreWarning(true)
+        end
     else
         AH.IsInEchoingDen = false
         AH.DenStarted = false
         AH.IsInCrossing = false
+        AH.IsInTheatre = false
 
         if (AH.Timer) then
             AH.HideTimer()
@@ -275,7 +282,7 @@ local function checkMessage(messageParams)
         elseif
             (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
                 secondaryMessage:find(success, 1, true))
-         then
+        then
             AH.StopTimer()
             AH.DenDone = true
         end
@@ -291,7 +298,7 @@ local function checkMessage(messageParams)
         if
             (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
                 secondaryMessage:find(success, 1, true))
-         then
+        then
             AH.HideCrossingHelper()
         end
     end
@@ -364,7 +371,7 @@ end
 local function onDungeonInitialised()
     local visionCount = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(ENDLESS_DUNGEON_BUFF_TYPE_VISION)
 
-    AH.Vars.AvatarVisionCount = {ICE = 0, WOLF = 0, IRON = 0, UNDEAD = 0}
+    AH.Vars.AvatarVisionCount = { ICE = 0, WOLF = 0, IRON = 0, UNDEAD = 0 }
 
     if (visionCount) then
         for avatar, data in pairs(AH.AVATAR) do
@@ -487,16 +494,67 @@ end
 AH.Detected = nil
 AH.Triggered = false
 
-local function warnNow(abilityId)
+local function warnNow(abilityId, message)
     local messageParams = CENTER_SCREEN_ANNOUNCE:CreateMessageParams(CSA_CATEGORY_MAJOR_TEXT)
-    local colour = (abilityId > 200000) and AH.LC.Cyan or AH.LC.Red
+    local colour = AH.LC.White
 
-    messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", AH.Detected) .. "!"))
+    if (not message) then
+        colour = (abilityId > 200000) and AH.LC.Cyan or AH.LC.Red
+        messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", AH.Detected) .. "!"))
+    else
+        messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", GetAbilityName(abilityId)) .. "!"))
+    end
+
     messageParams:SetSound(AH.Sounds.Terrain.sound)
     messageParams:SetCSAType(CENTER_SCREEN_ANNOUNCE_TYPE_SYSTEM_BROADCAST)
     messageParams:MarkShowImmediately()
 
     CENTER_SCREEN_ANNOUNCE:AddMessageWithParams(messageParams)
+end
+
+local arcane, seeking
+
+-- Theatre of War
+-- interrupt - SI_BINDING_NAME_SPECIAL_MOVE_INTERRUPT
+local function theatreWarnings(...)
+    local source = select(7, ...)
+    local powerType = select(12, ...)
+    local abilityId = select(17, ...)
+
+    if (arcane[abilityId]) then
+        -- shard of chaos
+        d("shard!: " .. abilityId)
+    elseif (seeking[abilityId]) then
+        -- Aramril's sustained attack
+        d("Aramril!: " .. abilityId)
+    elseif (powerType == POWERTYPE_HEALTH and GetUnitName("boss1") == source) then
+        local health = GetUnitHealth("boss1")
+
+        d("boss health: " .. health)
+
+        if (health % 25 == 0) then
+            d("teleport: " .. health)
+        end
+    end
+end
+
+function AH.SetTheatreWarning(enable)
+    if (not arcane) then
+        arcane = AH.LC.BuildList(AH.ARCANE_BARRAGE)
+        seeking = AH.LC.BuildList(AH.SEEKING_RUNESCRAWL)
+    end
+
+    if (enable) then
+        EVENT_MANAGER:RegisterForEvent(
+            AH.Name .. "theatre",
+            EVENT_COMBAT_EVENT,
+            function(...)
+                if (AH.IsInTheatre) then
+                    theatreWarnings(...)
+                end
+            end
+        )
+    end
 end
 
 local terrainList
@@ -546,7 +604,7 @@ function AH.SetTerrainWarnings(enable)
             end
         )
         EVENT_MANAGER:AddFilterForEvent(
-            AH.Name,
+            AH.Name .. "terrain",
             EVENT_COMBAT_EVENT,
             REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE,
             COMBAT_UNIT_TYPE_PLAYER

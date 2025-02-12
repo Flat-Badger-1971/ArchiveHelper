@@ -1,0 +1,4 @@
+--- @alias void nil
+--- @alias bool boolean
+--- @alias id64 integer
+--- @alias luaindex integer

@@ -29,6 +29,7 @@ _G.ArchiveHelper = {
         ShowStacks = true,
         ShowTimer = true,
         TerrainWarnings = true,
+        Theatre = true,
         UseDisplayName = false
     },
     ArchiveIndex = 2407,
