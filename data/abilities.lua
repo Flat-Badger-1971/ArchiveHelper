@@ -1,6 +1,8 @@
 local AH = ArchiveHelper
 local lib = AH.LIA
 
+AH.PROTOCOL_ID = 511
+
 -- some ability names do not match the achievement name
 AH.EXCEPTIONS = { [191802] = ARCHIVEHELPER_WEREWOLF_BEHEMOTH }
 

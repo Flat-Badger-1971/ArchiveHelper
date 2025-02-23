@@ -15,7 +15,7 @@ local function onSelectorHiding()
 end
 
 local function encode(abilityId, count)
-    return tonumber(string.format("%d%06d%d", AH.SHARE.ABILITY, abilityId, count))
+    return tonumber(string.format("%06d%d", abilityId, count))
 end
 
 local function onChoiceCommitted(_, selectedBuff, name, unitName)
@@ -164,6 +164,7 @@ end
 local function onDungeonInitialised()
     local visionCount = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(ENDLESS_DUNGEON_BUFF_TYPE_VISION)
 
+    AH.Vars.AvatarVisionCount = { ICE = 0, WOLF = 0, IRON = 0, UNDEAD = 0 }
     AH.Vars.AvatarVisionCount = { ICE = 0, WOLF = 0, IRON = 0, UNDEAD = 0 }
 
     if (visionCount) then
@@ -352,6 +353,7 @@ function AH.SetTerrainWarnings(enable)
             end
         )
         EVENT_MANAGER:AddFilterForEvent(
+            AH.Name .. "terrain",
             AH.Name .. "terrain",
             EVENT_COMBAT_EVENT,
             REGISTER_FILTER_TARGET_COMBAT_UNIT_TYPE,

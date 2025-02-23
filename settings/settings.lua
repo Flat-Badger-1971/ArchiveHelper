@@ -410,6 +410,7 @@ local function buildOptions()
             width = "full"
         },
         [21] = {
+        [21] = {
             type = "checkbox",
             name = AH.LC.Format(ARCHIVEHELPER_FABLED_MARKER),
             tooltip = function()
@@ -429,6 +430,7 @@ local function buildOptions()
             width = "full"
         },
         [22] = {
+        [22] = {
             type = "checkbox",
             name = AH.LC.Format(ARCHIVEHELPER_SHARD_MARKER),
             tooltip = function()
@@ -444,6 +446,7 @@ local function buildOptions()
             end,
             width = "full"
         },
+        [23] = {
         [23] = {
             type = "checkbox",
             name = AH.LC.Format(ARCHIVEHELPER_SHARD_IGNORE),
@@ -464,6 +467,7 @@ local function buildOptions()
             width = "full"
         },
         [24] = {
+        [24] = {
             type = "checkbox",
             name = AH.LC.Format(ARCHIVEHELPER_GW_MARKER),
             getFunc = function()
@@ -474,6 +478,7 @@ local function buildOptions()
             end,
             width = "full"
         },
+        [25] = {
         [25] = {
             type = "checkbox",
             name = AH.LC.Format(ARCHIVEHELPER_GW_PLAY),
@@ -489,6 +494,7 @@ local function buildOptions()
             width = "full"
         },
         [26] = {
+        [26] = {
             type = "checkbox",
             name = AH.LC.Format(ARCHIVEHELPER_MARAUDER_MARKER) ..
                 " " .. zo_iconFormat("/esoui/art/targetmarkers/target_white_skull_64.dds", 24, 24),
@@ -500,6 +506,7 @@ local function buildOptions()
             end,
             width = "full"
         },
+        [27] = {
         [27] = {
             type = "checkbox",
             name = AH.LC.Format(ARCHIVEHELPER_MARAUDER_INCOMING_PLAY),

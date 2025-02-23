@@ -64,6 +64,7 @@ ArchiveHelper = {
     LF = string.char(10),
     OAKENSOUL = 187658,
     SELECTION_DELAY = 1250,
+    --- @enum SHARE
     SHARE = {
         MARK = 1,
         UNMARK = 2,
