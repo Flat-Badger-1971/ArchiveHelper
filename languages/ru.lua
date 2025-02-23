@@ -7,13 +7,7 @@ end
 -- Enemies
 L("FABLED", "вымышленн") -- Fabled
 L("SHARD", "осколок то") -- Tho'at Shard
-L("GW", "гв воришка") -- Gw the Pilferer
 L("FLAMESHAPER", "огненн") -- Flame-Shaper
-L("MARADEUR_GOTHMAU", "готмо") -- gothmau
-L("MARADEUR_HILKARAX", "хилькаракс") -- hilkarax
-L("MARADEUR_ULMOR", "ульмор") -- ulmor
-L("MARAUDER_BITTOG", "bittog") -- bittog
-L("MARAUDER_ZULFIMBUL", "zulfimbul") -- zulfimbul
 
 -- Ability
 L("WEREWOLF_BEHEMOTH", "Чудовищный вервольф") -- Werewolf Behemoth
@@ -31,7 +25,6 @@ L("RANDOM", "<<1>> получает [<<2>>]") -- <<1>> received <<2>>
 L("COUNT", "<<1>> из <<2>>") -- <<1>> of <<2>>
 L("DEN_TIMER", "<<1[Осталось 0 сек./Осталось 1 сек./Осталось $d сек.]>>") -- <<1[0s remaining/1s remaining/$ds remaining]>>
 L("AUDITOR", "Автовызов лояльного аудитора")
-L("AUDITOR_NAME", "Верный Аудитор")
 L("CROSSING_TITLE", "Помощник Коварного перекрёстка") -- Treacherous Crossing Helper
 L(
     "CROSSING_INSTRUCTIONS",
@@ -46,22 +39,9 @@ L("CROSSING_START", "Начало")
 L("CROSSING_END", "Конец")
 L("CROSSING_PATHS", "Возможные пути") -- Possible Paths
 L("CROSSING_NO_SOLUTIONS", "Пути не найдены") -- No Paths Found
-L("CROSSING_SUCCESS", "решили головоломку") -- you Solved the Corridor Puzzle / Вы решили головоломку в коридоре
-L("CROSSING_FAIL", "заклинил") -- Locked (the Levers are Locked. No-one can cross)
-L("HERD", "соберите призрачные огни") -- Herd the Ghost Lights
-L("HERD_SUCCESS", "удалось вернуть") -- you Successfully Returned the Ghostlights / Вам удалось вернуть призрачные огни
-L("HERD_FAIL", "достаточно") -- you Did Not Herd Enough Ghostlights / Вам не удалось собрать достаточно призрачных огней
 L("TOMESHELL", "Книжная оболочка") -- Tomeshell
 L("TOMESHELL_COUNT", "<<1[Осталось 0/Осталось $d]>>") -- <<1[0 remaining/1 remaining/$d remaining]>>
 L("SECONDS", "сек.")
-
--- Zones
-L("MAP_TREACHEROUS_CROSSING", "Коварный перекрёсток") -- Treacherous Crossing
-L("MAP_HAEFELS_BUTCHERY", "Скотобойня Хейфала") -- Haefel's Butchery
-L("MAP_FILERS_WING", "Крыло Архивиста") -- Filer's Wing
-L("MAP_ECHOING_DEN", "Гулкое логово") -- Echoing Den
-L("MAP_THEATRE_OF_WAR", "Театр войны") -- Theatre of War
-L("MAP_DESTOZUNOS_LIBRARY", "Библиотека Дестозуны") -- Destozuno's Library
 
 -- Settings
 L("PROGRESS_ACHIEVEMENT", "Прогресс достижений") -- Achievement progress

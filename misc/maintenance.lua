@@ -1,4 +1,4 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 
 local function needsUpdate(version)
     if (not AH.Vars.Updates[version]) then

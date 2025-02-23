@@ -1,8 +1,8 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 
 function AH.HandleSlashCommand(parameters)
     local options = {}
-    local find = {parameters:match("^(%S*)%s*(.-)$")}
+    local find = { parameters:match("^(%S*)%s*(.-)$") }
     local isInTable = ZO_IsElementInNumericallyIndexedTable
 
     for _, value in pairs(find) do
@@ -12,8 +12,8 @@ function AH.HandleSlashCommand(parameters)
     end
 
     local defensive = isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE1):lower())
-    local helper = GetString(_G.ARCHIVEHELPER_CROSSING_SLASH):lower()
-    local missing = GetString(_G.ARCHIVEHELPER_SLASH_MISSING):lower()
+    local helper = GetString(ARCHIVEHELPER_CROSSING_SLASH):lower()
+    local missing = GetString(ARCHIVEHELPER_SLASH_MISSING):lower()
     local offensive = isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE0):lower())
     local utility = isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE2):lower())
     local verses = isInTable(options, AH.LC.Format(SI_ENDLESS_DUNGEON_SUMMARY_VERSES_HEADER):lower())
@@ -57,7 +57,7 @@ function AH.Print(type, offensive, defensive, utility)
                 ((offensive and info.class == AH.CLASSES.OFFENCE) or (defensive and info.class == AH.CLASSES.DEFENCE) or
                     (utility and info.class == AH.CLASSES.UTILITY) or
                     ((utility or offensive or defensive) == false))
-             then
+            then
                 local name = GetAbilityName(abilityId)
 
                 if (name and name ~= "") then
@@ -101,12 +101,12 @@ function AH.PrintMissingAbilities(versesOnly, visionsOnly)
     end
 
     if (#missing == 0) then
-        local message = AH.LC.Format(_G.ARCHIVEHELPER_ALL_BOTH)
+        local message = AH.LC.Format(ARCHIVEHELPER_ALL_BOTH)
 
         if (versesOnly) then
-            message = AH.LC.Format(_G.ARCHIVEHELPER_ALL_VERSES)
+            message = AH.LC.Format(ARCHIVEHELPER_ALL_VERSES)
         elseif (visionsOnly) then
-            message = AH.LC.Format(_G.ARCHIVEHELPER_ALL_VISIONS)
+            message = AH.LC.Format(ARCHIVEHELPER_ALL_VISIONS)
         end
 
         AH.Chat:SetTagColor("dc134c"):Print(message)

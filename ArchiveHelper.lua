@@ -1,12 +1,12 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 
 local function Initialise()
     -- saved variables
     AH.Vars =
-        _G.LibSavedVars:NewAccountWide("ArchiveHelperSavedVars", "Account", AH.Defaults):AddCharacterSettingsToggle(
-        "ArchiveHelperSavedVars",
-        "Characters"
-    ):EnableDefaultsTrimming()
+        LibSavedVars:NewAccountWide("ArchiveHelperSavedVars", "Account", AH.Defaults):AddCharacterSettingsToggle(
+            "ArchiveHelperSavedVars",
+            "Characters"
+        ):EnableDefaultsTrimming()
 
     AH.RegisterSettings()
 
@@ -33,7 +33,7 @@ local function Initialise()
         AH.IsRu = true
     end
 
-    _G.SLASH_COMMANDS["/ah"] = function(...)
+    SLASH_COMMANDS["/ah"] = function(...)
         AH.HandleSlashCommand(...)
     end
 end
@@ -43,9 +43,11 @@ function AH.OnAddonLoaded(_, addonName)
         return
     end
 
-    if (_G.LibChatMessage ~= nil) then
-        AH.Chat = _G.LibChatMessage(AH.Name, "AH")
+    if (LibChatMessage ~= nil) then
+        AH.Chat = LibChatMessage(AH.Name, "AH")
     end
+
+    AH.LIA = LibInfiniteArchive
 
     EVENT_MANAGER:UnregisterForEvent(AH.Name, EVENT_ADD_ON_LOADED)
 
@@ -53,3 +55,5 @@ function AH.OnAddonLoaded(_, addonName)
 end
 
 EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ADD_ON_LOADED, AH.OnAddonLoaded)
+
+-- echoing den 2x2 - no comp.

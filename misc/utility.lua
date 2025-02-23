@@ -1,4 +1,4 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 local archiveQuestIndexes = {}
 
 function AH.IsRecorded(id, list)
@@ -21,10 +21,10 @@ end
 
 function AH.Announce(achievementName, icon, remaining)
     local message =
-        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), AH.LC.Yellow:Colorize(achievementName), remaining)
+        ZO_CachedStrFormat(GetString(ARCHIVEHELPER_PROGRESS), AH.LC.Yellow:Colorize(achievementName), remaining)
 
     if (AH.Vars.NotifyScreen) then
-        AH.LC.ScreenAnnounce(AH.LC.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
+        AH.LC.ScreenAnnounce(AH.LC.Format(ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
     end
 
     if (AH.Vars.NotifyChat and AH.Chat) then
@@ -37,9 +37,9 @@ function AH.EventNotifier(id)
         if (AH.ACHIEVEMENTS.IDS[id]) then
             local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(id)
             if
-                (status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS or
-                    status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS)
-             then
+                (status == ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS or
+                    status == ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS)
+            then
                 local announce = true
 
                 if (ZO_IsElementInNumericallyIndexedTable(AH.ACHIEVEMENTS.LIMIT, id)) then
@@ -72,94 +72,22 @@ function AH.EventNotifier(id)
     end
 end
 
-function AH.IsInUnknown()
-    local id = GetCurrentMapId()
-
-    for _, mid in pairs(AH.MAPS) do
-        if (mid.id == id) then
-            return true
-        end
-    end
-
-    return false
-end
-
 function AH.Release(frame)
     AH.FrameObjectPool:ReleaseObject(AH.Keys[frame])
     AH.Keys[frame] = nil
     AH[frame] = nil
 end
 
-function AH.IsAvatar(abilityId)
-    for avatar, info in pairs(AH.AVATAR) do
-        if (ZO_IsElementInNumericallyIndexedTable(info.abilityIds, abilityId)) then
-            return avatar
-        end
-    end
-end
-
-function AH.GetArchiveQuestIndexes(rebuild)
-    if ((#archiveQuestIndexes == 0) or rebuild) then
-        ZO_ClearNumericallyIndexedTable(archiveQuestIndexes)
-
-        for index = 1, GetNumJournalQuests() do
-            local name, _, _, _, _, complete = GetJournalQuestInfo(index)
-            if (not complete and ZO_IsElementInNumericallyIndexedTable(AH.ArchiveQuests, name)) then
-                table.insert(archiveQuestIndexes, index)
-            end
-        end
-    end
-
-    return archiveQuestIndexes
-end
-
 function AH.CompatibilityCheck()
-    if (_G.LFM and _G.LFM.name == "LykeionsFabledMarker") then
+    if (LFM and LFM.name == "LykeionsFabledMarker") then
         return false
     end
 
     return true
 end
 
-function AH.CheckDataShareLib()
-    if (_G.LibDataShare) then
-        AH.Share = _G.LibDataShare:RegisterMap(AH.Name, AH.DATA_ID, AH.HandleDataShare)
-    end
-end
-
-local solo = ENDLESS_DUNGEON_GROUP_TYPE_SOLO
-
-function AH.GetActualGroupType()
-    if (IsInstanceEndlessDungeon()) then
-        local groupType = GetEndlessDungeonGroupType()
-        local groupSize = GetGroupSize()
-
-        if (groupSize == 0 or groupType == solo) then
-            groupType = solo
-        else
-            local size = 0
-
-            for unit = 1, groupSize do
-                if (IsUnitOnline(string.format("group%d", unit))) then
-                    size = size + 1
-                end
-            end
-
-            if (size == 1) then
-                groupType = solo
-            end
-
-            if (AH.CurrentGroupType ~= groupType) then
-                AH.CurrentGroupType = groupType
-            end
-        end
-
-        return groupType
-    end
-end
-
 function AH.UpdateSlottedSkills()
-    local skillTypes = {SKILL_TYPE_AVA, SKILL_TYPE_CLASS, SKILL_TYPE_GUILD, SKILL_TYPE_WORLD}
+    local skillTypes = { SKILL_TYPE_AVA, SKILL_TYPE_CLASS, SKILL_TYPE_GUILD, SKILL_TYPE_WORLD }
     local purchasedSkills = {}
 
     AH.SKILL_TYPES = {
@@ -200,14 +128,14 @@ function AH.UpdateSlottedSkills()
         if
             (IsSlotUsed(slotIndex, HOTBAR_CATEGORY_PRIMARY) and
                 GetSlotType(slotIndex, HOTBAR_CATEGORY_PRIMARY) == ACTION_TYPE_ABILITY)
-         then
+        then
             table.insert(slotted, GetSlotBoundId(slotIndex, HOTBAR_CATEGORY_PRIMARY))
         end
 
         if
             ((not hasOakensoul) and IsSlotUsed(slotIndex, HOTBAR_CATEGORY_BACKUP) and
                 GetSlotType(slotIndex, HOTBAR_CATEGORY_BACKUP) == ACTION_TYPE_ABILITY)
-         then
+        then
             table.insert(slotted, GetSlotBoundId(slotIndex, HOTBAR_CATEGORY_BACKUP))
         end
     end
@@ -296,25 +224,9 @@ function AH.HasSkills(abilityId)
     return true
 end
 
-function AH.IsAuditorActive()
-    local auditor = GetString(_G.ARCHIVEHELPER_AUDITOR_NAME)
-
-    for pet = 1, MAX_PET_UNIT_TAGS do
-        local name = AH.LC.Format(GetUnitName(string.format("playerpet%s", tostring(pet))))
-
-        if (name and (name ~= "")) then
-            if (name == auditor) then
-                return true
-            end
-        end
-    end
-
-    return false
-end
-
 local colours = {
-    [AH.TYPES.VERSE] = {normal = AH.LC.ZOSGreen, avatar = AH.LC.ZOSGold},
-    [AH.TYPES.VISION] = {normal = AH.LC.ZOSBlue, avatar = AH.LC.ZOSPurple}
+    [AH.TYPES.VERSE] = { normal = AH.LC.ZOSGreen, avatar = AH.LC.ZOSGold },
+    [AH.TYPES.VISION] = { normal = AH.LC.ZOSBlue, avatar = AH.LC.ZOSPurple }
 }
 
 function AH.GroupChat(abilityData, name, unitTag)
@@ -328,7 +240,7 @@ function AH.GroupChat(abilityData, name, unitTag)
 
             abilityData = tostring(abilityData)
 
-            local replaceText = _G.ARCHIVEHELPER_BUFF_SELECTED
+            local replaceText = ARCHIVEHELPER_BUFF_SELECTED
             local abilityId = tonumber(abilityData:sub(2, 7))
             local count = tonumber(abilityData:sub(8))
             local abilityInfo = AH.ABILITIES[abilityId]
@@ -340,7 +252,7 @@ function AH.GroupChat(abilityData, name, unitTag)
             local abilityLink = GetAbilityLink(abilityId, LINK_STYLE_BRACKETS)
 
             if (count == 999) then
-                replaceText = _G.ARCHIVEHELPER_RANDOM
+                replaceText = ARCHIVEHELPER_RANDOM
             end
 
             local message = ZO_CachedStrFormat(replaceText, name, colour:Colorize(abilityLink))
@@ -352,7 +264,7 @@ function AH.GroupChat(abilityData, name, unitTag)
                         message = message .. " "
                         message =
                             message ..
-                            yellow:Colorize("(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")")
+                            yellow:Colorize("(" .. ZO_CachedStrFormat(ARCHIVEHELPER_COUNT, count, 3) .. ")")
                     end
                 elseif (count > 1) then
                     message = message .. " " .. yellow:Colorize("(" .. count .. ")")
@@ -365,7 +277,7 @@ function AH.GroupChat(abilityData, name, unitTag)
                 AH.Name,
                 message,
                 false,
-                (not _G.pChat or not _G.pChat.db or _G.pChat.db.groupNames <= 2) and AH.Name or ""
+                (not pChat or not pChat.db or pChat.db.groupNames <= 2) and AH.Name or ""
             )
         end
     end
@@ -379,7 +291,7 @@ function AH.ToggleCrossingHelper()
     end
 
     if (not AH.IsInCrossing and not AH.DEBUG) then
-        local message = GetString(_G.ARCHIVEHELPER_CROSSING_INVALID)
+        local message = GetString(ARCHIVEHELPER_CROSSING_INVALID)
 
         if (AH.Chat) then
             AH.Chat:SetTagColor(AH.LC.ZOSPurple)
@@ -402,7 +314,7 @@ function AH.GetAchievementStatus(achievementId)
 
     for criterionIndex = 1, numCriteria do
         local _, numCompleted, numRequired = GetAchievementCriterion(achievementId, criterionIndex)
-        
+
         completed = completed + numCompleted
         total = total + numRequired
     end

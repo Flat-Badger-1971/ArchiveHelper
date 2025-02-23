@@ -1,24 +1,24 @@
-local AH = _G.ArchiveHelper
-local fabledText = GetString(_G.ARCHIVEHELPER_FABLED):lower()
-local shardText = GetString(_G.ARCHIVEHELPER_SHARD):lower()
-local gwText = GetString(_G.ARCHIVEHELPER_GW):lower()
-local flameShaperText = GetString(_G.ARCHIVEHELPER_FLAMESHAPER):lower()
+local AH = ArchiveHelper
+local fabledText = GetString(ARCHIVEHELPER_FABLED):lower()
+local shardText = GetString(ARCHIVEHELPER_SHARD):lower()
+local gwText = GetString(ARCHIVEHELPER_GW):lower()
+local flameShaperText = GetString(ARCHIVEHELPER_FLAMESHAPER):lower()
 -- local cache for performance
 local GetUnitName, GetUnitTargetMarkerType = GetUnitName, GetUnitTargetMarkerType
 local IsUnitDead, AssignTargetMarkerToReticleTarget = IsUnitDead, AssignTargetMarkerToReticleTarget
 
 -- marker 8 reserved for marauders
 AH.MARKERS = {
-    [1] = {marker = TARGET_MARKER_TYPE_ONE, used = false, manual = false},
-    [2] = {marker = TARGET_MARKER_TYPE_TWO, used = false, manual = false},
-    [3] = {marker = TARGET_MARKER_TYPE_THREE, used = false, manual = false},
-    [4] = {marker = TARGET_MARKER_TYPE_FOUR, used = false, manual = false},
-    [5] = {marker = TARGET_MARKER_TYPE_FIVE, used = false, manual = false},
-    [6] = {marker = TARGET_MARKER_TYPE_SIX, used = false, manual = false},
-    [7] = {marker = TARGET_MARKER_TYPE_SEVEN, used = false, manual = false}
+    [1] = { marker = TARGET_MARKER_TYPE_ONE, used = false, manual = false },
+    [2] = { marker = TARGET_MARKER_TYPE_TWO, used = false, manual = false },
+    [3] = { marker = TARGET_MARKER_TYPE_THREE, used = false, manual = false },
+    [4] = { marker = TARGET_MARKER_TYPE_FOUR, used = false, manual = false },
+    [5] = { marker = TARGET_MARKER_TYPE_FIVE, used = false, manual = false },
+    [6] = { marker = TARGET_MARKER_TYPE_SIX, used = false, manual = false },
+    [7] = { marker = TARGET_MARKER_TYPE_SEVEN, used = false, manual = false }
 }
 
-local markerKeys = {1, 2, 3, 4, 5, 6, 7}
+local markerKeys = { 1, 2, 3, 4, 5, 6, 7 }
 
 local function getMarkerIndex(marker)
     for index, info in ipairs(AH.MARKERS) do

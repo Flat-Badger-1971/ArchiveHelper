@@ -1,4 +1,4 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 
 local baseFrame = ZO_Object:Subclass()
 
@@ -50,11 +50,11 @@ function baseFrame:SetPosition()
     defaultX = defaultX - (self.width / 2)
 
     if (not AH.Vars[self.name .. "Position"]) then
-        AH.Vars[self.name .. "Position"] = {top = defaultY, left = defaultX}
+        AH.Vars[self.name .. "Position"] = { top = defaultY, left = defaultX }
     end
 
     if (not AH.Vars[self.name .. "Position"]) then
-        AH.Vars[self.name .. "Position"] = {top = defaultY, left = defaultX}
+        AH.Vars[self.name .. "Position"] = { top = defaultY, left = defaultX }
     end
 end
 
@@ -62,7 +62,7 @@ function baseFrame:SetMouseHandler()
     local onMouseUp = function()
         local top, left = self.control:GetTop(), self.control:GetLeft()
 
-        AH.Vars[self.name .. "Position"] = {top = top, left = left}
+        AH.Vars[self.name .. "Position"] = { top = top, left = left }
     end
 
     self.control:SetHandler("OnMouseUp", onMouseUp)
@@ -109,22 +109,22 @@ local function ensureFramePoolExists()
         AH.FrameObjectPool =
             ZO_ObjectPool:New(
             --factory
-            function()
-                return baseFrame:New()
-            end,
-            --reset
-            function(frame)
-                frame:SetHidden(true)
-                frame:ClearAnchors()
-                frame:SetText("")
-                frame:SetColour(1, 1, 0, 1)
-            end
-        )
+                function()
+                    return baseFrame:New()
+                end,
+                --reset
+                function(frame)
+                    frame:SetHidden(true)
+                    frame:ClearAnchors()
+                    frame:SetText("")
+                    frame:SetColour(1, 1, 0, 1)
+                end
+            )
     end
 end
 
 function AH.SetTime()
-    local time = ZO_CachedStrFormat(_G.ARCHIVEHELPER_DEN_TIMER, AH.CurrentTimerValue)
+    local time = ZO_CachedStrFormat(ARCHIVEHELPER_DEN_TIMER, AH.CurrentTimerValue)
 
     AH.Timer:SetText(time)
 
@@ -224,7 +224,7 @@ function AH.ShowQuestReminder()
         questReminder:ClearAnchors()
         questReminder:SetAnchor(BOTTOM, parent, TOP, 0, -120)
         questReminder:SetAnchor(TOP, parent, TOP, 0, -160)
-        questReminder:SetText(AH.LC.Format(_G.ARCHIVEHELPER_REMINDER_QUEST_TEXT))
+        questReminder:SetText(AH.LC.Format(ARCHIVEHELPER_REMINDER_QUEST_TEXT))
         questReminder:SetHidden(false)
 
         AH.QuestReminder = questReminder
@@ -266,16 +266,16 @@ local function createComboBox(name, parent, width, height, choices, default, cal
             for idx, value in pairs(array) do
                 local entry =
                     ZO_ComboBox:CreateItemEntry(
-                    value,
-                    function()
-                        combo.value = value
-                        self:UpdateParent()
+                        value,
+                        function()
+                            combo.value = value
+                            self:UpdateParent()
 
-                        if (callback) then
-                            callback(value)
+                            if (callback) then
+                                callback(value)
+                            end
                         end
-                    end
-                )
+                    )
                 entry.id = idx
                 comboBox:AddItem(entry, ZO_COMBOBOX_SUPRESS_UPDATE)
             end
@@ -297,8 +297,8 @@ local function createComboBox(name, parent, width, height, choices, default, cal
     combo.UpdateParent = function(self)
         if (parent:GetType() == CT_LABEL) then
             local colour =
-                self.disabled and {0.3, 0.3, 0.3, 1} or choices[combo.value] == "Disabled" and {0.5, 0.5, 0.4, 1} or
-                {0.8, 0.8, 0.6, 1}
+                self.disabled and { 0.3, 0.3, 0.3, 1 } or choices[combo.value] == "Disabled" and { 0.5, 0.5, 0.4, 1 } or
+                { 0.8, 0.8, 0.6, 1 }
             parent:SetColor(unpack(colour))
         end
     end
@@ -429,7 +429,7 @@ function AH.CrossingUpdate(box, value, doNotShare)
         end
 
         if ((solutions:len() == 0) or isReset()) then
-            solutions = GetString(_G.ARCHIVEHELPER_CROSSING_NO_SOLUTIONS)
+            solutions = GetString(ARCHIVEHELPER_CROSSING_NO_SOLUTIONS)
         end
 
         solutionsWindow:SetText(solutions)
@@ -485,17 +485,17 @@ function AH.ShowCrossingHelper(bypass)
 
             defaultX = defaultX - (frame:GetWidth() / 2)
             if (not AH.Vars["CrossingHelperPosition"]) then
-                AH.Vars["CrossingHelperPosition"] = {top = defaultY, left = defaultX}
+                AH.Vars["CrossingHelperPosition"] = { top = defaultY, left = defaultX }
             end
 
             if (not AH.Vars["CrossingHelperPosition"]) then
-                AH.Vars["CrossingHelperPosition"] = {top = defaultY, left = defaultX}
+                AH.Vars["CrossingHelperPosition"] = { top = defaultY, left = defaultX }
             end
 
             local onMouseUp = function()
                 local top, left = frame:GetTop(), frame:GetLeft()
 
-                AH.Vars["CrossingHelperPosition"] = {top = top, left = left}
+                AH.Vars["CrossingHelperPosition"] = { top = top, left = left }
             end
 
             frame:SetHandler("OnMouseUp", onMouseUp)
@@ -512,7 +512,7 @@ function AH.ShowCrossingHelper(bypass)
             frame.label:SetFont("${BOLD_FONT}|24")
             frame.label:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
             frame.label:SetVerticalAlignment(TEXT_ALIGN_CENTER)
-            frame.label:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_TITLE))
+            frame.label:SetText(GetString(ARCHIVEHELPER_CROSSING_TITLE))
             frame.label:SetColor(1, 1, 0, 1)
             frame.label:SetAnchor(TOPLEFT, frame, TOPLEFT, 0, 10)
             frame.label:SetAnchor(BOTTOMRIGHT, frame, TOPRIGHT, 0, 30)
@@ -528,27 +528,27 @@ function AH.ShowCrossingHelper(bypass)
             frame.text:SetHorizontalAlignment(TEXT_ALIGN_LEFT)
             frame.text:SetVerticalAlignment(TEXT_ALIGN_CENTER)
             frame.text:SetColor(0.82, 0.82, 0.82, 1)
-            frame.text:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_INSTRUCTIONS))
+            frame.text:SetText(GetString(ARCHIVEHELPER_CROSSING_INSTRUCTIONS))
 
             local ordinals = {
-                [1] = GetString(_G.ARCHIVEHELPER_CROSSING_START),
+                [1] = GetString(ARCHIVEHELPER_CROSSING_START),
                 [2] = ZO_CachedStrFormat("<<i:1>>", 2),
-                [3] = GetString(_G.ARCHIVEHELPER_CROSSING_END)
+                [3] = GetString(ARCHIVEHELPER_CROSSING_END)
             }
 
             for box = 1, 3 do
                 frame["box" .. box] =
                     createComboBox(
-                    AH.Name .. "_choice" .. box,
-                    frame,
-                    40,
-                    40,
-                    {1, 2, 3, 4, 5, 6, ""},
-                    nil,
-                    function(value)
-                        AH.CrossingUpdate(box, value)
-                    end
-                )
+                        AH.Name .. "_choice" .. box,
+                        frame,
+                        40,
+                        40,
+                        { 1, 2, 3, 4, 5, 6, "" },
+                        nil,
+                        function(value)
+                            AH.CrossingUpdate(box, value)
+                        end
+                    )
 
                 frame["box" .. box]:SetAnchor(TOPLEFT, frame.text, BOTTOMLEFT, 20 + (box * 75), 50)
                 frame["boxlabel" .. box] = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
@@ -563,7 +563,7 @@ function AH.ShowCrossingHelper(bypass)
             end
 
             frame.pathsLabel = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
-            frame.pathsLabel:SetText(GetString(_G.ARCHIVEHELPER_CROSSING_PATHS))
+            frame.pathsLabel:SetText(GetString(ARCHIVEHELPER_CROSSING_PATHS))
             frame.pathsLabel:SetAnchor(CENTER, frame.text, CENTER, 0, 180)
             frame.pathsLabel:SetFont("${BOLD_FONT}|24")
             frame.pathsLabel:SetColor(0.46, 0.74, 0.76, 1)
@@ -583,9 +583,9 @@ function AH.ShowCrossingHelper(bypass)
             frame.key:SetFont("${BOLD_FONT}|16")
             frame.key:SetColor(0.82, 0.82, 0.82, 1)
             frame.key:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
-            frame.key:SetText(ZO_CachedStrFormat(_G.ARCHIVEHELPER_CROSSING_KEY, AH.ch_icons.L, AH.ch_icons.R))
+            frame.key:SetText(ZO_CachedStrFormat(ARCHIVEHELPER_CROSSING_KEY, AH.ch_icons.L, AH.ch_icons.R))
 
-            AH.selectedBox = {[1] = 0, [2] = 0, [3] = 0}
+            AH.selectedBox = { [1] = 0, [2] = 0, [3] = 0 }
             AH.CrossingHelperFrame = frame
         end
 

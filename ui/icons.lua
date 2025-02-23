@@ -1,4 +1,4 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 
 AH.IconTypes = {
     ACH = "MarkAchievements",
@@ -80,16 +80,16 @@ function AH.EnsureIconPoolExists()
         AH.IconObjectPool =
             ZO_ObjectPool:New(
             --factory
-            function()
-                return baseIconControl:New()
-            end,
-            --reset
-            function(iconControl)
-                iconControl.tooltip = nil
-                iconControl.control:SetHidden(true)
-                iconControl.control:ClearAnchors()
-            end
-        )
+                function()
+                    return baseIconControl:New()
+                end,
+                --reset
+                function(iconControl)
+                    iconControl.tooltip = nil
+                    iconControl.control:SetHidden(true)
+                    iconControl.control:ClearAnchors()
+                end
+            )
     end
 end
 

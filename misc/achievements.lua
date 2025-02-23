@@ -1,4 +1,4 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 
 AH.MissingAbilities = {}
 
@@ -26,11 +26,11 @@ function AH.GetAbilities(achievementIdToFind)
                 if (AH.EXCEPTIONS[abilityId]) then
                     name = GetString(AH.EXCEPTIONS[abilityId])
                 else
-                    name = GetAbilityName(abilityId)
+                    name = GetAbilityName(abilityId, "player")
                 end
 
                 if (name and name ~= "") then
-                    table.insert(abilities, {id = abilityId, name = AH.LC.Format(name)})
+                    table.insert(abilities, { id = abilityId, name = AH.LC.Format(name) })
                 end
             end
         end
@@ -68,7 +68,7 @@ function AH.FindMissingAbilityIds(event, id)
     for _, achievementId in ipairs(achievementIds) do
         local status = AH.GetAchievementStatus(achievementId)
 
-        if (status ~= _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
+        if (status ~= ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
             table.insert(incomplete, achievementId)
         end
     end
@@ -90,7 +90,7 @@ function AH.FindMissingAbilityIds(event, id)
                 local aid = AH.CheckAbilities(description, abilities)
 
                 if (not AH.IsRecorded(aid, AH.MissingAbilities, achievementId)) then
-                    table.insert(AH.MissingAbilities, {id = aid, achievementId = achievementId})
+                    table.insert(AH.MissingAbilities, { id = aid, achievementId = achievementId })
                 end
             end
         end
@@ -107,7 +107,7 @@ function AH.GetAbilityNeededForGeneralAchievement(abilityId)
         if (ZO_IsElementInNumericallyIndexedTable(AH.GENERAL, achievementId)) then
             local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(achievementId)
 
-            if (status ~= _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
+            if (status ~= ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
                 table.insert(neededFor, achievementId)
             end
         end
