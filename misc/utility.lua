@@ -72,45 +72,10 @@ function AH.EventNotifier(id)
     end
 end
 
-function AH.IsInUnknown()
-    local id = GetCurrentMapId()
-
-    for _, mid in pairs(AH.MAPS) do
-        if (mid.id == id) then
-            return true
-        end
-    end
-
-    return false
-end
-
 function AH.Release(frame)
     AH.FrameObjectPool:ReleaseObject(AH.Keys[frame])
     AH.Keys[frame] = nil
     AH[frame] = nil
-end
-
-function AH.IsAvatar(abilityId)
-    for avatar, info in pairs(AH.AVATAR) do
-        if (ZO_IsElementInNumericallyIndexedTable(info.abilityIds, abilityId)) then
-            return avatar
-        end
-    end
-end
-
-function AH.GetArchiveQuestIndexes(rebuild)
-    if ((#archiveQuestIndexes == 0) or rebuild) then
-        ZO_ClearNumericallyIndexedTable(archiveQuestIndexes)
-
-        for index = 1, GetNumJournalQuests() do
-            local name, _, _, _, _, complete = GetJournalQuestInfo(index)
-            if (not complete and ZO_IsElementInNumericallyIndexedTable(AH.ArchiveQuests, name)) then
-                table.insert(archiveQuestIndexes, index)
-            end
-        end
-    end
-
-    return archiveQuestIndexes
 end
 
 function AH.CompatibilityCheck()
@@ -119,43 +84,6 @@ function AH.CompatibilityCheck()
     end
 
     return true
-end
-
-function AH.CheckDataShareLib()
-    if (_G.LibDataShare) then
-        AH.Share = _G.LibDataShare:RegisterMap(AH.Name, AH.DATA_ID, AH.HandleDataShare)
-    end
-end
-
-local solo = ENDLESS_DUNGEON_GROUP_TYPE_SOLO
-
-function AH.GetActualGroupType()
-    if (IsInstanceEndlessDungeon()) then
-        local groupType = GetEndlessDungeonGroupType()
-        local groupSize = GetGroupSize()
-
-        if (groupSize == 0 or groupType == solo) then
-            groupType = solo
-        else
-            local size = 0
-
-            for unit = 1, groupSize do
-                if (IsUnitOnline(string.format("group%d", unit))) then
-                    size = size + 1
-                end
-            end
-
-            if (size == 1) then
-                groupType = solo
-            end
-
-            if (AH.CurrentGroupType ~= groupType) then
-                AH.CurrentGroupType = groupType
-            end
-        end
-
-        return groupType
-    end
 end
 
 function AH.UpdateSlottedSkills()
@@ -296,29 +224,15 @@ function AH.HasSkills(abilityId)
     return true
 end
 
-function AH.IsAuditorActive()
-    local auditor = GetString(_G.ARCHIVEHELPER_AUDITOR_NAME)
-
-    for pet = 1, MAX_PET_UNIT_TAGS do
-        local name = AH.LC.Format(GetUnitName(string.format("playerpet%s", tostring(pet))))
-
-        if (name and (name ~= "")) then
-            if (name == auditor) then
-                return true
-            end
-        end
-    end
-
-    return false
-end
-
 local colours = {
     [AH.TYPES.VERSE] = { normal = AH.LC.ZOSGreen, avatar = AH.LC.ZOSGold },
     [AH.TYPES.VISION] = { normal = AH.LC.ZOSBlue, avatar = AH.LC.ZOSPurple }
 }
 
-function AH.GroupChat(abilityData, name, unitTag)
+function AH.GroupChat(abilityId, count, unitTag)
     if (IsInstanceEndlessDungeon()) then
+        local name = ""
+
         if (AH.Vars.ShowSelection) then
             if (AH.Vars.UseDisplayName) then
                 name = ZO_LinkHandler_CreateDisplayNameLink(GetUnitDisplayName(unitTag or "player"))
@@ -326,17 +240,14 @@ function AH.GroupChat(abilityData, name, unitTag)
                 name = AH.LC.Format(name or GetUnitName("player"))
             end
 
-            abilityData = tostring(abilityData)
-
             local replaceText = _G.ARCHIVEHELPER_BUFF_SELECTED
-            local abilityId = tonumber(abilityData:sub(2, 7))
-            local count = tonumber(abilityData:sub(8))
             local abilityInfo = AH.ABILITIES[abilityId]
             local abilityType = abilityInfo.type or AH.TYPES.VERSE
-            local avatar = AH.IsAvatar(abilityId)
+            local avatar = AH.LIA:IsAvatar(abilityId)
             local colourChoices = colours[abilityType]
             local colour = avatar and colourChoices.avatar or colourChoices.normal
-            local channel = AH.GetActualGroupType() == solo and CHAT_CHANNEL_SAY or CHAT_CHANNEL_PARTY
+            local channel = AH.LIA:GetEffectiveGroupType() == ENDLESS_DUNGEON_GROUP_TYPE_SOLO and CHAT_CHANNEL_SAY or
+                CHAT_CHANNEL_PARTY
             local abilityLink = GetAbilityLink(abilityId, LINK_STYLE_BRACKETS)
 
             if (count == 999) then

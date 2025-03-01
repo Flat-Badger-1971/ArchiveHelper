@@ -132,7 +132,7 @@ function AH.OnBuffSelectorShowing()
             local position = positionOffsets[getNextPosition(buffInfo.index)]
             local buff = _G[string.format("%sBuff%d", container, buffInfo.index)]
             local icon, achievementId
-            local avatar = AH.IsAvatar(buffInfo.abilityId)
+            local avatar = AH.LIA:IsAvatar(buffInfo.abilityId)
 
             if (avatar) then
                 icon = AH.CreateIcon(avatar, buff, position.x, position.y)
@@ -159,7 +159,7 @@ function AH.OnBuffSelectorShowing()
             for _, buffInfo in pairs(buffChoices) do
                 local buff = _G[string.format("%sBuff%dName", container, buffInfo.index)]
                 local count = counts[buffInfo.abilityId] or 0
-                local avatar = AH.IsAvatar(buffInfo.abilityId)
+                local avatar = AH.LIA:IsAvatar(buffInfo.abilityId)
                 local countText = ""
 
                 if (avatar) then

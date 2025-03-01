@@ -9,16 +9,16 @@ local IsUnitDead, AssignTargetMarkerToReticleTarget = IsUnitDead, AssignTargetMa
 
 -- marker 8 reserved for marauders
 AH.MARKERS = {
-    [1] = {marker = TARGET_MARKER_TYPE_ONE, used = false, manual = false},
-    [2] = {marker = TARGET_MARKER_TYPE_TWO, used = false, manual = false},
-    [3] = {marker = TARGET_MARKER_TYPE_THREE, used = false, manual = false},
-    [4] = {marker = TARGET_MARKER_TYPE_FOUR, used = false, manual = false},
-    [5] = {marker = TARGET_MARKER_TYPE_FIVE, used = false, manual = false},
-    [6] = {marker = TARGET_MARKER_TYPE_SIX, used = false, manual = false},
-    [7] = {marker = TARGET_MARKER_TYPE_SEVEN, used = false, manual = false}
+    [1] = { marker = TARGET_MARKER_TYPE_ONE, used = false, manual = false },
+    [2] = { marker = TARGET_MARKER_TYPE_TWO, used = false, manual = false },
+    [3] = { marker = TARGET_MARKER_TYPE_THREE, used = false, manual = false },
+    [4] = { marker = TARGET_MARKER_TYPE_FOUR, used = false, manual = false },
+    [5] = { marker = TARGET_MARKER_TYPE_FIVE, used = false, manual = false },
+    [6] = { marker = TARGET_MARKER_TYPE_SIX, used = false, manual = false },
+    [7] = { marker = TARGET_MARKER_TYPE_SEVEN, used = false, manual = false }
 }
 
-local markerKeys = {1, 2, 3, 4, 5, 6, 7}
+local markerKeys = { 1, 2, 3, 4, 5, 6, 7 }
 
 local function getMarkerIndex(marker)
     for index, info in ipairs(AH.MARKERS) do
@@ -82,7 +82,7 @@ end
 local function doChecks()
     local stage, cycle, arc = ENDLESS_DUNGEON_MANAGER:GetProgression()
 
-    AH.GetArchiveQuestIndexes()
+    AH.LIA:GetArchiveQuestIndices()
 
     AH.CHECK_MARAUDERS = AH.Vars.MarauderCheck
     AH.CHECK_FABLED = AH.Vars.FabledCheck
