@@ -4,9 +4,9 @@ local function Initialise()
     -- saved variables
     AH.Vars =
         _G.LibSavedVars:NewAccountWide("ArchiveHelperSavedVars", "Account", AH.Defaults):AddCharacterSettingsToggle(
-        "ArchiveHelperSavedVars",
-        "Characters"
-    ):EnableDefaultsTrimming()
+            "ArchiveHelperSavedVars",
+            "Characters"
+        ):EnableDefaultsTrimming()
 
     AH.RegisterSettings()
 
@@ -24,7 +24,7 @@ local function Initialise()
         AH.SELECTOR_OBJECT = string.format(selectorObject, "KEYBOARD")
     end
 
-    AH.CheckDataShareLib()
+    -- AH.CheckDataShareLib()
     AH.SetupHooks()
     AH.FindMissingAbilityIds()
     AH.SetupEvents()

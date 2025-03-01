@@ -26,11 +26,11 @@ function AH.GetAbilities(achievementIdToFind)
                 if (AH.EXCEPTIONS[abilityId]) then
                     name = GetString(AH.EXCEPTIONS[abilityId])
                 else
-                    name = GetAbilityName(abilityId)
+                    name = GetAbilityName(abilityId, "player")
                 end
 
                 if (name and name ~= "") then
-                    table.insert(abilities, {id = abilityId, name = AH.LC.Format(name)})
+                    table.insert(abilities, { id = abilityId, name = AH.LC.Format(name) })
                 end
             end
         end
@@ -90,7 +90,7 @@ function AH.FindMissingAbilityIds(event, id)
                 local aid = AH.CheckAbilities(description, abilities)
 
                 if (not AH.IsRecorded(aid, AH.MissingAbilities, achievementId)) then
-                    table.insert(AH.MissingAbilities, {id = aid, achievementId = achievementId})
+                    table.insert(AH.MissingAbilities, { id = aid, achievementId = achievementId })
                 end
             end
         end

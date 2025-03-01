@@ -1,4 +1,5 @@
 --- @meta
+--- @diagnostic disable
 
 --- @param eventId integer
 --- @param guildId integer
@@ -111,7 +112,8 @@ function EVENT_CHAMPION_PURCHASE_RESULT(eventId, result) end
 --- @param reason CurrencyChangeReason
 --- @param reasonSupplementaryInfo integer
 --- @return void
-function EVENT_CURRENCY_UPDATE(eventId, currencyType, currencyLocation, newAmount, oldAmount, reason, reasonSupplementaryInfo) end
+function EVENT_CURRENCY_UPDATE(eventId, currencyType, currencyLocation, newAmount, oldAmount, reason,
+                               reasonSupplementaryInfo) end
 
 --- @param eventId integer
 --- @return void
@@ -251,7 +253,9 @@ function EVENT_COMPANION_ULTIMATE_FAILURE(eventId, reason, companionName) end
 --- @param abilityId integer
 --- @param sourceType CombatUnitType
 --- @return void
-function EVENT_EFFECT_CHANGED(eventId, changeType, effectSlot, effectName, unitTag, beginTime, endTime, stackCount, iconName, deprecatedBuffType, effectType, abilityType, statusEffectType, unitName, unitId, abilityId, sourceType) end
+function EVENT_EFFECT_CHANGED(eventId, changeType, effectSlot, effectName, unitTag, beginTime, endTime, stackCount,
+                              iconName, deprecatedBuffType, effectType, abilityType, statusEffectType, unitName, unitId,
+                              abilityId, sourceType) end
 
 --- @param eventId integer
 --- @return void
@@ -320,7 +324,10 @@ function EVENT_HOT_BAR_RESULT(eventId, reason) end
 --- @param capturedAtKeepId integer
 --- @param pinType MapDisplayPinType
 --- @return void
-function EVENT_ARTIFACT_SCROLL_STATE_CHANGED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext, objectiveName, objectiveControlEvent, objectiveControlState, originalOwnerAlliance, holderAlliance, lastHolderAlliance, capturedAtKeepId, pinType) end
+function EVENT_ARTIFACT_SCROLL_STATE_CHANGED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext,
+                                             objectiveName, objectiveControlEvent, objectiveControlState,
+                                             originalOwnerAlliance, holderAlliance, lastHolderAlliance, capturedAtKeepId,
+                                             pinType) end
 
 --- @param eventId integer
 --- @param slotId integer
@@ -445,7 +452,8 @@ function EVENT_CURRENT_CAMPAIGN_CHANGED(eventId, newCurrentCampaignId) end
 --- @param teleportNPCId integer
 --- @param waypointId integer
 --- @return void
-function EVENT_QUEST_POSITION_REQUEST_COMPLETE(eventId, taskId, pinType, xLoc, yLoc, areaRadius, insideCurrentMapWorld, isBreadcrumb, teleportNPCId, waypointId) end
+function EVENT_QUEST_POSITION_REQUEST_COMPLETE(eventId, taskId, pinType, xLoc, yLoc, areaRadius, insideCurrentMapWorld,
+                                               isBreadcrumb, teleportNPCId, waypointId) end
 
 --- @param eventId integer
 --- @param furnitureId id64
@@ -572,7 +580,9 @@ function EVENT_LORE_BOOK_LEARNED(eventId, categoryIndex, collectionIndex, bookIn
 --- @param isLastUpdateForMessage bool
 --- @param bonusDropSource BonusDropSource
 --- @return void
-function EVENT_INVENTORY_SINGLE_SLOT_UPDATE(eventId, bagId, slotIndex, isNewItem, itemSoundCategory, inventoryUpdateReason, stackCountChange, triggeredByCharacterName, triggeredByDisplayName, isLastUpdateForMessage, bonusDropSource) end
+function EVENT_INVENTORY_SINGLE_SLOT_UPDATE(eventId, bagId, slotIndex, isNewItem, itemSoundCategory,
+                                            inventoryUpdateReason, stackCountChange, triggeredByCharacterName,
+                                            triggeredByDisplayName, isLastUpdateForMessage, bonusDropSource) end
 
 --- @param eventId integer
 --- @param result ScribingErrorResult
@@ -625,7 +635,8 @@ function EVENT_INVENTORY_EQUIP_MYTHIC_FAILED(eventId, bagId, mythicSlotIndex) en
 --- @param emperorAlliance Alliance
 --- @param emperorDisplayName string
 --- @return void
-function EVENT_CORONATE_EMPEROR_NOTIFICATION(eventId, campaignId, emperorCharacterName, emperorAlliance, emperorDisplayName) end
+function EVENT_CORONATE_EMPEROR_NOTIFICATION(eventId, campaignId, emperorCharacterName, emperorAlliance,
+                                             emperorDisplayName) end
 
 --- @param eventId integer
 --- @param artificialEffectId integer
@@ -650,7 +661,10 @@ function EVENT_IGNORE_NOTE_UPDATED(eventId, displayName, note) end
 --- @param daedricArtifactId integer
 --- @param lastObjectiveControlState ObjectiveControlState
 --- @return void
-function EVENT_DAEDRIC_ARTIFACT_OBJECTIVE_STATE_CHANGED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext, objectiveControlEvent, objectiveControlState, holderAlliance, lastHolderAlliance, pinType, daedricArtifactId, lastObjectiveControlState) end
+function EVENT_DAEDRIC_ARTIFACT_OBJECTIVE_STATE_CHANGED(eventId, objectiveKeepId, objectiveObjectiveId,
+                                                        battlegroundContext, objectiveControlEvent, objectiveControlState,
+                                                        holderAlliance, lastHolderAlliance, pinType, daedricArtifactId,
+                                                        lastObjectiveControlState) end
 
 --- @param eventId integer
 --- @param cooldownMs integer
@@ -681,7 +695,10 @@ function EVENT_KEEP_RESOURCE_UPDATE(eventId, keepId) end
 --- @param lastHolderDisplayName string
 --- @param pinType MapDisplayPinType
 --- @return void
-function EVENT_MURDERBALL_STATE_CHANGED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext, objectiveName, objectiveControlEvent, objectiveControlState, holderAlliance, lastHolderAlliance, holderRawCharacterName, holderDisplayName, lastHolderRawCharacterName, lastHolderDisplayName, pinType) end
+function EVENT_MURDERBALL_STATE_CHANGED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext,
+                                        objectiveName, objectiveControlEvent, objectiveControlState, holderAlliance,
+                                        lastHolderAlliance, holderRawCharacterName, holderDisplayName,
+                                        lastHolderRawCharacterName, lastHolderDisplayName, pinType) end
 
 --- @param eventId integer
 --- @param newAbilityId integer
@@ -820,7 +837,8 @@ function EVENT_OPEN_TIMED_ACTIVITIES(eventId) end
 --- @param sequenceNumber integer
 --- @param currentSceneFragmentsComplete bool
 --- @return void
-function EVENT_LEADER_TO_FOLLOWER_SYNC(eventId, messageOrigin, syncType, currentSceneName, nextSceneName, sequenceNumber, currentSceneFragmentsComplete) end
+function EVENT_LEADER_TO_FOLLOWER_SYNC(eventId, messageOrigin, syncType, currentSceneName, nextSceneName, sequenceNumber,
+                                       currentSceneFragmentsComplete) end
 
 --- @param eventId integer
 --- @param response ApplyOutfitChangesResult
@@ -1347,7 +1365,8 @@ function EVENT_MAIL_OPEN_MAILBOX(eventId) end
 --- @param mod3 KeyCode
 --- @param mod4 KeyCode
 --- @return void
-function EVENT_KEYBINDING_SET(eventId, layerIndex, categoryIndex, actionIndex, bindingIndex, keyCode, mod1, mod2, mod3, mod4) end
+function EVENT_KEYBINDING_SET(eventId, layerIndex, categoryIndex, actionIndex, bindingIndex, keyCode, mod1, mod2, mod3,
+                              mod4) end
 
 --- @param eventId integer
 --- @return void
@@ -1431,7 +1450,8 @@ function EVENT_ATTRIBUTE_UPGRADE_UPDATED(eventId) end
 --- @param previousXP integer
 --- @param currentXP integer
 --- @return void
-function EVENT_LORE_BOOK_LEARNED_SKILL_EXPERIENCE(eventId, categoryIndex, collectionIndex, bookIndex, guildIndex, skillType, skillLineIndex, rank, previousXP, currentXP) end
+function EVENT_LORE_BOOK_LEARNED_SKILL_EXPERIENCE(eventId, categoryIndex, collectionIndex, bookIndex, guildIndex,
+                                                  skillType, skillLineIndex, rank, previousXP, currentXP) end
 
 --- @param eventId integer
 --- @return void
@@ -1504,7 +1524,6 @@ function EVENT_TRADING_HOUSE_ERROR(eventId, errorCode) end
 --- @param tradeskillResult TradeskillResult
 --- @return void
 function EVENT_CRAFT_FAILED(eventId, tradeskillResult) end
-
 
 --- @return void
 function EVENT_SCRIPTED_WORLD_EVENT_INVITE_REMOVED() end
@@ -1779,7 +1798,8 @@ function EVENT_AUTO_MAP_NAVIGATION_TARGET_SET(eventId) end
 --- @param opponentClassId integer
 --- @param opponentRaceId integer
 --- @return void
-function EVENT_DUEL_FINISHED(eventId, duelResult, wasLocalPlayersResult, opponentCharacterName, opponentDisplayName, opponentAlliance, opponentGender, opponentClassId, opponentRaceId) end
+function EVENT_DUEL_FINISHED(eventId, duelResult, wasLocalPlayersResult, opponentCharacterName, opponentDisplayName,
+                             opponentAlliance, opponentGender, opponentClassId, opponentRaceId) end
 
 --- @param eventId integer
 --- @return void
@@ -1836,7 +1856,8 @@ function EVENT_GROUP_MEMBER_SUBZONE_CHANGED(eventId) end
 --- @param abdication bool
 --- @param emperorDisplayName string
 --- @return void
-function EVENT_DEPOSE_EMPEROR_NOTIFICATION(eventId, campaignId, emperorCharacterName, emperorAlliance, abdication, emperorDisplayName) end
+function EVENT_DEPOSE_EMPEROR_NOTIFICATION(eventId, campaignId, emperorCharacterName, emperorAlliance, abdication,
+                                           emperorDisplayName) end
 
 --- @param eventId integer
 --- @param currentCounter integer
@@ -1886,7 +1907,8 @@ function EVENT_GROUP_FINDER_REMOVE_GROUP_LISTING_RESULT(eventId, result) end
 --- @param triggeredByFurnitureId id64
 --- @param reason HousingSetStateReason
 --- @return void
-function EVENT_HOUSING_FURNITURE_STATE_CHANGED(eventId, furnitureId, objectStateIndex, previousObjectStateId, triggeredByFurnitureId, reason) end
+function EVENT_HOUSING_FURNITURE_STATE_CHANGED(eventId, furnitureId, objectStateIndex, previousObjectStateId,
+                                               triggeredByFurnitureId, reason) end
 
 --- @param eventId integer
 --- @param entryName string
@@ -1901,7 +1923,9 @@ function EVENT_HOUSING_FURNITURE_STATE_CHANGED(eventId, furnitureId, objectState
 --- @param specialCurrencyQuantity2 integer
 --- @param itemSoundCategory ItemUISoundCategory
 --- @return void
-function EVENT_BUY_RECEIPT(eventId, entryName, entryType, entryQuantity, money, specialCurrencyType1, specialCurrencyInfo1, specialCurrencyQuantity1, specialCurrencyType2, specialCurrencyInfo2, specialCurrencyQuantity2, itemSoundCategory) end
+function EVENT_BUY_RECEIPT(eventId, entryName, entryType, entryQuantity, money, specialCurrencyType1,
+                           specialCurrencyInfo1, specialCurrencyQuantity1, specialCurrencyType2, specialCurrencyInfo2,
+                           specialCurrencyQuantity2, itemSoundCategory) end
 
 --- @param eventId integer
 --- @return void
@@ -2059,7 +2083,11 @@ function EVENT_SCRYING_EXIT_RESPONSE(eventId, accept) end
 --- @param isConditionCompleteStatusChanged bool
 --- @param isConditionCompletableBySiblingStatusChanged bool
 --- @return void
-function EVENT_QUEST_CONDITION_COUNTER_CHANGED(eventId, journalIndex, questName, conditionText, conditionType, currConditionVal, newConditionVal, conditionMax, isFailCondition, stepOverrideText, isPushed, isComplete, isConditionComplete, isStepHidden, isConditionCompleteStatusChanged, isConditionCompletableBySiblingStatusChanged) end
+function EVENT_QUEST_CONDITION_COUNTER_CHANGED(eventId, journalIndex, questName, conditionText, conditionType,
+                                               currConditionVal, newConditionVal, conditionMax, isFailCondition,
+                                               stepOverrideText, isPushed, isComplete, isConditionComplete, isStepHidden,
+                                               isConditionCompleteStatusChanged,
+                                               isConditionCompletableBySiblingStatusChanged) end
 
 --- @param eventId integer
 --- @param isInit bool
@@ -2092,7 +2120,8 @@ function EVENT_GUILD_KEEP_ATTACK_UPDATE(eventId, channel, numGuardsKilled, numAt
 --- @param partialPointsNow integer
 --- @param skillPointChangeReason SkillPointReason
 --- @return void
-function EVENT_SKILL_POINTS_CHANGED(eventId, pointsBefore, pointsNow, partialPointsBefore, partialPointsNow, skillPointChangeReason) end
+function EVENT_SKILL_POINTS_CHANGED(eventId, pointsBefore, pointsNow, partialPointsBefore, partialPointsNow,
+                                    skillPointChangeReason) end
 
 --- @param eventId integer
 --- @param settingSystemType SettingSystemType
@@ -2110,7 +2139,9 @@ function EVENT_INTERFACE_SETTING_CHANGED(eventId, settingSystemType, settingId) 
 --- @param battlegroundKillType BattlegroundKillType
 --- @param killingAbilityId integer
 --- @return void
-function EVENT_BATTLEGROUND_KILL(eventId, killedPlayerCharacterName, killedPlayerDisplayName, killedPlayerBattlegroundTeam, killingPlayerCharacterName, killingPlayerDisplayName, killingPlayerBattlegroundTeam, battlegroundKillType, killingAbilityId) end
+function EVENT_BATTLEGROUND_KILL(eventId, killedPlayerCharacterName, killedPlayerDisplayName,
+                                 killedPlayerBattlegroundTeam, killingPlayerCharacterName, killingPlayerDisplayName,
+                                 killingPlayerBattlegroundTeam, battlegroundKillType, killingAbilityId) end
 
 --- @param eventId integer
 --- @param collectibleId integer
@@ -2225,7 +2256,8 @@ function EVENT_CUSTOMER_SERVICE_FEEDBACK_SUBMITTED(eventId, responseMessage, suc
 --- @param maxValue number
 --- @param sequenceId integer
 --- @return void
-function EVENT_UNIT_ATTRIBUTE_VISUAL_ADDED(eventId, unitTag, unitAttributeVisual, statType, attributeType, powerType, value, maxValue, sequenceId) end
+function EVENT_UNIT_ATTRIBUTE_VISUAL_ADDED(eventId, unitTag, unitAttributeVisual, statType, attributeType, powerType,
+                                           value, maxValue, sequenceId) end
 
 --- @param eventId integer
 --- @return void
@@ -2298,7 +2330,8 @@ function EVENT_TRIBUTE_PATRON_PROGRESSION_DATA_CHANGED(eventId, patronId) end
 --- @param itemId integer
 --- @param isStolen bool
 --- @return void
-function EVENT_LOOT_RECEIVED(eventId, receivedBy, itemName, quantity, soundCategory, lootType, self, isPickpocketLoot, questItemIcon, itemId, isStolen) end
+function EVENT_LOOT_RECEIVED(eventId, receivedBy, itemName, quantity, soundCategory, lootType, self, isPickpocketLoot,
+                             questItemIcon, itemId, isStolen) end
 
 --- @param eventId integer
 --- @return void
@@ -2363,7 +2396,8 @@ function EVENT_COMPANION_RAPPORT_UPDATE(eventId, companionId, previousRapport, c
 --- @param shouldUpdateAbilityAssignments bool
 --- @param activeHotbarCategory HotBarCategory
 --- @return void
-function EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED(eventId, didActiveHotbarChange, shouldUpdateAbilityAssignments, activeHotbarCategory) end
+function EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED(eventId, didActiveHotbarChange, shouldUpdateAbilityAssignments,
+                                                  activeHotbarCategory) end
 
 --- @param eventId integer
 --- @param errorId integer
@@ -2650,7 +2684,9 @@ function EVENT_DEFERRED_SETTING_REQUEST_COMPLETED(eventId, settingSystemType, se
 --- @param owningAlliance Alliance
 --- @param pinType MapDisplayPinType
 --- @return void
-function EVENT_CAPTURE_AREA_STATE_CHANGED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext, objectiveName, objectiveControlEvent, objectiveControlState, owningAlliance, pinType) end
+function EVENT_CAPTURE_AREA_STATE_CHANGED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext,
+                                          objectiveName, objectiveControlEvent, objectiveControlState, owningAlliance,
+                                          pinType) end
 
 --- @param eventId integer
 --- @param who TradeParticipant
@@ -2785,7 +2821,8 @@ function EVENT_TRIBUTE_PLAYER_CAMPAIGN_INIT(eventId, campaignKey, success, isAct
 --- @param oldWorldEventLocationId integer
 --- @param newWorldEventLocationId integer
 --- @return void
-function EVENT_WORLD_EVENT_ACTIVE_LOCATION_CHANGED(eventId, worldEventInstanceId, oldWorldEventLocationId, newWorldEventLocationId) end
+function EVENT_WORLD_EVENT_ACTIVE_LOCATION_CHANGED(eventId, worldEventInstanceId, oldWorldEventLocationId,
+                                                   newWorldEventLocationId) end
 
 --- @param eventId integer
 --- @param startTimeMS integer
@@ -3136,7 +3173,8 @@ function EVENT_STUCK_ERROR_ON_COOLDOWN(eventId) end
 --- @param questType QuestType
 --- @param zoneDisplayType ZoneDisplayType
 --- @return void
-function EVENT_QUEST_COMPLETE(eventId, questName, level, previousExperience, currentExperience, championPoints, questType, zoneDisplayType) end
+function EVENT_QUEST_COMPLETE(eventId, questName, level, previousExperience, currentExperience, championPoints, questType,
+                              zoneDisplayType) end
 
 --- @param eventId integer
 --- @param who TradeParticipant
@@ -3232,7 +3270,8 @@ function EVENT_RAID_TRIAL_FAILED(eventId, trialName, score) end
 --- @param currentExperience integer
 --- @param championPoints integer
 --- @return void
-function EVENT_OBJECTIVE_COMPLETED(eventId, zoneIndex, poiIndex, level, previousExperience, currentExperience, championPoints) end
+function EVENT_OBJECTIVE_COMPLETED(eventId, zoneIndex, poiIndex, level, previousExperience, currentExperience,
+                                   championPoints) end
 
 --- @param eventId integer
 --- @return void
@@ -3376,7 +3415,9 @@ function EVENT_UPDATE_GUI_LOADING_PROGRESS(eventId, guiName, assetsLoaded, asset
 --- @param abilityId integer
 --- @param overflow integer
 --- @return void
-function EVENT_COMBAT_EVENT(eventId, result, isError, abilityName, abilityGraphic, abilityActionSlotType, sourceName, sourceType, targetName, targetType, hitValue, powerType, damageType, log, sourceUnitId, targetUnitId, abilityId, overflow) end
+function EVENT_COMBAT_EVENT(eventId, result, isError, abilityName, abilityGraphic, abilityActionSlotType, sourceName,
+                            sourceType, targetName, targetType, hitValue, powerType, damageType, log, sourceUnitId,
+                            targetUnitId, abilityId, overflow) end
 
 --- @param eventId integer
 --- @param killedCharacterName string
@@ -3569,7 +3610,9 @@ function EVENT_KEEP_START_INTERACTION(eventId) end
 --- @param lastHolderAlliance Alliance
 --- @param pinType MapDisplayPinType
 --- @return void
-function EVENT_CAPTURE_FLAG_STATE_CHANGED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext, objectiveName, objectiveControlEvent, objectiveControlState, originalOwnerAlliance, holderAlliance, lastHolderAlliance, pinType) end
+function EVENT_CAPTURE_FLAG_STATE_CHANGED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext,
+                                          objectiveName, objectiveControlEvent, objectiveControlState,
+                                          originalOwnerAlliance, holderAlliance, lastHolderAlliance, pinType) end
 
 --- @param eventId integer
 --- @return void
@@ -3777,7 +3820,8 @@ function EVENT_UNIT_CHARACTER_NAME_CHANGED(eventId, unitTag) end
 --- @param campaignId integer
 --- @param displayName string
 --- @return void
-function EVENT_ARTIFACT_CONTROL_STATE(eventId, artifactName, keepId, characterName, playerAlliance, objectiveControlEvent, objectiveControlState, campaignId, displayName) end
+function EVENT_ARTIFACT_CONTROL_STATE(eventId, artifactName, keepId, characterName, playerAlliance, objectiveControlEvent,
+                                      objectiveControlState, campaignId, displayName) end
 
 --- @param eventId integer
 --- @param zoneIndex luaindex
@@ -3875,7 +3919,8 @@ function EVENT_INVENTORY_FULL_UPDATE(eventId) end
 --- @param newProgress integer
 --- @param isRewardClaimed bool
 --- @return void
-function EVENT_PROMOTIONAL_EVENTS_ACTIVITY_PROGRESS_UPDATED(eventId, campaignKey, activityIndex, previousProgress, newProgress, isRewardClaimed) end
+function EVENT_PROMOTIONAL_EVENTS_ACTIVITY_PROGRESS_UPDATED(eventId, campaignKey, activityIndex, previousProgress,
+                                                            newProgress, isRewardClaimed) end
 
 --- @param eventId integer
 --- @param unitTag string
@@ -3964,7 +4009,8 @@ function EVENT_OPEN_TRADING_HOUSE(eventId) end
 --- @param pinType MapDisplayPinType
 --- @param hasMoved bool
 --- @return void
-function EVENT_CAPTURE_AREA_SPAWNED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext, pinType, hasMoved) end
+function EVENT_CAPTURE_AREA_SPAWNED(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext, pinType,
+                                    hasMoved) end
 
 --- @param eventId integer
 --- @return void
@@ -4057,7 +4103,8 @@ function EVENT_AVAILABLE_DISPLAY_DEVICES_CHANGED(eventId) end
 --- @param previousUpgrade integer
 --- @param currentUpgrade integer
 --- @return void
-function EVENT_INVENTORY_BANK_CAPACITY_CHANGED(eventId, previousCapacity, currentCapacity, previousUpgrade, currentUpgrade) end
+function EVENT_INVENTORY_BANK_CAPACITY_CHANGED(eventId, previousCapacity, currentCapacity, previousUpgrade,
+                                               currentUpgrade) end
 
 --- @param eventId integer
 --- @return void
@@ -4103,7 +4150,8 @@ function EVENT_TRADE_INVITE_CONSIDERING(eventId, inviterCharacterName, inviterDi
 --- @param maxValue number
 --- @param sequenceId integer
 --- @return void
-function EVENT_UNIT_ATTRIBUTE_VISUAL_REMOVED(eventId, unitTag, unitAttributeVisual, statType, attributeType, powerType, value, maxValue, sequenceId) end
+function EVENT_UNIT_ATTRIBUTE_VISUAL_REMOVED(eventId, unitTag, unitAttributeVisual, statType, attributeType, powerType,
+                                             value, maxValue, sequenceId) end
 
 --- @param eventId integer
 --- @param killLocation string
@@ -4117,7 +4165,9 @@ function EVENT_UNIT_ATTRIBUTE_VISUAL_REMOVED(eventId, unitTag, unitAttributeVisu
 --- @param victimPlayerRank integer
 --- @param isKillLocation bool
 --- @return void
-function EVENT_PVP_KILL_FEED_DEATH(eventId, killLocation, killerPlayerDisplayName, killerPlayerCharacterName, killerPlayerAlliance, killerPlayerRank, victimPlayerDisplayName, victimPlayerCharacterName, victimPlayerAlliance, victimPlayerRank, isKillLocation) end
+function EVENT_PVP_KILL_FEED_DEATH(eventId, killLocation, killerPlayerDisplayName, killerPlayerCharacterName,
+                                   killerPlayerAlliance, killerPlayerRank, victimPlayerDisplayName,
+                                   victimPlayerCharacterName, victimPlayerAlliance, victimPlayerRank, isKillLocation) end
 
 --- @param eventId integer
 --- @param newPopulation integer
@@ -4139,7 +4189,8 @@ function EVENT_EXPIRING_MARKET_CURRENCY_NOTIFICATION(eventId) end
 --- @param previousXP integer
 --- @param currentXP integer
 --- @return void
-function EVENT_LORE_COLLECTION_COMPLETED_SKILL_EXPERIENCE(eventId, categoryIndex, collectionIndex, guildIndex, skillType, skillLineIndex, rank, previousXP, currentXP) end
+function EVENT_LORE_COLLECTION_COMPLETED_SKILL_EXPERIENCE(eventId, categoryIndex, collectionIndex, guildIndex, skillType,
+                                                          skillLineIndex, rank, previousXP, currentXP) end
 
 --- @param eventId integer
 --- @param slotId integer
@@ -4266,7 +4317,9 @@ function EVENT_LORE_COLLECTION_COMPLETED(eventId, categoryIndex, collectionIndex
 --- @param objectiveParam2 integer
 --- @param pinType MapDisplayPinType
 --- @return void
-function EVENT_OBJECTIVE_CONTROL_STATE(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext, objectiveName, objectiveType, objectiveControlEvent, objectiveControlState, objectiveParam1, objectiveParam2, pinType) end
+function EVENT_OBJECTIVE_CONTROL_STATE(eventId, objectiveKeepId, objectiveObjectiveId, battlegroundContext, objectiveName,
+                                       objectiveType, objectiveControlEvent, objectiveControlState, objectiveParam1,
+                                       objectiveParam2, pinType) end
 
 --- @param eventId integer
 --- @param questIndex luaindex
@@ -4540,7 +4593,8 @@ function EVENT_ANTIQUITY_DIG_SPOT_STABILITY_CHANGED(eventId, stability) end
 --- @param owningAlliance Alliance
 --- @param pinType MapDisplayPinType
 --- @return void
-function EVENT_CAPTURE_AREA_STATUS(eventId, keepId, objectiveId, battlegroundContext, capturePoolValue, capturePoolMax, capturingPlayers, contestingPlayers, owningAlliance, pinType) end
+function EVENT_CAPTURE_AREA_STATUS(eventId, keepId, objectiveId, battlegroundContext, capturePoolValue, capturePoolMax,
+                                   capturingPlayers, contestingPlayers, owningAlliance, pinType) end
 
 --- @param eventId integer
 --- @param allowSell bool
@@ -4780,7 +4834,8 @@ function EVENT_INPUT_TYPE_CHANGED(eventId, isGamepad) end
 --- @param teleportNPCId integer
 --- @param waypointId integer
 --- @return void
-function EVENT_GROUP_MEMBER_POSITION_REQUEST_COMPLETE(eventId, taskId, charId, isGroupLeader, isBreadcrumb, teleportNPCId, waypointId) end
+function EVENT_GROUP_MEMBER_POSITION_REQUEST_COMPLETE(eventId, taskId, charId, isGroupLeader, isBreadcrumb, teleportNPCId,
+                                                      waypointId) end
 
 --- @param eventId integer
 --- @return void
@@ -4794,7 +4849,8 @@ function EVENT_PICKPOCKET_STATE_UPDATED(eventId) end
 --- @param memberDisplayName string
 --- @param actionRequiredVote bool
 --- @return void
-function EVENT_GROUP_MEMBER_LEFT(eventId, memberCharacterName, reason, isLocalPlayer, isLeader, memberDisplayName, actionRequiredVote) end
+function EVENT_GROUP_MEMBER_LEFT(eventId, memberCharacterName, reason, isLocalPlayer, isLeader, memberDisplayName,
+                                 actionRequiredVote) end
 
 --- @param eventId integer
 --- @param unitTag string
@@ -4808,7 +4864,8 @@ function EVENT_GROUP_MEMBER_LEFT(eventId, memberCharacterName, reason, isLocalPl
 --- @param newMaxValue number
 --- @param sequenceId integer
 --- @return void
-function EVENT_UNIT_ATTRIBUTE_VISUAL_UPDATED(eventId, unitTag, unitAttributeVisual, statType, attributeType, powerType, oldValue, newValue, oldMaxValue, newMaxValue, sequenceId) end
+function EVENT_UNIT_ATTRIBUTE_VISUAL_UPDATED(eventId, unitTag, unitAttributeVisual, statType, attributeType, powerType,
+                                             oldValue, newValue, oldMaxValue, newMaxValue, sequenceId) end
 
 --- @param eventId integer
 --- @param trackedAntiquityId integer
@@ -4835,7 +4892,6 @@ function EVENT_DAEDRIC_ARTIFACT_OBJECTIVE_SPAWNED_BUT_NOT_REVEALED(eventId, daed
 --- @param respecType RespecType
 --- @return void
 function EVENT_FORCE_RESPEC(eventId, respecType) end
-
 
 --- @return void
 function EVENT_SCRIPTED_WORLD_EVENT_INVITE() end
@@ -5084,7 +5140,8 @@ function EVENT_TRIBUTE_CAMPAIGN_CHANGE(eventId, campaignKey) end
 --- @param currentNumCompleted integer
 --- @param complete bool
 --- @return void
-function EVENT_TIMED_ACTIVITY_TYPE_PROGRESS_UPDATED(eventId, timedActivityType, previousNumCompleted, currentNumCompleted, complete) end
+function EVENT_TIMED_ACTIVITY_TYPE_PROGRESS_UPDATED(eventId, timedActivityType, previousNumCompleted, currentNumCompleted,
+                                                    complete) end
 
 --- @param eventId integer
 --- @return void
@@ -5167,7 +5224,8 @@ function EVENT_FEEDBACK_REQUESTED(eventId, feedbackId) end
 --- @param oldOwningAlliance Alliance
 --- @param isLocal bool
 --- @return void
-function EVENT_FAST_TRAVEL_KEEP_NETWORK_LINK_CHANGED(eventId, linkIndex, linkType, owningAlliance, oldLinkType, oldOwningAlliance, isLocal) end
+function EVENT_FAST_TRAVEL_KEEP_NETWORK_LINK_CHANGED(eventId, linkIndex, linkType, owningAlliance, oldLinkType,
+                                                     oldOwningAlliance, isLocal) end
 
 --- @param eventId integer
 --- @param reason DuelInviteFailReason
@@ -5181,4 +5239,3 @@ function EVENT_DUEL_INVITE_FAILED(eventId, reason, targetCharacterName, targetDi
 --- @param buildIndex luaindex
 --- @return void
 function EVENT_ARMORY_BUILD_SAVE_RESPONSE(eventId, result, buildIndex) end
-

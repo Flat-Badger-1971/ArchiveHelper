@@ -13,6 +13,7 @@ local baseIconControl = ZO_Object:Subclass()
 function baseIconControl:New()
     local iconControl = ZO_Object.New(self)
 
+    ---@diagnostic disable-next-line undefined-field
     iconControl:Initialise()
 
     return iconControl
@@ -52,10 +53,12 @@ function baseIconControl:SetParent(parent)
 end
 
 function baseIconControl:SetTexture(texture)
+    ---@diagnostic disable-next-line undefined-field
     self.texture:SetTexture(texture)
 end
 
 function baseIconControl:SetColour(colour)
+    ---@diagnostic disable-next-line undefined-field
     self.texture:SetColor(unpack(colour))
 end
 
@@ -80,16 +83,16 @@ function AH.EnsureIconPoolExists()
         AH.IconObjectPool =
             ZO_ObjectPool:New(
             --factory
-            function()
-                return baseIconControl:New()
-            end,
-            --reset
-            function(iconControl)
-                iconControl.tooltip = nil
-                iconControl.control:SetHidden(true)
-                iconControl.control:ClearAnchors()
-            end
-        )
+                function()
+                    return baseIconControl:New()
+                end,
+                --reset
+                function(iconControl)
+                    iconControl.tooltip = nil
+                    iconControl.control:SetHidden(true)
+                    iconControl.control:ClearAnchors()
+                end
+            )
     end
 end
 
@@ -97,11 +100,13 @@ function AH.CreateIcon(icon, parent, xOffset, yOffset)
     local iconControl = AH.IconObjectPool:AcquireObject()
     local iconInfo = AH.ICONS[icon]
 
+    ---@diagnostic disable undefined-field
     iconControl:SetParent(parent)
     iconControl:SetAnchor(TOPLEFT, parent, TOPLEFT, xOffset or 0, yOffset or 0)
     iconControl:SetTexture(string.format("/esoui/art/%s.dds", iconInfo.name))
     iconControl:SetColour(iconInfo.colour)
     iconControl:SetHidden(true)
+    ---@diagnostic enable undefined-field
 
     return iconControl
 end

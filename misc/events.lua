@@ -1,5 +1,5 @@
-local AH = _G.ArchiveHelper
-local tomeName = GetString(_G.ARCHIVEHELPER_TOMESHELL):lower()
+local AH = ArchiveHelper
+local tomeName = GetString(ARCHIVEHELPER_TOMESHELL):lower()
 local lastStun = 0
 local lastMapId = 0
 local sourceIds = {}
@@ -13,55 +13,47 @@ local function onSelectorHiding()
         AH.Release("QuestReminder")
     end
 
+    -- zo_callLater(
+    --     function()
+    --         AH.ShowingBuffs = false
+    --         CALLBACK_MANAGER:FireCallbacks("ArchiveHelperBuffSelectorClosing")
+    --     end,
+    --     1500
+    -- )
+end
+
+-- local function encode(abilityId, count)
+--     return tonumber(string.format("%d%06d%d", AH.SHARE.ABILITY, abilityId, count))
+-- end
+
+local function onBuffSelected(_, abilityId, _, unitTag)
+    local avatar = AH.LIA:IsAvatar(abilityId)
+
+    if (avatar) then
+        AH.Vars.AvatarVisionCount[avatar] = AH.Vars.AvatarVisionCount[avatar] + 1
+
+        if (AH.Vars.AvatarVisionCount[avatar] == 4) then
+            AH.Vars.AvatarVisionCount[avatar] = 0
+        end
+    end
+
     zo_callLater(
         function()
-            AH.ShowingBuffs = false
-            CALLBACK_MANAGER:FireCallbacks("ArchiveHelperBuffSelectorClosing")
-        end,
-        1500
-    )
-end
+            local abilityInfo = AH.ABILITIES[abilityId]
+            local abilityType = abilityInfo.type or AH.TYPES.VERSE
+            local count
 
-local function encode(abilityId, count)
-    return tonumber(string.format("%d%06d%d", AH.SHARE.ABILITY, abilityId, count))
-end
-
-local function onChoiceCommitted()
-    if (AH.SelectedBuff) then
-        local avatar = AH.IsAvatar(AH.SelectedBuff)
-
-        if (avatar) then
-            AH.Vars.AvatarVisionCount[avatar] = AH.Vars.AvatarVisionCount[avatar] + 1
-
-            if (AH.Vars.AvatarVisionCount[avatar] == 4) then
-                AH.Vars.AvatarVisionCount[avatar] = 0
+            if (avatar) then
+                count = AH.Vars.AvatarVisionCount[avatar] or 0
+            else
+                local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(abilityType)
+                count = counts[abilityId] or 0
             end
-        end
 
-        local selected = AH.SelectedBuff
-
-        zo_callLater(
-            function()
-                local abilityInfo = AH.ABILITIES[selected]
-                local abilityType = abilityInfo.type or AH.TYPES.VERSE
-                local count
-
-                if (avatar) then
-                    count = AH.Vars.AvatarVisionCount[avatar] or 0
-                else
-                    local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(abilityType)
-                    count = counts[selected] or 0
-                end
-
-                AH.GroupChat(encode(selected, count))
-                AH.ShareData(AH.SHARE.ABILITY, selected, nil, count)
-                CALLBACK_MANAGER:FireCallbacks("ArchiveHelperBuffSelectionCommitted")
-            end,
-            500
-        )
-
-        AH.SelectedBuff = nil
-    end
+            AH.GroupChat(abilityId, count, unitTag)
+        end,
+        500
+    )
 end
 
 local function checkNotice()
@@ -69,14 +61,14 @@ local function checkNotice()
     local stageCounter, cycleCounter = ENDLESS_DUNGEON_MANAGER:GetProgression()
     local stageTarget, cycleTarget = 2, 5
 
-    if (AH.IsInUnknown()) then
+    if (AH.LIA:IsInUnknown()) then
         stageTarget = 3
     end
 
     if (stageCounter == stageTarget and cycleCounter ~= cycleTarget) then
-        message = AH.LC.Format(_G.ARCHIVEHELPER_CYCLE_BOSS)
+        message = AH.LC.Format(ARCHIVEHELPER_CYCLE_BOSS)
     elseif (cycleCounter == cycleTarget and stageCounter == stageTarget) then
-        message = AH.LC.Format(_G.ARCHIVEHELPER_ARC_BOSS)
+        message = AH.LC.Format(ARCHIVEHELPER_ARC_BOSS)
     end
 
     if (message) then
@@ -90,12 +82,11 @@ local function onShowing()
     AH.OnBuffSelectorShowing()
     AH.ShowingBuffs = true
     checkNotice()
-    CALLBACK_MANAGER:FireCallbacks("ArchiveHelperBuffSelectorShowing")
 end
 
-local function onSelecting(_, buffControl)
-    AH.SelectedBuff = GetEndlessDungeonBuffSelectorBucketTypeChoice(buffControl.bucketType)
-end
+-- local function onSelecting(_, buffControl)
+--     AH.SelectedBuff = GetEndlessDungeonBuffSelectorBucketTypeChoice(buffControl.bucketType)
+-- end
 
 local function onCompassUpdate()
     if (AH.InsideArchive and AH.Vars.CheckQuestItems and AH.InCombet) then
@@ -105,7 +96,7 @@ local function onCompassUpdate()
             if (numPins > 0) then
                 for pin = 1, numPins do
                     local pinType = COMPASS.container:GetCenterOveredPinType(pin)
-                    if (pinType == _G.MAP_PIN_TYPE_QUEST_INTERACT) then
+                    if (pinType == MAP_PIN_TYPE_QUEST_INTERACT) then
                         AH.FoundQuestItem = true
                     end
                 end
@@ -121,7 +112,7 @@ local function tomeCheck(...)
     local result = select(2, ...)
     local sourceName, _, targetName = select(7, ...)
 
-    if (result == _G.ACTION_RESULT_DIED or result == _G.ACTION_RESULT_DIED_XP) then
+    if (result == ACTION_RESULT_DIED or result == ACTION_RESULT_DIED_XP) then
         targetName = AH.LC.Format(targetName):lower()
         sourceName = AH.LC.Format(sourceName):lower()
 
@@ -130,7 +121,7 @@ local function tomeCheck(...)
             tomesTotal = tomesTotal + 1
             AH.PlayAlarm(AH.Sounds.Tomeshell)
 
-            if (AH.TomeGroupType ~= _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
+            if (AH.TomeGroupType ~= ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
                 AH.ShareData(AH.SHARE.TOME, tomesFound, true)
             end
 
@@ -138,7 +129,7 @@ local function tomeCheck(...)
 
             tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
 
-            local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
+            local message = ZO_CachedStrFormat(ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
 
             if (AH.TomeCount) then
                 AH.TomeCount:SetText(message)
@@ -148,25 +139,15 @@ local function tomeCheck(...)
     end
 end
 
-local function getMaxTomes()
-    -- for the purposes of this check, players with companions count as solo
-    AH.TomeGroupType = AH.GetActualGroupType()
-    if (AH.TomeGroupType == _G.ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
-        return AH.Tomeshells.Solo
-    else
-        return AH.Tomeshells.Duo
-    end
-end
-
 local function startTomeCheck()
-    AH.MaxTomes = getMaxTomes()
+    AH.MaxTomes = AH.LIA:GetMaxTomes()
 
-    local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, AH.MaxTomes)
+    local message = ZO_CachedStrFormat(ARCHIVEHELPER_TOMESHELL_COUNT, AH.MaxTomes)
 
     AH.ShowTomeshellCount()
     AH.TomeCount:SetText(message)
 
-    EVENT_MANAGER:RegisterForEvent(AH.Name .. "_Tome", _G.EVENT_COMBAT_EVENT, tomeCheck)
+    EVENT_MANAGER:RegisterForEvent(AH.Name .. "_Tome", EVENT_COMBAT_EVENT, tomeCheck)
 end
 
 local function stopTomeCheck()
@@ -175,7 +156,7 @@ local function stopTomeCheck()
         AH.Release("TomeCount")
     end
 
-    EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Tome", _G.EVENT_COMBAT_EVENT)
+    EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Tome", EVENT_COMBAT_EVENT)
 end
 
 local function checkSharing()
@@ -240,7 +221,7 @@ local function onPlayerActivated()
         end
     end
 
-    AH.GetActualGroupType()
+    AH.CurrentGroupType = AH.LIA:GetEffectiveGroupType()
 end
 
 local function auditorCheck()
@@ -248,12 +229,15 @@ local function auditorCheck()
         return
     end
 
-    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR) and (not IsUnitInCombat("player")) and not AH.IsInUnknown()) then
-        if (not AH.IsAuditorActive()) then
+    --- @diagnostic disable-next-line undefined-global
+    local actor = GAMEPLAY_ACTOR_CATEGORY_PLAYER
+
+    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR, actor) and (not IsUnitInCombat("player")) and not AH.LIA:IsInUnknown()) then
+        if (not AH.LIA:IsAuditorActive()) then
             local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
 
             if (cooldown == 0) then
-                UseCollectible(AH.AUDITOR)
+                UseCollectible(AH.AUDITOR, actor)
             end
         end
     end
@@ -272,9 +256,9 @@ local function checkMessage(messageParams)
     if (AH.IsInEchoingDen) then
         local message = AH.LC.Format(messageParams:GetMainText()):lower()
         local secondaryMessage = AH.LC.Format(messageParams:GetSecondaryText() or ""):lower()
-        local start = AH.LC.Format(_G.ARCHIVEHELPER_HERD):lower()
-        local fail = AH.LC.Format(_G.ARCHIVEHELPER_HERD_FAIL):lower()
-        local success = AH.LC.Format(_G.ARCHIVEHELPER_HERD_SUCCESS):lower()
+        local start = AH.LC.Format(ARCHIVEHELPER_HERD):lower()
+        local fail = AH.LC.Format(ARCHIVEHELPER_HERD_FAIL):lower()
+        local success = AH.LC.Format(ARCHIVEHELPER_HERD_SUCCESS):lower()
 
         if (message:find(start, 1, true)) then
             AH.DenDone = false
@@ -292,8 +276,8 @@ local function checkMessage(messageParams)
     if (AH.IsInCrossing) then
         local message = AH.LC.Format(messageParams:GetMainText()):lower()
         local secondaryMessage = AH.LC.Format(messageParams:GetSecondaryText() or ""):lower()
-        local fail = AH.LC.Format(_G.ARCHIVEHELPER_CROSSING_FAIL):lower()
-        local success = AH.LC.Format(_G.ARCHIVEHELPER_CROSSING_SUCCESS):lower()
+        local fail = AH.LC.Format(ARCHIVEHELPER_CROSSING_FAIL):lower()
+        local success = AH.LC.Format(ARCHIVEHELPER_CROSSING_SUCCESS):lower()
 
         if
             (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
@@ -323,7 +307,7 @@ local function resetValues()
     ZO_ClearNumericallyIndexedTable(AH.bosses)
     ZO_ClearNumericallyIndexedTable(sourceIds)
     AH.FoundQuestItem = false
-    AH.InsideArchive = IsInstanceEndlessDungeon() and (GetCurrentMapId() ~= AH.ArchiveIndex)
+    AH.InsideArchive = AH.LIA:IsInsideArchive()
     ZO_ClearNumericallyIndexedTable(AH.Shards)
     tomesFound = 0
     tomesTotal = 0
@@ -387,7 +371,7 @@ local function onDungeonInitialised()
 end
 
 local function onQuestCounterChanged(_, journalIndex)
-    local indexes = AH.GetArchiveQuestIndexes(true)
+    local indexes = AH.LIA:GetArchiveQuestIndices(true)
 
     if (ZO_IsElementInNumericallyIndexedTable(indexes, journalIndex)) then
         AH.FoundQuestItem = false
@@ -481,7 +465,7 @@ local function onBuffStackCountChanged(_, abilityId)
     zo_callLater(
         function()
             if (AH.MysteryVerse) then
-                AH.GroupChat(encode(abilityId, 999))
+                AH.GroupChat(abilityId, 999)
                 AH.ShareData(AH.SHARE.ABILITY, abilityId, nil, 999)
                 CALLBACK_MANAGER:FireCallbacks("ArchiveHelperMysteryVerse")
                 AH.MysteryVerse = false
@@ -502,7 +486,7 @@ local function warnNow(abilityId, message)
         colour = (abilityId > 200000) and AH.LC.Cyan or AH.LC.Red
         messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", AH.Detected) .. "!"))
     else
-        messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", GetAbilityName(abilityId)) .. "!"))
+        messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", GetAbilityName(abilityId, "player")) .. "!"))
     end
 
     messageParams:SetSound(AH.Sounds.Terrain.sound)
@@ -528,7 +512,7 @@ local function theatreWarnings(...)
         -- Aramril's sustained attack
         d("Aramril!: " .. abilityId)
     elseif (powerType == POWERTYPE_HEALTH and GetUnitName("boss1") == source) then
-        local health = GetUnitHealth("boss1")
+        local health = GetUnitPower("boss1", POWERTYPE_HEALTH)
 
         d("boss health: " .. health)
 
@@ -572,7 +556,7 @@ local function terrainWarnings(...)
     if (AH.InsideArchive and (not AH.Triggered)) then
         if (targetName == playerName) then
             if (terrainList[abilityId]) then
-                AH.Detected = GetAbilityName(abilityId)
+                AH.Detected = GetAbilityName(abilityId, "player")
             else
                 AH.Detected = nil
             end
@@ -619,102 +603,103 @@ function AH.SetTerrainWarnings(enable)
 end
 
 function AH.ShareData(shareType, value, instant, stackCount)
-    if ((not AH.Share) and (not AH.DEBUG)) then
-        return
-    end
+    -- if ((not AH.Share) and (not AH.DEBUG)) then
+    --     return
+    -- end
 
-    local encoded
+    -- local encoded
 
-    if (stackCount) then
-        encoded = encode(value, stackCount)
-    else
-        encoded = string.format("%s%s", shareType, value)
-    end
+    -- if (stackCount) then
+    --     encoded = encode(value, stackCount)
+    -- else
+    --     encoded = string.format("%s%s", shareType, value)
+    -- end
 
-    encoded = tonumber(encoded)
+    -- encoded = tonumber(encoded)
 
-    if (AH.Share) then
-        if (instant) then
-            AH.Share:SendData(encoded)
-        else
-            AH.Share:QueueData(encoded)
-        end
-    end
+    -- if (AH.Share) then
+    --     if (instant) then
+    --         AH.Share:SendData(encoded)
+    --     else
+    --         AH.Share:QueueData(encoded)
+    --     end
+    -- end
 
-    AH.Debug("Shared: " .. encoded)
+    -- AH.Debug("Shared: " .. encoded)
 end
 
 function AH.HandleDataShare(_, info)
-    local shareType = tonumber(tostring(info):sub(1, 1))
-    local shareData = tonumber(tostring(info):sub(2))
+    -- local shareType = tonumber(tostring(info):sub(1, 1))
+    -- local shareData = tonumber(tostring(info):sub(2))
 
-    if (not AH.TomeCount) then
-        AH.ShowTomeshellCount()
-    end
+    -- if (not AH.TomeCount) then
+    --     AH.ShowTomeshellCount()
+    -- end
 
-    if (not AH.MaxTomes) then
-        AH.MaxTomes = getMaxTomes()
-    end
+    -- if (not AH.MaxTomes) then
+    --     AH.MaxTomes = AH.LIA:GetMaxTomes()
+    -- end
 
-    if (shareType == AH.SHARE.TOME) then
-        tomesTotal = (tomesFound or 0) + (shareData or 0)
+    -- if (shareType == AH.SHARE.TOME) then
+    --     tomesTotal = (tomesFound or 0) + (shareData or 0)
 
-        local tomesLeft = AH.MaxTomes - tomesTotal
+    --     local tomesLeft = AH.MaxTomes - tomesTotal
 
-        tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
+    --     tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
 
-        local message = ZO_CachedStrFormat(_G.ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
+    --     local message = ZO_CachedStrFormat(ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
 
-        if (AH.TomeCount) then
-            AH.TomeCount:SetText(message)
-            AH.PlayAlarm(AH.Sounds.Tomeshell)
-            AH.Debug("Received tome data: " .. shareData)
-        end
-    elseif (shareType == AH.SHARE.MARK) then
-        if (shareData and (shareData > 0) and (shareData < 8)) then
-            AH.MARKERS[shareData].used = true
-            AH.MARKERS[shareData].manual = true
-            AH.Debug("Received mark data: " .. shareData)
-        end
-    elseif (shareType == AH.SHARE.UNMARK) then
-        if (shareData and (shareData > 0) and (shareData < 8)) then
-            AH.MARKERS[shareData].manual = false
-            AH.Debug("Received unmark data: " .. shareData)
-        end
-    elseif (shareType == AH.SHARE.GW) then
-        if (shareData and (shareData > 0) and (not AH.FOUND_GW)) then
-            if (AH.Vars.GwPlay) then
-                AH.PlayAlarm(AH.Sounds.Gw)
-            end
-            AH.FOUND_GW = true
-            AH.Debug("Received Gw detection")
-        end
-    elseif (shareType == AH.SHARE.ABILITY) then
-        if (shareData) then
-            local data = tostring(info)
+    --     if (AH.TomeCount) then
+    --         AH.TomeCount:SetText(message)
+    --         AH.PlayAlarm(AH.Sounds.Tomeshell)
+    --         AH.Debug("Received tome data: " .. shareData)
+    --     end
+    -- elseif (shareType == AH.SHARE.MARK) then
+    --     if (shareData and (shareData > 0) and (shareData < 8)) then
+    --         AH.MARKERS[shareData].used = true
+    --         AH.MARKERS[shareData].manual = true
+    --         AH.Debug("Received mark data: " .. shareData)
+    --     end
+    -- elseif (shareType == AH.SHARE.UNMARK) then
+    --     if (shareData and (shareData > 0) and (shareData < 8)) then
+    --         AH.MARKERS[shareData].manual = false
+    --         AH.Debug("Received unmark data: " .. shareData)
+    --     end
+    -- elseif (shareType == AH.SHARE.GW) then
+    --     if (shareData and (shareData > 0) and (not AH.FOUND_GW)) then
+    --         if (AH.Vars.GwPlay) then
+    --             AH.PlayAlarm(AH.Sounds.Gw)
+    --         end
+    --         AH.FOUND_GW = true
+    --         AH.Debug("Received Gw detection")
+    --     end
+    --     -- elseif (shareType == AH.SHARE.ABILITY) then
+    --     --     if (shareData) then
+    --     --         local data = tostring(info)
 
-            if (data:len() > 7) then
-                local name, unitTag = getOtherPlayer()
+    --     --         if (data:len() > 7) then
+    --     --             local name, unitTag = getOtherPlayer()
 
-                AH.GroupChat(data, name, unitTag)
-            end
+    --     --             AH.GroupChat(data, name, unitTag)
+    --     --         end
 
-            AH.Debug("Received ability data: " .. shareData)
-        end
-    elseif (shareType == AH.SHARE.CROSSING) then
-        onCrossingChange(tostring(info):sub(2))
-        AH.Debug("Received crossing data: " .. tostring(info):sub(2))
-    elseif (shareType == AH.SHARE.SHARING) then
-        AH.AH_SHARING = true
-        AH.Debug("Received sharing notification")
-    end
+    --     --         AH.Debug("Received ability data: " .. shareData)
+    --     --     end
+    -- elseif (shareType == AH.SHARE.CROSSING) then
+    --     onCrossingChange(tostring(info):sub(2))
+    --     AH.Debug("Received crossing data: " .. tostring(info):sub(2))
+    -- elseif (shareType == AH.SHARE.SHARING) then
+    --     AH.AH_SHARING = true
+    --     AH.Debug("Received sharing notification")
+    -- end
 end
 
 function AH.SetupHooks()
     SecurePostHook(_G[AH.SELECTOR], "OnHiding", onSelectorHiding)
-    SecurePostHook(_G[AH.SELECTOR], "CommitChoice", onChoiceCommitted)
+    -- SecurePostHook(_G[AH.SELECTOR], "CommitChoice", onChoiceCommitted)
     SecurePostHook(_G[AH.SELECTOR], "OnShowing", onShowing)
-    SecurePostHook(_G[AH.SELECTOR], "SelectBuff", onSelecting)
+    -- SecurePostHook(_G[AH.SELECTOR], "SelectBuff", onSelecting)
+    AH.LIA:RegisterForEvent(AH.LIA.EVENT_BUFF_SELECTED, onBuffSelected)
     SecurePostHook(COMPASS, "OnUpdate", onCompassUpdate)
     SecurePostHook(CENTER_SCREEN_ANNOUNCE, "AddMessageWithParams", onMessage)
     ZO_PreHook(BOSS_BAR, "AddBoss", AH.OnNewBoss)

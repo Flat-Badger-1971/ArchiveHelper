@@ -1,6 +1,7 @@
 local AH = _G.ArchiveHelper
 
 local baseFrame = ZO_Object:Subclass()
+---@diagnostic disable undefined-field
 
 function baseFrame:New()
     local frame = ZO_Object.New(self)
@@ -50,11 +51,11 @@ function baseFrame:SetPosition()
     defaultX = defaultX - (self.width / 2)
 
     if (not AH.Vars[self.name .. "Position"]) then
-        AH.Vars[self.name .. "Position"] = {top = defaultY, left = defaultX}
+        AH.Vars[self.name .. "Position"] = { top = defaultY, left = defaultX }
     end
 
     if (not AH.Vars[self.name .. "Position"]) then
-        AH.Vars[self.name .. "Position"] = {top = defaultY, left = defaultX}
+        AH.Vars[self.name .. "Position"] = { top = defaultY, left = defaultX }
     end
 end
 
@@ -62,7 +63,7 @@ function baseFrame:SetMouseHandler()
     local onMouseUp = function()
         local top, left = self.control:GetTop(), self.control:GetLeft()
 
-        AH.Vars[self.name .. "Position"] = {top = top, left = left}
+        AH.Vars[self.name .. "Position"] = { top = top, left = left }
     end
 
     self.control:SetHandler("OnMouseUp", onMouseUp)
@@ -109,17 +110,17 @@ local function ensureFramePoolExists()
         AH.FrameObjectPool =
             ZO_ObjectPool:New(
             --factory
-            function()
-                return baseFrame:New()
-            end,
-            --reset
-            function(frame)
-                frame:SetHidden(true)
-                frame:ClearAnchors()
-                frame:SetText("")
-                frame:SetColour(1, 1, 0, 1)
-            end
-        )
+                function()
+                    return baseFrame:New()
+                end,
+                --reset
+                function(frame)
+                    frame:SetHidden(true)
+                    frame:ClearAnchors()
+                    frame:SetText("")
+                    frame:SetColour(1, 1, 0, 1)
+                end
+            )
     end
 end
 
@@ -266,16 +267,16 @@ local function createComboBox(name, parent, width, height, choices, default, cal
             for idx, value in pairs(array) do
                 local entry =
                     ZO_ComboBox:CreateItemEntry(
-                    value,
-                    function()
-                        combo.value = value
-                        self:UpdateParent()
+                        value,
+                        function()
+                            combo.value = value
+                            self:UpdateParent()
 
-                        if (callback) then
-                            callback(value)
+                            if (callback) then
+                                callback(value)
+                            end
                         end
-                    end
-                )
+                    )
                 entry.id = idx
                 comboBox:AddItem(entry, ZO_COMBOBOX_SUPRESS_UPDATE)
             end
@@ -297,8 +298,8 @@ local function createComboBox(name, parent, width, height, choices, default, cal
     combo.UpdateParent = function(self)
         if (parent:GetType() == CT_LABEL) then
             local colour =
-                self.disabled and {0.3, 0.3, 0.3, 1} or choices[combo.value] == "Disabled" and {0.5, 0.5, 0.4, 1} or
-                {0.8, 0.8, 0.6, 1}
+                self.disabled and { 0.3, 0.3, 0.3, 1 } or choices[combo.value] == "Disabled" and { 0.5, 0.5, 0.4, 1 } or
+                { 0.8, 0.8, 0.6, 1 }
             parent:SetColor(unpack(colour))
         end
     end
@@ -441,7 +442,7 @@ function AH.CrossingUpdate(box, value, doNotShare)
 end
 
 function AH.SetDisableCombos()
-    local groupType = AH.GetActualGroupType()
+    local groupType = AH.LIA:GetEffectiveGroupType()
 
     if ((groupType == ENDLESS_DUNGEON_GROUP_TYPE_SOLO) and AH.AH_SHARING and (not AH.DEBUG)) then
         AH.AH_SHARING = false
@@ -485,17 +486,17 @@ function AH.ShowCrossingHelper(bypass)
 
             defaultX = defaultX - (frame:GetWidth() / 2)
             if (not AH.Vars["CrossingHelperPosition"]) then
-                AH.Vars["CrossingHelperPosition"] = {top = defaultY, left = defaultX}
+                AH.Vars["CrossingHelperPosition"] = { top = defaultY, left = defaultX }
             end
 
             if (not AH.Vars["CrossingHelperPosition"]) then
-                AH.Vars["CrossingHelperPosition"] = {top = defaultY, left = defaultX}
+                AH.Vars["CrossingHelperPosition"] = { top = defaultY, left = defaultX }
             end
 
             local onMouseUp = function()
                 local top, left = frame:GetTop(), frame:GetLeft()
 
-                AH.Vars["CrossingHelperPosition"] = {top = top, left = left}
+                AH.Vars["CrossingHelperPosition"] = { top = top, left = left }
             end
 
             frame:SetHandler("OnMouseUp", onMouseUp)
@@ -539,16 +540,16 @@ function AH.ShowCrossingHelper(bypass)
             for box = 1, 3 do
                 frame["box" .. box] =
                     createComboBox(
-                    AH.Name .. "_choice" .. box,
-                    frame,
-                    40,
-                    40,
-                    {1, 2, 3, 4, 5, 6, ""},
-                    nil,
-                    function(value)
-                        AH.CrossingUpdate(box, value)
-                    end
-                )
+                        AH.Name .. "_choice" .. box,
+                        frame,
+                        40,
+                        40,
+                        { 1, 2, 3, 4, 5, 6, "" },
+                        nil,
+                        function(value)
+                            AH.CrossingUpdate(box, value)
+                        end
+                    )
 
                 frame["box" .. box]:SetAnchor(TOPLEFT, frame.text, BOTTOMLEFT, 20 + (box * 75), 50)
                 frame["boxlabel" .. box] = WINDOW_MANAGER:CreateControl(nil, frame, CT_LABEL)
@@ -585,7 +586,7 @@ function AH.ShowCrossingHelper(bypass)
             frame.key:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
             frame.key:SetText(ZO_CachedStrFormat(_G.ARCHIVEHELPER_CROSSING_KEY, AH.ch_icons.L, AH.ch_icons.R))
 
-            AH.selectedBox = {[1] = 0, [2] = 0, [3] = 0}
+            AH.selectedBox = { [1] = 0, [2] = 0, [3] = 0 }
             AH.CrossingHelperFrame = frame
         end
 
@@ -610,3 +611,5 @@ function AH.HideCrossingHelper()
         AH.CrossingHelperFrame:SetHidden(true)
     end
 end
+
+---@diagnostic enable undefined-field
