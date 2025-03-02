@@ -218,7 +218,7 @@ function AH.CombatCheck(_, incombat)
 
     check = check or AH.Vars.MarauderCheck or AH.Vars.ShardCheck or AH.Vars.GwCheck
 
-    if (check and AH.InsideArchive) then
+    if (check and AH.LIA:IsInsideArchive()) then
         if (not incombat) then
             EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Fabled", EVENT_COMBAT_EVENT)
             EVENT_MANAGER:UnregisterForEvent(AH.Name, EVENT_RETICLE_TARGET_CHANGED)
@@ -235,7 +235,7 @@ function AH.CombatCheck(_, incombat)
                 AH.Name,
                 EVENT_RETICLE_TARGET_CHANGED,
                 function()
-                    if (AH.InsideArchive) then
+                    if (AH.LIA:IsInsideArchive()) then
                         if (#AH.SearchText > 0) then
                             markerCheck()
                         end

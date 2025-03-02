@@ -229,10 +229,8 @@ local colours = {
     [AH.TYPES.VISION] = { normal = AH.LC.ZOSBlue, avatar = AH.LC.ZOSPurple }
 }
 
-function AH.GroupChat(abilityId, count, unitTag)
+function AH.GroupChat(abilityId, count, name, unitTag)
     if (IsInstanceEndlessDungeon()) then
-        local name = ""
-
         if (AH.Vars.ShowSelection) then
             if (AH.Vars.UseDisplayName) then
                 name = ZO_LinkHandler_CreateDisplayNameLink(GetUnitDisplayName(unitTag or "player"))
