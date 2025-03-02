@@ -1,8 +1,6 @@
 local AH = ArchiveHelper
-local tomeName = GetString(ARCHIVEHELPER_TOMESHELL):lower()
 local lastStun = 0
 local lastMapId = 0
-local sourceIds = {}
 
 local function onSelectorHiding()
     if (AH.Notice) then
@@ -12,21 +10,9 @@ local function onSelectorHiding()
     if (AH.QuestReminder) then
         AH.Release("QuestReminder")
     end
-
-    -- zo_callLater(
-    --     function()
-    --         AH.ShowingBuffs = false
-    --         CALLBACK_MANAGER:FireCallbacks("ArchiveHelperBuffSelectorClosing")
-    --     end,
-    --     1500
-    -- )
 end
 
--- local function encode(abilityId, count)
---     return tonumber(string.format("%d%06d%d", AH.SHARE.ABILITY, abilityId, count))
--- end
-
-local function onBuffSelected(_, abilityId, _, unitTag)
+local function onBuffSelected(_, unitTag, abilityId, _, name)
     local avatar = AH.LIA:IsAvatar(abilityId)
 
     if (avatar) then
@@ -43,14 +29,16 @@ local function onBuffSelected(_, abilityId, _, unitTag)
             local abilityType = abilityInfo.type or AH.TYPES.VERSE
             local count
 
-            if (avatar) then
-                count = AH.Vars.AvatarVisionCount[avatar] or 0
-            else
-                local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(abilityType)
-                count = counts[abilityId] or 0
+            if (AreUnitsEqual(unitTag, "player")) then
+                if (avatar) then
+                    count = AH.Vars.AvatarVisionCount[avatar] or 0
+                else
+                    local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(abilityType)
+                    count = counts[abilityId] or 0
+                end
             end
 
-            AH.GroupChat(abilityId, count, unitTag)
+            AH.GroupChat(abilityId, count, name, unitTag)
         end,
         500
     )
@@ -84,58 +72,19 @@ local function onShowing()
     checkNotice()
 end
 
--- local function onSelecting(_, buffControl)
---     AH.SelectedBuff = GetEndlessDungeonBuffSelectorBucketTypeChoice(buffControl.bucketType)
--- end
-
-local function onCompassUpdate()
-    if (AH.InsideArchive and AH.Vars.CheckQuestItems and AH.InCombet) then
-        if (AH.FoundQuestItem == false) then
-            local numPins = COMPASS.container:GetNumCenterOveredPins()
-
-            if (numPins > 0) then
-                for pin = 1, numPins do
-                    local pinType = COMPASS.container:GetCenterOveredPinType(pin)
-                    if (pinType == MAP_PIN_TYPE_QUEST_INTERACT) then
-                        AH.FoundQuestItem = true
-                    end
-                end
-            end
-        end
+local function onItemDetected(_, _, itemType)
+    if (AH.LIA:IsInsideArchive() and AH.Vars.CheckQuestItems and AH.InCombet) then
+        AH.FoundQuestItem = (itemType == "QuestItem") and true or false
     end
 end
 
-local tomesFound = 0
-local tomesTotal = 0
+local function onTomeshellDestroyed(_, _, _, left)
+    AH.PlayAlarm(AH.Sounds.Tomeshell)
 
-local function tomeCheck(...)
-    local result = select(2, ...)
-    local sourceName, _, targetName = select(7, ...)
+    local message = ZO_CachedStrFormat(ARCHIVEHELPER_TOMESHELL_COUNT, left)
 
-    if (result == ACTION_RESULT_DIED or result == ACTION_RESULT_DIED_XP) then
-        targetName = AH.LC.Format(targetName):lower()
-        sourceName = AH.LC.Format(sourceName):lower()
-
-        if (targetName:find(tomeName, 1, true) or sourceName:find(tomeName, 1, true)) then
-            tomesFound = tomesFound + 1
-            tomesTotal = tomesTotal + 1
-            AH.PlayAlarm(AH.Sounds.Tomeshell)
-
-            if (AH.TomeGroupType ~= ENDLESS_DUNGEON_GROUP_TYPE_SOLO) then
-                AH.ShareData(AH.SHARE.TOME, tomesFound, true)
-            end
-
-            local tomesLeft = AH.MaxTomes - tomesTotal
-
-            tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
-
-            local message = ZO_CachedStrFormat(ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
-
-            if (AH.TomeCount) then
-                AH.TomeCount:SetText(message)
-            end
-            CALLBACK_MANAGER:FireCallbacks("ArchiveHelperTomeshellKilled")
-        end
+    if (AH.TomeCount) then
+        AH.TomeCount:SetText(message)
     end
 end
 
@@ -146,8 +95,6 @@ local function startTomeCheck()
 
     AH.ShowTomeshellCount()
     AH.TomeCount:SetText(message)
-
-    EVENT_MANAGER:RegisterForEvent(AH.Name .. "_Tome", EVENT_COMBAT_EVENT, tomeCheck)
 end
 
 local function stopTomeCheck()
@@ -155,26 +102,12 @@ local function stopTomeCheck()
         AH.TomeCount:SetHidden(true)
         AH.Release("TomeCount")
     end
-
-    EVENT_MANAGER:UnregisterForEvent(AH.Name .. "_Tome", EVENT_COMBAT_EVENT)
-end
-
-local function checkSharing()
-    AH.ShareData(AH.SHARE.SHARING, 1)
 end
 
 local function zoneCheck()
     local mapId = GetCurrentMapId()
 
-    if (mapId == AH.MAPS.ECHOING_DEN.id) then
-        checkSharing()
-        AH.IsInEchoingDen = true
-        AH.DenStarted = true
-        AH.ShowTimer()
-    elseif (mapId == AH.MAPS.TREACHEROUS_CROSSING.id) then
-        checkSharing()
-        AH.IsInCrossing = true
-
+    if (mapId == AH.LIA.MAPS.TREACHEROUS_CROSSING.id) then
         if (AH.Vars.ShowHelper) then
             AH.ShowCrossingHelper()
         end
@@ -185,9 +118,6 @@ local function zoneCheck()
             AH.SetTheatreWarning(true)
         end
     else
-        AH.IsInEchoingDen = false
-        AH.DenStarted = false
-        AH.IsInCrossing = false
         AH.IsInTheatre = false
 
         if (AH.Timer) then
@@ -206,9 +136,7 @@ local function onPlayerActivated()
     if (lastMapId ~= mapId) then
         lastMapId = mapId
 
-        if (AH.Vars.ShowTimer or AH.Vars.ShowHelper) then
-            zoneCheck()
-        end
+        zoneCheck()
 
         if (AH.Vars.CountTomes and mapId == AH.MAPS.FILERS_WING.id) then
             AH.IsInFilersWing = true
@@ -225,14 +153,14 @@ local function onPlayerActivated()
 end
 
 local function auditorCheck()
-    if (not IsInstanceEndlessDungeon()) then
+    if (not IsInstanceEndlessDungeon() or AH.InCombet) then
         return
     end
 
     --- @diagnostic disable-next-line undefined-global
     local actor = GAMEPLAY_ACTOR_CATEGORY_PLAYER
 
-    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR, actor) and (not IsUnitInCombat("player")) and not AH.LIA:IsInUnknown()) then
+    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR, actor) and not AH.LIA:IsInUnknown()) then
         if (not AH.LIA:IsAuditorActive()) then
             local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
 
@@ -243,80 +171,52 @@ local function auditorCheck()
     end
 end
 
-local function checkMessage(messageParams)
-    if (not IsInstanceEndlessDungeon()) then
-        return
-    end
+local function onUnknownPortalStateChanged(_, _, mapId, _, state)
+    -- update AH state
+    onPlayerActivated()
 
-    if (not AH.DenStarted) then
-        onPlayerActivated()
-    end
+    -- check the auditor status
+    auditorCheck()
 
-    -- Herd the Ghost Lights
-    if (AH.IsInEchoingDen) then
-        local message = AH.LC.Format(messageParams:GetMainText()):lower()
-        local secondaryMessage = AH.LC.Format(messageParams:GetSecondaryText() or ""):lower()
-        local start = AH.LC.Format(ARCHIVEHELPER_HERD):lower()
-        local fail = AH.LC.Format(ARCHIVEHELPER_HERD_FAIL):lower()
-        local success = AH.LC.Format(ARCHIVEHELPER_HERD_SUCCESS):lower()
-
-        if (message:find(start, 1, true)) then
+    -- Echoing Den
+    if (mapId == AH.LIA.MAPS.ECHOING_DEN.id) then
+        if (state == AH.LIA.UNKNOWN_PORTAL_STATE_STARTED) then
             AH.DenDone = false
             AH.StartTimer()
-        elseif
-            (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
-                secondaryMessage:find(success, 1, true))
-        then
+        elseif (state == AH.LIA.UNKNOWN_PORTAL_STATE_FAILED or state == AH.LIA.UNKNOWN_PORTAL_STATE_SUCCESS) then
             AH.StopTimer()
             AH.DenDone = true
         end
     end
 
     -- Treacherous Crossing
-    if (AH.IsInCrossing) then
-        local message = AH.LC.Format(messageParams:GetMainText()):lower()
-        local secondaryMessage = AH.LC.Format(messageParams:GetSecondaryText() or ""):lower()
-        local fail = AH.LC.Format(ARCHIVEHELPER_CROSSING_FAIL):lower()
-        local success = AH.LC.Format(ARCHIVEHELPER_CROSSING_SUCCESS):lower()
-
-        if
-            (message:find(fail, 1, true) or message:find(success, 1, true) or secondaryMessage:find(fail, 1, true) or
-                secondaryMessage:find(success, 1, true))
-        then
+    if (mapId == AH.LIA.MAPS.TREACHEROUS_CROSSING.id) then
+        if (state == AH.LIA.UNKNOWN_PORTAL_STATE_ENTERED) then
+            AH.ShowCrossingHelper()
+        elseif (state == AH.LIA.UNKNOWN_PORTAL_STATE_FAILED or state == AH.LIA.UNKNOWN_PORTAL_STATE_SUCCESS) then
             AH.HideCrossingHelper()
         end
     end
 
-    -- check for loyal auditor
-    auditorCheck()
-end
-
-local function onMessage(_, messageParams)
-    if (not messageParams) then
-        return
+    -- Filer's Wing
+    if (mapId == AH.LIA.MAPS.FILERS_WING.id) then
+        if (state == AH.LIA.UNKNOWN_PORTAL_STATE_STARTED) then
+            startTomeCheck()
+        elseif (state == AH.LIA.UNKNOWN_PORTAL_STATE_FAILED or state == AH.LIA.UNKNOWN_PORTAL_STATE_SUCCESS) then
+            stopTomeCheck()
+        end
     end
-
-    if (AH.Vars.ShowTimer) then
-        checkMessage(messageParams)
-    end
-
-    return false
 end
 
 local function resetValues()
-    ZO_ClearNumericallyIndexedTable(AH.bosses)
-    ZO_ClearNumericallyIndexedTable(sourceIds)
     AH.FoundQuestItem = false
-    AH.InsideArchive = AH.LIA:IsInsideArchive()
     ZO_ClearNumericallyIndexedTable(AH.Shards)
-    tomesFound = 0
-    tomesTotal = 0
 
     for _, info in pairs(AH.MARKERS) do
         info.manual = false
     end
 
-    if (AH.InsideArchive) then
+    if (AH.LIA:IsInsideArchive()) then
         AH.SetTerrainWarnings(AH.Vars.TerrainWarnings)
     end
 end
@@ -358,7 +258,7 @@ local function onDungeonInitialised()
     AH.Vars.AvatarVisionCount = { ICE = 0, WOLF = 0, IRON = 0, UNDEAD = 0 }
 
     if (visionCount) then
-        for avatar, data in pairs(AH.AVATAR) do
+        for avatar, data in pairs(AH.LIA.AVATAR) do
             for _, abilityId in ipairs(data.abilityIds) do
                 if (abilityId ~= data.transform) then
                     local count = visionCount[abilityId] or 0
@@ -378,21 +278,10 @@ local function onQuestCounterChanged(_, journalIndex)
     end
 end
 
-local function onHotBarChange(_, changed, shouldUpdate, category)
-    if (AH.IsInFilersWing) then
-        if ((category == HOTBAR_CATEGORY_TEMPORARY) and shouldUpdate and changed) then
-            checkSharing()
-            startTomeCheck()
-        end
-
-        if ((category == HOTBAR_CATEGORY_PRIMARY) and changed and not shouldUpdate) then
-            stopTomeCheck()
-        end
-    end
-end
-
 local player = GetUnitName("player")
 
+-- TODO: Handle crossing data sharing
+-- **********
 local function getOtherPlayer()
     local groupSize = GetGroupSize()
 
@@ -437,6 +326,7 @@ local function onCrossingChange(selections)
         end
     end
 end
+-- **********
 
 local function onLeaderUpdate()
     if (AH.CrossingHelperFrame) then
@@ -446,30 +336,10 @@ local function onLeaderUpdate()
     end
 end
 
-local function onSingleSlotUpdate(_, _, previousSlotData)
-    if (previousSlotData) then
-        local icon = previousSlotData.iconFile
-
-        for _, iconname in pairs(AH.MYSTERY) do
-            if (icon:find(iconname)) then
-                AH.MysteryVerse = true
-                return
-            end
-        end
-
-        AH.MysteryVerse = false
-    end
-end
-
-local function onBuffStackCountChanged(_, abilityId)
+local function onMysteryVerseUsed(_, unitTag, abilityId)
     zo_callLater(
         function()
-            if (AH.MysteryVerse) then
-                AH.GroupChat(abilityId, 999)
-                AH.ShareData(AH.SHARE.ABILITY, abilityId, nil, 999)
-                CALLBACK_MANAGER:FireCallbacks("ArchiveHelperMysteryVerse")
-                AH.MysteryVerse = false
-            end
+            AH.GroupChat(abilityId, 999, nil, unitTag)
         end,
         1000
     )
@@ -498,6 +368,7 @@ end
 
 local arcane, seeking
 
+-- TODO: Finish this
 -- Theatre of War
 -- interrupt - SI_BINDING_NAME_SPECIAL_MOVE_INTERRUPT
 local function theatreWarnings(...)
@@ -549,11 +420,7 @@ local function terrainWarnings(...)
     local targetName = ZO_CachedStrFormat(SI_UNIT_NAME, select(9, ...))
     local abilityId = select(17, ...)
 
-    if (not AH.InsideArchive) then
-        AH.InsideArchive = IsInstanceEndlessDungeon() and (GetCurrentMapId() ~= AH.ArchiveIndex)
-    end
-
-    if (AH.InsideArchive and (not AH.Triggered)) then
+    if (AH.LIA:IsInsideArchive() and (not AH.Triggered)) then
         if (targetName == playerName) then
             if (terrainList[abilityId]) then
                 AH.Detected = GetAbilityName(abilityId, "player")
@@ -576,13 +443,31 @@ local function terrainWarnings(...)
     end
 end
 
+local function onMarauderSpawned(_, name)
+    local check = AH.Vars.MarauderPlay or AH.Vars.MarauderCheck
+
+    if (not check) then
+        return
+    end
+
+    if (not IsInstanceEndlessDungeon() or ((name or "") == "")) then
+        return
+    end
+
+    if (AH.Vars.MarauderPlay) then
+        AH.PlayAlarm(AH.Sounds.Marauder)
+    end
+
+    AH.MARAUDER = name
+end
+
 function AH.SetTerrainWarnings(enable)
     if (enable) then
         EVENT_MANAGER:RegisterForEvent(
             AH.Name .. "terrain",
             EVENT_COMBAT_EVENT,
             function(...)
-                if (AH.InsideArchive) then
+                if (AH.LIA:IsInsideArchive()) then
                     terrainWarnings(...)
                 end
             end
@@ -602,6 +487,8 @@ function AH.SetTerrainWarnings(enable)
     end
 end
 
+-- TODO: implement custom sharing
+-- **********
 function AH.ShareData(shareType, value, instant, stackCount)
     -- if ((not AH.Share) and (not AH.DEBUG)) then
     --     return
@@ -632,29 +519,7 @@ function AH.HandleDataShare(_, info)
     -- local shareType = tonumber(tostring(info):sub(1, 1))
     -- local shareData = tonumber(tostring(info):sub(2))
 
-    -- if (not AH.TomeCount) then
-    --     AH.ShowTomeshellCount()
-    -- end
-
-    -- if (not AH.MaxTomes) then
-    --     AH.MaxTomes = AH.LIA:GetMaxTomes()
-    -- end
-
-    -- if (shareType == AH.SHARE.TOME) then
-    --     tomesTotal = (tomesFound or 0) + (shareData or 0)
-
-    --     local tomesLeft = AH.MaxTomes - tomesTotal
-
-    --     tomesLeft = (tomesLeft < 0) and 0 or tomesLeft
-
-    --     local message = ZO_CachedStrFormat(ARCHIVEHELPER_TOMESHELL_COUNT, tomesLeft)
-
-    --     if (AH.TomeCount) then
-    --         AH.TomeCount:SetText(message)
-    --         AH.PlayAlarm(AH.Sounds.Tomeshell)
-    --         AH.Debug("Received tome data: " .. shareData)
-    --     end
-    -- elseif (shareType == AH.SHARE.MARK) then
+    -- if (shareType == AH.SHARE.MARK) then
     --     if (shareData and (shareData > 0) and (shareData < 8)) then
     --         AH.MARKERS[shareData].used = true
     --         AH.MARKERS[shareData].manual = true
@@ -688,33 +553,32 @@ function AH.HandleDataShare(_, info)
     -- elseif (shareType == AH.SHARE.CROSSING) then
     --     onCrossingChange(tostring(info):sub(2))
     --     AH.Debug("Received crossing data: " .. tostring(info):sub(2))
-    -- elseif (shareType == AH.SHARE.SHARING) then
-    --     AH.AH_SHARING = true
-    --     AH.Debug("Received sharing notification")
     -- end
 end
 
+-- **********
+
 function AH.SetupHooks()
     SecurePostHook(_G[AH.SELECTOR], "OnHiding", onSelectorHiding)
-    -- SecurePostHook(_G[AH.SELECTOR], "CommitChoice", onChoiceCommitted)
     SecurePostHook(_G[AH.SELECTOR], "OnShowing", onShowing)
-    -- SecurePostHook(_G[AH.SELECTOR], "SelectBuff", onSelecting)
-    AH.LIA:RegisterForEvent(AH.LIA.EVENT_BUFF_SELECTED, onBuffSelected)
-    SecurePostHook(COMPASS, "OnUpdate", onCompassUpdate)
-    SecurePostHook(CENTER_SCREEN_ANNOUNCE, "AddMessageWithParams", onMessage)
-    ZO_PreHook(BOSS_BAR, "AddBoss", AH.OnNewBoss)
 end
 
 function AH.SetupEvents()
-    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ACHIEVEMENT_UPDATED, AH.FindMissingAbilityIds)
+    AH.LIA:RegisterForEvent(AH.LIA.EVENT_BUFF_SELECTED, onBuffSelected)
+    AH.LIA:RegisterForEvent(AH.LIA.EVENT_ITEM_DETECTED, onItemDetected)
+    AH.LIA:RegisterForEvent(AH.LIA.EVENT_MARAUDER_SPAWNED, onMarauderSpawned)
+    AH.LIA:RegisterForEvent(AH.LIA.EVENT_MYSTERY_VERSE_USED, onMysteryVerseUsed)
+    AH.LIA:RegisterForEvent(AH.LIA.EVENT_TOMESHELL_DESTROYED, onTomeshellDestroyed)
+    AH.LIA:RegisterForEvent(AH.LIA.EVENT_UNKNOWN_PORTAL_STATE_CHANGED, onUnknownPortalStateChanged)
+
     EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ACHIEVEMENT_AWARDED, AH.FindMissingAbilityIds)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_PLAYER_ACTIVATED, onPlayerActivated)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ACHIEVEMENT_UPDATED, AH.FindMissingAbilityIds)
     EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ENDLESS_DUNGEON_INITIALIZED, onDungeonInitialised)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_QUEST_CONDITION_COUNTER_CHANGED, onQuestCounterChanged)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_PLAYER_STUNNED_STATE_CHANGED, onStunned)
-    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED, onHotBarChange)
     EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_LEADER_UPDATE, onLeaderUpdate)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_PLAYER_ACTIVATED, onPlayerActivated)
     EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_PLAYER_REINCARNATED, onReincarnated)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_PLAYER_STUNNED_STATE_CHANGED, onStunned)
+    EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_QUEST_CONDITION_COUNTER_CHANGED, onQuestCounterChanged)
     EVENT_MANAGER:RegisterForEvent(AH.Name, EVENT_RESURRECT_RESULT, onResurrected)
 
     if (AH.Vars.FabledCheck and AH.CompatibilityCheck()) then
@@ -729,7 +593,4 @@ function AH.SetupEvents()
     if (AH.Vars.TerrainWarnings) then
         AH.SetTerrainWarnings(true)
     end
-
-    SHARED_INVENTORY:RegisterCallback("SingleSlotInventoryUpdate", onSingleSlotUpdate)
-    ENDLESS_DUNGEON_MANAGER:RegisterCallback("BuffStackCountChanged", onBuffStackCountChanged)
 end
