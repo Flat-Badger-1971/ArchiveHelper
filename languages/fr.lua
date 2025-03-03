@@ -1,6 +1,5 @@
 -- French localisation
--- luacheck: ignore 631
-local L = function(k, v)
+L = function(k, v)
     ZO_CreateStringId("ARCHIVEHELPER_" .. k, v)
 end
 
@@ -10,25 +9,22 @@ L("ALL_VISIONS", "Toutes les visions acquises")
 L("ALL_VERSES", "Tous les versets acquis")
 L("ARC_BOSS", "Replicanum de Tho’at à venir")
 L("AUDITOR", "Invoquer automatiquement l'Auditeur loyal")
-L("AUDITOR_NAME", "Auditeur loyal")
 L("AVOID", "Indésirables")
 L("BONUS", "Niveaux bonus")
 L("BUFF_SELECTED", "<<1>> a sélectionné <<2>>")
 L("COUNT", "<<1>> sur <<2>>")
 L("CROSSING_END", "Fin")
-L("CROSSING_FAIL", "verrouillés") -- Les leviers sont verrouillés. Personne ne peut passer
 L("CROSSING_INVALID", "L'aide ne peut être activée qu'à l'intérieur du Gué traître dans l'Archive Infinie")
 L("CROSSING_KEY", "<<1>> Prendre à gauche - <<2>> Prendre à droite")
 L("CROSSING_NO_SOLUTIONS", "Aucun chemin trouvé")
 L("CROSSING_PATHS", "Chemins possibles")
 L("CROSSING_SLASH", "aide")
 L("CROSSING_START", "Début")
-L("CROSSING_SUCCESS", "résolu") -- Vous avez résolu l'énigme du couloir
 L("CROSSING_TITLE", "Aide pour le Gué traître")
 L(
     "CROSSING_INSTRUCTIONS",
     "Trouvez l'interrupteur correspondant au début du chemin et sélectionnez-le dans la liste déroulante ci-dessous (1 est le plus à gauche, 6 le plus à droite)." ..
-        " Puis, si nécessaire, trouvez la 2ème étape ou la fin du chemin, jusqu'à ce qu'il ne reste qu'une solution."
+    " Puis, si nécessaire, trouvez la 2ème étape ou la fin du chemin, jusqu'à ce qu'il ne reste qu'une solution."
 )
 L("CYCLE_BOSS", "Phase de boss à venir")
 L("DEN_TIMER", "<<1[0s restantes/1s restante/$ds restantes]>>")
@@ -43,13 +39,9 @@ L("FLAMESHAPER", "Façonne-feu")
 L("GW", "Gw le pillard")
 L("GW_MARKER", "Ajouter un marqueur de cible sur Gw le pillard")
 L("GW_PLAY", "Jouer un son quand Gw est marqué")
-L("HERD", "Rassemblez les lueurs fantômes")
-L("HERD_FAIL", "assez") -- Vous n'avez pas assez rassemblé de lueurs fantômes
-L("HERD_SUCCESS", "ramené") -- Vous avez ramené les lueurs fantômes
 L("MARAUDER_MARKER", "Mettre un marqueur de cible sur les Maraudeurs")
 L("MARAUDER_INCOMING_PLAY", "Jouer un son à l'arrivée d'un Maraudeur")
 L("OPTIONAL_LIBS_CHAT", "Archive Helper fonctionne mieux si LibChatMessage est installé.")
-L("OPTIONAL_LIBS_SHARE", "Pour que le mode Duo fonctionne correctement, veuillez installer LibDataShare.")
 L("PREVENT", "Empêcher de sélectionner un bienfait par erreur")
 L(
     "PREVENT_TOOLTIP",
@@ -72,11 +64,6 @@ L("SHARD_IGNORE", "Ignorer les Fragments en dehors du cycle 5")
 L("SHARD_MARKER", "Mettre un marqueur sur les Fragments de Tho'at")
 L("SHOW_COUNT", "Décompter les tomes-carapaces de l'Aile du greffier")
 L("SHOW_CROSSING_HELPER", "Afficher l'aide dans le Gué traître")
-
-L(
-    "SHOW_COUNT_TOOLTIP",
-    "Pour que le mode Duo fonctionne correctement, l'autre joueur doit avoir installé cet addon. Les deux joueurs doivent également avoir installé LibDataShare."
-)
 L("SHOW_ECHO", "Afficher un minuteur dans l'Antre aux échos")
 L("SHOW_SELECTION", "Afficher vos choix de bienfaits en discussion")
 L("SHOW_TERRAIN_WARNING", "Afficher les avertissements")
@@ -86,7 +73,6 @@ L("SHOW_SELECTION_DISPLAY_NAME", "Utiliser le nom d'affichage")
 L("SHOW_SELECTION_DISPLAY_NAME_TOOLTIP", "Utiliser le nom d'affichage au lieu du nom du personnage")
 L("SLASH_MISSING", "manquant")
 L("STACKS", "Nombre de bienfaits cumulés")
-L("TOMESHELL", "Tome-carapace")
 L("TOMESHELL_COUNT", "<<1[0 restants/1 restant/$d restants]>>")
 L("USE_AUTO_AVOID", "Marquer automatiquement les Indésirables")
 L(
@@ -100,18 +86,3 @@ L("WEREWOLF_BEHEMOTH", "Béhémoth loup-garou")
 L("SI_BINDING_NAME_ARCHIVEHELPER_MARK_CURRENT_TARGET", "Marquer la cible actuelle")
 L("SI_BINDING_NAME_ARCHIVEHELPER_TOGGLE_CROSSING_HELPER", "Ouvrir/fermer l'aide du Gué traître")
 L("SI_BINDING_NAME_ARCHIVEHELPER_UNMARK_CURRENT_TARGET", "Retirer la marque sur la cible actuelle")
-
--- Marauders
-L("MARAUDER_GOTHMAU", "gothmau")
-L("MARAUDER_HILKARAX", "hilkarax")
-L("MARAUDER_ULMOR", "ulmor")
-L("MARAUDER_BITTOG", "bittog")
-L("MARAUDER_ZULFIMBUL", "zulfimbul")
-
--- Zones
-L("MAP_TREACHEROUS_CROSSING", "Treacherous Crossing")
-L("MAP_HAEFELS_BUTCHERY", "Haefel's Butchery")
-L("MAP_FILERS_WING", "Filer's Wing")
-L("MAP_ECHOING_DEN", "Echoing Den")
-L("MAP_THEATRE_OF_WAR", "Theatre of War")
-L("MAP_DESTOZUNOS_LIBRARY", "Destozuno's Library")

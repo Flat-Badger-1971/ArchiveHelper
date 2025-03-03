@@ -50,7 +50,6 @@ ArchiveHelper = {
     SearchText = {},
     Shards = {},
     TerrainWarnings = true,
-    DATA_ID = 28, -- map id for libDataShare
     DEBUG = false,
     ICONS = {
         ACH = { name = "login/login_icon_yield", colour = { 1, 0, 0, 1 } },
@@ -65,24 +64,13 @@ ArchiveHelper = {
     OAKENSOUL = 187658,
     SELECTION_DELAY = 1250,
     SHARE = {
-        TOME = 1,
-        MARK = 2,
-        UNMARK = 3,
-        GW = 4,
-        ABILITY = 5,
-        CROSSING = 6,
-        SHARING = 7
+        MARK = 1,
+        UNMARK = 2,
+        GW = 3,
+        CROSSING = 4
     },
     SKILL_TYPE_PET = 999,
     SORCERER = 2,
     SUPPORT_SKILL_LINE = 71,
     WARDEN = 4
 }
-
-local AH = ArchiveHelper
-
-AH.ArchiveIndex = AH.LIA.ARCHIVE_INDEX
-AH.ArchiveQuests = AH.LIA.ARCHIVE_QUESTS
-AH.MAPS = AH.LIA.MAPS
-AH.Marauders = AH.LIA.MARAUDERS
-AH.Tomeshells = AH.LIA.TOMESHELLS
