@@ -24,7 +24,7 @@ local function Initialise()
         AH.SELECTOR_OBJECT = string.format(selectorObject, "KEYBOARD")
     end
 
-    -- AH.CheckDataShareLib()
+    AH.LC.RegisterForDataSharing(AH.LC.ADDON_ID_ENUM.AH, AH.HandleDataShare)
     AH.SetupHooks()
     AH.FindMissingAbilityIds()
     AH.SetupEvents()

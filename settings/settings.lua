@@ -165,14 +165,6 @@ local function buildOptions()
         optional = yellow:Colorize(GetString(_G.ARCHIVEHELPER_OPTIONAL_LIBS_CHAT))
     end
 
-    if (not _G.LibDataShare) then
-        if (optional ~= "") then
-            optional = optional .. AH.LF
-        end
-
-        optional = optional .. yellow:Colorize(GetString(_G.ARCHIVEHELPER_OPTIONAL_LIBS_SHARE))
-    end
-
     local options = {
         [1] = {
             type = "description",
@@ -227,8 +219,7 @@ local function buildOptions()
         [6] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_SHOW_SELECTION),
-            tooltip = AH.LC.Format(_G.ARCHIVEHELPER_REQUIRES) ..
-                ". " .. AH.LC.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
+            tooltip = AH.LC.Format(_G.ARCHIVEHELPER_REQUIRES),
             getFunc = function()
                 return AH.Vars.ShowSelection
             end,
@@ -373,7 +364,6 @@ local function buildOptions()
         [17] = {
             type = "checkbox",
             name = AH.LC.Format(_G.ARCHIVEHELPER_SHOW_COUNT),
-            tooltip = AH.LC.Format(_G.ARCHIVEHELPER_SHOW_COUNT_TOOLTIP),
             getFunc = function()
                 return AH.Vars.CountTomes
             end,

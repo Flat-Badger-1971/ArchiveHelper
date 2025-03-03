@@ -111,7 +111,7 @@ local function zoneCheck()
         if (AH.Vars.ShowHelper) then
             AH.ShowCrossingHelper()
         end
-    elseif (mapId == AH.MAPS.THEATRE_OF_WAR.id) then
+    elseif (mapId == AH.LIA.MAPS.THEATRE_OF_WAR.id) then
         AH.IsInTheatre = true
 
         if (AH.Vars.Theatre) then
@@ -138,7 +138,7 @@ local function onPlayerActivated()
 
         zoneCheck()
 
-        if (AH.Vars.CountTomes and mapId == AH.MAPS.FILERS_WING.id) then
+        if (AH.Vars.CountTomes and mapId == AH.LIA.MAPS.FILERS_WING.id) then
             AH.IsInFilersWing = true
         else
             AH.IsInFilersWing = false
@@ -487,76 +487,42 @@ function AH.SetTerrainWarnings(enable)
     end
 end
 
--- TODO: implement custom sharing
--- **********
-function AH.ShareData(shareType, value, instant, stackCount)
-    -- if ((not AH.Share) and (not AH.DEBUG)) then
-    --     return
-    -- end
-
-    -- local encoded
-
-    -- if (stackCount) then
-    --     encoded = encode(value, stackCount)
-    -- else
-    --     encoded = string.format("%s%s", shareType, value)
-    -- end
-
-    -- encoded = tonumber(encoded)
-
-    -- if (AH.Share) then
-    --     if (instant) then
-    --         AH.Share:SendData(encoded)
-    --     else
-    --         AH.Share:QueueData(encoded)
-    --     end
-    -- end
-
-    -- AH.Debug("Shared: " .. encoded)
+function AH.ShareData(shareType, value)
+    AH.LC.Share(AH.LC.ADDON_ID_ENUM.AH, shareType, value)
+    AH.Debug("Shared: " .. value)
 end
 
-function AH.HandleDataShare(_, info)
-    -- local shareType = tonumber(tostring(info):sub(1, 1))
-    -- local shareData = tonumber(tostring(info):sub(2))
+function AH.HandleDataShare(unitTag, data)
+    if (AreUnitsEqual(unitTag, "player")) then
+        return
+    end
 
-    -- if (shareType == AH.SHARE.MARK) then
-    --     if (shareData and (shareData > 0) and (shareData < 8)) then
-    --         AH.MARKERS[shareData].used = true
-    --         AH.MARKERS[shareData].manual = true
-    --         AH.Debug("Received mark data: " .. shareData)
-    --     end
-    -- elseif (shareType == AH.SHARE.UNMARK) then
-    --     if (shareData and (shareData > 0) and (shareData < 8)) then
-    --         AH.MARKERS[shareData].manual = false
-    --         AH.Debug("Received unmark data: " .. shareData)
-    --     end
-    -- elseif (shareType == AH.SHARE.GW) then
-    --     if (shareData and (shareData > 0) and (not AH.FOUND_GW)) then
-    --         if (AH.Vars.GwPlay) then
-    --             AH.PlayAlarm(AH.Sounds.Gw)
-    --         end
-    --         AH.FOUND_GW = true
-    --         AH.Debug("Received Gw detection")
-    --     end
-    --     -- elseif (shareType == AH.SHARE.ABILITY) then
-    --     --     if (shareData) then
-    --     --         local data = tostring(info)
-
-    --     --         if (data:len() > 7) then
-    --     --             local name, unitTag = getOtherPlayer()
-
-    --     --             AH.GroupChat(data, name, unitTag)
-    --     --         end
-
-    --     --         AH.Debug("Received ability data: " .. shareData)
-    --     --     end
-    -- elseif (shareType == AH.SHARE.CROSSING) then
-    --     onCrossingChange(tostring(info):sub(2))
-    --     AH.Debug("Received crossing data: " .. tostring(info):sub(2))
-    -- end
+    if (data.id == AH.LC.ADDON_ID_ENUM.AH) then
+        if (data.class == AH.SHARE.MARK) then
+            if (data.data and (data.data > 0) and (data.data < 8)) then
+                AH.MARKERS[data.data].used = true
+                AH.MARKERS[data.data].manual = true
+                AH.Debug("Received mark data: " .. data.data)
+            end
+        elseif (data.class == AH.SHARE.UNMARK) then
+            if (data.data and (data.data > 0) and (data.data < 8)) then
+                AH.MARKERS[data.data].manual = false
+                AH.Debug("Received unmark data: " .. data.data)
+            end
+        elseif (data.class == AH.SHARE.GW) then
+            if (data.data and (data.data > 0) and (not AH.FOUND_GW)) then
+                if (AH.Vars.GwPlay) then
+                    AH.PlayAlarm(AH.Sounds.Gw)
+                end
+                AH.FOUND_GW = true
+                AH.Debug("Received Gw detection")
+            end
+        elseif (data.id == AH.SHARE.CROSSING) then
+            onCrossingChange(data.data)
+            AH.Debug("Received crossing data: " .. data.data)
+        end
+    end
 end
-
--- **********
 
 function AH.SetupHooks()
     SecurePostHook(_G[AH.SELECTOR], "OnHiding", onSelectorHiding)
