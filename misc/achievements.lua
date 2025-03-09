@@ -105,7 +105,7 @@ function AH.GetAbilityNeededForGeneralAchievement(abilityId)
 
     for _, achievementId in ipairs(achievements) do
         if (ZO_IsElementInNumericallyIndexedTable(AH.GENERAL, achievementId)) then
-            local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(achievementId)
+            local status = AH.GetAchievementStatus(achievementId)
 
             if (status ~= _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
                 table.insert(neededFor, achievementId)
