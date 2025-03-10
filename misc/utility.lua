@@ -39,7 +39,7 @@ function AH.EventNotifier(id)
             if
                 (status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS or
                     status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS)
-             then
+            then
                 local announce = true
 
                 if (ZO_IsElementInNumericallyIndexedTable(AH.ACHIEVEMENTS.LIMIT, id)) then
@@ -159,7 +159,7 @@ function AH.GetActualGroupType()
 end
 
 function AH.UpdateSlottedSkills()
-    local skillTypes = {SKILL_TYPE_AVA, SKILL_TYPE_CLASS, SKILL_TYPE_GUILD, SKILL_TYPE_WORLD}
+    local skillTypes = { SKILL_TYPE_AVA, SKILL_TYPE_CLASS, SKILL_TYPE_GUILD, SKILL_TYPE_WORLD }
     local purchasedSkills = {}
 
     AH.SKILL_TYPES = {
@@ -178,7 +178,7 @@ function AH.UpdateSlottedSkills()
                     local _, _, _, passive, _, purchased = GetSkillAbilityInfo(skillType, line, ability)
 
                     if (purchased and not passive) then
-                        local abilityId = GetSkillAbilityId(skillType, line, ability)
+                        local abilityId = GetSkillAbilityId(skillType, line, ability, false)
 
                         if (not purchasedSkills[skillType]) then
                             purchasedSkills[skillType] = {}
@@ -200,14 +200,14 @@ function AH.UpdateSlottedSkills()
         if
             (IsSlotUsed(slotIndex, HOTBAR_CATEGORY_PRIMARY) and
                 GetSlotType(slotIndex, HOTBAR_CATEGORY_PRIMARY) == ACTION_TYPE_ABILITY)
-         then
+        then
             table.insert(slotted, GetSlotBoundId(slotIndex, HOTBAR_CATEGORY_PRIMARY))
         end
 
         if
             ((not hasOakensoul) and IsSlotUsed(slotIndex, HOTBAR_CATEGORY_BACKUP) and
                 GetSlotType(slotIndex, HOTBAR_CATEGORY_BACKUP) == ACTION_TYPE_ABILITY)
-         then
+        then
             table.insert(slotted, GetSlotBoundId(slotIndex, HOTBAR_CATEGORY_BACKUP))
         end
     end
@@ -313,8 +313,8 @@ function AH.IsAuditorActive()
 end
 
 local colours = {
-    [AH.TYPES.VERSE] = {normal = AH.LC.ZOSGreen, avatar = AH.LC.ZOSGold},
-    [AH.TYPES.VISION] = {normal = AH.LC.ZOSBlue, avatar = AH.LC.ZOSPurple}
+    [AH.TYPES.VERSE] = { normal = AH.LC.ZOSGreen, avatar = AH.LC.ZOSGold },
+    [AH.TYPES.VISION] = { normal = AH.LC.ZOSBlue, avatar = AH.LC.ZOSPurple }
 }
 
 function AH.GroupChat(abilityData, name, unitTag)
@@ -402,7 +402,7 @@ function AH.GetAchievementStatus(achievementId)
 
     for criterionIndex = 1, numCriteria do
         local _, numCompleted, numRequired = GetAchievementCriterion(achievementId, criterionIndex)
-        
+
         completed = completed + numCompleted
         total = total + numRequired
     end

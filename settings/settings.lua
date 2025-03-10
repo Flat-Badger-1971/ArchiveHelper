@@ -31,10 +31,10 @@ do
     local tmpTable = {}
 
     for abilityId, _ in pairs(AH.ABILITIES) do
-        local name = GetAbilityName(abilityId)
+        local name = GetAbilityName(abilityId, "player")
 
         if (name and name ~= "") then
-            table.insert(tmpTable, {id = abilityId, name = AH.LC.Format(name)})
+            table.insert(tmpTable, { id = abilityId, name = AH.LC.Format(name) })
         end
     end
 
@@ -54,10 +54,10 @@ local function populateRemovableOptions(doNotFill)
     local tmpTable = {}
 
     for _, choice in ipairs(choices) do
-        local name = GetAbilityName(choice)
+        local name = GetAbilityName(choice, "player")
         local icon = GetAbilityIcon(choice)
 
-        table.insert(tmpTable, {id = choice, name = AH.LC.Format(name), icon = icon})
+        table.insert(tmpTable, { id = choice, name = AH.LC.Format(name), icon = icon })
     end
 
     if (not doNotFill) then
@@ -106,10 +106,10 @@ local function populateRemovableIgnoreOptions(doNotFill)
     local tmpTable = {}
 
     for _, choice in ipairs(choices) do
-        local name = GetAbilityName(choice)
+        local name = GetAbilityName(choice, "player")
         local icon = GetAbilityIcon(choice)
 
-        table.insert(tmpTable, {id = choice, name = AH.LC.Format(name), icon = icon})
+        table.insert(tmpTable, { id = choice, name = AH.LC.Format(name), icon = icon })
     end
 
     if (not doNotFill) then
@@ -622,11 +622,11 @@ local function buildOptions()
             if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Favourites, value)) then
                 AH.Vars.Favourites =
                     AH.LC.Filter(
-                    AH.Vars.Favourites,
-                    function(v)
-                        return v ~= value
-                    end
-                )
+                        AH.Vars.Favourites,
+                        function(v)
+                            return v ~= value
+                        end
+                    )
 
                 updateFavourites()
             end
@@ -710,11 +710,11 @@ local function buildOptions()
             if (ZO_IsElementInNumericallyIndexedTable(AH.Vars.Ignore, value)) then
                 AH.Vars.Ignore =
                     AH.LC.Filter(
-                    AH.Vars.Ignore,
-                    function(v)
-                        return v ~= value
-                    end
-                )
+                        AH.Vars.Ignore,
+                        function(v)
+                            return v ~= value
+                        end
+                    )
 
                 updateIgnore()
             end
