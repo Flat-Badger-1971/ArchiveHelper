@@ -5,8 +5,8 @@
 ## AddOnVersion: 1401
 ## Version: 1.4.1
 ## SavedVariables: ArchiveHelperSavedVars
-## DependsOn: LibFBCommon>=1006 LibSavedVars>=60007 LibAddonMenu-2.0>=35
-## OptionalDependsOn: LykeionsFabledMarker LibChatMessage>=113 LibDataShare>=3
+## DependsOn: LibFBCommon>=1006 LibSavedVars>=60007 LibAddonMenu-2.0>=35 LibInfiniteArchive>=1000
+## OptionalDependsOn: LykeionsFabledMarker LibChatMessage>=113
 
 # DISCLAIMER:
 #
