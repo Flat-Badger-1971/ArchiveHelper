@@ -2,7 +2,7 @@ local AH = _G.ArchiveHelper
 
 function AH.HandleSlashCommand(parameters)
     local options = {}
-    local find = {parameters:match("^(%S*)%s*(.-)$")}
+    local find = { parameters:match("^(%S*)%s*(.-)$") }
     local isInTable = ZO_IsElementInNumericallyIndexedTable
 
     for _, value in pairs(find) do
@@ -57,8 +57,8 @@ function AH.Print(type, offensive, defensive, utility)
                 ((offensive and info.class == AH.CLASSES.OFFENCE) or (defensive and info.class == AH.CLASSES.DEFENCE) or
                     (utility and info.class == AH.CLASSES.UTILITY) or
                     ((utility or offensive or defensive) == false))
-             then
-                local name = GetAbilityName(abilityId)
+            then
+                local name = GetAbilityName(abilityId, "player")
 
                 if (name and name ~= "") then
                     table.insert(toPrint, name)
@@ -92,7 +92,7 @@ function AH.PrintMissingAbilities(versesOnly, visionsOnly)
         end
 
         if (insert) then
-            local name = GetAbilityName(abilityInfo.id)
+            local name = GetAbilityName(abilityInfo.id, "player")
 
             if (name and name ~= "") then
                 table.insert(missing, name)

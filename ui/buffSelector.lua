@@ -1,6 +1,6 @@
 local AH = _G.ArchiveHelper
 
-local positions = {[1] = {}, [2] = {}, [3] = {}}
+local positions = { [1] = {}, [2] = {}, [3] = {} }
 
 local function getNextPosition(buffIndex)
     if (ZO_IsElementInNumericallyIndexedTable(positions[buffIndex], 1)) then
@@ -32,9 +32,9 @@ function AH.OnBuffSelectorShowing()
     local buffChoices = {}
     local container = AH.SELECTOR_SHORT .. "Container"
     local positionOffsets = {
-        [1] = {x = 84, y = -36},
-        [2] = {x = 0, y = -36},
-        [3] = {x = 164, y = -36}
+        [1] = { x = 84, y = -36 },
+        [2] = { x = 0, y = -36 },
+        [3] = { x = 164, y = -36 }
     }
 
     clearPositions()
@@ -55,7 +55,7 @@ function AH.OnBuffSelectorShowing()
                 buffType = buffType,
                 isAvatarVision = isAvatarVision,
                 index = numChoices,
-                name = AH.LC.Format(GetAbilityName(abilityId))
+                name = AH.LC.Format(GetAbilityName(abilityId, "player"))
             }
         end
     end

@@ -248,12 +248,12 @@ local function auditorCheck()
         return
     end
 
-    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR) and (not IsUnitInCombat("player")) and not AH.IsInUnknown()) then
+    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR, GAMEPLAY_ACTOR_CATEGORY_PLAYER) and (not IsUnitInCombat("player")) and not AH.IsInUnknown()) then
         if (not AH.IsAuditorActive()) then
             local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
 
             if (cooldown == 0) then
-                UseCollectible(AH.AUDITOR)
+                UseCollectible(AH.AUDITOR, GAMEPLAY_ACTOR_CATEGORY_PLAYER)
             end
         end
     end
@@ -502,7 +502,7 @@ local function warnNow(abilityId, message)
         colour = (abilityId > 200000) and AH.LC.Cyan or AH.LC.Red
         messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", AH.Detected) .. "!"))
     else
-        messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", GetAbilityName(abilityId)) .. "!"))
+        messageParams:SetText(colour:Colorize(ZO_CachedStrFormat("<<C:1>>", GetAbilityName(abilityId, "player")) .. "!"))
     end
 
     messageParams:SetSound(AH.Sounds.Terrain.sound)
@@ -516,45 +516,45 @@ local arcane, seeking
 
 -- Theatre of War
 -- interrupt - SI_BINDING_NAME_SPECIAL_MOVE_INTERRUPT
-local function theatreWarnings(...)
-    local source = select(7, ...)
-    local powerType = select(12, ...)
-    local abilityId = select(17, ...)
+-- local function theatreWarnings(...)
+--     local source = select(7, ...)
+--     local powerType = select(12, ...)
+--     local abilityId = select(17, ...)
 
-    if (arcane[abilityId]) then
-        -- shard of chaos
-        d("shard!: " .. abilityId)
-    elseif (seeking[abilityId]) then
-        -- Aramril's sustained attack
-        d("Aramril!: " .. abilityId)
-    elseif (powerType == POWERTYPE_HEALTH and GetUnitName("boss1") == source) then
-        local health = GetUnitHealth("boss1")
+--     if (arcane[abilityId]) then
+--         -- shard of chaos
+--         d("shard!: " .. abilityId)
+--     elseif (seeking[abilityId]) then
+--         -- Aramril's sustained attack
+--         d("Aramril!: " .. abilityId)
+--     elseif (powerType == POWERTYPE_HEALTH and GetUnitName("boss1") == source) then
+--         local health = GetUnitHealth("boss1")
 
-        d("boss health: " .. health)
+--         d("boss health: " .. health)
 
-        if (health % 25 == 0) then
-            d("teleport: " .. health)
-        end
-    end
-end
+--         if (health % 25 == 0) then
+--             d("teleport: " .. health)
+--         end
+--     end
+-- end
 
 function AH.SetTheatreWarning(enable)
-    if (not arcane) then
-        arcane = AH.LC.BuildList(AH.ARCANE_BARRAGE)
-        seeking = AH.LC.BuildList(AH.SEEKING_RUNESCRAWL)
-    end
+    --     if (not arcane) then
+    --         arcane = AH.LC.BuildList(AH.ARCANE_BARRAGE)
+    --         seeking = AH.LC.BuildList(AH.SEEKING_RUNESCRAWL)
+    --     end
 
-    if (enable) then
-        EVENT_MANAGER:RegisterForEvent(
-            AH.Name .. "theatre",
-            EVENT_COMBAT_EVENT,
-            function(...)
-                if (AH.IsInTheatre) then
-                    theatreWarnings(...)
-                end
-            end
-        )
-    end
+    --     if (enable) then
+    --         EVENT_MANAGER:RegisterForEvent(
+    --             AH.Name .. "theatre",
+    --             EVENT_COMBAT_EVENT,
+    --             function(...)
+    --                 if (AH.IsInTheatre) then
+    --                     theatreWarnings(...)
+    --                 end
+    --             end
+    --         )
+    --     end
 end
 
 local terrainList
@@ -572,7 +572,7 @@ local function terrainWarnings(...)
     if (AH.InsideArchive and (not AH.Triggered)) then
         if (targetName == playerName) then
             if (terrainList[abilityId]) then
-                AH.Detected = GetAbilityName(abilityId)
+                AH.Detected = GetAbilityName(abilityId, "player")
             else
                 AH.Detected = nil
             end
