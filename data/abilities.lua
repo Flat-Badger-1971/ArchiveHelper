@@ -165,89 +165,21 @@ AH.MYSTERY = {
     [203613] = "u40_verse_item_utility"  -- utility
 }
 
+local achievementIds = {
+    "3751,3787",
+    "3789,3807",
+    3848,
+    "3926,3938",
+    4005,
+    4008,
+    4063,
+    "4152,4157",
+    "4198,4199",
+    4215
+}
+
 AH.ACHIEVEMENTS = {
-    IDS = {
-        [3751] = true,
-        [3752] = true,
-        [3753] = true,
-        [3754] = true,
-        [3755] = true,
-        [3756] = true,
-        [3757] = true,
-        [3758] = true,
-        [3759] = true,
-        [3760] = true,
-        [3761] = true,
-        [3762] = true,
-        [3763] = true,
-        [3764] = true,
-        [3765] = true,
-        [3766] = true,
-        [3767] = true,
-        [3768] = true,
-        [3769] = true,
-        [3770] = true,
-        [3771] = true,
-        [3772] = true,
-        [3773] = true,
-        [3774] = true,
-        [3775] = true,
-        [3776] = true,
-        [3777] = true,
-        [3778] = true,
-        [3779] = true,
-        [3780] = true,
-        [3781] = true,
-        [3782] = true,
-        [3783] = true,
-        [3784] = true,
-        [3785] = true,
-        [3786] = true,
-        [3787] = true,
-        [3789] = true,
-        [3790] = true,
-        [3791] = true,
-        [3792] = true,
-        [3793] = true,
-        [3794] = true,
-        [3795] = true,
-        [3796] = true,
-        [3797] = true,
-        [3798] = true,
-        [3799] = true,
-        [3800] = true,
-        [3801] = true,
-        [3802] = true,
-        [3803] = true,
-        [3804] = true,
-        [3805] = true,
-        [3806] = true,
-        [3807] = true,
-        [3848] = true,
-        [3926] = true,
-        [3927] = true,
-        [3928] = true,
-        [3929] = true,
-        [3930] = true,
-        [3931] = true,
-        [3932] = true,
-        [3933] = true,
-        [3934] = true,
-        [3935] = true,
-        [3936] = true,
-        [3937] = true,
-        [3938] = true,
-        [4005] = true,
-        [4008] = true,
-        [4152] = true,
-        [4153] = true,
-        [4154] = true,
-        [4155] = true,
-        [4156] = true,
-        [4157] = true,
-        [4198] = true,
-        [4199] = true
-    },
+    IDS = AH.LC.BuildList(achievementIds),
     LIMIT = {
         3760,
         3761,
@@ -263,44 +195,35 @@ AH.SKILL_TYPE_BUFFS = {
     [AH.SKILL_TYPE_PET] = { 201012 }
 }
 
-AH.PETS = {
-    [23304] = true,
-    [23316] = true,
-    [23319] = true,
-    [24613] = true,
-    [24636] = true,
-    [24639] = true,
-    [30581] = true,
-    [30584] = true,
-    [30587] = true,
-    [30592] = true,
-    [30595] = true,
-    [30598] = true,
-    [30618] = true,
-    [30622] = true,
-    [30626] = true,
-    [30631] = true,
-    [30636] = true,
-    [30641] = true,
-    [30647] = true,
-    [30652] = true,
-    [30657] = true,
-    [30664] = true,
-    [30669] = true,
-    [30674] = true,
-    [85982] = true,
-    [85983] = true,
-    [85984] = true,
-    [85985] = true,
-    [85986] = true,
-    [85987] = true,
-    [85988] = true,
-    [85989] = true,
-    [85990] = true,
-    [85991] = true,
-    [85992] = true,
-    [85993] = true
+local pets = {
+    23304,
+    23316,
+    23319,
+    24613,
+    24636,
+    24639,
+    30581,
+    30584,
+    30587,
+    30592,
+    30595,
+    30598,
+    30618,
+    30622,
+    30626,
+    30631,
+    30636,
+    30641,
+    30647,
+    30652,
+    30657,
+    30664,
+    30669,
+    30674,
+    "85982,85993"
 }
+
+AH.PETS = AH.LC.BuildList(pets)
 
 AH.TERRAIN = {
     -- Molten rain (which ones are relevant?)
@@ -341,28 +264,3 @@ AH.ARCANE_BARRAGE = {
 AH.SEEKING_RUNESCRAWL = {
     "207590,207592"
 }
-
---[[
-3781, -- I crave violence
-3782, -- You can't touch me
-3783, -- Viable and versatile
-3784, -- Visions of violence
-3785, -- Infinite defender
-3786, -- Seeing the big picture
-3795, -- Keeping it cool
-3796, -- Howling with rage
-3797, -- Molten measures
-3799, -- Battle ready 5 offensive versions/visions
-3800, -- Armed onslaught 25 offensive versions/visions
-3801, -- Mora's onslaught 75 offensive versions/visions
-3802, -- A sturdy shield 5 defensive versions/visions
-3803, -- Forceful Fortification 25 defensive versions/visions
-3804, -- Under Mora's protection 75 defensive versions/visions
-3805, -- Studying up 5 utility versions/visions
-3806, -- Unorthdox approach 25 utility versions/visions
-3807, -- Power practicum 75 utility versions/visions
-4153, -- Gifted and Accomplished 8 verses
-4154, -- Prepared Foresight 10 visions
-4155, -- Cadaverous Crusader - necrotic set
-
-]]

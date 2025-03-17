@@ -346,3 +346,16 @@ function AH.Debug(message)
         AH.Chat:Print(message)
     end
 end
+
+function AH.Tmp()
+    for a = 3000, 5000 do
+        local n = GetAchievementName(a)
+
+        if (n) then
+            if (string.find(n, "Curator")) then
+                d(a)
+                d(n)
+            end
+        end
+    end
+end

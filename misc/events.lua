@@ -73,9 +73,11 @@ local function onShowing()
     checkNotice()
 end
 
-local function onItemDetected(_, _, itemType)
+local function onItemDetected(_, itemInfo)
+    d("quest item")
+    d(itemInfo)
     if (AH.LIA:IsInsideArchive() and AH.Vars.CheckQuestItems and AH.InCombet) then
-        AH.FoundQuestItem = (itemType == "QuestItem") and true or false
+        AH.FoundQuestItem = (itemInfo == "QuestItem") and true or false
     end
 end
 
@@ -174,7 +176,7 @@ local function auditorCheck()
     end
 end
 
-local function onUnknownPortalStateChanged(_, _, mapId, _, state)
+local function onUnknownPortalStateChanged(_, mapId, _, state)
     -- update AH state
     onPlayerActivated()
 
@@ -183,12 +185,13 @@ local function onUnknownPortalStateChanged(_, _, mapId, _, state)
 
     -- Echoing Den
     if (mapId == AH.LIA.MAPS.ECHOING_DEN.id) then
+        AH.Debug("Echoing Den")
         if (state == AH.LIA.UNKNOWN_PORTAL_STATE_STARTED) then
-            -- check the auditor status
-            auditorCheck()
+            AH.Debug("Started")
             AH.DenDone = false
             AH.StartTimer()
         elseif (state == AH.LIA.UNKNOWN_PORTAL_STATE_FAILED or state == AH.LIA.UNKNOWN_PORTAL_STATE_SUCCESS) then
+            AH.Debug("Ended")
             AH.StopTimer()
             AH.DenDone = true
         end
@@ -196,25 +199,30 @@ local function onUnknownPortalStateChanged(_, _, mapId, _, state)
 
     -- Treacherous Crossing
     if (mapId == AH.LIA.MAPS.TREACHEROUS_CROSSING.id) then
+        AH.Debug("Treacherous Crossing")
         if (state == AH.LIA.UNKNOWN_PORTAL_STATE_ENTERED) then
+            AH.Debug("Started")
             AH.ShowCrossingHelper()
         elseif (state == AH.LIA.UNKNOWN_PORTAL_STATE_FAILED or state == AH.LIA.UNKNOWN_PORTAL_STATE_SUCCESS) then
+            AH.Debug("Ended")
             AH.HideCrossingHelper()
         end
     end
 
     -- Filer's Wing
     if (mapId == AH.LIA.MAPS.FILERS_WING.id) then
+        AH.Debug("Filer's Wing")
         if (state == AH.LIA.UNKNOWN_PORTAL_STATE_STARTED) then
+            AH.Debug("Started")
             startTomeCheck()
         elseif (state == AH.LIA.UNKNOWN_PORTAL_STATE_FAILED or state == AH.LIA.UNKNOWN_PORTAL_STATE_SUCCESS) then
+            AH.Debug("Ended")
             stopTomeCheck()
         end
     end
 end
 
 local function resetValues()
-    AH.FoundQuestItem = false
     ZO_ClearNumericallyIndexedTable(AH.Shards)
 
     for _, info in pairs(AH.MARKERS) do

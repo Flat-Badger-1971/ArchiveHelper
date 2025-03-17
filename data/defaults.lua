@@ -50,7 +50,7 @@ ArchiveHelper = {
     SearchText = {},
     Shards = {},
     TerrainWarnings = true,
-    DEBUG = false,
+    DEBUG = (GetDisplayName() == "@Flat-Badger") and true,
     ICONS = {
         ACH = { name = "login/login_icon_yield", colour = { 1, 0, 0, 1 } },
         FAV = { name = "campaign/overview_indexicon_bonus_down", colour = { 0, 1, 0, 1 } },
