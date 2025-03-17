@@ -1,8 +1,8 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 
 function AH.HandleSlashCommand(parameters)
     local options = {}
-    local find = { parameters:match("^(%S*)%s*(.-)$") }
+    local find = { zo_strmatch(parameters, "^(%S*)%s*(.-)$") }
     local isInTable = ZO_IsElementInNumericallyIndexedTable
 
     for _, value in pairs(find) do
@@ -11,16 +11,16 @@ function AH.HandleSlashCommand(parameters)
         end
     end
 
-    local defensive = isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE1):lower())
-    local helper = GetString(_G.ARCHIVEHELPER_CROSSING_SLASH):lower()
-    local missing = GetString(_G.ARCHIVEHELPER_SLASH_MISSING):lower()
-    local offensive = isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE0):lower())
-    local utility = isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE2):lower())
-    local verses = isInTable(options, AH.LC.Format(SI_ENDLESS_DUNGEON_SUMMARY_VERSES_HEADER):lower())
-    local visions = isInTable(options, AH.LC.Format(SI_ENDLESS_DUNGEON_SUMMARY_VISIONS_HEADER):lower())
+    local defensive = isInTable(options, zo_strlower(AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE1)))
+    local helper = zo_strlower(GetString(ARCHIVEHELPER_CROSSING_SLASH))
+    local missing = zo_strlower(GetString(ARCHIVEHELPER_SLASH_MISSING))
+    local offensive = isInTable(options, zo_strlower(AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE0)))
+    local utility = isInTable(options, zo_strlower(AH.LC.Format(SI_ENDLESSDUNGEONBUFFBUCKETTYPE2)))
+    local verses = isInTable(options, zo_strlower(AH.LC.Format(SI_ENDLESS_DUNGEON_SUMMARY_VERSES_HEADER)))
+    local visions = isInTable(options, zo_strlower(AH.LC.Format(SI_ENDLESS_DUNGEON_SUMMARY_VISIONS_HEADER)))
 
-    verses = verses or isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFTYPE1):lower())
-    visions = visions or isInTable(options, AH.LC.Format(SI_ENDLESSDUNGEONBUFFTYPE2):lower())
+    verses = verses or isInTable(options, zo_strlower(AH.LC.Format(SI_ENDLESSDUNGEONBUFFTYPE1)))
+    visions = visions or isInTable(options, zo_strlower(AH.LC.Format(SI_ENDLESSDUNGEONBUFFTYPE2)))
 
     if (#options > 0) then
         if (isInTable(options, "missing") or isInTable(options, missing)) then
@@ -101,12 +101,12 @@ function AH.PrintMissingAbilities(versesOnly, visionsOnly)
     end
 
     if (#missing == 0) then
-        local message = AH.LC.Format(_G.ARCHIVEHELPER_ALL_BOTH)
+        local message = AH.LC.Format(ARCHIVEHELPER_ALL_BOTH)
 
         if (versesOnly) then
-            message = AH.LC.Format(_G.ARCHIVEHELPER_ALL_VERSES)
+            message = AH.LC.Format(ARCHIVEHELPER_ALL_VERSES)
         elseif (visionsOnly) then
-            message = AH.LC.Format(_G.ARCHIVEHELPER_ALL_VISIONS)
+            message = AH.LC.Format(ARCHIVEHELPER_ALL_VISIONS)
         end
 
         AH.Chat:SetTagColor("dc134c"):Print(message)

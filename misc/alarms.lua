@@ -1,9 +1,9 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 AH.Sounds = {
-    Gw = { sound = _G.SOUNDS.BATTLEGROUND_ONE_MINUTE_WARNING, cycle = 1 },
-    Marauder = { sound = _G.SOUNDS.DUEL_START, cycle = 5 },
-    Terrain = { sound = _G.SOUNDS.DUEL_START, cycle = 1 },
-    Tomeshell = { sound = _G.SOUNDS.CHAMPION_POINTS_COMMITTED, cycle = 1 },
+    Gw = { sound = SOUNDS.BATTLEGROUND_ONE_MINUTE_WARNING, cycle = 1 },
+    Marauder = { sound = SOUNDS.DUEL_START, cycle = 5 },
+    Terrain = { sound = SOUNDS.DUEL_START, cycle = 1 },
+    Tomeshell = { sound = SOUNDS.CHAMPION_POINTS_COMMITTED, cycle = 1 },
 }
 
 function AH.PlayAlarm(sound)

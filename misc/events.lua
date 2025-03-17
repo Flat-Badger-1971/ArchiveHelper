@@ -13,9 +13,8 @@ local function onSelectorHiding()
 end
 
 local function onBuffSelected(_, unitTag, abilityId, _, name)
-    -- TODO: values come through as an array of named values
     local avatar = AH.LIA:IsAvatar(abilityId)
-    d(unitTag, abilityId, name)
+
     if (avatar) then
         AH.Vars.AvatarVisionCount[avatar] = AH.Vars.AvatarVisionCount[avatar] + 1
 
@@ -169,7 +168,6 @@ local function auditorCheck()
             local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
 
             if (cooldown == 0) then
-                UseCollectible(AH.AUDITOR, actor)
                 UseCollectible(AH.AUDITOR, actor)
             end
         end
@@ -498,7 +496,7 @@ end
 
 function AH.ShareData(shareType, value)
     AH.LC.Share(AH.LC.ADDON_ID_ENUM.AH, shareType, value)
-    AH.Debug("Shared: " .. value)
+    AH.Debug("Shared: " .. shareType .. " " .. value)
 end
 
 function AH.HandleDataShare(unitTag, data)

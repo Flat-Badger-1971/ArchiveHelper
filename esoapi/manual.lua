@@ -1138,6 +1138,7 @@ function ZO_ObjectPool:DestroyFreeObject(objectKey, destroyFunction) end
 
 function ZO_ObjectPool:DestroyAllFreeObjects(destroyFunction) end
 
+--- @return Control
 function ZO_ObjectPool_CreateControl(templateName, objectPool, parentControl) end
 
 function ZO_ObjectPool_CreateNamedControl(name, templateName, objectPool, parentControl) end

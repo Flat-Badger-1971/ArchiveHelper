@@ -1,4 +1,4 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 
 local positions = { [1] = {}, [2] = {}, [3] = {} }
 
@@ -164,7 +164,7 @@ function AH.OnBuffSelectorShowing()
 
                 if (avatar) then
                     count = AH.Vars.AvatarVisionCount[avatar] or 0
-                    countText = ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3)
+                    countText = ZO_CachedStrFormat(ARCHIVEHELPER_COUNT, count, 3)
                 end
 
                 if (count > 0) then

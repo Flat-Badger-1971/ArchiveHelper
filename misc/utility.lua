@@ -1,5 +1,4 @@
-local AH = _G.ArchiveHelper
-local archiveQuestIndexes = {}
+local AH = ArchiveHelper
 
 function AH.IsRecorded(id, list)
     for _, listItem in ipairs(list) do
@@ -21,10 +20,10 @@ end
 
 function AH.Announce(achievementName, icon, remaining)
     local message =
-        ZO_CachedStrFormat(GetString(_G.ARCHIVEHELPER_PROGRESS), AH.LC.Yellow:Colorize(achievementName), remaining)
+        ZO_CachedStrFormat(GetString(ARCHIVEHELPER_PROGRESS), AH.LC.Yellow:Colorize(achievementName), remaining)
 
     if (AH.Vars.NotifyScreen) then
-        AH.LC.ScreenAnnounce(AH.LC.Format(_G.ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
+        AH.LC.ScreenAnnounce(AH.LC.Format(ARCHIVEHELPER_PROGRESS_ACHIEVEMENT), message, icon)
     end
 
     if (AH.Vars.NotifyChat and AH.Chat) then
@@ -38,8 +37,8 @@ function AH.EventNotifier(id)
             local status = AH.LC.GetAchievementStatus(id)
 
             if
-                (status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS or
-                    status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS)
+                (status == ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS or
+                    status == ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS)
             then
                 local announce = true
 
@@ -80,7 +79,7 @@ function AH.Release(frame)
 end
 
 function AH.CompatibilityCheck()
-    if (_G.LFM and _G.LFM.name == "LykeionsFabledMarker") then
+    if (LFM and LFM.name == "LykeionsFabledMarker") then
         return false
     end
 
@@ -170,7 +169,16 @@ function AH.UpdateSlottedSkills()
         end
     end
 
-    AH.SKILL_TYPES[AH.SKILL_TYPE_PET] = AH.SKILL_TYPES[AH.SKILL_TYPE_PET] or (GetUnitName("playerpet") ~= "")
+    local playerHasPet = false
+
+    for pet = 1, MAX_PET_UNIT_TAGS do
+        if (GetUnitName("playerpet" .. pet) ~= "") then
+            playerHasPet = true
+            break
+        end
+    end
+
+    AH.SKILL_TYPES[AH.SKILL_TYPE_PET] = AH.SKILL_TYPES[AH.SKILL_TYPE_PET] or playerHasPet
 end
 
 local function onEffectChanged(...)
@@ -239,7 +247,7 @@ function AH.GroupChat(abilityId, count, name, unitTag)
                 name = AH.LC.Format(name or GetUnitName("player"))
             end
 
-            local replaceText = _G.ARCHIVEHELPER_BUFF_SELECTED
+            local replaceText = ARCHIVEHELPER_BUFF_SELECTED
             local abilityInfo = AH.ABILITIES[abilityId]
             local abilityType = abilityInfo.type or AH.TYPES.VERSE
             local avatar = AH.LIA:IsAvatar(abilityId)
@@ -250,7 +258,7 @@ function AH.GroupChat(abilityId, count, name, unitTag)
             local abilityLink = GetAbilityLink(abilityId, LINK_STYLE_BRACKETS)
 
             if (count == 999) then
-                replaceText = _G.ARCHIVEHELPER_RANDOM
+                replaceText = ARCHIVEHELPER_RANDOM
             end
 
             local message = ZO_CachedStrFormat(replaceText, name, colour:Colorize(abilityLink))
@@ -262,7 +270,7 @@ function AH.GroupChat(abilityId, count, name, unitTag)
                         message = message .. " "
                         message =
                             message ..
-                            yellow:Colorize("(" .. ZO_CachedStrFormat(_G.ARCHIVEHELPER_COUNT, count, 3) .. ")")
+                            yellow:Colorize("(" .. ZO_CachedStrFormat(ARCHIVEHELPER_COUNT, count, 3) .. ")")
                     end
                 elseif (count > 1) then
                     message = message .. " " .. yellow:Colorize("(" .. count .. ")")
@@ -275,7 +283,7 @@ function AH.GroupChat(abilityId, count, name, unitTag)
                 AH.Name,
                 message,
                 false,
-                (not _G.pChat or not _G.pChat.db or _G.pChat.db.groupNames <= 2) and AH.Name or ""
+                (not pChat or not pChat.db or pChat.db.groupNames <= 2) and AH.Name or ""
             )
         end
     end
@@ -289,7 +297,7 @@ function AH.ToggleCrossingHelper()
     end
 
     if (not AH.IsInCrossing and not AH.DEBUG) then
-        local message = GetString(_G.ARCHIVEHELPER_CROSSING_INVALID)
+        local message = GetString(ARCHIVEHELPER_CROSSING_INVALID)
 
         if (AH.Chat) then
             AH.Chat:SetTagColor(AH.LC.ZOSPurple)

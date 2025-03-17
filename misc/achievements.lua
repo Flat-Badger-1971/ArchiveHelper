@@ -1,4 +1,4 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 
 AH.MissingAbilities = {}
 
@@ -23,6 +23,7 @@ function AH.GetAbilities(achievementIdToFind)
         if (ZO_IsElementInNumericallyIndexedTable(info.ids, achievementIdToFind)) then
             if (not AH.IsRecorded(abilityId, abilities)) then
                 local name
+
                 if (AH.EXCEPTIONS[abilityId]) then
                     name = GetString(AH.EXCEPTIONS[abilityId])
                 else
@@ -41,7 +42,7 @@ end
 
 function AH.CheckAbilities(text, abilities)
     for _, ability in ipairs(abilities) do
-        if (text:find(ability.name, 1, true)) then
+        if (zo_strfind(text, ability.name, 1, true)) then
             return ability.id
         end
     end
@@ -68,7 +69,7 @@ function AH.FindMissingAbilityIds(event, id)
     for _, achievementId in ipairs(achievementIds) do
         local status = AH.GetAchievementStatus(achievementId)
 
-        if (status ~= _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
+        if (status ~= ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
             table.insert(incomplete, achievementId)
         end
     end
@@ -107,7 +108,7 @@ function AH.GetAbilityNeededForGeneralAchievement(abilityId)
         if (ZO_IsElementInNumericallyIndexedTable(AH.GENERAL, achievementId)) then
             local status = AH.GetAchievementStatus(achievementId)
 
-            if (status ~= _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
+            if (status ~= ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
                 table.insert(neededFor, achievementId)
             end
         end

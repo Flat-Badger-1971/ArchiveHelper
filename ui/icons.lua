@@ -1,4 +1,4 @@
-local AH = _G.ArchiveHelper
+local AH = ArchiveHelper
 
 AH.IconTypes = {
     ACH = "MarkAchievements",

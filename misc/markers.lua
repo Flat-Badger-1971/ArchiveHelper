@@ -1,8 +1,8 @@
-local AH = _G.ArchiveHelper
-local fabledText = GetString(_G.ARCHIVEHELPER_FABLED):lower()
-local shardText = GetString(_G.ARCHIVEHELPER_SHARD):lower()
-local gwText = GetString(_G.ARCHIVEHELPER_GW):lower()
-local flameShaperText = GetString(_G.ARCHIVEHELPER_FLAMESHAPER):lower()
+local AH = ArchiveHelper
+local fabledText = zo_strlower(GetString(ARCHIVEHELPER_FABLED))
+local shardText = zo_strlower(GetString(ARCHIVEHELPER_SHARD))
+local gwText = zo_strlower(GetString(ARCHIVEHELPER_GW))
+local flameShaperText = zo_strlower(GetString(ARCHIVEHELPER_FLAMESHAPER))
 -- local cache for performance
 local GetUnitName, GetUnitTargetMarkerType = GetUnitName, GetUnitTargetMarkerType
 local IsUnitDead, AssignTargetMarkerToReticleTarget = IsUnitDead, AssignTargetMarkerToReticleTarget
@@ -135,10 +135,10 @@ local function isItDeadDave()
 end
 
 local function find(name)
-    name = name:lower()
+    name = zo_strlower(name)
 
     for _, text in ipairs(AH.SearchText) do
-        if (name:find(text, 1, true)) then
+        if (zo_strfind(name, text, 1, true)) then
             return text
         end
     end
@@ -154,6 +154,7 @@ local function markerCheck()
 
         if (found and (not IsUnitDead("reticleover"))) then
             local marker = getAvailableMarker()
+
             AssignTargetMarkerToReticleTarget(marker)
 
             if ((found == gwText) and (not AH.FOUND_GW)) then
@@ -251,5 +252,5 @@ function AH.CombatCheck(_, incombat)
         end
     end
 
-    AH.InCombet = incombat
+    AH.InCombat = incombat
 end
