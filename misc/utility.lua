@@ -35,7 +35,7 @@ end
 function AH.EventNotifier(id)
     if (AH.Vars.Notify) then
         if (AH.ACHIEVEMENTS.IDS[id]) then
-            local status = ACHIEVEMENTS_MANAGER:GetAchievementStatus(id)
+            local status = AH.GetAchievementStatus(id)
             if
                 (status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS or
                     status == _G.ZO_ACHIEVEMENTS_COMPLETION_STATUS.IN_PROGRESS)
