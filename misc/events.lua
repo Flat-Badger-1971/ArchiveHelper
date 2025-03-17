@@ -13,8 +13,9 @@ local function onSelectorHiding()
 end
 
 local function onBuffSelected(_, unitTag, abilityId, _, name)
+    -- TODO: values come through as an array of named values
     local avatar = AH.LIA:IsAvatar(abilityId)
-
+    d(unitTag, abilityId, name)
     if (avatar) then
         AH.Vars.AvatarVisionCount[avatar] = AH.Vars.AvatarVisionCount[avatar] + 1
 
