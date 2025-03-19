@@ -445,7 +445,7 @@ end
 function AH.SetDisableCombos()
     local groupType = AH.LIA:GetEffectiveGroupType()
 
-    if ((groupType == ENDLESS_DUNGEON_GROUP_TYPE_SOLO) and AH.AH_SHARING and (not AH.DEBUG)) then
+    if ((groupType == ENDLESS_DUNGEON_GROUP_TYPE_SOLO) and not AH.DEBUG) then
         AH.AH_SHARING = false
     end
 end
@@ -485,9 +485,6 @@ function AH.ShowCrossingHelper(bypass)
         local defaultX = GuiRoot:GetCenter()
 
         defaultX = defaultX - (frame:GetWidth() / 2)
-        if (not AH.Vars["CrossingHelperPosition"]) then
-            AH.Vars["CrossingHelperPosition"] = { top = defaultY, left = defaultX }
-        end
 
         if (not AH.Vars["CrossingHelperPosition"]) then
             AH.Vars["CrossingHelperPosition"] = { top = defaultY, left = defaultX }

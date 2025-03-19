@@ -67,7 +67,7 @@ function AH.FindMissingAbilityIds(event, id)
     ZO_ClearNumericallyIndexedTable(AH.MissingAbilities)
 
     for _, achievementId in ipairs(achievementIds) do
-        local status = AH.GetAchievementStatus(achievementId)
+        local status = AH.LC.GetAchievementStatus(achievementId)
 
         if (status ~= ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
             table.insert(incomplete, achievementId)
@@ -106,7 +106,7 @@ function AH.GetAbilityNeededForGeneralAchievement(abilityId)
 
     for _, achievementId in ipairs(achievements) do
         if (ZO_IsElementInNumericallyIndexedTable(AH.GENERAL, achievementId)) then
-            local status = AH.GetAchievementStatus(achievementId)
+            local status = AH.LC.GetAchievementStatus(achievementId)
 
             if (status ~= ZO_ACHIEVEMENTS_COMPLETION_STATUS.COMPLETE) then
                 table.insert(neededFor, achievementId)

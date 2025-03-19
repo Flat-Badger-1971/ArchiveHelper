@@ -76,7 +76,7 @@ end
 local function onItemDetected(_, itemInfo)
     d("quest item")
     d(itemInfo)
-    if (AH.LIA:IsInsideArchive() and AH.Vars.CheckQuestItems and AH.InCombet) then
+    if (AH.LIA:IsInsideArchive() and AH.Vars.CheckQuestItems and AH.InCombat) then
         AH.FoundQuestItem = (itemInfo == "QuestItem") and true or false
     end
 end
@@ -156,7 +156,7 @@ local function onPlayerActivated()
 end
 
 local function auditorCheck()
-    if (not IsInstanceEndlessDungeon() or AH.InCombet) then
+    if (not IsInstanceEndlessDungeon() or AH.InCombat) then
         return
     end
 
@@ -200,6 +200,7 @@ local function onUnknownPortalStateChanged(_, mapId, _, state)
     -- Treacherous Crossing
     if (mapId == AH.LIA.MAPS.TREACHEROUS_CROSSING.id) then
         AH.Debug("Treacherous Crossing")
+        AH.SetDisableCombos()
         if (state == AH.LIA.UNKNOWN_PORTAL_STATE_ENTERED) then
             AH.Debug("Started")
             AH.ShowCrossingHelper()
@@ -291,32 +292,6 @@ local function onQuestCounterChanged(_, journalIndex)
     end
 end
 
-local player = GetUnitName("player")
-
--- TODO: Handle crossing data sharing
--- **********
--- TODO: Handle crossing data sharing
--- **********
-local function getOtherPlayer()
-    local groupSize = GetGroupSize()
-
-    if (groupSize == 0) then
-        return
-    end
-
-    for unit = 1, groupSize do
-        local unitTag = string.format("group%d", unit)
-
-        if (IsUnitOnline(unitTag)) then
-            local name = GetUnitName(unitTag)
-
-            if (name ~= player) then
-                return name, unitTag
-            end
-        end
-    end
-end
-
 local function onCrossingChange(selections)
     if (AH.CrossingHelperFrame) then
         if (not AH.IsLeader) then
@@ -341,7 +316,6 @@ local function onCrossingChange(selections)
         end
     end
 end
--- **********
 
 local function onLeaderUpdate()
     if (AH.CrossingHelperFrame) then
@@ -514,18 +488,18 @@ function AH.HandleDataShare(unitTag, data)
 
     if (data.id == AH.LC.ADDON_ID_ENUM.AH) then
         if (data.class == AH.SHARE.MARK) then
-            if (data.data and (data.data > 0) and (data.data < 8)) then
-                AH.MARKERS[data.data].used = true
-                AH.MARKERS[data.data].manual = true
-                AH.Debug("Received mark data: " .. data.data)
+            if (data.ndata and (data.ndata > 0) and (data.ndata < 8)) then
+                AH.MARKERS[data.ndata].used = true
+                AH.MARKERS[data.ndata].manual = true
+                AH.Debug("Received mark data: " .. data.ndata)
             end
         elseif (data.class == AH.SHARE.UNMARK) then
-            if (data.data and (data.data > 0) and (data.data < 8)) then
-                AH.MARKERS[data.data].manual = false
-                AH.Debug("Received unmark data: " .. data.data)
+            if (data.ndata and (data.ndata > 0) and (data.ndata < 8)) then
+                AH.MARKERS[data.ndata].manual = false
+                AH.Debug("Received unmark data: " .. data.ndata)
             end
         elseif (data.class == AH.SHARE.GW) then
-            if (data.data and (data.data > 0) and (not AH.FOUND_GW)) then
+            if (data.ndata and (data.ndata > 0) and (not AH.FOUND_GW)) then
                 if (AH.Vars.GwPlay) then
                     AH.PlayAlarm(AH.Sounds.Gw)
                 end
@@ -533,8 +507,8 @@ function AH.HandleDataShare(unitTag, data)
                 AH.Debug("Received Gw detection")
             end
         elseif (data.id == AH.SHARE.CROSSING) then
-            onCrossingChange(data.data)
-            AH.Debug("Received crossing data: " .. data.data)
+            onCrossingChange(data.sdata)
+            AH.Debug("Received crossing data: " .. data.sdata)
         end
     end
 end
