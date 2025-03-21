@@ -215,6 +215,10 @@ function AH.UnmarkCurrentTarget()
 end
 
 function AH.CombatCheck(_, incombat)
+    if (not AH.LIA:IsInsideArchive()) then
+        return
+    end
+
     local check = AH.Vars.FabledCheck and AH.CompatibilityCheck()
 
     check = check or AH.Vars.MarauderCheck or AH.Vars.ShardCheck or AH.Vars.GwCheck

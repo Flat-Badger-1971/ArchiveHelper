@@ -452,6 +452,10 @@ end
 
 function AH.SetTerrainWarnings(enable)
     if (enable) then
+        if (not AH.LIA:IsInsideArchive()) then
+            return
+        end
+
         EVENT_MANAGER:RegisterForEvent(
             AH.Name .. "terrain",
             EVENT_COMBAT_EVENT,
