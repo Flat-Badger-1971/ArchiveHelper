@@ -1,6 +1,6 @@
 ArchiveHelper = {
     LC = LibFBCommon,
-    LIA = LibInfiniteArchive,
+    LIA = LibInfiniteArchive --[[@as LibInfiniteArchive]],
     Defaults = {
         Auditor = false,
         AvatarVisionCount = { IRON = 0, WOLF = 0, ICE = 0 },

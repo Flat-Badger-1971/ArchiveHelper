@@ -3,7 +3,6 @@
 
 LFM = {}
 LibFBCommon = {}
-LibInfiniteArchive = {}
 LibSavedVars = {}
 LibChatMessage = {}
 LibAddonMenu2 = {}

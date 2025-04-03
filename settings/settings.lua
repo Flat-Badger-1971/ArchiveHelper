@@ -89,8 +89,10 @@ local function getFavourites()
 end
 
 local function updateFavourites()
+    --- @diagnostic disable: undefined-field
     ARCHIVEHELPER_FAVOURITES_LIST.data.text = getFavourites()
     ARCHIVEHELPER_FAVOURITES_LIST:UpdateValue()
+    --- @diagnostic enable: undefined-field
 end
 
 local removeIgnoreChoices = {}
@@ -141,8 +143,10 @@ local function getIgnore()
 end
 
 local function updateIgnore()
+    --- @diagnostic disable: undefined-field
     ARCHIVEHELPER_IGNORE_LIST.data.text = getIgnore()
     ARCHIVEHELPER_IGNORE_LIST:UpdateValue()
+    --- @diagnostic enable: undefined-field
 end
 
 local function getSecondsOptions()
