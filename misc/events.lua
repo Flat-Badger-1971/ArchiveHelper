@@ -74,8 +74,6 @@ local function onShowing()
 end
 
 local function onItemDetected(_, itemInfo)
-    d("quest item")
-    d(itemInfo)
     if (AH.LIA:IsInsideArchive() and AH.Vars.CheckQuestItems and AH.InCombat) then
         AH.FoundQuestItem = (itemInfo == "QuestItem") and true or false
     end
@@ -107,6 +105,28 @@ local function stopTomeCheck()
     end
 end
 
+local function auditorCheck()
+    if (not IsInstanceEndlessDungeon() or AH.InCombat) then
+        return
+    end
+
+    --- @diagnostic disable-next-line undefined-global
+    local actor = GAMEPLAY_ACTOR_CATEGORY_PLAYER
+
+    zo_callLater(function()
+        if (AH.LIA:IsInsideArchive()) then
+            if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR, actor) and not AH.LIA:IsInUnknown()) then
+                if (not AH.LIA:IsAuditorActive()) then
+                    local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
+                    if (cooldown == 0) then
+                        UseCollectible(AH.AUDITOR, actor)
+                    end
+                end
+            end
+        end
+    end, 300)
+end
+
 local function zoneCheck()
     local mapId = GetCurrentMapId()
 
@@ -130,6 +150,8 @@ local function zoneCheck()
         if (AH.CrossingHelperFrame) then
             AH.HideCrossingHelper()
         end
+
+        auditorCheck()
     end
 end
 
@@ -155,33 +177,14 @@ local function onPlayerActivated()
     AH.CurrentGroupType = AH.LIA:GetEffectiveGroupType()
 end
 
-local function auditorCheck()
-    if (not IsInstanceEndlessDungeon() or AH.InCombat) then
-        return
-    end
-
-    --- @diagnostic disable-next-line undefined-global
-    local actor = GAMEPLAY_ACTOR_CATEGORY_PLAYER
-
-    if (AH.Vars.Auditor and IsCollectibleUsable(AH.AUDITOR, actor) and not AH.LIA:IsInUnknown()) then
-        if (not AH.LIA:IsAuditorActive()) then
-            --- @diagnostic disable-next-line undefined-global
-            local actor = GAMEPLAY_ACTOR_CATEGORY_PLAYER
-            local cooldown = GetCollectibleCooldownAndDuration(AH.AUDITOR)
-
-            if (cooldown == 0) then
-                UseCollectible(AH.AUDITOR, actor)
-            end
-        end
-    end
-end
-
 local function onUnknownPortalStateChanged(_, mapId, _, state)
     -- update AH state
     onPlayerActivated()
 
     -- check the auditor status
-    auditorCheck()
+    if (state == AH.LIA.UNKNOWN_PORTAL_STATE_EXITED) then
+        auditorCheck()
+    end
 
     -- Echoing Den
     if (mapId == AH.LIA.MAPS.ECHOING_DEN.id) then
@@ -233,6 +236,9 @@ local function resetValues()
     if (AH.LIA:IsInsideArchive()) then
         AH.SetTerrainWarnings(AH.Vars.TerrainWarnings)
     end
+
+    AH.questItem = nil
+    auditorCheck()
 end
 
 -- minimise false zone change detections

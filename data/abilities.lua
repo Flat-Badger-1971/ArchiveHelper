@@ -225,30 +225,8 @@ local pets = {
 AH.PETS = AH.LC.BuildList(pets)
 
 AH.TERRAIN = {
-    -- Molten rain (which ones are relevant?)
-    151317,          -- Molten rain
-    151328,          -- Molten rain
-    "151357,151362", -- Molten rain
-    151365,          -- Molten rain
-    151367,          -- Molten rain
-    151369,          -- Molten rain
-    "151370,151371", -- Molten rain
-    "151391,151395", -- Molten rain
-    151397,          -- Molten rain
-    "151402,151403", -- Molten rain
-    152194,          -- Molten rain
-    "154992,154993", -- Molten rain
-    "154995,154998", -- Molten rain
-    "155000,155001", -- Molten rain
-    "155004,155005", -- Molten rain
-    "156951,156952", -- Molten rain
-    "157482,157504", -- Molten rain
-    "158393,158405", -- Molten rain
     "182805,182807", -- Lava
     182833,          -- Lava
-    "195454,195458", -- Molten rain
-    198997,          -- Molten rain
-    199002,          -- Molten rain
     "224944,224945", -- Frigid waters
     "224947,224949", -- Frigid Waters
     "224951,224952"  -- Frigid waters
