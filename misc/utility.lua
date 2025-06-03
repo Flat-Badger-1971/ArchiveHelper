@@ -239,6 +239,8 @@ local colours = {
 }
 
 function AH.GroupChat(abilityId, count, name, unitTag)
+    count = count or 0
+
     if (IsInstanceEndlessDungeon()) then
         if (AH.Vars.ShowSelection) then
             if (AH.Vars.UseDisplayName) then
