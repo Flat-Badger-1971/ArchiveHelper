@@ -13,6 +13,7 @@ local function onSelectorHiding()
 end
 
 local function onBuffSelected(_, unitTag, abilityId, _, name)
+    AH.Debug("Buff selected: " .. abilityId .. " " .. (name or "nil") .. " " .. (unitTag or "nil"))
     local avatar = AH.LIA:IsAvatar(abilityId)
 
     if (avatar) then
@@ -75,11 +76,13 @@ end
 
 local function onItemDetected(_, itemInfo)
     if (AH.LIA:IsInsideArchive() and AH.Vars.CheckQuestItems and AH.InCombat) then
+        AH.Debug("Item detected: " .. (itemInfo or "nil"))
         AH.FoundQuestItem = (itemInfo == "QuestItem") and true or false
     end
 end
 
 local function onTomeshellDestroyed(_, _, _, left)
+    AH.Debug("Tomeshell destroyed, left: " .. (left or "nil"))
     AH.PlayAlarm(AH.Sounds.Tomeshell)
 
     local message = ZO_CachedStrFormat(ARCHIVEHELPER_TOMESHELL_COUNT, left)
@@ -178,6 +181,7 @@ local function onPlayerActivated()
 end
 
 local function onUnknownPortalStateChanged(_, mapId, _, state)
+    AH.Debug("Unknown portal state changed: " .. mapId .. " " .. state)
     -- update AH state
     onPlayerActivated()
 
@@ -237,7 +241,7 @@ local function resetValues()
         AH.SetTerrainWarnings(AH.Vars.TerrainWarnings)
     end
 
-    AH.questItem = nil
+    AH.FoundQuestItem = false
     auditorCheck()
 end
 
@@ -291,6 +295,7 @@ local function onDungeonInitialised()
 end
 
 local function onQuestCounterChanged(_, journalIndex)
+    AH.Debug("Quest counter changed: " .. (journalIndex or "nil"))
     local indexes = AH.LIA:GetArchiveQuestIndices(true)
 
     if (ZO_IsElementInNumericallyIndexedTable(indexes, journalIndex)) then
@@ -332,6 +337,7 @@ local function onLeaderUpdate()
 end
 
 local function onMysteryVerseUsed(_, unitTag, abilityId)
+    AH.Debug("Mystery Verse used: " .. abilityId .. " " .. (unitTag or "nil"))
     zo_callLater(
         function()
             AH.GroupChat(abilityId, 999, nil, unitTag)
@@ -439,6 +445,7 @@ local function terrainWarnings(...)
 end
 
 local function onMarauderSpawned(_, name)
+    AH.Debug("Marauder spawned: " .. (name or "nil"))
     local check = AH.Vars.MarauderPlay or AH.Vars.MarauderCheck
 
     if (not check) then

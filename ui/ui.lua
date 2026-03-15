@@ -215,7 +215,7 @@ function AH.ShowNotice(message)
 end
 
 function AH.ShowQuestReminder()
-    if (AH.Vars.CheckQuestItems and AH.FoundQuestItem) then
+    if (AH.Vars.CheckQuestItems and AH.FoundQuestItem and AH.LIA:HasArchiveItemQuest()) then
         ensureFramePoolExists()
 
         local parent = _G[AH.SELECTOR_SHORT]
