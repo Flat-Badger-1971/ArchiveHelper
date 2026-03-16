@@ -16,14 +16,6 @@ local function onBuffSelected(_, unitTag, abilityId, _, name)
     AH.Debug("Buff selected: " .. abilityId .. " " .. (name or "nil") .. " " .. (unitTag or "nil"))
     local avatar = AH.LIA:IsAvatar(abilityId)
 
-    if (avatar) then
-        AH.Vars.AvatarVisionCount[avatar] = AH.Vars.AvatarVisionCount[avatar] + 1
-
-        if (AH.Vars.AvatarVisionCount[avatar] == 4) then
-            AH.Vars.AvatarVisionCount[avatar] = 0
-        end
-    end
-
     zo_callLater(
         function()
             local abilityInfo = AH.ABILITIES[abilityId]
@@ -33,6 +25,12 @@ local function onBuffSelected(_, unitTag, abilityId, _, name)
             if (AreUnitsEqual(unitTag, "player")) then
                 if (avatar) then
                     count = AH.Vars.AvatarVisionCount[avatar] or 0
+
+                    AH.Vars.AvatarVisionCount[avatar] = AH.Vars.AvatarVisionCount[avatar] + 1
+
+                    if (AH.Vars.AvatarVisionCount[avatar] == 4) then
+                        AH.Vars.AvatarVisionCount[avatar] = 0
+                    end
                 else
                     local counts = ENDLESS_DUNGEON_MANAGER:GetAbilityStackCountTable(abilityType)
 
